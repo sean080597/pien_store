@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::group(['prefix' => 'user','namespace'=>'User'], function () {
+Route::group(['prefix' => 'user', 'namespace'=>'User', 'middleware' => 'auth:users'], function(){
     Route::post('register', 'AuthController@register');
     Route::post('login', 'AuthController@login');
     Route::post('logout', 'AuthController@logout');

@@ -81,7 +81,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                    {{$test}} - {{env('APP_URL')}}
                 </div>
 
                 <div class="links">
