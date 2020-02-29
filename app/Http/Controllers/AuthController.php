@@ -1,21 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\User;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\User;
-use JWTAuth;
-use Validator;
 use Illuminate\Support\Facades\Hash;
-use Tymon\JWTAuth\Exceptions\JWTException;
+use Validator;
+use App\User;
 
 class AuthController extends Controller
 {
-    protected $user;
     public function __construct()
     {
-        $this->user = new User;
+        $this->middleware('jwt.auth', ['except' => ['login']]);
     }
 
     public function register(Request $request){
@@ -53,8 +49,8 @@ class AuthController extends Controller
         }
     }
 
-    public function login(Request $request)
-    {
+    public function login(Request $request) {
+        // get email and password from request
         $validator = Validator::make($request->only('email', 'password'),[
             'email' => 'required|email',
             'password' => 'required|string|min:6'
@@ -67,18 +63,18 @@ class AuthController extends Controller
             ], 400);
         }
 
-        $jwt_token = null;
-        $input = $request->only('email', 'password');
-        if(!$jwt_token = auth('users')->attempt($input)){
-            return response()->json([
-                'success'=>false,
-                'message'=>'Invalid email or password'
-            ], 400);
+        $token = null;
+        $credentials = $request->only('email', 'password');
+        // try to auth and get the token using api authentication
+        if (!$token = auth('api')->attempt($credentials)) {
+            // if the credentials are wrong we send an unauthorized error in json format
+            return response()->json(['error' => 'Unauthorized'], 401);
         }
 
         return response()->json([
-            'success'=>true,
-            'token'=>$jwt_token
+            'token' => $token,
+            'type' => 'bearer', // you can ommit this
+            'expires' => auth('api')->factory()->getTTL() * 60, // time to expiration
         ], 200);
     }
 
