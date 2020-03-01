@@ -19,6 +19,7 @@ class AuthController extends Controller
         [
             'firstname' => 'required|string',
             'lastname' => 'required|string',
+            'phone' => 'require|string',
             'email' => 'required|email',
             'password' => 'required|string|min:6'
         ]);
