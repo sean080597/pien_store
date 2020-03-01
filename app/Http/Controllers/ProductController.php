@@ -27,7 +27,7 @@ class ProductController extends Controller
     public function createData(Request $request){
         $validator = Validator::make($request->all(),
         [
-            'id' => 'required|string|max:50',
+            'id' => 'required|string|max:50|unique:products',
             'name' => 'required|string',
             'price' => 'required|string|min:4|max:12',
             'category_id' => 'string|max:10'
@@ -43,12 +43,12 @@ class ProductController extends Controller
         //handle file
         $fileTypes = ['image/png', 'image/jpg', 'image/jpeg'];
         $product_image = $request->product_image;
+        $fileBin = file_get_contents($product_image);
         $file_name = '';
         if(is_null($product_image)){
             $file_name = $this->default_product_image;
         }else{
             $generate_name = uniqid().'_'.time().date('Ymd').'_IMG';
-            $fileBin = file_get_contents($product_image);
             $mimeType = mime_content_type($fileBin);
             if(in_array($mimeType, $fileTypes)){
                 foreach ($fileTypes as $type) {

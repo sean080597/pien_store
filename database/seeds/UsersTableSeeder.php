@@ -40,6 +40,6 @@ class UsersTableSeeder extends Seeder
         self::insert_data('Le', 'Phu', 'manager@mgr.com');
         self::insert_data('Le', 'Man', 'staff@stf.com');
         self::insert_data('Quang', 'Khanh', 'customer@cus.com');
-        factory(User::class, 90)->create();
+        factory(User::class, 30)->create();
     }
 }
