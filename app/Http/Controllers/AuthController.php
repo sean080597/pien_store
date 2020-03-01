@@ -9,9 +9,11 @@ use App\User;
 
 class AuthController extends Controller
 {
+    protected $user;
     public function __construct()
     {
-        $this->middleware('jwt.auth', ['except' => ['login']]);
+        $this->middleware('jwt.auth', ['except' => ['login', 'register']]);
+        $this->user = new User;
     }
 
     public function register(Request $request){
@@ -19,9 +21,10 @@ class AuthController extends Controller
         [
             'firstname' => 'required|string',
             'lastname' => 'required|string',
-            'phone' => 'require|string',
-            'email' => 'required|email',
-            'password' => 'required|string|min:6'
+            'phone' => 'required|string',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|string|min:6',
+            'role_id' => 'required|string',
         ]);
 
         if($validator->fails()){
@@ -44,6 +47,7 @@ class AuthController extends Controller
             'lastname'=>$request->lastname,
             'email'=>$request->email,
             'password'=>Hash::make($request->password),
+            'role_id'=>$request->role_id
         ]);
         if($registerComplete){
             return $this->login($request);
