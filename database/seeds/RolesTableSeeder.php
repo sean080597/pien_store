@@ -2,9 +2,8 @@
 
 use Illuminate\Database\Seeder;
 use Carbon\Carbon;
-use App\Category;
 
-class CategoriesTableSeeder extends Seeder
+class RolesTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,7 +11,7 @@ class CategoriesTableSeeder extends Seeder
      * @return void
      */
     public function insert_data($id, $name){
-        DB::table('categories')->insert([
+        DB::table('roles')->insert([
             'id' => $id,
             'name' => $name,
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
@@ -21,8 +20,9 @@ class CategoriesTableSeeder extends Seeder
     }
     public function run()
     {
-        self::insert_data('CATE_01', 'categgoru 001');
-        self::insert_data('CATE_02', 'catefoa 002');
-        self::insert_data('CATE_03', 'catedadf 003');
+        self::insert_data('adm', 'admin');
+        self::insert_data('mgr', 'manager');
+        self::insert_data('stf', 'staff');
+        self::insert_data('cus', 'customer');
     }
 }

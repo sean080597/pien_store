@@ -23,5 +23,12 @@ Route::group(['prefix' => 'user'], function(){
     Route::post('me', 'AuthController@me');
 });
 
-//Resources
-Route::resource('customer', 'CustomerController');
+
+Route::group(['prefix' => 'product', 'middleware' => 'jwt.auth'], function () {
+    Route::post('createNewProduct', 'ProductController@createData');
+    Route::get('get-all/{cate_id}/{pagination?}', 'ProductController@getPaginatedData');
+    Route::post('updateProduct/{id}', 'ProductController@editData');
+    Route::post('delete/{id}', 'ProductController@deleteData');
+    Route::get('get-single/{id}', 'ProductController@getSingleData');
+    Route::get('get-all/{search}/{cate_id}/{pagination?}', 'ProductController@searchData');
+});

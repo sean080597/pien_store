@@ -13,9 +13,6 @@ class ProductsTableSeeder extends Seeder
     public function run()
     {
         Product::query()->truncate();
-        factory(Product::class, 50)->create()->each(function ($prod) {
-            // $user->posts()->saveMany(factory(Posts::class, 5)->make());
-            Product::create($prod);
-        });
+        factory(Product::class, 50)->create();
     }
 }

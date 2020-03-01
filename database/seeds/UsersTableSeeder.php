@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Faker\Factory as Faker;
+use Carbon\Carbon;
 use App\User;
 
 class UsersTableSeeder extends Seeder
@@ -10,6 +12,21 @@ class UsersTableSeeder extends Seeder
      *
      * @return void
      */
+    public function insert_data($firstname, $lastname, $email){
+        $faker = Faker::create();
+        DB::table('users')->insert([
+            'firstname' => $firstname,
+            'midname' => '',
+            'lastname' => $lastname,
+            'phone' => $faker->regexify('[0-9]{10}'),
+            'email' => $email,
+            'email_verified_at' => now(),
+            'password' => Hash::make('secret'), // password
+            'role_id' => 'adm',
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+        ]);
+    }
     public function run()
     {
         User::query()->truncate(); // truncate user table each time of seeders run
@@ -19,9 +36,10 @@ class UsersTableSeeder extends Seeder
         //     'firstname' => 'Luu',
         //     'lastname' => 'Sean',
         // ]);
-        factory(User::class, 90)->create()->each(function ($user) {
-            // $user->posts()->saveMany(factory(Posts::class, 5)->make());
-            User::create($user);
-        });
+        self::insert_data('Luu', 'Sean', 'admin@adm.com');
+        self::insert_data('Le', 'Phu', 'manager@mgr.com');
+        self::insert_data('Le', 'Man', 'staff@stf.com');
+        self::insert_data('Quang', 'Khanh', 'customer@cus.com');
+        factory(User::class, 90)->create();
     }
 }
