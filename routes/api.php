@@ -25,10 +25,10 @@ Route::group(['prefix' => 'user'], function(){
 
 
 Route::group(['prefix' => 'product', 'middleware' => 'jwt.auth'], function () {
-    Route::post('createNewProduct', 'ProductController@createData');
+    Route::post('createNewProd', 'ProductController@createData');
     Route::get('get-all/{cate_id}/{pagination?}', 'ProductController@getPaginatedData');
-    Route::post('updateProduct/{id}', 'ProductController@editData');
+    Route::post('updateProd/{id}', 'ProductController@editData');
     Route::post('delete/{id}', 'ProductController@deleteData');
     Route::get('get-single/{id}', 'ProductController@getSingleData');
-    Route::get('get-all/{search}/{cate_id}/{pagination?}', 'ProductController@searchData');
+    Route::get('get-all/search/{cate_id}/{search}/{pagination?}', 'ProductController@searchData');
 });
