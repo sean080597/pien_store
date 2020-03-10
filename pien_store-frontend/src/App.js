@@ -1,10 +1,11 @@
 import React from 'react';
 import './css/tailwind.css';
+import Router from './routes'
 
 function App() {
   return (
-    <div>
-      <h1 className="bg-orange-300">Tailwind YUEAASSHASH</h1>
+    <div className="bg-gray-300 h-screen">
+      <Router/>
     </div>
   );
 }
