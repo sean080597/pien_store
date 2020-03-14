@@ -6,22 +6,28 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
-    "autoprefixer": "^9.7.4",
-    "postcss-cli": "^7.1.0",
+    "bootstrap": "^3.3.7",
+    "flexslider": "^2.7.2",
+    "jquery": "^3.4.1",
+    "node-sass": "^4.13.1",
     "react": "^16.13.0",
+    "react-device-detect": "^1.11.14",
     "react-dom": "^16.13.0",
+    "react-flex-slider": "^6.3.1",
+    "react-magnific-popup": "^1.0.1",
+    "react-owl-carousel": "^2.3.1",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0",
+    "react-text-rotator": "^0.1.1",
     "redux": "^4.0.5",
-    "redux-thunk": "^2.3.0",
-    "tailwindcss": "^1.2.0"
+    "redux-thunk": "^2.3.0"
   },
   "scripts": {
-    "build:css": "postcss src/css/tailwindcss.src.css -o src/css/tailwind.css",
-    "watch:css": "npm run build:css -w",
-    "start": "npm run watch:css & react-scripts start",
-    "build": "react-scripts build",
+    "build-css": "node-sass-chokidar --include-path ./src --include-path ./node-modules src/ -o src/",
+    "watch-css": "npm run build-css && node-sass-chokidar --include-path ./src --include-path ./node-modules src/ -o src/ --watch --recursive",
+    "start": "react-scripts start",
+    "build": "npm run build-css && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -39,5 +45,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "devDependencies": {}
 }
