@@ -1,12 +1,16 @@
 import React from 'react';
-import './css/tailwind.css';
-import Router from './routes'
+import Router from './routes';
+import './App.scss';
 
 function App() {
   return (
-    <div className="bg-gray-300 h-screen">
+    <main>
+      <div className="page-loader">
+        <div className="loader">Loading...</div>
+      </div>
       <Router/>
-    </div>
+      <div className="scroll-up"><a href="#totop"><i className="fa fa-angle-double-up"></i></a></div>
+    </main>
   );
 }
 
