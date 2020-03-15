@@ -1,10 +1,29 @@
 import React, { Component } from 'react'
+import CommonService from '../services/CommonService.service';
 import CommonConfig from '../config/Common.config'
 
 export default class Login extends Component {
+    constructor(props){
+        super(props);
+        this.state = {email:'', password: '', errors:{}}
+    }
+    //methods
+    handleFormLogin = (e) => {
+        e.preventDefault();
+        
+    }
+
+    //component methods
+    UNSAFE_componentWillMount(){
+        CommonService.turnOnLoader();
+    }
+    componentDidMount(){
+        CommonService.turnOffLoader();
+    }
+
     render() {
         return (
-            <div>
+            <div className="main">
                 <section className="module bg-dark-30" style={{backgroundImage: `url(${CommonConfig.LOGIN_BG})`}}>
                     <div className="container">
                         <div className="row">
@@ -20,9 +39,9 @@ export default class Login extends Component {
                             <div className="col-sm-5 col-sm-offset-1 mb-sm-40">
                                 <h4 className="font-alt">Login</h4>
                                 <hr className="divider-w mb-10" />
-                                <form className="form">
+                                <form className="form" onSubmit={this.handleFormLogin}>
                                     <div className="form-group">
-                                        <input className="form-control" id="username" type="text" name="username" placeholder="Username" />
+                                        <input className="form-control" id="email" type="email" name="email" placeholder="Email" />
                                     </div>
                                     <div className="form-group">
                                         <input className="form-control" id="password" type="password" name="password" placeholder="Password" />

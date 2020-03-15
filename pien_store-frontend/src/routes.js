@@ -7,6 +7,7 @@ import Login from './pages/Login'
 import About from './pages/About'
 import Shop from './pages/Shop'
 import Profile from './pages/Profile'
+import NotFound from './pages/NotFound'
 
 const defineRoutes = [
   {path: '/', component: Home, exact: true},
@@ -14,6 +15,7 @@ const defineRoutes = [
   {path: '/login', component: Login, exact: true},
   {path: '/shop', component: Shop, exact: true},
   {path: '/profile', component: Profile, exact: true},
+  {path: '/', component: NotFound, exact: false},
 ]
 
 const routes = () => (
@@ -27,7 +29,6 @@ const routes = () => (
           />
         ))
       }
-      <Route path="/" render={() => <div>404 Not Found</div>} />
     </Switch>
     <Footer/>
   </Router>

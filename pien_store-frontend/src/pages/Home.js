@@ -1,8 +1,16 @@
 import React, { Component } from 'react'
+import CommonService from '../services/CommonService.service';
 import CommonConfig from '../config/Common.config'
 import NewProduct from '../components/NewProduct'
 
 export default class Home extends Component {
+    //component methods
+    UNSAFE_componentWillMount(){
+        CommonService.turnOnLoader();
+    }
+    componentDidMount(){
+        CommonService.turnOffLoader();
+    }
     render() {
         return (
             <div>
