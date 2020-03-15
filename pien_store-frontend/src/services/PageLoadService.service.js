@@ -1,8 +1,12 @@
 import $ from 'jquery';
-import {isMobile} from 'react-device-detect';
 
-var screenWidth = Math.max($(window).width(), window.innerWidth);
+var screenWidth = Math.max($(window).width(), window.innerWidth),
+    isMobile = (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) ? true : false;
+
 const PageLoadService = {
+    setValueVariables(){
+        screenWidth = Math.max($(window).width(), window.innerWidth);
+    },
     setHandleClickGoToTop(){
         $('a[href="#totop"]').click(function() {
           $('html, body').animate({ scrollTop: 0 }, 'slow');
@@ -43,6 +47,27 @@ const PageLoadService = {
                 $(this).collapse('hide');
             }
         });
+    },
+    setWidthNavbarSubmenu() {
+        if (screenWidth > 767) {
+            $('.navbar-custom .navbar-nav > li.dropdown').hover(function() {
+                var MenuLeftOffset  = $('.dropdown-menu', $(this)).offset().left;
+                var Menu1LevelWidth = $('.dropdown-menu', $(this)).width();
+                if (screenWidth - MenuLeftOffset < Menu1LevelWidth * 2) {
+                    $(this).children('.dropdown-menu').addClass('leftauto');
+                } else {
+                    $(this).children('.dropdown-menu').removeClass('leftauto');
+                }
+                if ($('.dropdown', $(this)).length > 0) {
+                    var Menu2LevelWidth = $('.dropdown-menu', $(this)).width();
+                    if (screenWidth - MenuLeftOffset - Menu1LevelWidth < Menu2LevelWidth) {
+                        $(this).children('.dropdown-menu').addClass('left-side');
+                    } else {
+                        $(this).children('.dropdown-menu').removeClass('left-side');
+                    }
+                }
+            });
+        }
     },
 };
 

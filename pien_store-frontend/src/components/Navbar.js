@@ -1,9 +1,6 @@
 import React, { Component } from "react";
 import { Link } from 'react-router-dom';
-import $ from 'jquery';
-import CommonService from '../services/CommonService.service';
 import PageLoadService from '../services/PageLoadService.service';
-import { isMobile } from "react-device-detect";
 
 export default class Navbar extends Component {
   constructor(props) {
@@ -12,41 +9,18 @@ export default class Navbar extends Component {
       
     }
   }
-  nav = React.createRef();
-
-  //methods
-  handleScroll = () => {
-    window.requestAnimationFrame(() => {
-      if (window.scrollY > 100) {
-        $('.scroll-up').fadeIn();
-      } else {
-        $('.scroll-up').fadeOut();
-      }
-    });
-  }
-
-  handleResize = () => {
-    alert(isMobile)
-    PageLoadService.setNavbarHoverDropdown();
-  }
 
   componentDidMount(){
-    CommonService.turnOffLoader();
-    window.addEventListener('scroll', this.handleScroll, true);
-    window.addEventListener('resize', this.handleResize, true);
-    PageLoadService.setHandleClickGoToTop();
-    PageLoadService.setNavbarHoverDropdown();
-    PageLoadService.setNavbarCollapseClick();
+    
   }
 
   componentWillUnmount() {
-    window.removeEventListener('scroll', this.handleScroll);
-    window.removeEventListener('resize', this.handleResize);
+    
   }
 
   render() {
     return (
-      <nav className="navbar navbar-custom navbar-fixed-top" role="navigation" ref={this.nav}>
+      <nav className="navbar navbar-custom navbar-fixed-top" role="navigation">
         <div className="container">
           <div className="navbar-header">
             <button className="navbar-toggle" type="button" data-toggle="collapse" data-target="#custom-collapse">
