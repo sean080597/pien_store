@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
+import CommonConfig from '../config/Common.config'
+import NewProduct from '../components/NewProduct'
 
 export default class Home extends Component {
     render() {
         return (
-            <div className="main-content">
-                <section className="bg-dark-30 showcase-page-header module parallax-bg" data-background="assets/images/showcase_bg.jpg" style={{backgroundImage: "url('assets/images/showcase_bg.jpg')"}}>
+            <div>
+                <section className="bg-dark-30 showcase-page-header module parallax-bg" style={{backgroundImage: `url(${CommonConfig.HOME_BG})`}}>
                     <div className="titan-caption">
                         <div className="caption-content">
                             <div className="font-alt mb-30 titan-title-size-1">Powerful. Multipurpose.</div>
@@ -13,21 +15,7 @@ export default class Home extends Component {
                     </div>
                 </section>
                 <div className="main showcase-page">
-                    <section className="module-extra-small bg-dark">
-                        <div className="container">
-                            <div className="row">
-                                <div className="col-sm-6 col-md-8 col-lg-9">
-                                    <div className="callout-text font-alt">
-                                        <h4 style={{marginTop: '0px'}}>Start Creating Beautiful Websites</h4>
-                                        <p style={{marginBottom: '0px'}}>Download Titan Free today!</p>
-                                    </div>
-                                </div>
-                                <div className="col-sm-6 col-md-4 col-lg-3">
-                                    <div className="callout-btn-box"><a className="btn btn-border-w btn-circle" href="https://themewagon.com/themes/titan/">Downlaod Free</a></div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
+                    <NewProduct/>
                     <section className="module-medium" id="demos">
                         <div className="container">
                             <div className="row multi-columns-row">
@@ -61,21 +49,7 @@ export default class Home extends Component {
                             </div>
                         </div>
                     </section>
-                    <section className="module-extra-small bg-dark">
-                        <div className="container">
-                            <div className="row">
-                                <div className="col-sm-6 col-md-8 col-lg-9">
-                                    <div className="callout-text font-alt">
-                                        <h4 style={{ marginTop: '0px' }}>Start Creating Beautiful Websites</h4>
-                                        <p style={{ marginBottom: '0px' }}>Download Titan Free today!</p>
-                                    </div>
-                                </div>
-                                <div className="col-sm-6 col-md-4 col-lg-3">
-                                    <div className="callout-btn-box"><a className="btn btn-border-w btn-circle" href="https://themewagon.com/themes/titan/">Downlaod Free</a></div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
+                    <NewProduct/>
                 </div>
             </div>
         )

@@ -1,32 +1,62 @@
 import React, { Component } from 'react'
+import CommonConfig from '../config/Common.config'
 
 export default class Login extends Component {
     render() {
         return (
-            <div className="cus_bg-login">
-                <div className="cus_bg-blur"></div>
-                <div className="flex main-content">
-                    <div className="w-1/3"></div>
-                    <div className="w-1/3 mt-10 p-4 cus_bg-white rounded-md">
-                        <div className="blur-bg"></div>
-                        <form className="border border-white rounded-md">
-                            <div className="p-4">
-                                <h1 className="text-lg border-b border-white uppercase italic">Pieu Store</h1>
-                                <div className="mt-4">
-                                    <label>Email</label>
-                                    <input type="email" name='email' placeholder='Enter email' className="mt-2 p-2 bg-gray-200 rounded border border-gray-400 w-full"/>
-                                </div>
-                                <div className="mt-4">
-                                    <label>Password</label>
-                                    <input type="password" name='password' placeholder='Enter password' className="mt-2 p-2 bg-gray-200 rounded border border-gray-400 w-full"/>
-                                </div>
-                                <div className="mt-4">
-                                    <input type="submit" className="mt-1 p-2 border border-gray-400 rounded cursor-pointer bg-purple-600 text-white"/>
-                                </div>
+            <div>
+                <section className="module bg-dark-30" style={{backgroundImage: `url(${CommonConfig.LOGIN_BG})`}}>
+                    <div className="container">
+                        <div className="row">
+                            <div className="col-sm-6 col-sm-offset-3">
+                                <h1 className="module-title font-alt mb-0">Login-Register</h1>
                             </div>
-                        </form>
+                        </div>
                     </div>
-                </div>
+                </section>
+                <section className="module">
+                    <div className="container">
+                        <div className="row">
+                            <div className="col-sm-5 col-sm-offset-1 mb-sm-40">
+                                <h4 className="font-alt">Login</h4>
+                                <hr className="divider-w mb-10" />
+                                <form className="form">
+                                    <div className="form-group">
+                                        <input className="form-control" id="username" type="text" name="username" placeholder="Username" />
+                                    </div>
+                                    <div className="form-group">
+                                        <input className="form-control" id="password" type="password" name="password" placeholder="Password" />
+                                    </div>
+                                    <div className="form-group">
+                                        <button className="btn btn-round btn-b">Login</button>
+                                    </div>
+                                    <div className="form-group"><a href="">Forgot Password?</a></div>
+                                </form>
+                            </div>
+                            <div className="col-sm-5">
+                                <h4 className="font-alt">Register</h4>
+                                <hr className="divider-w mb-10" />
+                                <form className="form">
+                                    <div className="form-group">
+                                        <input className="form-control" id="E-mail" type="text" name="email" placeholder="Email" />
+                                    </div>
+                                    <div className="form-group">
+                                        <input className="form-control" id="username" type="text" name="username" placeholder="Username" />
+                                    </div>
+                                    <div className="form-group">
+                                        <input className="form-control" id="password" type="password" name="password" placeholder="Password" />
+                                    </div>
+                                    <div className="form-group">
+                                        <input className="form-control" id="re-password" type="password" name="re-password" placeholder="Re-enter Password" />
+                                    </div>
+                                    <div className="form-group">
+                                        <button className="btn btn-block btn-round btn-b">Register</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </section>
             </div>
         )
     }
