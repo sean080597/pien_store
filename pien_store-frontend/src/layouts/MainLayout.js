@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import Router from '../routes';
 import $ from 'jquery';
-import CommonService from '../services/CommonService.service';
 import PageLoadService from '../services/PageLoadService.service';
 
 export default class MainLayout extends Component {
@@ -18,14 +17,16 @@ export default class MainLayout extends Component {
     handleResize = () => {
         PageLoadService.setValueVariables();
         PageLoadService.setNavbarHoverDropdown();
+        PageLoadService.buildHomeSection();
     }
 
+    //component methods
     componentDidMount(){
-        CommonService.turnOffLoader();
         PageLoadService.setHandleClickGoToTop();
         PageLoadService.setNavbarHoverDropdown();
         PageLoadService.setNavbarCollapseClick();
         PageLoadService.setWidthNavbarSubmenu();
+        PageLoadService.buildHomeSection();
         window.addEventListener('scroll', this.handleScroll, true);
         window.addEventListener('resize', this.handleResize, true);
     }

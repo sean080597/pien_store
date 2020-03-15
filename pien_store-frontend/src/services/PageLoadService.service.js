@@ -77,6 +77,19 @@ const PageLoadService = {
             });
         }
     },
+    /* ---------------------------------------------- /*
+    * Any element has home-section class
+    /* ---------------------------------------------- */
+    buildHomeSection() {
+        let homeSection = $('.home-section');
+        if (homeSection.length > 0) {
+            if (homeSection.hasClass('home-full-height')) {
+                homeSection.height($(window).height());
+            } else {
+                homeSection.height($(window).height() * 0.85);
+            }
+        }
+    }
 };
 
 export default PageLoadService;
