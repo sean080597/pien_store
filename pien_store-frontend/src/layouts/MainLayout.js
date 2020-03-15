@@ -30,7 +30,7 @@ export default class MainLayout extends Component {
         window.addEventListener('scroll', this.handleScroll, true);
         window.addEventListener('resize', this.handleResize, true);
     }
-    componentWillMount(){
+    UNSAFE_componentWillMount(){
         window.removeEventListener('scroll', this.handleScroll);
         window.removeEventListener('resize', this.handleResize);
     }
