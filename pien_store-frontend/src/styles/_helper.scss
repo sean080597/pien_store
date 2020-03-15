@@ -1076,6 +1076,29 @@ General Styles - Owlcarousel
   background: rgba(34, 34, 34, 0.3);
 }
 
+/* Caption */
+.titan-caption {
+  position: relative;
+  display: table;
+  height: 100%;
+  width: 70%;
+  margin: 0 auto;
+}
+
+.titan-caption {
+  position: relative;
+  display: table;
+  height: 100%;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.caption-content {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+}
+
 /*--------------------------------------------------------------
 	Footer
 --------------------------------------------------------------*/

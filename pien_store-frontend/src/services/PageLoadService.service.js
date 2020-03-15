@@ -7,12 +7,18 @@ const PageLoadService = {
     setValueVariables(){
         screenWidth = Math.max($(window).width(), window.innerWidth);
     },
+    /* ---------------------------------------------- /*
+    * Handle go to top
+    /* ---------------------------------------------- */
     setHandleClickGoToTop(){
         $('a[href="#totop"]').click(function() {
           $('html, body').animate({ scrollTop: 0 }, 'slow');
           return false;
         });
     },
+    /* ---------------------------------------------- /*
+    * Handle Navbar
+    /* ---------------------------------------------- */
     setNavbarHoverDropdown() {
         if ((screenWidth > 767) && (isMobile !== true)) {
             $('.navbar-custom .navbar-nav > li.dropdown, .navbar-custom li.dropdown > ul > li.dropdown').removeClass('open');
@@ -69,6 +75,17 @@ const PageLoadService = {
             });
         }
     },
+    /* ---------------------------------------------- /*
+    * Set sections backgrounds
+    /* ---------------------------------------------- */
+    setSectionBackground(){
+        var module = $('.home-section, .module, .module-small, .side-image');
+        module.each(function(i) {
+            if ($(this).attr('data-background')) {
+                $(this).css('background-image', 'url(' + $(this).attr('data-background') + ')');
+            }
+        });
+    }
 };
 
 export default PageLoadService;

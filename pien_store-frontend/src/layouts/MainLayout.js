@@ -26,6 +26,7 @@ export default class MainLayout extends Component {
         PageLoadService.setNavbarHoverDropdown();
         PageLoadService.setNavbarCollapseClick();
         PageLoadService.setWidthNavbarSubmenu();
+        PageLoadService.setSectionBackground();
         window.addEventListener('scroll', this.handleScroll, true);
         window.addEventListener('resize', this.handleResize, true);
     }
