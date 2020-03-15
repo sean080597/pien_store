@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import CommonService from '../services/CommonService.service';
 
 export default class Home extends Component {
     render() {
