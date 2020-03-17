@@ -1,17 +1,15 @@
 import React, { Component } from 'react'
 import CommonService from '../services/CommonService.service';
 import CommonConfig from '../config/Common.config'
+import useFormValidation from '../hooks/useFormValidation'
+
+// const INITIAL_STATE = {
+//     email: "",
+//     password: ""
+// }
+// const {handleInputChange, inputs} = useFormValidation(INITIAL_STATE);
 
 export default class Login extends Component {
-    constructor(props){
-        super(props);
-        this.state = {email:'', password: '', errors:{}}
-    }
-    //methods
-    handleFormLogin = (e) => {
-        e.preventDefault();
-        
-    }
 
     //component methods
     UNSAFE_componentWillMount(){
@@ -19,6 +17,7 @@ export default class Login extends Component {
     }
     componentDidMount(){
         CommonService.turnOffLoader();
+        // console.log("Authenticated: ", inputs.email, inputs.password)
     }
 
     render() {
@@ -39,15 +38,15 @@ export default class Login extends Component {
                             <div className="col-sm-5 col-sm-offset-1 mb-sm-40">
                                 <h4 className="font-alt">Login</h4>
                                 <hr className="divider-w mb-10" />
-                                <form className="form" onSubmit={this.handleFormLogin}>
+                                <form className="form">
                                     <div className="form-group">
-                                        <input className="form-control" id="email" type="email" name="email" placeholder="Email" />
+                                        {/* <input className="form-control" id="email" type="email" name="email" placeholder="Email" onChange={handleInputChange} value={inputs.email} required/> */}
                                     </div>
                                     <div className="form-group">
-                                        <input className="form-control" id="password" type="password" name="password" placeholder="Password" />
+                                        {/* <input className="form-control" id="password" type="password" name="password" placeholder="Password" onChange={handleInputChange} value={inputs.password} required/> */}
                                     </div>
                                     <div className="form-group">
-                                        <button className="btn btn-round btn-b">Login</button>
+                                        <button className="btn btn-round btn-b" type="submit">Login</button>
                                     </div>
                                     <div className="form-group"><a href="">Forgot Password?</a></div>
                                 </form>
