@@ -1,16 +1,25 @@
 import React, { Component } from 'react'
 import CommonService from '../services/CommonService.service';
 import CommonConfig from '../config/Common.config'
+import useFormValidation from '../hooks/useFormValidation';
+import {withScreenWidthHOC} from '../hoc/withHooksHOC'
 
-export default class Login extends Component {
-    constructor(props){
-        super(props);
-        this.state = {email:'', password: '', errors:{}}
-    }
+interface IHooksHOCProps{
+    width: number
+}
+
+// const INITIAL_STATE = {
+//     email: "",
+//     password: ""
+// }
+
+// const {handleChange, values} = useFormValidation(INITIAL_STATE);
+
+class Login extends Component<IHooksHOCProps> {
     //methods
-    handleFormLogin = (e) => {
-        e.preventDefault();
-        
+    handleSubmit(event){
+        event.preventDefault();
+        // console.log("Authenticated!", values.email, values.password);
     }
 
     //component methods
@@ -28,7 +37,8 @@ export default class Login extends Component {
                     <div className="container">
                         <div className="row">
                             <div className="col-sm-6 col-sm-offset-3">
-                                <h1 className="module-title font-alt mb-0">Login-Register</h1>
+                                {/* <h1 className="module-title font-alt mb-0">Login-Register</h1> */}
+                                <h1 className="module-title font-alt mb-0">Width: {this.props.width}</h1>
                             </div>
                         </div>
                     </div>
@@ -41,10 +51,10 @@ export default class Login extends Component {
                                 <hr className="divider-w mb-10" />
                                 <form className="form" onSubmit={this.handleFormLogin}>
                                     <div className="form-group">
-                                        <input className="form-control" id="email" type="email" name="email" placeholder="Email" />
+                                        {/* <input className="form-control" id="email" type="email" name="email" placeholder="Email" onChange={handleChange} value={values.email}/> */}
                                     </div>
                                     <div className="form-group">
-                                        <input className="form-control" id="password" type="password" name="password" placeholder="Password" />
+                                        {/* <input className="form-control" id="password" type="password" name="password" placeholder="Password" onChange={handleChange} value={values.password}/> */}
                                     </div>
                                     <div className="form-group">
                                         <button className="btn btn-round btn-b">Login</button>
@@ -80,3 +90,4 @@ export default class Login extends Component {
         )
     }
 }
+export default withScreenWidthHOC(Login);
