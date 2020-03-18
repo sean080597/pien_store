@@ -2,16 +2,12 @@ import $ from 'jquery'
 
 const CommonService = {
     turnOffLoader() {
-        $(window).on('load', function() {
-            $('.loader').fadeOut();
-            $('.page-loader').delay(350).fadeOut('slow');
-        });
+        $('.loader').fadeOut();
+        $('.page-loader').delay(350).fadeOut('fast');
     },
     turnOnLoader() {
-        $(window).on('load', function() {
-            $('.loader').fadeIn();
-            $('.page-loader').delay(350).fadeIn('slow');
-        });
+        $('.loader').fadeIn();
+        $('.page-loader').fadeIn('fast');
     },
 };
 
