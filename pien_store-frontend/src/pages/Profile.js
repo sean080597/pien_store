@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
+import React from 'react'
+import {useTurnOnOffLoader} from '../hooks/HookManager'
 
-export default class Profile extends Component {
-    render() {
-        return (
-            <div>
-                <h1>Profile page</h1>
-            </div>
-        )
-    }
+export default function Profile(props) {
+    useTurnOnOffLoader()
+    return (
+        <div>
+            <h1>Profile page</h1>
+        </div>
+    )
 }
