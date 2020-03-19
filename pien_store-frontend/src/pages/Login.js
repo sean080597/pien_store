@@ -39,6 +39,7 @@ export default function Login (props){
                                         className={"form-control " + (errors.password && 'error-input')}
                                         onChange={handleChange} value={userInputs.password} onBlur={handleBlur} />
                                     {errors.password && <p className="text-danger">{errors.password}</p>}
+                                    {errors.wrongInfo && <p className="text-danger">{errors.wrongInfo}</p>}
                                 </div>
                                 <div className="form-group">
                                     <button className="btn btn-round btn-b" type="submit">Login</button>

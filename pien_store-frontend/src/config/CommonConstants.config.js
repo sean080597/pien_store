@@ -7,8 +7,9 @@ const CommonConfig = {
         ERROR:{
             REQUIRED_EMAIL: 'Required Email',
             REQUIRED_PASSWORD: 'Required Password',
-            INVALID_EMAIL: 'Required Email',
-            INVALID_PASSWORD: 'Required Password',
+            INVALID_EMAIL: 'Invalid Email',
+            INVALID_PASSWORD: 'Invalid Password',
+            WRONG_LOGIN_INFO: 'Wrong username or password',
             AT_LEAST_6_CHARACTERS: 'Password must be at least 6 characters'
         }
     }
