@@ -1203,6 +1203,21 @@ General Styles - Owlcarousel
 .navbar-custom .nav li > a {
   position: relative;
   color: rgba(255, 255, 255, 0.7);
+  &.navbar-aimage{
+    padding: 10px;
+    &:after{
+      content: '';
+    }
+  }
+  .navbar-img{
+    height: 30px;
+    width: 30px;
+    margin-right: 5px;
+  }
+}
+
+.navbar-custom .nav li > button {
+  // margin: 7px 0 0 0;
 }
 
 .navbar-custom .dropdown-menu > li > a {
@@ -1294,6 +1309,11 @@ General Styles - Owlcarousel
     padding-bottom: 15px;
     padding-top: 15px;
   }
+
+  .navbar-custom .nav li > button {
+    margin: 7px 0 0 0;
+  }
+
   .navbar-custom .dropdown-menu {
     position: absolute;
     display: block;
