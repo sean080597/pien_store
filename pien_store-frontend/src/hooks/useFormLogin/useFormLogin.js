@@ -1,6 +1,8 @@
 import {useState, useEffect} from 'react'
 import {useHistory} from 'react-router-dom'
 import CommonService from '../../services/CommonService.service'
+import CommonConstants from '../../config/CommonConstants.config'
+import axios from 'axios'
 
 export default function useFormLogin(initital, validate) {
     const history = useHistory();
@@ -12,8 +14,16 @@ export default function useFormLogin(initital, validate) {
         if(isSubmitting){
             const noErrors = Object.keys(errors).length === 0
             if(noErrors){
-                console.log('Authenticated!', userInputs.email, userInputs.password)
-                history.push('/profile')
+                CommonService.turnOnLoader()
+                axios.post('http://localhost:8000/api/user/login', userInputs)
+                .then(res => {
+                    history.push('/profile')
+                })
+                .catch(e => {
+                    // setErrors(e.response.data)
+                    setErrors({'wrongInfo': CommonConstants.MSG.ERROR.WRONG_LOGIN_INFO})
+                    CommonService.turnOffLoader()
+                })
             }
             setSubmitting(false)
         }
