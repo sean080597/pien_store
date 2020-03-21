@@ -78,6 +78,19 @@ const PageLoadService = {
         }
     },
     /* ---------------------------------------------- /*
+    * Transparent navbar animation
+    /* ---------------------------------------------- */
+    setNavbarAnimation() {
+        var topScroll = $(window).scrollTop();
+        if ($('.navbar-custom').length > 0 && $('.home-section').length > 0) {
+            if(topScroll >= $('.navbar-custom').height()) {
+                $('.navbar-custom').removeClass('navbar-transparent');
+            } else {
+                $('.navbar-custom').addClass('navbar-transparent');
+            }
+        }
+    },
+    /* ---------------------------------------------- /*
     * Any element has home-section class
     /* ---------------------------------------------- */
     buildHomeSection() {

@@ -1216,10 +1216,6 @@ General Styles - Owlcarousel
   }
 }
 
-.navbar-custom .nav li > button {
-  // margin: 7px 0 0 0;
-}
-
 .navbar-custom .dropdown-menu > li > a {
   border-bottom: 1px solid rgba(73, 71, 71, 0.15) !important;
   padding: 11px 15px;
@@ -1248,12 +1244,15 @@ General Styles - Owlcarousel
 .navbar-custom .nav .open > a:focus,
 .navbar-custom .nav .open > a:hover,
 .navbar-custom .dropdown-menu > li > a:focus,
-.navbar-custom .dropdown-menu > li > a:hover {
+.navbar-custom .dropdown-menu > li > a:hover,
+.navbar-custom .dropdown-menu > li > button:focus,
+.navbar-custom .dropdown-menu > li > button:hover {
   background: none;
   color: #fff;
 }
 
-.navbar-custom .dropdown-menu > li > a:hover {
+.navbar-custom .dropdown-menu > li > a:hover,
+.navbar-custom .dropdown-menu > li > button:hover {
   background: rgba(255, 255, 255, 0.1) !important;
 }
 
@@ -1310,8 +1309,22 @@ General Styles - Owlcarousel
     padding-top: 15px;
   }
 
-  .navbar-custom .nav li > button {
+  .navbar-custom .nav > li > button {
     margin: 7px 0 0 0;
+  }
+
+  .navbar-custom .dropdown-menu > li > button {
+    background-color: transparent;
+    border: none;
+    position: relative;
+    color: rgba(255, 255, 255, 0.7);
+    border-bottom: 1px solid rgba(73, 71, 71, 0.15) !important;
+    padding: 11px 15px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    line-height: 1.42857143;
+    width: 100%;
+    text-align: left;
   }
 
   .navbar-custom .dropdown-menu {
