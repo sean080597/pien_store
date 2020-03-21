@@ -1,6 +1,6 @@
 import React from 'react'
 import CommonService from '../services/CommonService.service';
-import CommonConstants from '../config/CommonConstants.config'
+import CommonConstants from '../config/CommonConstants'
 import {useTurnOnOffLoader} from '../hooks/HookManager'
 import NewProduct from '../components/NewProduct'
 

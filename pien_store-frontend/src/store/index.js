@@ -7,7 +7,11 @@ const initialStates = {
         token: '',
         user: {}
     },
-    isNotFoundPage: false
+    isNotFoundPage: false,
+    shop:{
+        products: [],
+        filteredProduct: []
+    }
 }
 
 const store = createStore(CombinedAllReducers, initialStates, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())

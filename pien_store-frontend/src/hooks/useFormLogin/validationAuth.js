@@ -1,4 +1,4 @@
-import CommonConstants from '../../config/CommonConstants.config'
+import CommonConstants from '../../config/CommonConstants'
 
 export default function validateAuth(values){
     let errors = {}
