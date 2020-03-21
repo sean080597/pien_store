@@ -21,14 +21,15 @@ Route::group(['prefix' => 'user'], function(){
     Route::post('logout', 'AuthController@logout');
     Route::post('refresh', 'AuthController@refresh');
     Route::post('me', 'AuthController@me');
+    Route::post('authGoogleLogin', 'AuthController@authGoogleLogin');
 });
 
 
-Route::group(['prefix' => 'product', 'middleware' => 'jwt.auth'], function () {
+Route::group(['prefix' => 'product'], function () {
     Route::post('createNewProd', 'ProductController@createData');
-    Route::get('get-all/{cate_id}/{pagination?}', 'ProductController@getPaginatedData');
+    Route::get('getAll/{cate_id}/{pagination?}', 'ProductController@getPaginatedData');
     Route::post('updateProd/{id}', 'ProductController@editData');
     Route::post('delete/{id}', 'ProductController@deleteData');
-    Route::get('get-single/{id}', 'ProductController@getSingleData');
-    Route::get('get-all/search/{cate_id}/{search}/{pagination?}', 'ProductController@searchData');
+    Route::get('getSingle/{id}', 'ProductController@getSingleData');
+    Route::get('getAll/search/{cate_id}/{search}/{pagination?}', 'ProductController@searchData');
 });

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\UrlGenerator;
 use Validator;
 use Image;
+use Config;
 
 class ProductController extends Controller
 {
@@ -19,7 +20,7 @@ class ProductController extends Controller
 
     public function __construct(UrlGenerator $urlGenerator)
     {
-        // $this->middleware('jwt.auth');
+        $this->middleware('jwt.auth');
         $this->product = new Product;
         $this->base_url = $urlGenerator->to('/');
         // $this->file_directory = url('/').'/assets/product_images/';
@@ -69,7 +70,7 @@ class ProductController extends Controller
             } else {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Only png, jpg and jpeg files are accepted for setting profile pictures',
+                    'message' => Config::get('constants.MSG.ERROR.ONLY_IMG_TYPE'),
                 ], 500);
             }
         }
@@ -84,7 +85,7 @@ class ProductController extends Controller
         if ($created_product) {
             return response()->json([
                 'success' => true,
-                'message' => 'Product saved successfully',
+                'message' => Config::get('constants.MSG.SUCCESS.PRODUCT_SAVED'),
             ], 200);
         }
     }
@@ -128,7 +129,7 @@ class ProductController extends Controller
         if (!$findData) {
             return response()->json([
                 'success' => false,
-                'message' => 'Please this content has no valid id',
+                'message' => Config::get('constants.MSG.ERROR.INVALID_ID'),
             ], 500);
         }
         //handle file
@@ -157,7 +158,7 @@ class ProductController extends Controller
             } else {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Only png, jpg and jpeg files are accepted for setting profile pictures',
+                    'message' => Config::get('constants.MSG.ERROR.ONLY_IMG_TYPE'),
                 ], 500);
             }
         }
@@ -169,7 +170,7 @@ class ProductController extends Controller
         if ($updated_product) {
             return response()->json([
                 'success' => true,
-                'message' => 'Product updated successfully',
+                'message' => Config::get('constants.MSG.SUCCESS.PRODUCT_UPDATED'),
             ], 200);
         }
     }
@@ -180,7 +181,7 @@ class ProductController extends Controller
         if (!$findData) {
             return response()->json([
                 'success' => false,
-                'message' => 'Please this content has no valid id',
+                'message' => Config::get('constants.MSG.ERROR.INVALID_ID'),
             ], 500);
         }
         $getFile = $findData->image;
@@ -188,7 +189,7 @@ class ProductController extends Controller
             strcmp($getFile, $this->default_product_image) == 0 ? : unlink($this->file_directory . $getFile);
             return response()->json([
                 'success' => true,
-                'message' => 'Product deleted successfully',
+                'message' => Config::get('constants.MSG.SUCCESS.PRODUCT_DELETED'),
             ], 200);
         }
     }
