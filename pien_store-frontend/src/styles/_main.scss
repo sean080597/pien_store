@@ -156,3 +156,19 @@ img {
   -webkit-transform: translate3d(0, -10px, 0);
   box-shadow: 0 23px 40px rgba(0, 0, 0, 0.2);
 }
+
+/*--------------------------------------------------------------
+	pagination
+--------------------------------------------------------------*/
+.pagination a {
+	border: 1px solid #eaeaea;
+	display: inline-block;
+	text-transform: uppercase;
+	text-align: center;
+	color: #999;
+	padding: 4px 12px;
+}
+
+.pagination a.active {
+	border-color: #CACACA;
+}

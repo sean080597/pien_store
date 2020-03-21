@@ -19,7 +19,7 @@ class ProductController extends Controller
 
     public function __construct(UrlGenerator $urlGenerator)
     {
-        $this->middleware('jwt.auth');
+        // $this->middleware('jwt.auth');
         $this->product = new Product;
         $this->base_url = $urlGenerator->to('/');
         // $this->file_directory = url('/').'/assets/product_images/';
@@ -92,7 +92,7 @@ class ProductController extends Controller
     public function getPaginatedData($cate_id, $pagination = null)
     {
         if (is_null($pagination) || empty($pagination)) {
-            $ls_products = $this->product->where('category_id', $cate_id)->orderBy('name', 'DESC')->get()->toArray();
+            $ls_products = $this->product->where('category_id', $cate_id)->orderBy('name', 'DESC')->paginate(15);
             return response()->json([
                 'success' => true,
                 'data' => $ls_products,
@@ -217,7 +217,7 @@ class ProductController extends Controller
                 $query->where('name', 'LIKE', "%$search%")
                     ->orWhere('origin', 'LIKE', "%$search%")
                     ->orWhere('category_id', 'LIKE', "%$search%");
-            })->orderBy('name', 'DESC')->get()->toArray();
+            })->orderBy('name', 'DESC')->paginate(15);
 
             return response()->json([
                 'success' => true,

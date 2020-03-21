@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
-import CommonConstants from '../config/CommonConstants.config'
+import CommonConstants from '../config/CommonConstants'
 import {useTurnOnOffLoader, useNotFoundPage} from '../hooks/HookManager'
 
 export default function NotFound() {
