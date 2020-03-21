@@ -12,9 +12,10 @@ class UsersTableSeeder extends Seeder
      *
      * @return void
      */
-    public function insert_data($firstname, $lastname, $email){
+    public function insert_data($firstname, $lastname, $email, $role){
         $faker = Faker::create();
         DB::table('users')->insert([
+            'id' => $faker->regexify('[0-9]{20}'),
             'firstname' => $firstname,
             'midname' => '',
             'lastname' => $lastname,
@@ -22,7 +23,7 @@ class UsersTableSeeder extends Seeder
             'email' => $email,
             'email_verified_at' => now(),
             'password' => Hash::make('secret'), // password
-            'role_id' => 'adm',
+            'role_id' => $role,
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
         ]);
@@ -36,10 +37,10 @@ class UsersTableSeeder extends Seeder
         //     'firstname' => 'Luu',
         //     'lastname' => 'Sean',
         // ]);
-        self::insert_data('Luu', 'Sean', 'admin@adm.com');
-        self::insert_data('Le', 'Phu', 'manager@mgr.com');
-        self::insert_data('Le', 'Man', 'staff@stf.com');
-        self::insert_data('Quang', 'Khanh', 'customer@cus.com');
+        self::insert_data('Luu', 'Sean', 'admin@adm.com', 'adm');
+        self::insert_data('Le', 'Phu', 'manager@mgr.com', 'mgr');
+        self::insert_data('Le', 'Man', 'staff@stf.com', 'stf');
+        self::insert_data('Quang', 'Khanh', 'customer@cus.com', 'cus');
         factory(User::class, 30)->create();
     }
 }

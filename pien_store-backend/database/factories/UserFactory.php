@@ -19,6 +19,7 @@ use Carbon\Carbon;
 
 $factory->define(User::class, function (Faker $faker) {
     return [
+        'id' => $faker->regexify('[A-Za-z0-9]{20}'),
         'firstname' => $faker->firstName,
         'midname' => '',
         'lastname' => $faker->lastName,
