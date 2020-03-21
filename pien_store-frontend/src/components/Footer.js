@@ -1,9 +1,11 @@
-import React, { Component } from 'react'
+import React from 'react'
+import {useSelector} from 'react-redux'
 
-export default class Footer extends Component {
-    render() {
-        return (
-            <div>
+export default function Footer(props) {
+    const isNotFoundPage = useSelector(state => state.isNotFoundPage)
+    return (
+        <>
+            {!isNotFoundPage && <>
                 <div className="module-small bg-dark">
                     <div className="container">
                         <div className="row">
@@ -77,7 +79,7 @@ export default class Footer extends Component {
                         </div>
                     </div>
                 </footer>
-            </div>
-        )
-    }
+            </>}
+        </>
+    )
 }
