@@ -1,21 +1,32 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from 'react-router-dom';
 import {GoogleLogin, GoogleLogout} from 'react-google-login'
-import cookie from 'js-cookie'
+import {useCookies} from 'react-cookie'
+import {useDispatch, useSelector} from 'react-redux'
+import CommonConstants from '../config/CommonConstants.config'
+import PageLoadService from '../services/PageLoadService.service'
+import CommonService from '../services/CommonService.service'
 
 export default function Navbar(props) {
-  const clientID = '554896225454-0epg2j824qku9rfmtuf0205jf0rupt38.apps.googleusercontent.com';
+  const [cookies, setCookie, removeCookie] = useCookies({});
+  const dispatch = useDispatch()
+  const token = useSelector(state => state.auth.token)
 
-  const responseGoogle = (response) => {
-    cookie.set('token', response.accessToken)
-    cookie.set('user', response.profileObj)
-    console.log(response)
+  const responseGoogle = async (res) => {
+    CommonService.turnOnLoader()
+    setCookie('token', res.accessToken)
+    //dispatch
+    await dispatch({type: 'LOGIN_GOOGLE', payload: res})
+    //recall event hover dropdown
+    PageLoadService.setNavbarHoverDropdown()
+    CommonService.turnOffLoader()
   }
 
-  const logoutGoogle = (response) => {
-    console.log(response)
-    cookie.remove('token')
-    cookie.remove('user')
+  const logoutGoogle = async () => {
+    CommonService.turnOnLoader()
+    removeCookie('token')
+    await dispatch({type: 'LOGOUT_GOOGLE'})
+    CommonService.turnOffLoader()
   }
 
   return (
@@ -34,9 +45,9 @@ export default function Navbar(props) {
           <ul className="nav navbar-nav navbar-right">
             <li><Link to='/shop'>Shop</Link></li>
             <li><Link to='/about'>About</Link></li>
-            <li>
+            {!token && <li>
               <GoogleLogin
-                clientId={clientID}
+                clientId={CommonConstants.GOOGLE_CLIENT_ID}
                 render={renderProps => (
                   <button className="btn btn-primary btn-round" onClick={renderProps.onClick} disabled={renderProps.disabled}><i className="fa fa-google"></i> Login</button>
                 )}
@@ -46,8 +57,8 @@ export default function Navbar(props) {
                 cookiePolicy={'single_host_origin'}
                 isSignedIn={true}
               />
-            </li>
-            <li className="dropdown" >
+            </li>}
+            {token && <li className="dropdown" >
               <a className="dropdown-toggle navbar-aimage" href="#" data-toggle="dropdown">
                 <img src={process.env.PUBLIC_URL + '/assets/images/sample-profile-image.jpg'} className="img-circle navbar-img" alt="avatar image"/>
                 LuuSean
@@ -57,13 +68,16 @@ export default function Navbar(props) {
                 <li><Link to="/">One Page</Link></li>
                 <li>
                   <GoogleLogout
-                    clientId={clientID}
+                    clientId={CommonConstants.GOOGLE_CLIENT_ID}
                     buttonText="Logout"
                     onLogoutSuccess={logoutGoogle}
+                    render={renderProps => (
+                      <button onClick={renderProps.onClick} disabled={renderProps.disabled}>Logout</button>
+                    )}
                   />
                 </li>
               </ul>
-            </li>
+            </li>}
           </ul>
         </div>
       </div>

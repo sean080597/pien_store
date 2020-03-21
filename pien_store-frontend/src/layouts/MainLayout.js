@@ -13,6 +13,7 @@ export default class MainLayout extends Component {
                 $('.scroll-up').fadeOut();
             }
         });
+        PageLoadService.setNavbarAnimation();
     }
     handleResize = () => {
         PageLoadService.setValueVariables();
@@ -27,6 +28,7 @@ export default class MainLayout extends Component {
         PageLoadService.setNavbarCollapseClick();
         PageLoadService.setWidthNavbarSubmenu();
         PageLoadService.buildHomeSection();
+        PageLoadService.setNavbarAnimation();
         window.addEventListener('scroll', this.handleScroll, true);
         window.addEventListener('resize', this.handleResize, true);
     }
