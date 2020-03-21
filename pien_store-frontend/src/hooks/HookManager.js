@@ -3,6 +3,8 @@ import useScreenWidth from './useScreenWidth'
 //login hooks
 import useFormLogin from './useFormLogin/useFormLogin'
 import validationAuth from './useFormLogin/validationAuth'
+//------------------
+import useNotFoundPage from './useNotFoundPage'
 
 export {
     //turn on & off laoder
@@ -11,5 +13,7 @@ export {
     useScreenWidth,
     //form login
     useFormLogin,
-    validationAuth
+    validationAuth,
+    //
+    useNotFoundPage
 }

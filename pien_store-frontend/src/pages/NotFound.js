@@ -1,10 +1,12 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 import CommonConstants from '../config/CommonConstants.config'
-import {useTurnOnOffLoader} from '../hooks/HookManager'
+import {useTurnOnOffLoader, useNotFoundPage} from '../hooks/HookManager'
 
 export default function NotFound() {
     useTurnOnOffLoader()
+    //init page
+    useNotFoundPage()
     return (
         <section className="home-section home-parallax home-fade home-full-height bg-dark bg-dark-30" style={{backgroundImage:`url(${CommonConstants.ERROR_BG})`}}>
             <div className="titan-caption">

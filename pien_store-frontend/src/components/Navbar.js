@@ -10,23 +10,22 @@ import CommonService from '../services/CommonService.service'
 export default function Navbar(props) {
   const [cookies, setCookie, removeCookie] = useCookies({});
   const dispatch = useDispatch()
-  const token = useSelector(state => state.auth.token)
+  const {userName, token} = useSelector(state => ({
+    userName: state.auth.user.name,
+    token: state.auth.token
+  }))
 
   const responseGoogle = async (res) => {
-    CommonService.turnOnLoader()
     setCookie('token', res.accessToken)
     //dispatch
     await dispatch({type: 'LOGIN_GOOGLE', payload: res})
     //recall event hover dropdown
     PageLoadService.setNavbarHoverDropdown()
-    CommonService.turnOffLoader()
   }
 
   const logoutGoogle = async () => {
-    CommonService.turnOnLoader()
     removeCookie('token')
     await dispatch({type: 'LOGOUT_GOOGLE'})
-    CommonService.turnOffLoader()
   }
 
   return (
@@ -61,11 +60,11 @@ export default function Navbar(props) {
             {token && <li className="dropdown" >
               <a className="dropdown-toggle navbar-aimage" href="#" data-toggle="dropdown">
                 <img src={process.env.PUBLIC_URL + '/assets/images/sample-profile-image.jpg'} className="img-circle navbar-img" alt="avatar image"/>
-                LuuSean
+                {userName}
               </a>
               <ul className="dropdown-menu">
                 <li><Link to="/profile">Profile</Link></li>
-                <li><Link to="/">One Page</Link></li>
+                <li><Link to="/dadasd">One Page</Link></li>
                 <li>
                   <GoogleLogout
                     clientId={CommonConstants.GOOGLE_CLIENT_ID}
