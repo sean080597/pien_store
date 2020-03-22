@@ -15,7 +15,7 @@ class UsersTableSeeder extends Seeder
     public function insert_data($firstname, $lastname, $email, $role){
         $faker = Faker::create();
         DB::table('users')->insert([
-            'id' => $faker->regexify('[0-9]{20}'),
+            'id' => $faker->regexify('[0-9]{21}'),
             'firstname' => $firstname,
             'midname' => '',
             'lastname' => $lastname,
