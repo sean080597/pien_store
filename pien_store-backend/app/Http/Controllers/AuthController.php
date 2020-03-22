@@ -90,6 +90,7 @@ class AuthController extends Controller
 
     public function me()
     {
+        // return response()->json($this->guard()->user());
         return response()->json(auth()->user());
     }
 
@@ -113,7 +114,6 @@ class AuthController extends Controller
             //create jwt token
             $token = auth('api')->fromUser($findData);
             return response()->json([
-                'stt'=>'exist',
                 'token' => $token,
                 'type' => 'bearer', // you can ommit this
                 'expires' => auth('api')->factory()->getTTL() * 60, // time to expiration
@@ -131,7 +131,6 @@ class AuthController extends Controller
             //create jwt token
             $token = auth('api')->fromUser($registerComplete);
             return response()->json([
-                'stt'=>'create',
                 'token' => $token,
                 'type' => 'bearer', // you can ommit this
                 'expires' => auth('api')->factory()->getTTL() * 60, // time to expiration
