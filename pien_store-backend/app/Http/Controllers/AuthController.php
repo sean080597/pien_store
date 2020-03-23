@@ -108,33 +108,31 @@ class AuthController extends Controller
 
     public function authGoogleLogin(Request $request)
     {
+        $token = '';
         //check if exists
         $findData = $this->user->where('email', $request->email)->first();
         if($findData){
             //create jwt token
-            $token = auth('api')->fromUser($findData);
-            return response()->json([
-                'token' => $token,
-                'type' => 'bearer', // you can ommit this
-                'expires' => auth('api')->factory()->getTTL() * 60, // time to expiration
-            ], 200);
+            $token = auth('api')->setTTL($request->expiresIn)->fromUser($findData);
+        }else{
+            //create new user if not exist
+            $registerComplete = $this->user::create([
+                'id' => $request->googleId,
+                'firstname'=>$request->firstname,
+                'email'=>$request->email,
+                'login_type' => 'google',
+                'role_id'=>'cus'
+            ]);
+            if($registerComplete){
+                //create jwt token
+                $token = auth('api')->setTTL($request->expiresIn)->fromUser($registerComplete);
+            }
         }
-        //create new user if not exist
-        $registerComplete = $this->user::create([
-            'id' => $request->googleId,
-            'firstname'=>$request->firstname,
-            'email'=>$request->email,
-            'login_type' => 'google',
-            'role_id'=>'cus'
-        ]);
-        if($registerComplete){
-            //create jwt token
-            $token = auth('api')->fromUser($registerComplete);
-            return response()->json([
-                'token' => $token,
-                'type' => 'bearer', // you can ommit this
-                'expires' => auth('api')->factory()->getTTL() * 60, // time to expiration
-            ], 200);
-        }
+
+        return response()->json([
+            'token' => $token,
+            'type' => 'bearer', // you can ommit this
+            'expires' => $request->expiresIn, // time to expiration
+        ], 200);
     }
 }

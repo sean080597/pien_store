@@ -2,12 +2,13 @@ import { createStore } from 'redux'
 import CombinedAllReducers from './reducers/CombinedAllReducers'
 
 const initialStates = {
+    isFirstLoadPage: true,
+    isNotFoundPage: false,
     auth: {
         loggedIn: false,
         token: '',
         user: {}
     },
-    isNotFoundPage: false,
     shop:{
         products: [],
         filteredProduct: []
