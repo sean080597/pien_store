@@ -3,7 +3,7 @@ import $ from 'jquery'
 const CommonService = {
     turnOffLoader() {
         $('.loader').fadeOut();
-        $('.page-loader').delay(350).fadeOut('fast');
+        $('.page-loader').delay(250).fadeOut('fast');
     },
     turnOnLoader() {
         $('.loader').fadeIn();

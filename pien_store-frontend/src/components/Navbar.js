@@ -2,38 +2,28 @@ import React from "react";
 import { Link } from 'react-router-dom';
 import {GoogleLogin, GoogleLogout} from 'react-google-login'
 // import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
-import {useCookies} from 'react-cookie'
-import {useDispatch, useSelector} from 'react-redux'
+import { useSelector } from 'react-redux'
 import CommonConstants from '../config/CommonConstants'
-import PageLoadService from '../services/PageLoadService.service'
-import CommonService from '../services/CommonService.service'
-import moment from "moment";
+import { useGoogleLogin, useFirstLoadedPage } from '../hooks/HookManager'
 
 export default function Navbar(props) {
-  const [cookies, setCookie, removeCookie] = useCookies({});
-  const dispatch = useDispatch()
+  useFirstLoadedPage()
   const {userName, token} = useSelector(state => ({
     userName: state.auth.user.name,
     token: state.auth.token
   }))
-
+  //login by Google
+  const {applyGoogleLogin, applyGoogleLogout} = useGoogleLogin({})
   const responseGoogle = async (res) => {
-    //popup_closed_by_user or access_denied
+    //chech if exists error popup_closed_by_user or access_denied
     if(!res.error){
-      const expiryIn = res.tokenObj.expires_in
-      const expiryDate = moment(new Date()).add(expiryIn, 's').toDate()
-      // setCookie('token', res.accessToken, { path: '/', httpOnly: true, sameSite: 'lax', expires: expiryDate})
-      setCookie('token', res.accessToken, { path: '/', sameSite: 'lax', expires: expiryDate})
-      //dispatch
-      await dispatch({type: 'LOGIN_GOOGLE', payload: res})
-      //recall event hover dropdown
-      PageLoadService.setNavbarHoverDropdown()
+      //call hook useGoogleLogin
+      applyGoogleLogin(res)
     }
   }
-
   const logoutGoogle = async () => {
-    removeCookie('token')
-    await dispatch({type: 'LOGOUT_GOOGLE'})
+    //call hook useGoogleLogout
+    await applyGoogleLogout()
   }
 
   // const responseFacebook = async (res) => {
@@ -44,8 +34,8 @@ export default function Navbar(props) {
 
   const test = () => {
     console.log(new Date())
-    let expiryDate = moment(new Date()).add(30, 'm').toDate()
-    console.log(expiryDate)
+    // let expiryDate = moment(new Date()).add(30, 'm').toDate()
+    // console.log(expiryDate)
   }
 
   return (
