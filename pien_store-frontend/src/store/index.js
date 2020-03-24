@@ -11,7 +11,7 @@ const initialStates = {
     },
     shop:{
         products: [],
-        filteredProduct: []
+        filteredProducts: []
     }
 }
 

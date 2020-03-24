@@ -1,9 +1,9 @@
 const doShopCart = (state = {}, {type, payload}) => {
     switch (type) {
-        case 'SET_TRUE_IS_NOT_FOUND_PAGE':
-            return true
-        case 'SET_FALSE_IS_NOT_FOUND_PAGE':
-            return false
+        case 'SET_PRODUCTS':
+            return {...state, products: payload.products}
+        case 'SET_FILTERED_PRODUCTS':
+            return {...state, filteredProducts: payload.filteredProducts}
         default:
             return state
     }

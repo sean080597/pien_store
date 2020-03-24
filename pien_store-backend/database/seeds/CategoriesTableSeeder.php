@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Faker\Factory as Faker;
 use Carbon\Carbon;
 use App\Category;
 
@@ -12,9 +13,12 @@ class CategoriesTableSeeder extends Seeder
      * @return void
      */
     public function insert_data($id, $name){
+        $faker = Faker::create();
         DB::table('categories')->insert([
-            'id' => $id,
+            'id' => $faker->regexify('[A-Za-z0-9]{10}'),
+            'cate_id' => $id,
             'name' => $name,
+            'image' => 'default-category-image.png',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
         ]);

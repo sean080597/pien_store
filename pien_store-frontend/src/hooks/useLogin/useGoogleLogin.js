@@ -1,14 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-// import {useEffect, useState} from 'react'
 import {useDispatch} from 'react-redux'
 import {useCookies} from 'react-cookie'
 import moment from "moment";
 import axios from 'axios'
 import CommonService from '../../services/CommonService.service'
 import PageLoadService from '../../services/PageLoadService.service'
+import CommonConstants from '../../config/CommonConstants'
 
 // const apiUrl = window.location.origin + '/api/user';
-const apiUrl = 'http://localhost:8000/api/user';
+const apiUrl = CommonConstants.API_URL + '/user';
 
 export default function useGoogleLogin(){
     const dispatch = useDispatch()

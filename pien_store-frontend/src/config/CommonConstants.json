@@ -1,4 +1,7 @@
 {
+    "API_URL": "http://localhost:8000/api",
+    "GOOGLE_CLIENT_ID": "554896225454-0epg2j824qku9rfmtuf0205jf0rupt38.apps.googleusercontent.com",
+    "FACEBOOK_APP_ID": "875917776179798",
     "HOME_BG": "/assets/images/home_bg.jpg",
     "LOGIN_BG": "/assets/images/login_bg.jpg",
     "SHOP_BG": "/assets/images/product-page-bg.jpg",
@@ -12,7 +15,5 @@
             "WRONG_LOGIN_INFO": "Wrong username or password",
             "AT_LEAST_6_CHARACTERS": "Password must be at least 6 characters"
         }
-    },
-    "GOOGLE_CLIENT_ID": "554896225454-0epg2j824qku9rfmtuf0205jf0rupt38.apps.googleusercontent.com",
-    "FACEBOOK_APP_ID": "875917776179798"
+    }
 }

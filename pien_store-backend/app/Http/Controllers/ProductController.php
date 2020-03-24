@@ -17,6 +17,7 @@ class ProductController extends Controller
     protected $base_url;
     protected $file_directory;
     protected $default_product_image;
+    protected $default_page_size;
 
     public function __construct(UrlGenerator $urlGenerator)
     {
@@ -26,6 +27,7 @@ class ProductController extends Controller
         // $this->file_directory = url('/').'/assets/product_images/';
         $this->file_directory = public_path('/assets/product_images/');
         $this->default_product_image = 'default-product-image.png';
+        $this->default_page_size = 15;
     }
 
     public function createData(Request $request)
@@ -54,59 +56,29 @@ class ProductController extends Controller
         if (is_null($product_image)) {
             $file_name = $this->default_product_image;
         } else {
-            //generate image file name
-            $generate_name = uniqid() . '_' . time() . date('Ymd') . '_IMG';
-            //get mime type
-            $mimeType = Image::make($product_image)->mime();
-            if (in_array($mimeType, $fileTypes)) {
-                foreach ($fileTypes as $type) {
-                    if (strcmp($type, $mimeType) == 0) {
-                        $mime_split = explode('/', $type);
-                        $file_name = $generate_name . '.' . end($mime_split);
-                    }
-                }
-                //save image
-                Image::make($product_image)->save($this->file_directory.$file_name);
-            } else {
+            $isSaved = $this->checkSaveImage($fileTypes, $product_image, $this->file_directory);
+            if(strcmp($isSaved->getData()->success, true) == 0){
+                $file_name = $isSaved->getData()->file_name;
+            }else{
                 return response()->json([
                     'success' => false,
-                    'message' => Config::get('constants.MSG.ERROR.ONLY_IMG_TYPE'),
+                    'message' => $isSaved->getData()->error_msg
                 ], 500);
             }
         }
 
         //create new record
-        $newData = $request->all();
+        $newData = $request->all()->except(['product_image']);
         $newData['id'] = $product_id;
         $newData['image'] = $file_name;
         $created_product = $this->product->create($newData);
 
-        //save image file
         if ($created_product) {
             return response()->json([
                 'success' => true,
-                'message' => Config::get('constants.MSG.SUCCESS.PRODUCT_SAVED'),
+                'message' => Config::get('constants.MSG.SUCCESS.PRODUCT_CREATED'),
             ], 200);
         }
-    }
-
-    public function getPaginatedData($cate_id, $pagination = null)
-    {
-        if (is_null($pagination) || empty($pagination)) {
-            $ls_products = $this->product->where('category_id', $cate_id)->orderBy('name', 'DESC')->paginate(15);
-            return response()->json([
-                'success' => true,
-                'data' => $ls_products,
-                'file_directory' => $this->file_directory,
-            ], 200);
-        }
-
-        $product_paginated = $this->product->where('category_id', $cate_id)->orderBy('name', 'DESC')->paginate($pagination);
-        return response()->json([
-            'success' => true,
-            'data' => $product_paginated,
-            'file_directory' => $this->file_directory,
-        ], 200);
     }
 
     public function editData(Request $request, $id)
@@ -142,28 +114,18 @@ class ProductController extends Controller
         if (is_null($product_image)) {
             $file_name = $this->default_product_image;
         } else {
-            //generate image file name
-            $generate_name = uniqid() . '_' . time() . date('Ymd') . '_IMG';
-            //get mime type
-            $mimeType = Image::make($product_image)->mime();
-            if (in_array($mimeType, $fileTypes)) {
-                foreach ($fileTypes as $type) {
-                    if (strcmp($type, $mimeType) == 0) {
-                        $mime_split = explode('/', $type);
-                        $file_name = $generate_name . '.' . end($mime_split);
-                    }
-                }
-                //save image
-                Image::make($product_image)->save($this->file_directory.$file_name);
-            } else {
+            $isSaved = $this->checkSaveImage($fileTypes, $product_image, $this->file_directory);
+            if(strcmp($isSaved->getData()->success, true) == 0){
+                $file_name = $isSaved->getData()->file_name;
+            }else{
                 return response()->json([
                     'success' => false,
-                    'message' => Config::get('constants.MSG.ERROR.ONLY_IMG_TYPE'),
+                    'message' => $isSaved->getData()->error_msg
                 ], 500);
             }
         }
 
-        $newData = $request->all();
+        $newData = $request->all()->except(['product_image']);
         $newData['image'] = $file_name;
         $updated_product = $findData->update($newData);
         //save image file
@@ -194,13 +156,28 @@ class ProductController extends Controller
         }
     }
 
+    public function getPaginatedData($cate_id = null, $pagination = null)
+    {
+        $page_size = $pagination ? $pagination : $this->default_page_size;
+        if(is_null($cate_id) || empty($cate_id)){
+            $ls_products = $this->product->orderBy('name', 'DESC')->paginate($page_size);
+        }else{
+            $ls_products = $this->product->where('category_id', $cate_id)->orderBy('name', 'DESC')->paginate($page_size);
+        }
+        return response()->json([
+            'success' => true,
+            'data' => $ls_products,
+            'file_directory' => $this->file_directory,
+        ], 200);
+    }
+
     public function getSingleData($id)
     {
         $findData = $this->product::find($id);
         if (!$findData) {
             return response()->json([
                 'success' => false,
-                'message' => 'Not found',
+                'message' => Config::get('constants.MSG.ERROR.NOT_FOUND')
             ], 500);
         }
         return response()->json([
@@ -210,29 +187,19 @@ class ProductController extends Controller
         ], 200);
     }
 
-    public function searchData($cate_id, $search, $pagination = null)
+    public function searchData($search, $cate_id = null, $pagination = null)
     {
-        if (is_null($pagination) || empty($pagination)) {
-            $non_paginated_search_query = $this->product->where('category_id', $cate_id)->
-                where(function ($query) use ($search) {
-                $query->where('name', 'LIKE', "%$search%")
-                    ->orWhere('origin', 'LIKE', "%$search%")
-                    ->orWhere('category_id', 'LIKE', "%$search%");
-            })->orderBy('name', 'DESC')->paginate(15);
-
-            return response()->json([
-                'success' => true,
-                'data' => $non_paginated_search_query,
-                'file_directory' => $this->file_directory,
-            ], 200);
+        $page_size = $pagination ? $pagination : $this->default_page_size;
+        $query = Product::query();
+        if(isset($cate_id) && !empty($cate_id)){
+            $query = $query->where('category_id', $cate_id);
         }
 
-        $paginated_search_query = $this->product->where('category_id', $cate_id)->
-            where(function ($query) use ($search) {
+        $paginated_search_query = $query->where(function ($query) use ($search) {
             $query->where('name', 'LIKE', "%$search%")
                 ->orWhere('origin', 'LIKE', "%$search%")
                 ->orWhere('category_id', 'LIKE', "%$search%");
-        })->orderBy('name', 'DESC')->paginate($pagination);
+        })->orderBy('name', 'DESC')->paginate($page_size);
 
         return response()->json([
             'success' => true,
