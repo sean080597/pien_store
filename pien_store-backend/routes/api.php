@@ -27,9 +27,18 @@ Route::group(['prefix' => 'user'], function(){
 
 Route::group(['prefix' => 'product'], function () {
     Route::post('createNewProd', 'ProductController@createData');
-    Route::get('getAll/{cate_id}/{pagination?}', 'ProductController@getPaginatedData');
+    Route::get('getAll/search/{search}/{cate_id?}/{pagination?}', 'ProductController@searchData');
+    Route::get('getAll/{cate_id?}/{pagination?}', 'ProductController@getPaginatedData');
     Route::post('updateProd/{id}', 'ProductController@editData');
     Route::post('delete/{id}', 'ProductController@deleteData');
     Route::get('getSingle/{id}', 'ProductController@getSingleData');
-    Route::get('getAll/search/{cate_id}/{search}/{pagination?}', 'ProductController@searchData');
+});
+
+Route::group(['prefix' => 'category'], function () {
+    Route::post('createNewCate', 'CategoryController@createData');
+    Route::post('updateCate/{id}', 'CategoryController@editData');
+    Route::post('delete/{id}', 'CategoryController@deleteData');
+    Route::get('getAll/search/{search}/{pagination?}', 'CategoryController@searchData');
+    Route::get('getAll/{pagination?}', 'CategoryController@getPaginatedData');
+    Route::get('getSingle/{id}', 'CategoryController@getSingleData');
 });

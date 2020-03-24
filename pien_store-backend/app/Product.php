@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
+
+    public $incrementing = false;
+
     protected $table = 'products';
 
     protected $fillable = [
