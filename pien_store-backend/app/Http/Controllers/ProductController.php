@@ -68,12 +68,13 @@ class ProductController extends Controller
         }
 
         //create new record
-        $newData = $request->all()->except(['product_image']);
+        $newData = $request->except('product_image');
+        // $newData = $request->all();
         $newData['id'] = $product_id;
-        $newData['image'] = $file_name;
         $created_product = $this->product->create($newData);
 
         if ($created_product) {
+            $created_product->image()->create(['url' => $file_name]);
             return response()->json([
                 'success' => true,
                 'message' => Config::get('constants.MSG.SUCCESS.PRODUCT_CREATED'),
@@ -108,8 +109,13 @@ class ProductController extends Controller
         $fileTypes = ['image/png', 'image/jpg', 'image/jpeg'];
         $product_image = $request->product_image;
         $getFile = $findData->image;
-        //remove old image first
-        $getFile == $this->default_product_image ?: unlink($this->file_directory . $getFile);
+        if($getFile){
+            //remove old image first
+            $getFile->url == $this->default_product_image ?: unlink($this->file_directory . $getFile->url);
+            $findData->image()->delete();
+        }
+
+        //generate file name
         $file_name = '';
         if (is_null($product_image)) {
             $file_name = $this->default_product_image;
@@ -125,11 +131,12 @@ class ProductController extends Controller
             }
         }
 
-        $newData = $request->all()->except(['product_image']);
-        $newData['image'] = $file_name;
+        //save record
+        $newData = $request->except('product_image');
         $updated_product = $findData->update($newData);
-        //save image file
+
         if ($updated_product) {
+            $findData->image()->create(['url' => $file_name]);
             return response()->json([
                 'success' => true,
                 'message' => Config::get('constants.MSG.SUCCESS.PRODUCT_UPDATED'),
@@ -159,11 +166,12 @@ class ProductController extends Controller
     public function getPaginatedData($cate_id = null, $pagination = null)
     {
         $page_size = $pagination ? $pagination : $this->default_page_size;
-        if(is_null($cate_id) || empty($cate_id)){
-            $ls_products = $this->product->orderBy('name', 'DESC')->paginate($page_size);
-        }else{
-            $ls_products = $this->product->where('category_id', $cate_id)->orderBy('name', 'DESC')->paginate($page_size);
+        $query = Product::query()->with('image:url,imageable_id');
+        if(isset($cate_id) && !empty($cate_id)){
+            $query = $query->where('category_id', $cate_id);
         }
+        $ls_products = $query->orderBy('name', 'DESC')->paginate($page_size);
+        // return $query->toSql();
         return response()->json([
             'success' => true,
             'data' => $ls_products,
@@ -187,24 +195,46 @@ class ProductController extends Controller
         ], 200);
     }
 
-    public function searchData($search, $cate_id = null, $pagination = null)
+    public function filterData(){
+      $page_size = request('page_size') ? request('page_size') : $this->default_page_size;
+      $query = Product::query()->with('image:url,imageable_id');
+      //check if exists cate_id
+      $paginated_sort_query = $query->when(request('cate_id'), function ($q) {
+        return $q->where('category_id', request('cate_id'));
+      })->when(request('sort_price') == 'low', function ($q) {
+        $q->orderBy('price', 'asc');
+      })->when(request('sort_price') == 'high', function ($q) {
+        $q->orderBy('price', 'desc');
+      })->when(request('sort_price') == 'latest', function ($q) {
+        $q->latest();
+      })->paginate($page_size);
+
+      return response()->json([
+          'success' => true,
+          'data' => $paginated_sort_query,
+          'file_directory' => $this->file_directory,
+      ], 200);
+    }
+
+    public function searchData($search, $cate_id = null, $paginate = null)
     {
-        $page_size = $pagination ? $pagination : $this->default_page_size;
-        $query = Product::query();
-        if(isset($cate_id) && !empty($cate_id)){
-            $query = $query->where('category_id', $cate_id);
-        }
+      $page_size = $paginate ? $paginate : $this->default_page_size;
+      $query = Product::query()->with('image:url,imageable_id');
+      //check if exists cate_id
+      $query->when($cate_id, function ($q, $cate_id) {
+        return $q->where('category_id', $cate_id);
+      });
 
-        $paginated_search_query = $query->where(function ($query) use ($search) {
-            $query->where('name', 'LIKE', "%$search%")
-                ->orWhere('origin', 'LIKE', "%$search%")
-                ->orWhere('category_id', 'LIKE', "%$search%");
-        })->orderBy('name', 'DESC')->paginate($page_size);
+      $paginated_search_query = $query->where(function ($q) use ($search) {
+        $q->where('name', 'LIKE', "%$search%")
+            ->orWhere('origin', 'LIKE', "%$search%")
+            ->orWhere('category_id', 'LIKE', "%$search%");
+      })->orderBy('name', 'DESC')->paginate($page_size);
 
-        return response()->json([
-            'success' => true,
-            'data' => $paginated_search_query,
-            'file_directory' => $this->file_directory,
-        ], 200);
+      return response()->json([
+          'success' => true,
+          'data' => $paginated_search_query,
+          'file_directory' => $this->file_directory,
+      ], 200);
     }
 }

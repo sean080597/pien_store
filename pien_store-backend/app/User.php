@@ -19,7 +19,7 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
 
-    // public $incrementing = false;
+    public $incrementing = false;
 
     protected $table = 'users';
 
@@ -62,6 +62,10 @@ class User extends Authenticatable implements JWTSubject
 
     public function role(){
         return $this->belongsTo('App\Role');
+    }
+
+    public function image(){
+      return $this->morphOne(Image::class, 'imageable');
     }
 
 }

@@ -27,6 +27,7 @@ Route::group(['prefix' => 'user'], function(){
 
 Route::group(['prefix' => 'product'], function () {
     Route::post('createNewProd', 'ProductController@createData');
+    Route::post('getAll/filterData', 'ProductController@filterData');
     Route::get('getAll/search/{search}/{cate_id?}/{pagination?}', 'ProductController@searchData');
     Route::get('getAll/{cate_id?}/{pagination?}', 'ProductController@getPaginatedData');
     Route::post('updateProd/{id}', 'ProductController@editData');
