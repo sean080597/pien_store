@@ -10,7 +10,7 @@ $factory->define(Product::class, function (Faker $faker) {
     return [
         'id' => $faker->regexify('[A-Za-z0-9]{50}'),
         'name' => $faker->regexify('[A-Za-z0-9]{20}'),
-        'price' => $faker->unique()->randomNumber,
+        'price' => $faker->unique()->randomNumber(5),
         'description' => $faker->text($maxNbChars = 500),
         'origin' => $faker->country,
         'category_id' => $faker->randomElement(['CATE_01', 'CATE_02', 'CATE_03']),

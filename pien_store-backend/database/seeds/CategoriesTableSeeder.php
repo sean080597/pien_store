@@ -18,7 +18,6 @@ class CategoriesTableSeeder extends Seeder
             'id' => $faker->regexify('[A-Za-z0-9]{10}'),
             'cate_id' => $id,
             'name' => $name,
-            'image' => 'default-category-image.png',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
         ]);
