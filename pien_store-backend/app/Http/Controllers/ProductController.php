@@ -21,13 +21,13 @@ class ProductController extends Controller
 
     public function __construct(UrlGenerator $urlGenerator)
     {
-        $this->middleware('jwt.auth');
+        $this->middleware('jwt.auth', ['only' => ['createData', 'editData', 'deleteData']]);
         $this->product = new Product;
         $this->base_url = $urlGenerator->to('/');
         // $this->file_directory = url('/').'/assets/product_images/';
         $this->file_directory = public_path('/assets/product_images/');
         $this->default_product_image = 'default-product-image.png';
-        $this->default_page_size = 15;
+        $this->default_page_size = 16;
     }
 
     public function createData(Request $request)
@@ -202,9 +202,9 @@ class ProductController extends Controller
       $paginated_sort_query = $query->when(request('cate_id'), function ($q) {
         return $q->where('category_id', request('cate_id'));
       })->when(request('sort_price') == 'low', function ($q) {
-        $q->orderBy('price', 'asc');
+        $q->orderByRaw("CAST(price as UNSIGNED) ASC");
       })->when(request('sort_price') == 'high', function ($q) {
-        $q->orderBy('price', 'desc');
+        $q->orderByRaw("CAST(price as UNSIGNED) DESC");
       })->when(request('sort_price') == 'latest', function ($q) {
         $q->latest();
       })->paginate($page_size);

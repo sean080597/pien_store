@@ -3,12 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.5.0",
-    "@testing-library/user-event": "^7.2.1",
     "axios": "^0.19.2",
     "bootstrap": "^3.4.1",
-    "dotenv": "^8.2.0",
     "flexslider": "^2.7.2",
     "i": "^0.3.6",
     "jquery": "^3.4.1",
@@ -17,13 +13,13 @@
     "npm": "^6.14.3",
     "react": "^16.13.0",
     "react-cookie": "^4.0.3",
-    "react-device-detect": "^1.11.14",
     "react-dom": "^16.13.0",
     "react-facebook-login": "^4.1.1",
     "react-flex-slider": "^6.3.1",
     "react-google-login": "^5.1.2",
     "react-magnific-popup": "^1.0.1",
     "react-owl-carousel": "^2.3.1",
+    "react-promise-tracker": "^2.1.0",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0",
@@ -54,5 +50,9 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.5.0",
+    "@testing-library/user-event": "^7.2.1"
+  }
 }

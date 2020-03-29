@@ -4,14 +4,17 @@ import CombinedAllReducers from './reducers/CombinedAllReducers'
 const initialStates = {
     isFirstLoadPage: true,
     isNotFoundPage: false,
+    currentPath: '',
     auth: {
         loggedIn: false,
         token: '',
         user: {}
     },
     shop:{
+        categories: [],
         products: [],
-        filteredProducts: []
+        filteredProducts: [],
+        pagePagination: {}
     }
 }
 

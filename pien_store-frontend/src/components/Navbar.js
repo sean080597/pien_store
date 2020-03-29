@@ -4,12 +4,12 @@ import {GoogleLogin, GoogleLogout} from 'react-google-login'
 // import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
 import { useSelector } from 'react-redux'
 import CommonConstants from '../config/CommonConstants'
-import { useGoogleLogin, useFirstLoadedPage } from '../hooks/HookManager'
+import { useGoogleLogin } from '../hooks/HookManager'
 
 export default function Navbar(props) {
-  useFirstLoadedPage()
-  const {userName, token} = useSelector(state => ({
+  const {userName, userImage, token} = useSelector(state => ({
     userName: state.auth.user.name,
+    userImage: state.auth.user.imageUrl,
     token: state.auth.token
   }))
   //login by Google
@@ -18,7 +18,7 @@ export default function Navbar(props) {
     //chech if exists error popup_closed_by_user or access_denied
     if(!res.error){
       //call hook useGoogleLogin
-      applyGoogleLogin(res)
+      await applyGoogleLogin(res)
     }
   }
   const logoutGoogle = async () => {
@@ -52,7 +52,7 @@ export default function Navbar(props) {
         </div>
         <div className="collapse navbar-collapse" id="custom-collapse">
           <ul className="nav navbar-nav navbar-right">
-            <li><button onClick={test}>test</button></li>
+            {/* <li><button onClick={test}>test</button></li> */}
             <li><Link to='/shop'>Shop</Link></li>
             <li><Link to='/about'>About</Link></li>
             {!token && <li>
@@ -82,7 +82,8 @@ export default function Navbar(props) {
             </li> */}
             {token && <li className="dropdown" >
               <a className="dropdown-toggle navbar-aimage" href="#" data-toggle="dropdown">
-                <img src={process.env.PUBLIC_URL + '/assets/images/sample-profile-image.jpg'} className="img-circle navbar-img" alt="avatar image"/>
+                {/* <img src={process.env.PUBLIC_URL + '/assets/images/sample-profile-image.jpg'} className="img-circle navbar-img" alt="avatar image"/> */}
+                <img src={userImage} className="img-circle navbar-img" alt="Avatar"/>
                 {userName}
               </a>
               <ul className="dropdown-menu">
