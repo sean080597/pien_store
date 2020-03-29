@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Router from '../routes';
 import $ from 'jquery';
 import PageLoadService from '../services/PageLoadService.service';
+import LoadingIndicator from '../components/LoadingIndicator'
 
 export default class MainLayout extends Component {
     //methods
@@ -38,9 +39,7 @@ export default class MainLayout extends Component {
     render() {
         return (
             <div>
-                <div className="page-loader">
-                    <div className="loader">Loading...</div>
-                </div>
+                <LoadingIndicator/>
                 <Router/>
                 <div className="scroll-up"><a href="#totop"><i className="fa fa-angle-double-up"></i></a></div>
             </div>

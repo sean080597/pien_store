@@ -7,7 +7,7 @@ export default function NotFound() {
     //init page
     useNotFoundPage()
     return (
-        <section className="home-section home-parallax home-fade home-full-height bg-dark bg-dark-30" style={{backgroundImage:`url(${CommonConstants.ERROR_BG})`}}>
+        <section className="home-section home-parallax home-fade home-full-height bg-dark bg-dark-30" style={{backgroundImage:`url(${CommonConstants.IMAGES_DIR + CommonConstants.ERROR_BG})`}}>
             <div className="titan-caption">
                 <div className="caption-content">
                     <div className="font-alt mb-30 titan-title-size-4">Error 404</div>

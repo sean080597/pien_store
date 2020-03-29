@@ -1,12 +1,25 @@
 import React from 'react'
 import CommonConstants from '../config/CommonConstants'
-import { useTurnOnOffLoader } from '../hooks/HookManager'
+import { useSelector } from 'react-redux';
+import { useTurnOnOffLoader, useShopCart } from '../hooks/HookManager'
+import CommonService from '../services/CommonService.service'
+import PagePagination from '../components/PagePagination'
 
 export default function Shop(props) {
     useTurnOnOffLoader()
+    //state
+    const {categories, products} = useSelector(state => ({
+        categories: state.shop.categories,
+        products: state.shop.products
+    }))
+
+    const INITIAL = {sort_price: "", cate_id: ""}
+
+    const {filterInputs, handleChange, handleSubmitFilter} = useShopCart(INITIAL, 'SHOP_COMPONENT')
+
     return (
         <div className="main">
-            <section className="module bg-dark-60 shop-page-header" style={{backgroundImage: `url(${CommonConstants.SHOP_BG})`}}>
+            <section className="module bg-dark-60 shop-page-header" style={{backgroundImage: `url(${CommonConstants.IMAGES_DIR + CommonConstants.SHOP_BG})`}}>
                 <div className="container">
                     <div className="row">
                         <div className="col-sm-6 col-sm-offset-3">
@@ -18,32 +31,31 @@ export default function Shop(props) {
             </section>
             <section className="module-small">
                 <div className="container">
-                    <form className="row">
+                    <form className="row" onSubmit={handleSubmitFilter}>
                         <div className="col-sm-4 mb-sm-20">
-                            <select className="form-control">
-                                <option defaultValue>Default Sorting</option>
-                                <option>Popular</option>
-                                <option>Latest</option>
-                                <option>Average Price</option>
-                                <option>High Price</option>
-                                <option>Low Price</option>
+                            <select className="form-control" name="sort_price" onChange={handleChange} value={filterInputs.sort_price}>
+                                <option value="" defaultValue>Default Sorting</option>
+                                {
+                                    CommonConstants.sort_types.map(type =>
+                                        <option value={type.key} key={type.key}>{type.value}</option>
+                                    )
+                                }
                             </select>
                         </div>
-                        <div className="col-sm-2 mb-sm-20">
+                        {/* <div className="col-sm-2 mb-sm-20">
                             <select className="form-control">
                                 <option defaultValue>Woman</option>
                                 <option>Man</option>
                             </select>
-                        </div>
+                        </div> */}
                         <div className="col-sm-3 mb-sm-20">
-                            <select className="form-control">
-                                <option defaultValue>All</option>
-                                <option>Coats</option>
-                                <option>Jackets</option>
-                                <option>Dresses</option>
-                                <option>Jumpsuits</option>
-                                <option>Tops</option>
-                                <option>Trousers</option>
+                            <select className="form-control" name="cate_id" onChange={handleChange} value={filterInputs.cate_id}>
+                                <option value="" defaultValue>All</option>
+                                {
+                                    categories.map(cate =>
+                                        <option value={cate.cate_id} key={cate.cate_id}>{cate.name}</option>
+                                    )
+                                }
                             </select>
                         </div>
                         <div className="col-sm-3">
@@ -56,76 +68,21 @@ export default function Shop(props) {
             <section className="module-small">
                 <div className="container">
                     <div className="row multi-columns-row">
-                        <div className="col-sm-6 col-md-3 col-lg-3">
-                            <div className="shop-item">
-                                <div className="shop-item-image"><img src="assets/images/shop/product-7.jpg" alt="Accessories Pack" />
-                                    <div className="shop-item-detail"><a className="btn btn-round btn-b"><span className="icon-basket">Add To Cart</span></a></div>
+                        {
+                            products.map((prod, index) =>
+                                <div className="col-sm-6 col-md-3 col-lg-3" key={index}>
+                                    <div className="shop-item">
+                                        <div className="shop-item-image">
+                                            <img src={process.env.PUBLIC_URL + CommonConstants.PRODUCTS_DIR + "/" + (prod.image ? prod.image : CommonConstants.PRODUCT_DEFAULT_IMAGE)} alt={prod.name} />
+                                            <div className="shop-item-detail"><a className="btn btn-round btn-b"><span className="icon-basket">Add To Cart</span></a></div>
+                                        </div>
+                                        <h4 className="shop-item-title font-alt"><a href="#">{prod.name}</a></h4>{CommonService.formatMoney(prod.price, 0)} VNĐ
+                                    </div>
                                 </div>
-                                <h4 className="shop-item-title font-alt"><a href="#">Accessories Pack</a></h4>£9.00
-                            </div>
-                        </div>
-                        <div className="col-sm-6 col-md-3 col-lg-3">
-                            <div className="shop-item">
-                                <div className="shop-item-image"><img src="assets/images/shop/product-8.jpg" alt="Men’s Casual Pack" />
-                                    <div className="shop-item-detail"><a className="btn btn-round btn-b"><span className="icon-basket">Add To Cart</span></a></div>
-                                </div>
-                                <h4 className="shop-item-title font-alt"><a href="#">Men’s Casual Pack</a></h4>£12.00
-                            </div>
-                        </div>
-                        <div className="col-sm-6 col-md-3 col-lg-3">
-                            <div className="shop-item">
-                                <div className="shop-item-image"><img src="assets/images/shop/product-9.jpg" alt="Men’s Garb" />
-                                    <div className="shop-item-detail"><a className="btn btn-round btn-b"><span className="icon-basket">Add To Cart</span></a></div>
-                                </div>
-                                <h4 className="shop-item-title font-alt"><a href="#">Men’s Garb</a></h4>£6.00
-                            </div>
-                        </div>
-                        <div className="col-sm-6 col-md-3 col-lg-3">
-                            <div className="shop-item">
-                                <div className="shop-item-image"><img src="assets/images/shop/product-10.jpg" alt="Cold Garb" />
-                                    <div className="shop-item-detail"><a className="btn btn-round btn-b"><span className="icon-basket">Add To Cart</span></a></div>
-                                </div>
-                                <h4 className="shop-item-title font-alt"><a href="#">Cold Garb</a></h4>£14.00
-                            </div>
-                        </div>
-                        <div className="col-sm-6 col-md-3 col-lg-3">
-                            <div className="shop-item">
-                                <div className="shop-item-image"><img src="assets/images/shop/product-11.jpg" alt="Accessories Pack" />
-                                    <div className="shop-item-detail"><a className="btn btn-round btn-b"><span className="icon-basket">Add To Cart</span></a></div>
-                                </div>
-                                <h4 className="shop-item-title font-alt"><a href="#">Accessories Pack</a></h4>£9.00
-                            </div>
-                        </div>
-                        <div className="col-sm-6 col-md-3 col-lg-3">
-                            <div className="shop-item">
-                                <div className="shop-item-image"><img src="assets/images/shop/product-12.jpg" alt="Men’s Casual Pack" />
-                                    <div className="shop-item-detail"><a className="btn btn-round btn-b"><span className="icon-basket">Add To Cart</span></a></div>
-                                </div>
-                                <h4 className="shop-item-title font-alt"><a href="#">Men’s Casual Pack</a></h4>£12.00
-                            </div>
-                        </div>
-                        <div className="col-sm-6 col-md-3 col-lg-3">
-                            <div className="shop-item">
-                                <div className="shop-item-image"><img src="assets/images/shop/product-13.jpg" alt="Men’s Garb" />
-                                    <div className="shop-item-detail"><a className="btn btn-round btn-b"><span className="icon-basket">Add To Cart</span></a></div>
-                                </div>
-                                <h4 className="shop-item-title font-alt"><a href="#">Men’s Garb</a></h4>£6.00
-                            </div>
-                        </div>
-                        <div className="col-sm-6 col-md-3 col-lg-3">
-                            <div className="shop-item">
-                                <div className="shop-item-image"><img src="assets/images/shop/product-14.jpg" alt="Cold Garb" />
-                                    <div className="shop-item-detail"><a className="btn btn-round btn-b"><span className="icon-basket">Add To Cart</span></a></div>
-                                </div>
-                                <h4 className="shop-item-title font-alt"><a href="#">Cold Garb</a></h4>£14.00
-                            </div>
-                        </div>
+                            )
+                        }
                     </div>
-                    <div className="row">
-                        <div className="col-sm-12">
-                            <div className="pagination font-alt"><a href="#"><i className="fa fa-angle-left"></i></a><a className="active" href="#">1</a><a href="#">2</a><a href="#">3</a><a href="#">4</a><a href="#"><i className="fa fa-angle-right"></i></a></div>
-                        </div>
-                    </div>
+                    <PagePagination isShow="true" filterInputs={filterInputs}/>
                 </div>
             </section>
         </div>

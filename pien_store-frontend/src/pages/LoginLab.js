@@ -12,7 +12,7 @@ export default function Login (props){
 
     return (
         <div className="main">
-            <section className="module bg-dark-30" style={{backgroundImage: `url(${CommonConstants.LOGIN_BG})`}}>
+            <section className="module bg-dark-30" style={{backgroundImage: `url(${CommonConstants.IMAGES_DIR + CommonConstants.LOGIN_BG})`}}>
                 <div className="container">
                     <div className="row">
                         <div className="col-sm-6 col-sm-offset-3">

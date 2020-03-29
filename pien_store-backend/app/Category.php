@@ -17,4 +17,8 @@ class Category extends Model
     public function products(){
         return $this->hasMany('App\Product');
     }
+
+    public function image(){
+        return $this->morphOne(Image::class, 'imageable');
+      }
 }

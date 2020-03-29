@@ -7,7 +7,8 @@ import validationAuth from './useFormLogin/validationAuth'
 import useGoogleLogin from './useLogin/useGoogleLogin'
 //------------------
 import useNotFoundPage from './useNotFoundPage'
-import useFirstLoadedPage from './useFirstLoadedPage'
+//Shop Cart
+import useShopCart from './useShopCart/useShopCart'
 
 export {
     //turn on & off laoder
@@ -21,5 +22,6 @@ export {
     useGoogleLogin,
     //others
     useNotFoundPage,
-    useFirstLoadedPage,
+    //shop cart
+    useShopCart
 }

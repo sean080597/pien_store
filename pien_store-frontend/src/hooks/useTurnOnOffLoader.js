@@ -1,19 +1,20 @@
-import { useEffect } from 'react'
-import CommonService from '../services/CommonService.service';
-import { useCookies } from 'react-cookie';
-import { useSelector } from 'react-redux'
+import { useEffect, useRef } from 'react'
+import { useDispatch } from 'react-redux'
+import CommonService from '../services/CommonService.service'
+import {usePromiseTracker} from 'react-promise-tracker'
 
 export default function useTurnOnOffLoader() {
-    const [cookies] = useCookies();
-    const isFirstLoaded = useSelector(state => state.isFirstLoadPage)
+    const dispatch = useDispatch()
+    // const { promiseInProgress } = usePromiseTracker({delay: 500})
+
     useEffect(() => {
-        if((isFirstLoaded && !cookies.access_token) || !isFirstLoaded){
-            console.log('not fist loaded', !isFirstLoaded)
-            console.log(isFirstLoaded && !cookies.access_token)
-            CommonService.turnOffLoader()
-        }
+        dispatch({type: 'SET_PAYLOAD_DIRECTLY', payload: window.location.pathname})
+        dispatch({type: 'SET_FALSE_IS_FIRST_LOADED'})
+        // if(promiseInProgress){
+        //     CommonService.turnOffLoader()
+        // }
         return () => {
-            CommonService.turnOnLoader()
+            // CommonService.turnOnLoader()
         }
     }, [])
     return;
