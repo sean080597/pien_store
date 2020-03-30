@@ -9,6 +9,9 @@ const CommonService = {
         $('.loader').fadeIn();
         $('.page-loader').fadeIn('fast');
     },
+    goToPosition(el){
+        $('html, body').animate({ scrollTop: $(el).position().top }, 'slow');
+    },
     formatMoney(amount, decimalCount = 2, decimal = ".", thousands = ",") {
         try {
             decimalCount = Math.abs(decimalCount);

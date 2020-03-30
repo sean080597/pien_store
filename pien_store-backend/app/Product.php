@@ -11,9 +11,11 @@ class Product extends Model
 
     protected $table = 'products';
 
-    protected $fillable = [
-        'id', 'name', 'price', 'description', 'image', 'origin', 'category_id'
-    ];
+    // protected $fillable = [
+    //     'id', 'name', 'price', 'description', 'image', 'origin', 'category_id'
+    // ];
+
+    protected $guarded = ['id'];
 
     public function category(){
         return $this->belongsTo('App\Category');

@@ -13,9 +13,9 @@ export default function Shop(props) {
         products: state.shop.products
     }))
 
-    const INITIAL = {sort_price: "", cate_id: ""}
+    const INITIAL = {sort_price: "", cate_slug: props.location.state ? props.location.state.cate_slug : ''}
 
-    const {filterInputs, handleChange, handleSubmitFilter} = useShopCart(INITIAL, 'SHOP_COMPONENT')
+    const {filterInputs, handleChange, handleSubmitFilter, handleAddToCart} = useShopCart(INITIAL, 'SHOP_COMPONENT')
 
     return (
         <div className="main">
@@ -29,7 +29,7 @@ export default function Shop(props) {
                     </div>
                 </div>
             </section>
-            <section className="module-small">
+            <section className="module-small" id="section-filter">
                 <div className="container">
                     <form className="row" onSubmit={handleSubmitFilter}>
                         <div className="col-sm-4 mb-sm-20">
@@ -49,11 +49,11 @@ export default function Shop(props) {
                             </select>
                         </div> */}
                         <div className="col-sm-3 mb-sm-20">
-                            <select className="form-control" name="cate_id" onChange={handleChange} value={filterInputs.cate_id}>
+                            <select className="form-control" name="cate_slug" onChange={handleChange} value={filterInputs.cate_slug}>
                                 <option value="" defaultValue>All</option>
                                 {
-                                    categories.map(cate =>
-                                        <option value={cate.cate_id} key={cate.cate_id}>{cate.name}</option>
+                                    categories.map((cate, index) =>
+                                        <option value={cate.slug} key={index}>{cate.name}</option>
                                     )
                                 }
                             </select>
@@ -74,7 +74,7 @@ export default function Shop(props) {
                                     <div className="shop-item">
                                         <div className="shop-item-image">
                                             <img src={process.env.PUBLIC_URL + CommonConstants.PRODUCTS_DIR + "/" + (prod.image ? prod.image : CommonConstants.PRODUCT_DEFAULT_IMAGE)} alt={prod.name} />
-                                            <div className="shop-item-detail"><a className="btn btn-round btn-b"><span className="icon-basket">Add To Cart</span></a></div>
+                                            <div className="shop-item-detail"><button className="btn btn-round btn-b" onClick={() => handleAddToCart(prod)}><span className="icon-basket">Add To Cart</span></button></div>
                                         </div>
                                         <h4 className="shop-item-title font-alt"><a href="#">{prod.name}</a></h4>{CommonService.formatMoney(prod.price, 0)} VNĐ
                                     </div>

@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import {useEffect} from 'react'
 import {useDispatch} from 'react-redux'
 import {useCookies} from 'react-cookie'
 import moment from "moment";
@@ -50,6 +51,13 @@ export default function useGoogleLogin(){
         await removeCookie('google_token')
         await removeCookie('access_token')
     }
+
+    useEffect(() => {
+        if(cookies.access_token){
+            applyGoogleLogout()
+        }
+        return () => {}
+    }, [])
 
     return {applyGoogleLogin, applyGoogleLogout};
 }

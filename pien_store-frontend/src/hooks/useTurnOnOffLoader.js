@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import CommonService from '../services/CommonService.service'
 import {usePromiseTracker} from 'react-promise-tracker'

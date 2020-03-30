@@ -30,7 +30,6 @@ class CategoryController extends Controller
     {
         $validator = Validator::make($request->all(),
         [
-            'cate_id' => 'required|string|unique:categories,cate_id',
             'name' => 'required|string'
         ]);
 
@@ -40,9 +39,6 @@ class CategoryController extends Controller
                 'message' => $validator->messages()->toArray(),
             ], 500);
         }
-
-        //handle id
-        $table_id = $this->quickRandomString(10);
 
         //handle file
         $fileTypes = ['image/png', 'image/jpg', 'image/jpeg'];
@@ -63,12 +59,11 @@ class CategoryController extends Controller
         }
 
         //create new record
-        $newData = $request->all()->except(['category_image']);
-        $newData['id'] = $table_id;
-        $newData['image'] = $file_name;
+        $newData = $request->except(['category_image']);
         $created_category = $this->category->create($newData);
 
         if ($created_category) {
+            $created_category->image()->create(['url' => $file_name]);
             return response()->json([
                 'success' => true,
                 'message' => Config::get('constants.MSG.SUCCESS.CATEGORY_CREATED'),
@@ -80,7 +75,6 @@ class CategoryController extends Controller
     {
         $validator = Validator::make($request->all(),
         [
-            'cate_id' => 'required|string|unique:categories,cate_id',
             'name' => 'required|string'
         ]);
 
@@ -102,8 +96,12 @@ class CategoryController extends Controller
         $fileTypes = ['image/png', 'image/jpg', 'image/jpeg'];
         $category_image = $request->category_image;
         $getFile = $findData->image;
-        //remove old image first
-        $getFile == $this->default_category_image ?: unlink($this->file_directory . $getFile);
+        if($getFile){
+            //remove old image first
+            $getFile->url == $this->default_category_image ?: unlink($this->file_directory . $getFile->url);
+            $findData->image()->delete();
+        }
+
         $file_name = '';
         if (is_null($category_image)) {
             $file_name = $this->default_category_image;
@@ -119,11 +117,11 @@ class CategoryController extends Controller
             }
         }
 
-        $newData = $request->all();
-        $newData['image'] = $file_name;
+        $newData = $request->except(['category_image']);
         $updated_category = $findData->update($newData);
         //save image file
         if ($updated_category) {
+            $findData->image()->create(['url' => $file_name]);
             return response()->json([
                 'success' => true,
                 'message' => Config::get('constants.MSG.SUCCESS.CATEGORY_UPDATED'),
@@ -141,6 +139,11 @@ class CategoryController extends Controller
             ], 500);
         }
         $getFile = $findData->image;
+        if($getFile){
+            //remove old image first
+            $getFile->url == $this->default_category_image ?: unlink($this->file_directory . $getFile->url);
+            $findData->image()->delete();
+        }
         if ($findData->delete()) {
             strcmp($getFile, $this->default_category_image) == 0 ? : unlink($this->file_directory . $getFile);
             return response()->json([

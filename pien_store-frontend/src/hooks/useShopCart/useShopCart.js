@@ -10,8 +10,9 @@ const apiUrl = CommonConstants.API_URL;
 
 export default function useShopCart(initial, componentName){
     const dispatch = useDispatch()
-    const {currentPath} = useSelector(state => ({
-        currentPath: state.currentPath
+    const {currentPath, cartItems} = useSelector(state => ({
+        currentPath: state.currentPath,
+        cartItems: state.shop.cartItems
     }))
     const [filterInputs, setFilterInputs] = useState(initial)
 
@@ -32,6 +33,10 @@ export default function useShopCart(initial, componentName){
     const handlePaginate = async (pageIndex, filterData) => {
         CommonService.turnOnLoader()
         await applyProductsFilter(pageIndex, filterData)
+    }
+
+    const handleAddToCart = (product) => {
+        console.log(cartItems.some(item => item.prod_id === product.prod_id))
     }
 
     //apply
@@ -61,6 +66,7 @@ export default function useShopCart(initial, componentName){
                     pagination: pagination
                 }
                 await dispatch({type: 'SET_PRODUCTS', payload: storeData})
+                CommonService.goToPosition('#section-filter')
             }).catch(error => {
                 throw (error);
             })
@@ -78,5 +84,5 @@ export default function useShopCart(initial, componentName){
         return () => {}
     }, [currentPath.payload])
 
-    return {filterInputs, handleChange, handleSubmitFilter, handlePaginate}
+    return {filterInputs, handleChange, handleSubmitFilter, handlePaginate, handleAddToCart}
 }

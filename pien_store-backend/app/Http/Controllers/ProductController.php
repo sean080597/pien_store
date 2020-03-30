@@ -9,6 +9,7 @@ use Illuminate\Routing\UrlGenerator;
 use Validator;
 use Image;
 use Config;
+use DB;
 
 class ProductController extends Controller
 {
@@ -46,9 +47,6 @@ class ProductController extends Controller
             ], 500);
         }
 
-        //handle id
-        $product_id = $this->quickRandomString(20);
-
         //handle file
         $fileTypes = ['image/png', 'image/jpg', 'image/jpeg'];
         $product_image = $request->product_image;
@@ -70,7 +68,6 @@ class ProductController extends Controller
         //create new record
         $newData = $request->except('product_image');
         // $newData = $request->all();
-        $newData['id'] = $product_id;
         $created_product = $this->product->create($newData);
 
         if ($created_product) {
@@ -154,6 +151,11 @@ class ProductController extends Controller
             ], 500);
         }
         $getFile = $findData->image;
+        if($getFile){
+            //remove old image first
+            $getFile->url == $this->default_product_image ?: unlink($this->file_directory . $getFile->url);
+            $findData->image()->delete();
+        }
         if ($findData->delete()) {
             strcmp($getFile, $this->default_product_image) == 0 ? : unlink($this->file_directory . $getFile);
             return response()->json([
@@ -198,9 +200,12 @@ class ProductController extends Controller
     public function filterData(){
       $page_size = request('page_size') ? request('page_size') : $this->default_page_size;
       $query = Product::query()->with('image:url,imageable_id');
+
       //check if exists cate_id
-      $paginated_sort_query = $query->when(request('cate_id'), function ($q) {
-        return $q->where('category_id', request('cate_id'));
+      $paginated_sort_query = $query->when(request('cate_slug'), function ($q) {
+        return $q->whereHas('category', function($q){
+            return $q->where('slug', request('cate_slug'));
+        });
       })->when(request('sort_price') == 'low', function ($q) {
         $q->orderByRaw("CAST(price as UNSIGNED) ASC");
       })->when(request('sort_price') == 'high', function ($q) {
