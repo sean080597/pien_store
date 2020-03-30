@@ -6,6 +6,8 @@ const doShopCart = (state = {}, {type, payload}) => {
             return {...state, products: payload.products, pagePagination: payload.pagination}
         case 'SET_FILTERED_PRODUCTS':
             return {...state, filteredProducts: payload}
+        case 'SET_CART_ITEMS':
+            return {...state, cartItems: payload}
         default:
             return state
     }

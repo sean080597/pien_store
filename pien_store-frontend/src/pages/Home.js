@@ -1,5 +1,5 @@
 import React from 'react'
-import CommonService from '../services/CommonService.service';
+import {Link} from 'react-router-dom'
 import CommonConstants from '../config/CommonConstants'
 import {useShopCart, useTurnOnOffLoader} from '../hooks/HookManager'
 import NewProduct from '../components/NewProduct'
@@ -31,12 +31,12 @@ export default function Home(props) {
                         {
                             categories.map((cate, index) =>
                                 <div className="col-md-4 col-sm-6 col-xs-12" key={index}>
-                                    <a className="content-box" href="index_mp_fullscreen_video_background.html">
+                                    <Link className="content-box" to={{ pathname: '/shop', state: { cate_slug: cate.slug } }}>
                                         <div className="content-box-image">
                                             <img src={process.env.PUBLIC_URL + CommonConstants.CATEGORIES_DIR + "/" + (cate.image ? cate.image : CommonConstants.CATEGORY_DEFAULT_IMAGE)} alt={cate.name} />
                                         </div>
                                         <h3 className="content-box-title font-serif">{cate.name}</h3>
-                                    </a>
+                                    </Link>
                                 </div>
                             )
                         }

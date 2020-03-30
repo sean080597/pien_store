@@ -10,9 +10,11 @@ class Category extends Model
 
     protected $table = 'categories';
 
-    protected $fillable = [
-        'id', 'name', 'cate_id', 'image'
-    ];
+    // protected $fillable = [
+    //     'id', 'name'
+    // ];
+
+    protected $guarded = ['id'];
 
     public function products(){
         return $this->hasMany('App\Product');
