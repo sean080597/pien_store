@@ -21,9 +21,20 @@
             "AT_LEAST_6_CHARACTERS": "Password must be at least 6 characters"
         }
     },
-    "sort_types": [
+    "SORT_TYPES": [
         {"key": "latest", "value": "Latest"},
         {"key": "low", "value": "Low Price"},
         {"key": "high", "value": "High Price"}
-    ]
+    ],
+    "NOTIFY": {
+        "SHOP": {
+            "ADDED_TO_CART": "Added product to cart"
+        }
+    },
+    "LOCALSTORAGE_NAME": "pieu_carts",
+    "PAGES": {
+        "CART": {
+            "TITLE": "Checkout"
+        }
+    }
 }

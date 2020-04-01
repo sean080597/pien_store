@@ -31,7 +31,7 @@ export default function Home(props) {
                         {
                             categories.map((cate, index) =>
                                 <div className="col-md-4 col-sm-6 col-xs-12" key={index}>
-                                    <Link className="content-box" to={{ pathname: '/shop', state: { cate_slug: cate.slug } }}>
+                                    <Link className="content-box" to={{ pathname: '/shop', state: { cate_id: cate.id } }}>
                                         <div className="content-box-image">
                                             <img src={process.env.PUBLIC_URL + CommonConstants.CATEGORIES_DIR + "/" + (cate.image ? cate.image : CommonConstants.CATEGORY_DEFAULT_IMAGE)} alt={cate.name} />
                                         </div>
