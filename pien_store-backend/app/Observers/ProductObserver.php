@@ -7,12 +7,12 @@ use Illuminate\Support\Str;
 
 class ProductObserver
 {
-    private $checkRole = ['adm'];
+    // private $checkRole = ['adm'];
     public function retrieved(Product $product)
     {
-      if(!auth('api')->user() || !in_array(auth('api')->user()->role_id, $this->checkRole)){
-        $product->makeHidden('id');
-      }
+      // if(!auth('api')->user() || !in_array(auth('api')->user()->role_id, $this->checkRole)){
+      //   $product->makeHidden('id');
+      // }
     }
 
     public function creating(Product $product)

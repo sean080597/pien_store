@@ -53,9 +53,9 @@ export default function useGoogleLogin(){
     }
 
     useEffect(() => {
-        if(cookies.access_token){
-            applyGoogleLogout()
-        }
+        // if(cookies.access_token){
+        //     applyGoogleLogout()
+        // }
         return () => {}
     }, [])
 

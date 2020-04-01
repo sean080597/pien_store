@@ -15,7 +15,9 @@ const initialStates = {
         products: [],
         filteredProducts: [],
         pagePagination: {},
-        cartItems: []
+        cartItems: [],
+        cartCount: 0,
+        cartTotal: 0
     }
 }
 

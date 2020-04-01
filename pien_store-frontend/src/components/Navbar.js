@@ -7,11 +7,12 @@ import CommonConstants from '../config/CommonConstants'
 import { useGoogleLogin } from '../hooks/HookManager'
 
 export default function Navbar(props) {
-  const {userName, userImage, token, isNotFoundPage} = useSelector(state => ({
+  const {userName, userImage, token, isNotFoundPage, cartCount} = useSelector(state => ({
     userName: state.auth.user.name,
     userImage: state.auth.user.imageUrl,
     token: state.auth.token,
-    isNotFoundPage: state.isNotFoundPage
+    isNotFoundPage: state.isNotFoundPage,
+    cartCount: state.shop.cartCount
   }))
   //login by Google
   const {applyGoogleLogin, applyGoogleLogout} = useGoogleLogin({})
@@ -33,12 +34,6 @@ export default function Navbar(props) {
   //   console.log('facebook login => ', JSON.stringify(res))
   // }
 
-  // const test = () => {
-    // console.log(new Date())
-    // let expiryDate = moment(new Date()).add(30, 'm').toDate()
-    // console.log(expiryDate)
-  // }
-
   return (
     <>
       {!isNotFoundPage && <>
@@ -55,8 +50,8 @@ export default function Navbar(props) {
             </div>
             <div className="collapse navbar-collapse" id="custom-collapse">
               <ul className="nav navbar-nav navbar-right">
-                {/* <li><button onClick={test}>test</button></li> */}
                 <li><Link to='/shop'>Shop</Link></li>
+                <li><Link to='/cart'>Cart<span className="badge">{cartCount}</span></Link></li>
                 <li><Link to='/about'>About</Link></li>
                 {!token && <li>
                   <GoogleLogin
@@ -68,7 +63,7 @@ export default function Navbar(props) {
                     onSuccess={responseGoogle}
                     onFailure={responseGoogle}
                     cookiePolicy={'single_host_origin'}
-                    isSignedIn={false}
+                    isSignedIn={true}
                   />
                 </li>}
                 {/* <li>

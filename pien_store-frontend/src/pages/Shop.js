@@ -1,21 +1,19 @@
 import React from 'react'
 import CommonConstants from '../config/CommonConstants'
-import { useSelector } from 'react-redux';
-import { useTurnOnOffLoader, useShopCart } from '../hooks/HookManager'
 import CommonService from '../services/CommonService.service'
 import PagePagination from '../components/PagePagination'
+import { useSelector } from 'react-redux';
+import { useTurnOnOffLoader, useShopCart } from '../hooks/HookManager'
 
 export default function Shop(props) {
     useTurnOnOffLoader()
+    const INITIAL = {sort_price: "", cate_id: props.location.state ? props.location.state.cate_id : ''}
+    const {filterInputs, handleChange, handleSubmitFilter, handleAddToCart} = useShopCart(INITIAL, 'SHOP_COMPONENT')
     //state
     const {categories, products} = useSelector(state => ({
         categories: state.shop.categories,
         products: state.shop.products
     }))
-
-    const INITIAL = {sort_price: "", cate_slug: props.location.state ? props.location.state.cate_slug : ''}
-
-    const {filterInputs, handleChange, handleSubmitFilter, handleAddToCart} = useShopCart(INITIAL, 'SHOP_COMPONENT')
 
     return (
         <div className="main">
@@ -36,7 +34,7 @@ export default function Shop(props) {
                             <select className="form-control" name="sort_price" onChange={handleChange} value={filterInputs.sort_price}>
                                 <option value="" defaultValue>Default Sorting</option>
                                 {
-                                    CommonConstants.sort_types.map(type =>
+                                    CommonConstants.SORT_TYPES.map(type =>
                                         <option value={type.key} key={type.key}>{type.value}</option>
                                     )
                                 }
@@ -49,7 +47,7 @@ export default function Shop(props) {
                             </select>
                         </div> */}
                         <div className="col-sm-3 mb-sm-20">
-                            <select className="form-control" name="cate_slug" onChange={handleChange} value={filterInputs.cate_slug}>
+                            <select className="form-control" name="cate_id" onChange={handleChange} value={filterInputs.cate_id}>
                                 <option value="" defaultValue>All</option>
                                 {
                                     categories.map((cate, index) =>
