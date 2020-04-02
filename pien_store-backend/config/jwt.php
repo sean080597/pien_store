@@ -303,5 +303,5 @@ return [
 
     //custom id for user table
     // 'identifier' => 'id'
-
+    'user' => 'UserInfo'
 ];

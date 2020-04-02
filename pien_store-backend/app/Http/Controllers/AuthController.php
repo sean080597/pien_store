@@ -7,15 +7,19 @@ use App\Traits\CommonService;
 use Illuminate\Support\Facades\Hash;
 use Validator;
 use App\User;
+use App\UserInfo;
+use App\Customer;
 use Config;
 
 class AuthController extends Controller
 {
-    protected $user;
+    protected $user, $cus, $userInfo;
     public function __construct()
     {
         $this->middleware('jwt.auth', ['except' => ['login', 'register', 'authGoogleLogin']]);
         $this->user = new User;
+        $this->cus = new Customer;
+        $this->userInfo = new UserInfo;
     }
 
     public function register(Request $request){
@@ -90,15 +94,14 @@ class AuthController extends Controller
 
     public function me()
     {
-        // return response()->json($this->guard()->user());
-        return response()->json(auth()->user());
+        return response()->json(auth()->user()->load('user_infoable'));
     }
 
     public function logout()
     {
         auth()->logout();
 
-        return response()->json(['message' => Config::get('constants.MSG.SUCCESS.LOGOUT')]);
+        return response()->json(['success' => true, 'message' => Config::get('constants.MSG.SUCCESS.LOGOUT')]);
     }
 
     public function refresh()
@@ -110,22 +113,24 @@ class AuthController extends Controller
     {
         $token = '';
         //check if exists
-        $findData = $this->user->where('email', $request->email)->first();
+        $findData = $this->userInfo->where('email', $request->email)->first();
         if($findData){
             //create jwt token
             $token = auth('api')->setTTL($request->expiresIn)->fromUser($findData);
         }else{
             //create new user if not exist
-            $registerComplete = $this->user::create([
+            $registerComplete = $this->cus::create([
                 'id' => $request->googleId,
-                'firstname'=>$request->firstname,
-                'email'=>$request->email,
-                'login_type' => 'google',
-                'role_id'=>'cus'
+                'login_type' => 'google'
             ]);
             if($registerComplete){
+                $registerComplete->user_infoable()->create([
+                    'email' => $request->email,
+                    'user_infoable_id' => $request->googleId,
+                    'user_infoable_type' => 'App\Customer',
+                ]);
                 //create jwt token
-                $token = auth('api')->setTTL($request->expiresIn)->fromUser($registerComplete);
+                $token = auth('api')->setTTL($request->expiresIn)->fromUser($registerComplete->user_infoable);
             }
         }
 

@@ -5,10 +5,11 @@ import useFormLogin from './useFormLogin/useFormLogin'
 import validationAuth from './useFormLogin/validationAuth'
 //social login
 import useGoogleLogin from './useLogin/useGoogleLogin'
-//------------------
-import useNotFoundPage from './useNotFoundPage'
 //Shop Cart
 import useShopCart from './useShopCart/useShopCart'
+//------------------
+import useNotFoundPage from './useNotFoundPage'
+import useConfirmInfo from './useConfirmInfo'
 
 export {
     //turn on & off laoder
@@ -20,8 +21,9 @@ export {
     validationAuth,
     //social login
     useGoogleLogin,
+    //shop cart
+    useShopCart,
     //others
     useNotFoundPage,
-    //shop cart
-    useShopCart
+    useConfirmInfo
 }

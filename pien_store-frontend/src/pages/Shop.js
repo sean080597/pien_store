@@ -74,7 +74,7 @@ export default function Shop(props) {
                                             <img src={process.env.PUBLIC_URL + CommonConstants.PRODUCTS_DIR + "/" + (prod.image ? prod.image : CommonConstants.PRODUCT_DEFAULT_IMAGE)} alt={prod.name} />
                                             <div className="shop-item-detail"><button className="btn btn-round btn-b" onClick={() => handleAddToCart(prod)}><span className="icon-basket">Add To Cart</span></button></div>
                                         </div>
-                                        <h4 className="shop-item-title font-alt"><a href="#">{prod.name}</a></h4>{CommonService.formatMoney(prod.price, 0)} VNĐ
+                                        <h4 className="shop-item-title font-alt"><a href="#">{prod.name}</a></h4>{CommonService.formatMoney(prod.price, 0) + ' VNĐ'}
                                     </div>
                                 </div>
                             )
