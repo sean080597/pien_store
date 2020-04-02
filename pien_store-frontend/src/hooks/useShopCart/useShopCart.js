@@ -4,6 +4,7 @@ import {useDispatch, useSelector} from 'react-redux'
 import CommonService from '../../services/CommonService.service'
 import axios from 'axios';
 import CommonConstants from '../../config/CommonConstants'
+import Cookie from 'js-cookie'
 import {trackPromise} from 'react-promise-tracker'
 import iziToast from 'izitoast'
 
@@ -28,12 +29,10 @@ export default function useShopCart(initial, componentName){
 
     const handleSubmitFilter = async (evt) => {
         evt.preventDefault();
-        CommonService.turnOnLoader()
         await applyProductsFilter()
     }
 
     const handlePaginate = async (pageIndex, filterData) => {
-        CommonService.turnOnLoader()
         await applyProductsFilter(pageIndex, filterData)
     }
 
@@ -56,6 +55,15 @@ export default function useShopCart(initial, componentName){
     const handleChangeQuantity = async (evt, product) => {
         if(evt.target.value){
             await applyAddToCart(product, parseInt(evt.target.value))
+        }
+    }
+
+    const handleProceedToCheckout = async () => {
+        let isValidUserInfo = await applyCheckCustomerInfo()
+        if(isValidUserInfo){
+
+        }else{
+
         }
     }
 
@@ -99,19 +107,16 @@ export default function useShopCart(initial, componentName){
             updateCartItems.map(item =>{
                 // item.id === product.id ? {...item, quantity: updateQuantity} : item
                 if(item.id === product.id){
-                    item.quantity = (quantity === 1) ? ++item.quantity : quantity
+                    item.quantity = currentPath.payload !== '/cart' ? ++item.quantity : quantity
                 }
                 return item
             })
-            console.log(updateCartItems)
         }else{
             product.quantity = 1
             updateCartItems.push(product)
         }
-        // console.log(updateCartItems)
         //set CartItems redux
         applySetCartItems(updateCartItems)
-        localStorage.setItem(CommonConstants.LOCALSTORAGE_NAME, JSON.stringify(updateCartItems))
     }
 
     const applySetCartItems = (updateCartItems) => {
@@ -120,6 +125,29 @@ export default function useShopCart(initial, componentName){
         dispatch({type: 'SET_CART_COUNT', payload: count})
         const total = updateCartItems.reduce((t, prod) => t + prod.price * prod.quantity, 0)
         dispatch({type: 'SET_CART_TOTAL', payload: total})
+        localStorage.setItem(CommonConstants.LOCALSTORAGE_NAME, JSON.stringify(updateCartItems))
+    }
+
+    const applyRemoveCartItem = async (item) => {
+        let updateCartItems = cartItems.filter((obj) => {
+            return obj.id !== item.id
+        })
+        await applySetCartItems(updateCartItems)
+    }
+
+    const applyCheckCustomerInfo = async () => {
+        trackPromise(
+            axios.post(`${apiUrl}/user/me`, null, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${Cookie.get('access_token')}`
+                }
+            }).then(async res => {
+                console.log(res.data)
+            }).catch(error => {
+                throw (error);
+            })
+        )
     }
 
     useEffect(()=>{
@@ -131,9 +159,13 @@ export default function useShopCart(initial, componentName){
             isMounted.current = true
         }
         return () => {
-            applySetCartItems(JSON.parse(localStorage.getItem(CommonConstants.LOCALSTORAGE_NAME)))
+            if(localStorage.getItem(CommonConstants.LOCALSTORAGE_NAME))
+                applySetCartItems(JSON.parse(localStorage.getItem(CommonConstants.LOCALSTORAGE_NAME)))
         }
     }, [currentPath.payload])
 
-    return {filterInputs, handleChange, handleSubmitFilter, handlePaginate, handleAddToCart, handleChangeQuantity}
+    return {
+        filterInputs, handleChange, handleSubmitFilter, handlePaginate, handleAddToCart,
+        handleChangeQuantity, applyRemoveCartItem, handleProceedToCheckout
+    }
 }

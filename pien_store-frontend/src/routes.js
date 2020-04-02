@@ -8,6 +8,7 @@ import Shop from './pages/Shop'
 import Cart from './pages/Cart'
 import Profile from './pages/Profile'
 import NotFound from './pages/NotFound'
+import ConfirmInfo from './pages/ConfirmUserInfo'
 
 const defineRoutes = [
   {path: '/', component: Home, exact: true},
@@ -15,6 +16,7 @@ const defineRoutes = [
   {path: '/shop', component: Shop, exact: true},
   {path: '/cart', component: Cart, exact: true},
   {path: '/profile', component: Profile, exact: true},
+  {path: '/confirmInfo', component: ConfirmInfo, exact: true},
   {path: '/', component: NotFound, exact: false},
 ]
 

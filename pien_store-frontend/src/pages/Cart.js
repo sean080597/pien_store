@@ -1,27 +1,29 @@
 import React from 'react'
 import {useSelector} from 'react-redux'
+import {Link} from 'react-router-dom'
 import CommonConstants from '../config/CommonConstants'
 import CommonService from '../services/CommonService.service'
 import {useTurnOnOffLoader, useShopCart} from '../hooks/HookManager'
 
 export default function Cart (props) {
     useTurnOnOffLoader()
-    const {handleChangeQuantity} = useShopCart({}, 'CART_COMPONENT')
+    const {handleChangeQuantity, applyRemoveCartItem, handleProceedToCheckout} = useShopCart({}, 'CART_COMPONENT')
     //state
     const {cartItems, cartCount, cartTotal} = useSelector(state => ({
         cartItems: state.shop.cartItems,
         cartCount: state.shop.cartCount,
         cartTotal: state.shop.cartTotal
     }))
+
     return (
         <>
         <div className="main">
             <section className="module">
                 <div className="container">
                     <div className="row">
-                    <div className="col-sm-6 col-sm-offset-3">
-                        <h1 className="module-title font-alt">{CommonConstants.PAGES.CART.TITLE}</h1>
-                    </div>
+                        <div className="col-sm-6 col-sm-offset-3">
+                            <h1 className="module-title font-alt">{CommonConstants.PAGES.CART.TITLE}</h1>
+                        </div>
                     </div>
                     <hr className="divider-w pt-20"/>
                     <div className="row">
@@ -30,11 +32,11 @@ export default function Cart (props) {
                                 <tbody>
                                     <tr>
                                         <th className="hidden-xs">Item</th>
-                                        <th>Description</th>
-                                        <th className="hidden-xs">Price</th>
-                                        <th>Quantity</th>
-                                        <th>Total</th>
-                                        <th>Remove</th>
+                                        <th className="col-sm-4">Description</th>
+                                        <th className="hidden-xs col-sm-2">Price</th>
+                                        <th className="col-sm-1">Quantity</th>
+                                        <th className="col-sm-3">Total</th>
+                                        <th className="col-sm-1">Remove</th>
                                     </tr>
                                     {
                                         cartItems.map((item, index) =>
@@ -47,17 +49,25 @@ export default function Cart (props) {
                                                     <h5 className="product-title font-alt">{item.name}</h5>
                                                 </td>
                                                 <td className="hidden-xs">
-                                                    <h5 className="product-title font-alt">{CommonService.formatMoney(item.price, 0)} VNĐ</h5>
+                                                    <h5 className="product-title font-alt">{CommonService.formatMoney(item.price, 0) + ' VNĐ'}</h5>
                                                 </td>
                                                 <td>
-                                                    <input className="form-control" type="text" pattern="[0-9]*" name={'cart_quantity_' + index} onChange={(e) => handleChangeQuantity(e, item)} value={item.quantity} max="50" min="1"/>
+                                                    <input className="form-control" type="text" pattern="[0-9]*" name={'cart_quantity_' + index} onChange={(e) => handleChangeQuantity(e, item)} value={item.quantity} maxLength="4" min="1"/>
                                                 </td>
                                                 <td>
-                                                    <h5 className="product-title font-alt">{CommonService.formatMoney(item.price * item.quantity, 0)} VNĐ</h5>
+                                                    <h5 className="product-title font-alt">{CommonService.formatMoney(item.price * item.quantity, 0) + ' VNĐ'}</h5>
                                                 </td>
-                                                <td className="pr-remove"><a href="#" title="Remove"><i className="fa fa-times"></i></a></td>
+                                                <td className="pr-remove"><button title="Remove" onClick={() => applyRemoveCartItem(item)}><i className="fa fa-times"></i></button></td>
                                             </tr>
                                         )
+                                    }
+                                    {
+                                        (!cartItems || cartItems.length === 0) &&
+                                        <tr>
+                                            <td colSpan="6">
+                                                <h4 className="product-title font-alt text-danger text-center">{CommonConstants.PAGES.CART.NO_CART_ITEMS}</h4>
+                                            </td>
+                                        </tr>
                                     }
                                 </tbody>
                             </table>
@@ -87,21 +97,21 @@ export default function Cart (props) {
                                 <h4 className="font-alt">Cart Totals</h4>
                                 <table className="table table-striped table-border checkout-table">
                                     <tbody>
-                                    <tr>
+                                    {/* <tr>
                                         <th>Cart Subtotal :</th>
-                                        <td>{CommonService.formatMoney(cartTotal, 0)} VNĐ</td>
+                                        <td>{CommonService.formatMoney(cartTotal, 0) + ' VNĐ'}</td>
                                     </tr>
                                     <tr>
                                         <th>Shipping Total :</th>
                                         <td>£2.00</td>
-                                    </tr>
+                                    </tr> */}
                                     <tr className="shop-Cart-totalprice">
                                         <th>Total :</th>
-                                        <td>£42.00</td>
+                                        <td>{CommonService.formatMoney(cartTotal, 0) + ' VNĐ'}</td>
                                     </tr>
                                     </tbody>
                                 </table>
-                                <button className="btn btn-lg btn-block btn-round btn-d" type="submit">Proceed to Checkout</button>
+                                <Link to="/confirmInfo" className="btn btn-lg btn-block btn-round btn-d" type="submit" disabled={!cartItems || cartItems.length === 0}>Proceed to Checkout</Link>
                             </div>
                         </div>
                     </div>

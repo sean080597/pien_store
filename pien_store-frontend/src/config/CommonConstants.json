@@ -11,6 +11,7 @@
     "LOGIN_BG": "/login_bg.jpg",
     "SHOP_BG": "/product-page-bg.jpg",
     "ERROR_BG": "/login_bg.jpg",
+    "CONFIRM_INFO_BG": "/home_bg.jpg",
     "MSG": {
         "ERROR":{
             "REQUIRED_EMAIL": "Required Email",
@@ -34,7 +35,8 @@
     "LOCALSTORAGE_NAME": "pieu_carts",
     "PAGES": {
         "CART": {
-            "TITLE": "Checkout"
+            "TITLE": "Checkout",
+            "NO_CART_ITEMS": "You don't have any product"
         }
     }
 }

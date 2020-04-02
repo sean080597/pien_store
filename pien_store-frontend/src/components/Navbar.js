@@ -5,6 +5,7 @@ import {GoogleLogin, GoogleLogout} from 'react-google-login'
 import { useSelector } from 'react-redux'
 import CommonConstants from '../config/CommonConstants'
 import { useGoogleLogin } from '../hooks/HookManager'
+import Cookie from 'js-cookie'
 
 export default function Navbar(props) {
   const {userName, userImage, token, isNotFoundPage, cartCount} = useSelector(state => ({
@@ -34,11 +35,15 @@ export default function Navbar(props) {
   //   console.log('facebook login => ', JSON.stringify(res))
   // }
 
+  const test = () => {
+    console.log(Cookie.get('access_token'))
+  }
+
   return (
     <>
       {!isNotFoundPage && <>
         <nav className="navbar navbar-custom navbar-fixed-top" role="navigation">
-          <div className="container">
+          <div className="container-fluid">
             <div className="navbar-header">
               <button className="navbar-toggle" type="button" data-toggle="collapse" data-target="#custom-collapse">
                 <span className="sr-only">Toggle navigation</span>
@@ -50,6 +55,7 @@ export default function Navbar(props) {
             </div>
             <div className="collapse navbar-collapse" id="custom-collapse">
               <ul className="nav navbar-nav navbar-right">
+                <li><button onClick={test}>test</button></li>
                 <li><Link to='/shop'>Shop</Link></li>
                 <li><Link to='/cart'>Cart<span className="badge">{cartCount}</span></Link></li>
                 <li><Link to='/about'>About</Link></li>

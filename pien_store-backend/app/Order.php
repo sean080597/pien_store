@@ -10,13 +10,17 @@ class Order extends Model
 
     protected $table = 'orders';
 
-    protected $guarded = ['id'];
+    protected $guarded = ['user_id', 'cus_id'];
 
     public function orderDetails(){
         return $this->hasMany('App\OrderDetail');
     }
 
     public function customer(){
+        return $this->belongsTo('App\Customer');
+    }
+
+    public function user(){
         return $this->belongsTo('App\User');
     }
 }

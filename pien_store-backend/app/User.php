@@ -2,17 +2,10 @@
 
 namespace App;
 
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Model;
 
-// JWT
-use Tymon\JWTAuth\Contracts\JWTSubject;
-
-class User extends Authenticatable implements JWTSubject
+class User extends Model
 {
-    use Notifiable;
-
     /**
      * The attributes that are mass assignable.
      *
@@ -27,38 +20,31 @@ class User extends Authenticatable implements JWTSubject
 
     protected $keyType = 'string';
 
-    protected $fillable = [
-        'id', 'firstname', 'lastname', 'email', 'password', 'phone', 'role_id', 'login_type'
-    ];
+    // protected $fillable = [
+    //     'id', 'firstname', 'lastname', 'email', 'password', 'phone', 'role_id', 'login_type'
+    // ];
+
+    protected $guarded = [];
 
     /**
      * The attributes that should be hidden for arrays.
      *
      * @var array
      */
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
+    // protected $hidden = [
+    //     'password', 'remember_token',
+    // ];
 
     /**
      * The attributes that should be cast to native types.
      *
      * @var array
      */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    // protected $casts = [
+    //     'email_verified_at' => 'datetime',
+    // ];
 
     // Please ADD this two methods at the end of the class
-    public function getJWTIdentifier()
-    {
-        return $this->getKey();
-    }
-
-    public function getJWTCustomClaims()
-    {
-        return [];
-    }
 
     public function role(){
         return $this->belongsTo('App\Role');
@@ -66,6 +52,10 @@ class User extends Authenticatable implements JWTSubject
 
     public function image(){
       return $this->morphOne(Image::class, 'imageable');
+    }
+
+    public function user_infoable(){
+        return $this->morphOne(UserInfo::class, 'user_infoable');
     }
 
 }
