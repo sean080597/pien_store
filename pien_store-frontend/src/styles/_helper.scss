@@ -408,6 +408,42 @@ a, .btn {
   margin-bottom: 80px !important;
 }
 
+.ml-0 {
+  margin-left: 0 !important;
+}
+
+.ml-10 {
+  margin-left: 10px !important;
+}
+
+.ml-20 {
+  margin-left: 20px !important;
+}
+
+.ml-30 {
+  margin-left: 30px !important;
+}
+
+.ml-40 {
+  margin-left: 40px !important;
+}
+
+.ml-50 {
+  margin-left: 50px !important;
+}
+
+.ml-60 {
+  margin-left: 60px !important;
+}
+
+.ml-70 {
+  margin-left: 70px !important;
+}
+
+.ml-80 {
+  margin-left: 80px !important;
+}
+
 @media only screen and (max-width: 991px) {
   .mt-sm-0 {
     margin-top: 0 !important;
@@ -762,6 +798,13 @@ a, .btn {
   border: 1px solid red;
 }
 
+.form-group-input {
+  input, select, button{
+    flex: 1;
+    margin: 0 15px;
+  }
+}
+
 /*--------------------------------------------------------------
 	Typography
 --------------------------------------------------------------*/
@@ -822,6 +865,10 @@ blockquote {
 
 .large-text {
   font-size: 24px !important;
+}
+
+.small-text {
+  font-size: 14px !important;
 }
 
 .rotate {

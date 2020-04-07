@@ -2,6 +2,7 @@
     "API_URL": "http://localhost:8000/api",
     "GOOGLE_CLIENT_ID": "554896225454-0epg2j824qku9rfmtuf0205jf0rupt38.apps.googleusercontent.com",
     "FACEBOOK_APP_ID": "875917776179798",
+    "LOCALSTORAGE_NAME": "pieu_carts",
     "IMAGES_DIR": "/assets/images",
     "CATEGORIES_DIR": "/assets/images/categories",
     "PRODUCTS_DIR": "/assets/images/products",
@@ -32,11 +33,13 @@
             "ADDED_TO_CART": "Added product to cart"
         }
     },
-    "LOCALSTORAGE_NAME": "pieu_carts",
     "PAGES": {
+        "HOME": {},
+        "SHOP": {},
         "CART": {
-            "TITLE": "Checkout",
+            "TITLE": "Cart",
             "NO_CART_ITEMS": "You don't have any product"
-        }
+        },
+        "CONFIRM_ORDER_INFO": {}
     }
 }

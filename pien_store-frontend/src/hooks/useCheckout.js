@@ -1,5 +1,6 @@
 import {useEffect, useState} from 'react'
 import { useDispatch } from 'react-redux'
+import axios from 'axios'
 
 export default function useConfirmInfo(initial) {
     const dispatch = useDispatch()
@@ -14,7 +15,7 @@ export default function useConfirmInfo(initial) {
 
     const handleSubmitInfo = async (evt) => {
         evt.preventDefault();
-        // await applyProductsFilter()
+        
     }
 
     useEffect(() => {

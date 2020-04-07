@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import {useEffect, useState, useRef} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
-import CommonService from '../../services/CommonService.service'
+import CommonService from '../services/CommonService.service'
 import axios from 'axios';
-import CommonConstants from '../../config/CommonConstants'
+import CommonConstants from '../config/CommonConstants'
 import Cookie from 'js-cookie'
 import {trackPromise} from 'react-promise-tracker'
 import iziToast from 'izitoast'
@@ -30,15 +30,17 @@ export default function useShopCart(initial, componentName){
     const handleSubmitFilter = async (evt) => {
         evt.preventDefault();
         await applyProductsFilter()
+        CommonService.goToPosition('#section-filter')
     }
 
     const handlePaginate = async (pageIndex, filterData) => {
         await applyProductsFilter(pageIndex, filterData)
+        CommonService.goToPosition('#section-filter')
     }
 
-    const handleAddToCart = async (product) => {
+    const handleAddToCart = async (product, quantity = 1) => {
         if(isLoggedIn){
-            await applyAddToCart(product)
+            await applyAddToCart(product, parseInt(quantity))
             iziToast.success({
                 title: CommonConstants.NOTIFY.SHOP.ADDED_TO_CART,
             });
@@ -55,15 +57,6 @@ export default function useShopCart(initial, componentName){
     const handleChangeQuantity = async (evt, product) => {
         if(evt.target.value){
             await applyAddToCart(product, parseInt(evt.target.value))
-        }
-    }
-
-    const handleProceedToCheckout = async () => {
-        let isValidUserInfo = await applyCheckCustomerInfo()
-        if(isValidUserInfo){
-
-        }else{
-
         }
     }
 
@@ -94,7 +87,6 @@ export default function useShopCart(initial, componentName){
                     pagination: pagination
                 }
                 await dispatch({type: 'SET_PRODUCTS', payload: storeData})
-                CommonService.goToPosition('#section-filter')
             }).catch(error => {
                 throw (error);
             })
@@ -107,7 +99,11 @@ export default function useShopCart(initial, componentName){
             updateCartItems.map(item =>{
                 // item.id === product.id ? {...item, quantity: updateQuantity} : item
                 if(item.id === product.id){
-                    item.quantity = currentPath.payload !== '/cart' ? ++item.quantity : quantity
+                    if(currentPath.payload.includes('/productDetail')){
+                        item.quantity += quantity
+                    }else{
+                        currentPath.payload.includes('/cart') ? (item.quantity = quantity) : (item.quantity = ++item.quantity)
+                    }
                 }
                 return item
             })
@@ -143,7 +139,7 @@ export default function useShopCart(initial, componentName){
                     'Authorization': `Bearer ${Cookie.get('access_token')}`
                 }
             }).then(async res => {
-                console.log(res.data)
+                console.log(JSON.stringify(res.data))
             }).catch(error => {
                 throw (error);
             })
@@ -155,6 +151,7 @@ export default function useShopCart(initial, componentName){
         if(isMounted.current && componentName){
             applyCategoriesAll()
             if(currentPath.payload === '/shop') applyProductsFilter()
+            if(currentPath.payload === '/cart') CommonService.goToPosition('.module-title')
         }else{
             isMounted.current = true
         }
@@ -166,6 +163,6 @@ export default function useShopCart(initial, componentName){
 
     return {
         filterInputs, handleChange, handleSubmitFilter, handlePaginate, handleAddToCart,
-        handleChangeQuantity, applyRemoveCartItem, handleProceedToCheckout
+        handleChangeQuantity, applyRemoveCartItem
     }
 }

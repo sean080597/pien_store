@@ -3,18 +3,8 @@ import Router from '../routes';
 import $ from 'jquery';
 import PageLoadService from '../services/PageLoadService.service';
 import LoadingIndicator from '../components/LoadingIndicator'
-import iziToast from 'izitoast'
-import 'izitoast/dist/css/iziToast.min.css'
-
-iziToast.settings({
-    timeout: 1500,
-    transitionIn: 'flipInX',
-    transitionOut: 'flipOutX',
-    progressBar: false,
-    position: "topRight",
-    drag: false,
-    close: false
-});
+//plugins
+import '../plugins/iziToast'
 
 export default class MainLayout extends Component {
     //methods

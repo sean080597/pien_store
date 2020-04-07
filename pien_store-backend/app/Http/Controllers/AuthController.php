@@ -94,7 +94,8 @@ class AuthController extends Controller
 
     public function me()
     {
-        return response()->json(auth()->user()->load('user_infoable'));
+        // return response()->json(auth()->user()->load('user_infoable'));
+        return response()->json(auth()->user());
     }
 
     public function logout()
@@ -139,5 +140,19 @@ class AuthController extends Controller
             'type' => 'bearer', // you can ommit this
             'expires' => $request->expiresIn, // time to expiration
         ], 200);
+    }
+
+    public function updateCustomerInfo(Request $request)
+    {
+        $findData = $this->userInfo::where('email', auth()->user()->email)->first();
+        $newData = $request->all();
+        $updated_userInfo = $findData->update($newData);
+        //save image file
+        if ($updated_userInfo) {
+            return response()->json([
+                'success' => true,
+                'message' => Config::get('constants.MSG.SUCCESS.USERINFO_UPDATED')
+            ], 200);
+        }
     }
 }

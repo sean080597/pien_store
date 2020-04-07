@@ -183,7 +183,7 @@ class ProductController extends Controller
 
     public function getSingleData($id)
     {
-        $findData = $this->product::find($id);
+        $findData = $this->product::with('image:url,imageable_id')->find($id);
         if (!$findData) {
             return response()->json([
                 'success' => false,
@@ -202,10 +202,8 @@ class ProductController extends Controller
       $query = Product::query()->with('image:url,imageable_id');
 
       //check if exists cate_id
-      $paginated_sort_query = $query->when(request('cate_slug'), function ($q) {
-        return $q->whereHas('category', function($q){
-            return $q->where('slug', request('cate_slug'));
-        });
+      $paginated_sort_query = $query->when(request('cate_id'), function ($q) {
+        return $q->where('category_id', request('cate_id'));
       })->when(request('sort_price') == 'low', function ($q) {
         $q->orderByRaw("CAST(price as UNSIGNED) ASC");
       })->when(request('sort_price') == 'high', function ($q) {
@@ -241,5 +239,16 @@ class ProductController extends Controller
           'data' => $paginated_search_query,
           'file_directory' => $this->file_directory,
       ], 200);
+    }
+
+    public function getRelatedProduct($id)
+    {
+        $findData = $this->product->find($id);
+        $query = Product::query()->with('image:url,imageable_id');
+        $lsRelatedProduct = $query->where('category_id', $findData->category_id)->inRandomOrder()->limit($this->default_page_size)->get();
+        return response()->json([
+            'success' => true,
+            'data' => $lsRelatedProduct
+        ], 200);
     }
 }

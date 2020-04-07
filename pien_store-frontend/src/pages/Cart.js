@@ -7,18 +7,17 @@ import {useTurnOnOffLoader, useShopCart} from '../hooks/HookManager'
 
 export default function Cart (props) {
     useTurnOnOffLoader()
-    const {handleChangeQuantity, applyRemoveCartItem, handleProceedToCheckout} = useShopCart({}, 'CART_COMPONENT')
+    const {handleChangeQuantity, applyRemoveCartItem} = useShopCart({}, 'CART_COMPONENT')
     //state
-    const {cartItems, cartCount, cartTotal} = useSelector(state => ({
+    const {cartItems, cartTotal} = useSelector(state => ({
         cartItems: state.shop.cartItems,
-        cartCount: state.shop.cartCount,
         cartTotal: state.shop.cartTotal
     }))
 
     return (
         <>
         <div className="main">
-            <section className="module">
+            <section className="module-small">
                 <div className="container">
                     <div className="row">
                         <div className="col-sm-6 col-sm-offset-3">
@@ -65,7 +64,7 @@ export default function Cart (props) {
                                         (!cartItems || cartItems.length === 0) &&
                                         <tr>
                                             <td colSpan="6">
-                                                <h4 className="product-title font-alt text-danger text-center">{CommonConstants.PAGES.CART.NO_CART_ITEMS}</h4>
+                                                <h4 className="font-alt text-danger text-center">{CommonConstants.PAGES.CART.NO_CART_ITEMS}</h4>
                                             </td>
                                         </tr>
                                     }
@@ -111,7 +110,8 @@ export default function Cart (props) {
                                     </tr>
                                     </tbody>
                                 </table>
-                                <Link to="/confirmInfo" className="btn btn-lg btn-block btn-round btn-d" type="submit" disabled={!cartItems || cartItems.length === 0}>Proceed to Checkout</Link>
+                                <Link to="/checkout" className="btn btn-lg btn-block btn-round btn-d" type="submit" disabled={!cartItems || cartItems.length === 0}>Proceed to Checkout</Link>
+                                {/* <button onClick={() => handleProceedToCheckout()}>checkiut</button> */}
                             </div>
                         </div>
                     </div>

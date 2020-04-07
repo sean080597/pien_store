@@ -8,12 +8,12 @@ use Illuminate\Support\Str;
 class CategoryObserver
 {
     // private $checkRole = ['adm'];
-    public function retrieved(Category $category)
-    {
+    // public function retrieved(Category $category)
+    // {
       // if(!auth('api')->user() || !in_array(auth('api')->user()->role_id, $this->checkRole)){
       //   $category->makeHidden('id');
       // }
-    }
+    // }
 
     public function creating(Category $category)
     {

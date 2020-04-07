@@ -1,14 +1,12 @@
 import React from 'react'
-import { useHistory } from 'react-router-dom';
 import CommonConstants from '../config/CommonConstants'
 import { useNotFoundPage } from '../hooks/HookManager'
 
-export default function NotFound() {
+export default function NotFound(props) {
     //init page
     useNotFoundPage()
-    const history = useHistory()
     const handleBackToHome = () => {
-        history.push("/");
+        props.history.push("/");
     }
     return (
         <section className="home-section home-parallax home-fade home-full-height bg-dark bg-dark-30" style={{backgroundImage:`url(${CommonConstants.IMAGES_DIR + CommonConstants.ERROR_BG})`}}>

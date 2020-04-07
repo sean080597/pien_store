@@ -1,4 +1,5 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
 import CommonConstants from '../config/CommonConstants'
 import CommonService from '../services/CommonService.service'
 import PagePagination from '../components/PagePagination'
@@ -51,7 +52,7 @@ export default function Shop(props) {
                                 <option value="" defaultValue>All</option>
                                 {
                                     categories.map((cate, index) =>
-                                        <option value={cate.slug} key={index}>{cate.name}</option>
+                                        <option value={cate.id} key={index}>{cate.name}</option>
                                     )
                                 }
                             </select>
@@ -74,7 +75,7 @@ export default function Shop(props) {
                                             <img src={process.env.PUBLIC_URL + CommonConstants.PRODUCTS_DIR + "/" + (prod.image ? prod.image : CommonConstants.PRODUCT_DEFAULT_IMAGE)} alt={prod.name} />
                                             <div className="shop-item-detail"><button className="btn btn-round btn-b" onClick={() => handleAddToCart(prod)}><span className="icon-basket">Add To Cart</span></button></div>
                                         </div>
-                                        <h4 className="shop-item-title font-alt"><a href="#">{prod.name}</a></h4>{CommonService.formatMoney(prod.price, 0) + ' VNĐ'}
+                                        <h4 className="shop-item-title font-alt"><Link to={'/productDetail/' + prod.id}>{prod.name}></Link></h4>{CommonService.formatMoney(prod.price, 0) + ' VNĐ'}
                                     </div>
                                 </div>
                             )

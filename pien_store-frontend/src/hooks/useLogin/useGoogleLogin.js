@@ -63,12 +63,7 @@ export default function useGoogleLogin(){
         localStorage.removeItem(CommonConstants.LOCALSTORAGE_NAME)
         Cookie.remove('google_token')
         Cookie.remove('access_token')
-        // handleBackToHome()
     }
-
-    // const handleBackToHome = () => {
-    //     history.push("/");
-    // }
 
     useEffect(() => {
         // if(cookies.access_token){

@@ -1,5 +1,6 @@
 import React from 'react'
 import {useSelector} from 'react-redux'
+import CommonConstants from '../config/CommonConstants'
 
 export default function Footer(props) {
     const isNotFoundPage = useSelector(state => state.isNotFoundPage)
@@ -46,14 +47,18 @@ export default function Footer(props) {
                                     <h5 className="widget-title font-alt">Popular Posts</h5>
                                     <ul className="widget-posts">
                                         <li className="clearfix">
-                                            <div className="widget-posts-image"><a href="#"><img src="assets/images/popular_post_1.jpg" alt="Post Thumbnail" /></a></div>
+                                            <div className="widget-posts-image">
+                                                <a href="#"><img src={process.env.PUBLIC_URL + CommonConstants.IMAGES_DIR + "/popular_post_1.jpg"} alt="Post Thumbnail" /></a>
+                                            </div>
                                             <div className="widget-posts-body">
                                                 <div className="widget-posts-title"><a href="#">Designer Desk Essentials</a></div>
                                                 <div className="widget-posts-meta">23 january</div>
                                             </div>
                                         </li>
                                         <li className="clearfix">
-                                            <div className="widget-posts-image"><a href="#"><img src="assets/images/popular_post_1.jpg" alt="Post Thumbnail" /></a></div>
+                                            <div className="widget-posts-image">
+                                                <a href="#"><img src={process.env.PUBLIC_URL + CommonConstants.IMAGES_DIR + "/popular_post_1.jpg"} alt="Post Thumbnail" /></a>
+                                            </div>
                                             <div className="widget-posts-body">
                                                 <div className="widget-posts-title"><a href="#">Realistic Business Card Mockup</a></div>
                                                 <div className="widget-posts-meta">15 February</div>

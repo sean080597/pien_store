@@ -41,16 +41,16 @@ img {
   height: auto;
 }
 
-.row {
+.row.multi-columns-row{
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   flex-wrap: wrap;
-}
-.row > [class*='col-'] {
-  display: flex;
-  flex-direction: column;
+  > [class*='col-'] {
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 /*--------------------------------------------------------------
@@ -64,7 +64,7 @@ img {
   left: 0;
   top: 0;
   opacity: 0.7;
-  z-index: 9998;
+  z-index: 9996;
 }
 
 .loader {
@@ -80,7 +80,7 @@ img {
   margin: -23px 0 0 -23px;
   text-indent: -9999em;
   font-size: 10px;
-  z-index: 9999;
+  z-index: 9997;
   -webkit-animation: load 0.8s infinite linear;
   -moz-animation: load 0.8s infinite linear;
   ms-animation: load 0.8s infinite linear;
@@ -187,4 +187,97 @@ img {
   &:not([disabled]){
     border-color: #CACACA;
   }
+}
+/*--------------------------------------------------------------
+	content-box
+--------------------------------------------------------------*/
+.features-item {
+	margin: 20px 0;
+  text-align: center;
+}
+
+.features-icon,
+.alt-features-icon {
+	line-height: 1.2;
+	font-size: 42px;
+	color: #111;
+}
+
+.features-title,
+.alt-features-title {
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	font-weight: 400;
+	font-size: 14px;
+	color: #111;
+	margin: 16px 0 15px;
+}
+
+.alt-features-item {
+	position: relative;
+	padding-left: 55px;
+	margin: 65px 0 0 0;
+}
+
+.alt-features-icon {
+	position: absolute;
+	height: 40px;
+	width: 40px;
+	left: 0;
+	top: 0;
+	text-align: center;
+	line-height: 40px;
+	font-size: 28px;
+}
+
+.alt-features-title {
+	font-size: 13px;
+	margin: 0 0 10px;
+}
+
+/* Content box */
+
+.content-box {
+	margin: 20px 0;
+	text-align: center;
+}
+
+.content-box-title {
+	font-weight: 400;
+	font-size: 18px;
+	color: #111;
+	margin: 16px 0 15px;
+}
+/*--------------------------------------------------------------
+	modal
+--------------------------------------------------------------*/
+.modal-wrapper{
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+}
+.modal-backdrop{
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 101;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+.modal-box{
+  position: relative;
+  top: 50%;
+  left: 50%;
+  padding: 0 15px;
+  transform: translate(-50%, -50%);
+  min-height: 30%;
+  max-width: 60%;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+  overflow-y: auto;
+  z-index: 102;
 }

@@ -22,6 +22,7 @@ Route::group(['prefix' => 'user'], function(){
     Route::post('refresh', 'AuthController@refresh');
     Route::post('me', 'AuthController@me');
     Route::post('authGoogleLogin', 'AuthController@authGoogleLogin');
+    Route::post('updateCustomerInfo', 'AuthController@updateCustomerInfo');
 });
 
 
@@ -33,6 +34,7 @@ Route::group(['prefix' => 'product'], function () {
     Route::get('getAll/search/{search}/{cate_id?}/{pagination?}', 'ProductController@searchData');
     Route::get('getAll/{cate_id?}/{pagination?}', 'ProductController@getPaginatedData');
     Route::get('getSingle/{id}', 'ProductController@getSingleData');
+    Route::get('getRelatedProduct/{id}', 'ProductController@getRelatedProduct');
 });
 
 Route::group(['prefix' => 'category'], function () {

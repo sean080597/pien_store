@@ -10,7 +10,7 @@ class Order extends Model
 
     protected $table = 'orders';
 
-    protected $guarded = ['user_id', 'cus_id'];
+    protected $guarded = ['cus_id'];
 
     public function orderDetails(){
         return $this->hasMany('App\OrderDetail');
@@ -18,9 +18,5 @@ class Order extends Model
 
     public function customer(){
         return $this->belongsTo('App\Customer');
-    }
-
-    public function user(){
-        return $this->belongsTo('App\User');
     }
 }

@@ -8,17 +8,18 @@ const initialStates = {
     auth: {
         loggedIn: false,
         token: '',
-        user: {}
+        user: {},
+        profile: {}
     },
     shop:{
         categories: [],
         products: [],
-        filteredProducts: [],
         pagePagination: {},
         cartItems: [],
         cartCount: 0,
-        cartTotal: 0
-    }
+        cartTotal: 0,
+        relatedProducts: []
+    },
 }
 
 const store = createStore(CombinedAllReducers, initialStates, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())

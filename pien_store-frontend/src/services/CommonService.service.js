@@ -1,5 +1,7 @@
 import $ from 'jquery'
 
+const protectedRoutes = ['/profile', '/checkout']
+
 const CommonService = {
     turnOffLoader() {
         $('.loader').fadeOut();
@@ -26,6 +28,9 @@ const CommonService = {
         } catch (e) {
             console.log(e)
         }
+    },
+    checkProtectedRoutes(currentPath){
+        return protectedRoutes.some(path => path === currentPath)
     }
 };
 

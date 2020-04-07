@@ -1,19 +1,22 @@
 import React from "react";
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import {GoogleLogin, GoogleLogout} from 'react-google-login'
 // import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
 import { useSelector } from 'react-redux'
 import CommonConstants from '../config/CommonConstants'
+import CommonService from '../services/CommonService.service'
 import { useGoogleLogin } from '../hooks/HookManager'
 import Cookie from 'js-cookie'
 
 export default function Navbar(props) {
-  const {userName, userImage, token, isNotFoundPage, cartCount} = useSelector(state => ({
+  const history = useHistory()
+  const {userName, userImage, token, isNotFoundPage, cartCount, currentPath} = useSelector(state => ({
     userName: state.auth.user.name,
     userImage: state.auth.user.imageUrl,
     token: state.auth.token,
     isNotFoundPage: state.isNotFoundPage,
-    cartCount: state.shop.cartCount
+    cartCount: state.shop.cartCount,
+    currentPath: state.currentPath.payload
   }))
   //login by Google
   const {applyGoogleLogin, applyGoogleLogout} = useGoogleLogin({})
@@ -27,6 +30,10 @@ export default function Navbar(props) {
   const logoutGoogle = async () => {
     //call hook useGoogleLogout
     await applyGoogleLogout()
+    //check protected routes
+    if(CommonService.checkProtectedRoutes(currentPath)){
+      history.push("/");
+    }
   }
 
   // const responseFacebook = async (res) => {
@@ -43,7 +50,7 @@ export default function Navbar(props) {
     <>
       {!isNotFoundPage && <>
         <nav className="navbar navbar-custom navbar-fixed-top" role="navigation">
-          <div className="container-fluid">
+          <div className="container">
             <div className="navbar-header">
               <button className="navbar-toggle" type="button" data-toggle="collapse" data-target="#custom-collapse">
                 <span className="sr-only">Toggle navigation</span>
