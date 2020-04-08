@@ -43,5 +43,10 @@
 	margin: 0 15px;
 	.glider-slide{
 		margin: 0 10px;
+		border: #eee 1px solid;
+		border-radius: 4px;
+		&:hover{
+			cursor: pointer;
+		}
 	}
 }
