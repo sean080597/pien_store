@@ -4,14 +4,16 @@ import CommonConstants from '../../config/CommonConstants'
 import {trackPromise} from 'react-promise-tracker'
 import Cookie from 'js-cookie'
 import axios from 'axios'
+import iziToast from 'izitoast'
 
 const apiUrl = CommonConstants.API_URL;
 
-export default function useConfirmInfo(initial) {
+export default function useUserProfile(initial, modalRef) {
     const dispatch = useDispatch()
-    const {userProfile} = useSelector(state => state.auth.profile)
+    const {userProfile} = useSelector(state => ({
+        userProfile: state.auth.profile
+    }))
     const [userInputs, setUserInputs] = useState(initial)
-
     //handle
     const handleChange = (evt) => {
         const {name, value} = evt.target;
@@ -68,6 +70,10 @@ export default function useConfirmInfo(initial) {
                 if(res.data.success){
                     await applySetUserInfoReduxState(userProfile)
                     await dispatch({type: 'SET_USER_PROFILE', payload: userProfile})
+                    modalRef.current.closeModal()
+                    iziToast.success({
+                        title: CommonConstants.NOTIFY.PRODUCT_DETAILS.UPDATED_CUSTOMER_INFO,
+                    });
                 }
             }).catch(error => {
                 throw (error);

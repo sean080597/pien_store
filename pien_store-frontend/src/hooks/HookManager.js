@@ -10,8 +10,8 @@ import useShopCart from './useShopCart'
 import useProductDetails from './useProductDetails'
 //------------------
 import useNotFoundPage from './useNotFoundPage'
-import useCheckout from './useCheckout'
 import useUserProfile from './useLogin/useUserProfile'
+import useCheckout from './useCheckout'
 
 export {
     //turn on & off laoder
@@ -28,6 +28,6 @@ export {
     useProductDetails,
     //others
     useNotFoundPage,
-    useCheckout,
-    useUserProfile
+    useUserProfile,
+    useCheckout
 }

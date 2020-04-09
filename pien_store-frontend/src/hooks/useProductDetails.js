@@ -33,9 +33,9 @@ export default function useProductDetails(prod_id, initial){
     const applyGetProductDetails = () => {
         trackPromise(
             axios.get(`${apiUrl}/product/getSingle/${prod_id}`)
-            .then(async res => {
-                await setProductInfo(res.data.data)
-                await applyGetRelatedProducts()
+            .then(res => {
+                setProductInfo(res.data.data)
+                applyGetRelatedProducts()
             })
             .catch(error => {
                 throw(error)
@@ -45,7 +45,7 @@ export default function useProductDetails(prod_id, initial){
 
     const applyGetRelatedProducts = () => {
         axios.get(`${apiUrl}/product/getRelatedProduct/${prod_id}`)
-        .then(async res => {
+        .then(res => {
             dispatch({type: 'SET_RELATED_PRODUCTS', payload: res.data.data})
         })
         .catch(error => {

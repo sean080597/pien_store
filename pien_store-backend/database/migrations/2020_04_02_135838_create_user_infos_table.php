@@ -22,7 +22,6 @@ class CreateUserInfosTable extends Migration
             $table->boolean('gender')->default('0');
             $table->date('birthday')->nullable();
             $table->char('phone', 10)->nullable();
-            $table->string('address')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();

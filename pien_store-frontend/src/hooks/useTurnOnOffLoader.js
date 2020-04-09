@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-// import CommonService from '../services/CommonService.service'
+import CommonService from '../services/CommonService.service'
 // import Cookie from 'js-cookie'
 // import CommonConstants from '../config/CommonConstants'
 // import axios from 'axios'
@@ -14,6 +14,7 @@ export default function useTurnOnOffLoader() {
     useEffect(() => {
         dispatch({type: 'SET_PAYLOAD_DIRECTLY', payload: window.location.pathname})
         dispatch({type: 'SET_FALSE_IS_FIRST_LOADED'})
+        CommonService.goToPosition()
         // if(!isLoggedIn){
         //     if(Cookie.get('access_token')){
         //         axios.post(`${CommonConstants.API_URL}/user/logout`, null, {

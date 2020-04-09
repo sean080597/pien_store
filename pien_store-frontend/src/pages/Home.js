@@ -27,7 +27,7 @@ export default function Home(props) {
                 <NewProduct/>
                 <section className="module-medium" id="category">
                     <div className="container">
-                        <div className="row multi-columns-row">
+                        <div className="row flex-display">
                         {
                             categories.map((cate, index) =>
                                 <div className="col-md-4 col-sm-6 col-xs-12" key={index}>

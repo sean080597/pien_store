@@ -45,8 +45,14 @@
 		margin: 0 10px;
 		border: #eee 1px solid;
 		border-radius: 4px;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
 		&:hover{
 			cursor: pointer;
+		}
+		.glide__title{
+			flex: 1;
 		}
 	}
 }

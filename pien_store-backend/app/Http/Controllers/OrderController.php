@@ -3,83 +3,33 @@
 namespace App\Http\Controllers;
 
 use App\Order;
+use App\Traits\CommonService;
 use Illuminate\Http\Request;
+use Validator;
 
 class OrderController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    use CommonService;
+    protected $orderInfo;
+    protected $base_url;
+
+    public function __construct(UrlGenerator $urlGenerator)
     {
-        //
+        $this->middleware('jwt.auth');
+        $this->orderInfo = new Order;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function getCustomerOrderInfo()
     {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Order  $order
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Order $order)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Order  $order
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Order $order)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Order  $order
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Order $order)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Order  $order
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Order $order)
-    {
-        //
+        $findData = $this->orderInfo::where('email', auth()->user()->email)->first();
+        $newData = $request->all();
+        $updated_userInfo = $findData->update($newData);
+        //save image file
+        if ($updated_userInfo) {
+            return response()->json([
+                'success' => true,
+                // 'message' => Config::get('constants.MSG.SUCCESS.USERINFO_UPDATED')
+            ], 200);
+        }
     }
 }
