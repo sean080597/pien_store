@@ -41,7 +41,7 @@ img {
   height: auto;
 }
 
-.row.multi-columns-row{
+.flex-display{
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -50,6 +50,9 @@ img {
   > [class*='col-'] {
     display: flex;
     flex-direction: column;
+  }
+  &.vertical-center{
+    align-items: center;
   }
 }
 

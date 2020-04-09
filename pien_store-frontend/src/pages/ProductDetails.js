@@ -4,16 +4,15 @@ import CommonConstants from '../config/CommonConstants'
 import CommonService from '../services/CommonService.service'
 import { useSelector } from 'react-redux';
 import { useTurnOnOffLoader, useProductDetails, useShopCart } from '../hooks/HookManager'
-import GliderImages from '../components/GliderImages'
+import GliderImages from '../components/ProductDetailsGliderImages'
 
 export default function ProductDetails(props) {
     useTurnOnOffLoader()
     const INITIAL = {quantity: 1}
     const {productInfo, userInputs, handleChangeQuantity, handleReplaceProduct} = useProductDetails(props.match.params.prod_id, INITIAL)
     const {handleAddToCart} = useShopCart({}, 'PRODUCT_DETAILS_COMPONENT')
-    const {relatedProducts, currentPath} = useSelector(state => ({
-        relatedProducts: state.shop.relatedProducts,
-        currentPath: state.currentPath
+    const {relatedProducts} = useSelector(state => ({
+        relatedProducts: state.shop.relatedProducts
     }))
     return (
         <div className="main">
@@ -101,7 +100,21 @@ export default function ProductDetails(props) {
                         </div>
                     </div>
                     <div className="row">
-                        { relatedProducts.length > 0 && <GliderImages relatedProducts = {relatedProducts}/> }
+                        { relatedProducts.length > 0 &&
+                        <GliderImages>
+                            {
+                                relatedProducts.map(prod =>
+                                    <div key={prod.id} onClick={() => handleReplaceProduct(prod.id)}>
+                                        <img alt={prod.name}
+                                        src={process.env.PUBLIC_URL + CommonConstants.PRODUCTS_DIR + "/" + (prod.image ? prod.image.url : CommonConstants.PRODUCT_DEFAULT_IMAGE)} />
+                                        <div className="glide__title">
+                                            <h4 className="shop-item-title font-alt ml-10 mr-10">{prod.name}</h4>
+                                            <p className="ml-10 mr-10 mb-10">{CommonService.formatMoney(prod.price, 0) + ' VNĐ'}</p>
+                                        </div>
+                                    </div>
+                                )
+                            }
+                        </GliderImages> }
                     </div>
                 </div>
             </section>

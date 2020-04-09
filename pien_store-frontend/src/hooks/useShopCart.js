@@ -9,6 +9,8 @@ import {trackPromise} from 'react-promise-tracker'
 import iziToast from 'izitoast'
 
 const apiUrl = CommonConstants.API_URL;
+const routeCanGetCategoriesAll = ['/', '/shop']
+const routeCanGetProductsAll = ['/shop']
 
 export default function useShopCart(initial, componentName){
     const dispatch = useDispatch()
@@ -149,9 +151,8 @@ export default function useShopCart(initial, componentName){
     useEffect(()=>{
         //component will be undefined after redirecting to another route
         if(isMounted.current && componentName){
-            applyCategoriesAll()
-            if(currentPath.payload === '/shop') applyProductsFilter()
-            if(currentPath.payload === '/cart') CommonService.goToPosition('.module-title')
+            if (routeCanGetCategoriesAll.some(t => t === currentPath.payload)) applyCategoriesAll()
+            if (routeCanGetProductsAll.some(t => t === currentPath.payload)) applyProductsFilter()
         }else{
             isMounted.current = true
         }

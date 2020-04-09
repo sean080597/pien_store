@@ -245,7 +245,7 @@ class ProductController extends Controller
     {
         $findData = $this->product->find($id);
         $query = Product::query()->with('image:url,imageable_id');
-        $lsRelatedProduct = $query->where('category_id', $findData->category_id)->inRandomOrder()->limit($this->default_page_size)->get();
+        $lsRelatedProduct = $query->where('category_id', $findData->category_id)->where('id', '<>', $id)->inRandomOrder()->limit($this->default_page_size)->get();
         return response()->json([
             'success' => true,
             'data' => $lsRelatedProduct

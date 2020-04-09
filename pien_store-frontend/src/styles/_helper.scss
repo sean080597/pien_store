@@ -730,18 +730,18 @@ a, .btn {
 
 /* Buttons size */
 .btn.btn-lg {
-  padding: 12px 45px;
+  padding: 12px 40px;
   font-size: 13px;
 }
 
 .btn.btn-sm {
-  padding: 6px 25px;
+  padding: 6px 20px;
   font-size: 10px;
   letter-spacing: 1px;
 }
 
 .btn.btn-xs {
-  padding: 4px 19px;
+  padding: 4px 14px;
   font-size: 10px;
   letter-spacing: 0;
 }
@@ -905,6 +905,7 @@ blockquote {
 
 .small-text {
   font-size: 14px !important;
+  height: fit-content;
 }
 
 .rotate {

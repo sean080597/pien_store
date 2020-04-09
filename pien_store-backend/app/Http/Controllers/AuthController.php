@@ -151,7 +151,7 @@ class AuthController extends Controller
         if ($updated_userInfo) {
             return response()->json([
                 'success' => true,
-                'message' => Config::get('constants.MSG.SUCCESS.USERINFO_UPDATED')
+                // 'message' => Config::get('constants.MSG.SUCCESS.USERINFO_UPDATED')
             ], 200);
         }
     }

@@ -11,8 +11,9 @@ const CommonService = {
         $('.loader').fadeIn();
         $('.page-loader').fadeIn('fast');
     },
-    goToPosition(el){
-        $('html, body').animate({ scrollTop: $(el).position().top }, 'slow');
+    goToPosition(el = null){
+        if(el) $('html, body').animate({ scrollTop: $(el).position().top }, 'slow');
+        else window.scrollTo(0, 0)
     },
     formatMoney(amount, decimalCount = 2, decimal = ".", thousands = ",") {
         try {
