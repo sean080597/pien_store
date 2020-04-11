@@ -96,9 +96,8 @@ export default function useShopCart(initial, componentName){
     }
 
     const applyAddToCart = (product, quantity = 1) => {
-        let updateCartItems = cartItems
-        if(updateCartItems.some(item => item.id === product.id)){
-            updateCartItems.map(item =>{
+        if(cartItems.some(item => item.id === product.id)){
+            cartItems.map(item =>{
                 // item.id === product.id ? {...item, quantity: updateQuantity} : item
                 if(item.id === product.id){
                     if(currentPath.payload.includes('/productDetail')){
@@ -111,10 +110,10 @@ export default function useShopCart(initial, componentName){
             })
         }else{
             product.quantity = 1
-            updateCartItems.push(product)
+            cartItems.push(product)
         }
         //set CartItems redux
-        applySetCartItems(updateCartItems)
+        applySetCartItems(cartItems)
     }
 
     const applySetCartItems = (updateCartItems) => {
