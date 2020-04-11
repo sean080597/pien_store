@@ -20,6 +20,9 @@ const initialStates = {
         cartTotal: 0,
         relatedProducts: []
     },
+    checkout: {
+        orderAddresses: []
+    }
 }
 
 const store = createStore(CombinedAllReducers, initialStates, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())

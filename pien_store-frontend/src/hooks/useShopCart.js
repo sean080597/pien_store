@@ -149,7 +149,7 @@ export default function useShopCart(initial, componentName){
     }
 
     useEffect(()=>{
-        //component will be undefined after redirecting to another route
+        //component will be undefined after redirecting to another route then should pass componetName
         if(isMounted.current && componentName){
             if (routeCanGetCategoriesAll.some(t => t === currentPath.payload)) applyCategoriesAll()
             if (routeCanGetProductsAll.some(t => t === currentPath.payload)) applyProductsFilter()
