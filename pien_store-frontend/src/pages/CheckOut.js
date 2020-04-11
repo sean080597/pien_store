@@ -17,16 +17,15 @@ export default function ConfirmInfo (props) {
         modalRef.current.closeModal()
     }
     //state
-    const {userProfileDetails, cartItems, cartTotal, orderAddresses} = useSelector(state => ({
-        userProfileDetails: state.auth.profile,
+    const {cartItems, cartTotal, orderAddresses, selectedAddress} = useSelector(state => ({
         cartItems: state.shop.cartItems,
         cartTotal: state.shop.cartTotal,
-        orderAddresses: state.checkout.orderAddresses
+        orderAddresses: state.checkout.orderAddresses,
+        selectedAddress: state.checkout.selectedAddress
     }))
 
-    const userFullname = (userProfileDetails.firstname || userProfileDetails.lastname) ? (userProfileDetails.firstname + ' ' + userProfileDetails.lastname) : ''
     const INITIAL_STATE = {firstname: '', lastname: '', gender: '1', phone: '', address: ''}
-    const {userInputs, handleChange, handleSubmitInfo} = useCheckout(INITIAL_STATE, modalRef)
+    const {userInputs, handleChange, handleSwitchAddress, handleChangedAddress, handleCancelChangedAddress} = useCheckout(INITIAL_STATE, modalRef)
 
     return (
         <>
@@ -40,7 +39,7 @@ export default function ConfirmInfo (props) {
                     </div>
                 </div>
             </section>
-            <section className="module">
+            <section className="module-small">
                 <div className="container">
                     <div className="row">
                         <div className="col-sm-8">
@@ -93,21 +92,19 @@ export default function ConfirmInfo (props) {
                         </div>
                         <div className="col-sm-4">
                             <div className="flex-display vertical-center">
-                                <h4 className="font-alt mb-0">Receiving info</h4>
+                                <h4 className="font-alt mb-0">Shipment Details</h4>
                                 <button className="btn btn-b btn-round btn-xs ml-10 small-text" type="button" onClick={openModal}><i className="fa fa-edit"></i> Edit</button>
                             </div>
                             <hr className="divider-w mt-10 mb-10"/>
-                            <h5><strong>Fullname</strong>: {userFullname}</h5>
-                            <h5><strong>Email</strong>: {userProfileDetails.email}</h5>
-                            <h5><strong>Gender</strong>: {userProfileDetails.gender === 0 ? 'Female' : 'Male'}</h5>
-                            <h5><strong>Address</strong>: {userProfileDetails.address}</h5>
-                            <h5><strong>Phone</strong>: {userProfileDetails.phone}</h5>
+                            <h5><strong>Fullname</strong>: {selectedAddress.fullname}</h5>
+                            <h5><strong>Address</strong>: {selectedAddress.address}</h5>
+                            <h5><strong>Phone</strong>: {selectedAddress.phone}</h5>
                         </div>
                     </div>
                 </div>
             </section>
-            <Modal ref={modalRef} modalWidth="40%">
-                <h4 className="font-alt mb-0">User Information</h4>
+            <Modal ref={modalRef} modalWidth="70%">
+                <h4 className="font-alt mb-0">Shipment Addresses</h4>
                 <hr className="divider-w mt-10 mb-20"/>
                 <table className="table table-striped table-border checkout-table">
                     <thead>
@@ -123,22 +120,29 @@ export default function ConfirmInfo (props) {
                         orderAddresses.map((addr, index) =>
                             <tr key={index}>
                                 <td>
-                                    <h5 className="product-title font-alt">{(addr.firstname || addr.lastname) ? (addr.firstname + ' ' + addr.lastname) : ''}</h5>
+                                    <h5 className="product-title font-alt mb-0">{addr.fullname}</h5>
                                 </td>
                                 <td>
-                                    <h5 className="product-title font-alt">{addr.address}</h5>
+                                    <h5 className="product-title font-alt mb-0">{addr.address}</h5>
                                 </td>
                                 <td>
-                                    <h5 className="product-title font-alt">{addr.phone}</h5>
+                                    <h5 className="product-title font-alt mb-0">{addr.phone}</h5>
                                 </td>
                                 <td>
-                                    <input type='radio' value={index} checked />
+                                    <input type='radio' name={'rad_btn_checkout_' + index} value={index} checked={addr.isChecked} onChange={(e)=>handleSwitchAddress(e)}/>
                                 </td>
                             </tr>
                         )
                     }
                     </tbody>
                 </table>
+                <hr className="divider-w mt-10 mb-20"/>
+                <div className="form-group row form-group-input">
+                    <div className="col-sm-offset-3 col-sm-6 flex-display">
+                        <button className="btn btn-b btn-round" type="button" onClick={() => handleChangedAddress()}>Save</button>
+                        <button className="btn btn-b btn-round" type="button" onClick={() => handleCancelChangedAddress()}>Close</button>
+                    </div>
+                </div>
             </Modal>
         </div>
         }

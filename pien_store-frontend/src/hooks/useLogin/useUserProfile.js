@@ -1,6 +1,7 @@
 import {useEffect, useState} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import CommonConstants from '../../config/CommonConstants'
+import CommonService from '../../services/CommonService.service'
 import {trackPromise} from 'react-promise-tracker'
 import Cookie from 'js-cookie'
 import axios from 'axios'
@@ -82,7 +83,7 @@ export default function useUserProfile(initial, modalRef) {
     }
 
     useEffect(() => {
-        applyGetUserProfile()
+        if(CommonService.isObjectEmpty(userProfile)) applyGetUserProfile()
         return () => {}
     }, [])
     return {userInputs, handleChange, handleSubmitInfo};

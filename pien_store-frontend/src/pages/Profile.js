@@ -19,7 +19,7 @@ export default function Profile(props) {
     const {userProfileDetails} = useSelector(state => ({
         userProfileDetails: state.auth.profile
     }))
-    const userFullname = (userProfileDetails.firstname || userProfileDetails.lastname) ? (userProfileDetails.firstname + ' ' + userProfileDetails.lastname) : ''
+    const userFullname = (userProfileDetails.firstname ? userProfileDetails.firstname : '') + (userProfileDetails.lastname ? (' ' + userProfileDetails.lastname) : '')
     const INITIAL_STATE = {firstname: '', lastname: '', gender: '1', phone: '', address: ''}
     const {userInputs, handleChange, handleSubmitInfo} = useUserProfile(INITIAL_STATE, modalRef)
 

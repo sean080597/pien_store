@@ -21,7 +21,9 @@ const initialStates = {
         relatedProducts: []
     },
     checkout: {
-        orderAddresses: []
+        selectedAddress: {},
+        orderAddresses: [],
+        cloneOrderAddresses: []
     }
 }
 

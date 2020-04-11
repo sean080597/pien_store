@@ -39,4 +39,8 @@
             ]);
         }
     }
+
+    public static function isSetNotEmpty($val){
+        return isset($val) && !empty($val);
+    }
  }
