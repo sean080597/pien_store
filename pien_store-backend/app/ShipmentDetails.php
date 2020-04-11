@@ -4,10 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Image extends Model
+class ShipmentDetails extends Model
 {
+    protected $table = 'shipment_details';
     protected $guarded = ['id'];
-    public function imageable()
+    public function shipmentable()
     {
         return $this->morphTo();
     }

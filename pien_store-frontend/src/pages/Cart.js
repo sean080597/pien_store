@@ -90,7 +90,7 @@ export default function Cart (props) {
                         </div>
                     </div> */}
                     <hr className="divider-w"/>
-                    <div className="row mt-70">
+                    <div className="row mt-50">
                         <div className="col-sm-5 col-sm-offset-7">
                             <div className="shop-Cart-totalbox">
                                 <h4 className="font-alt">Cart Totals</h4>

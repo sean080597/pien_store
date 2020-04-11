@@ -19,4 +19,8 @@ class Order extends Model
     public function customer(){
         return $this->belongsTo('App\Customer');
     }
+
+    public function shipmentable(){
+        return $this->morphOne(ShipmentDetails::class, 'shipmentable');
+    }
 }

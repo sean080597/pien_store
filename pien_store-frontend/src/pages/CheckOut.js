@@ -17,10 +17,11 @@ export default function ConfirmInfo (props) {
         modalRef.current.closeModal()
     }
     //state
-    const {userProfileDetails, cartItems, cartTotal} = useSelector(state => ({
+    const {userProfileDetails, cartItems, cartTotal, orderAddresses} = useSelector(state => ({
         userProfileDetails: state.auth.profile,
         cartItems: state.shop.cartItems,
-        cartTotal: state.shop.cartTotal
+        cartTotal: state.shop.cartTotal,
+        orderAddresses: state.checkout.orderAddresses
     }))
 
     const userFullname = (userProfileDetails.firstname || userProfileDetails.lastname) ? (userProfileDetails.firstname + ' ' + userProfileDetails.lastname) : ''
@@ -108,35 +109,36 @@ export default function ConfirmInfo (props) {
             <Modal ref={modalRef} modalWidth="40%">
                 <h4 className="font-alt mb-0">User Information</h4>
                 <hr className="divider-w mt-10 mb-20"/>
-                <form className="form" onSubmit={handleSubmitInfo}>
-                <div className="form-group">
-                    <div className="row form-group-input flex-display">
-                        <input className="form-control" id="firstname" type="text" name="firstname" placeholder="Enter first name"
-                        onChange={handleChange} value={userInputs.firstname}/>
-                        <input className="form-control" id="lastname" type="text" name="lastname" placeholder="Enter last name"
-                        onChange={handleChange} value={userInputs.lastname}/>
-                    </div>
-                </div>
-                <div className="form-group">
-                    <div className="row form-group-input flex-display">
-                        <select className="form-control" name="gender" onChange={handleChange} value={userInputs.gender}>
-                            <option value="1" defaultValue>Male</option>
-                            <option value="0" >Female</option>
-                        </select>
-                        <input className="form-control" id="phone" type="text" name="phone" placeholder="Enter phone" maxLength="10"
-                        onChange={handleChange} value={userInputs.phone}/>
-                    </div>
-                </div>
-                <div className="form-group flex-display">
-                    <input className="form-control" id="address" type="text" name="address" placeholder="Enter address"
-                    onChange={handleChange} value={userInputs.address}/>
-                </div>
-                <hr className="divider-w mt-10 mb-20"/>
-                <div className="form-group row form-group-input flex-display">
-                    <button className="btn btn-b btn-round m" type="submit">Submit</button>
-                    <button className="btn btn-b btn-round m" type="button" onClick={closeModal}>Close</button>
-                </div>
-                </form>
+                <table className="table table-striped table-border checkout-table">
+                    <thead>
+                        <tr>
+                            <th className="col-sm-4">Fullname</th>
+                            <th className="col-sm-4">Address</th>
+                            <th className="col-sm-2">Phone</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {
+                        orderAddresses.map((addr, index) =>
+                            <tr key={index}>
+                                <td>
+                                    <h5 className="product-title font-alt">{(addr.firstname || addr.lastname) ? (addr.firstname + ' ' + addr.lastname) : ''}</h5>
+                                </td>
+                                <td>
+                                    <h5 className="product-title font-alt">{addr.address}</h5>
+                                </td>
+                                <td>
+                                    <h5 className="product-title font-alt">{addr.phone}</h5>
+                                </td>
+                                <td>
+                                    <input type='radio' value={index} checked />
+                                </td>
+                            </tr>
+                        )
+                    }
+                    </tbody>
+                </table>
             </Modal>
         </div>
         }

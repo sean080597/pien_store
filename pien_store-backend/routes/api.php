@@ -25,7 +25,6 @@ Route::group(['prefix' => 'user'], function(){
     Route::post('updateCustomerInfo', 'AuthController@updateCustomerInfo');
 });
 
-
 Route::group(['prefix' => 'product'], function () {
     Route::post('createNewProd', 'ProductController@createData');
     Route::post('updateProd/{id}', 'ProductController@editData');
@@ -44,4 +43,8 @@ Route::group(['prefix' => 'category'], function () {
     Route::get('getAll/search/{search}/{pagination?}', 'CategoryController@searchData');
     Route::get('getAll/{pagination?}', 'CategoryController@getPaginatedData');
     Route::get('getSingle/{id}', 'CategoryController@getSingleData');
+});
+
+Route::group(['prefix' => 'customer'], function () {
+    Route::get('getOrderAddresses/{id}', 'CustomerController@getOrderAddresses');
 });
