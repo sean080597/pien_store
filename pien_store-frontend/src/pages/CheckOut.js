@@ -25,7 +25,7 @@ export default function ConfirmInfo (props) {
     }))
 
     const INITIAL_STATE = {firstname: '', lastname: '', gender: '1', phone: '', address: ''}
-    const {userInputs, handleChange, handleSwitchAddress, handleChangedAddress, handleCancelChangedAddress} = useCheckout(INITIAL_STATE, modalRef)
+    const {userInputs, handleChange, handleSwitchAddress, handleChangedAddress, handleCancelChangedAddress, handleConfirmOrder} = useCheckout(INITIAL_STATE, modalRef)
 
     return (
         <>
@@ -41,10 +41,10 @@ export default function ConfirmInfo (props) {
             </section>
             <section className="module-small">
                 <div className="container">
-                    <div className="row">
+                    <div className="row flex-display">
                         <div className="col-sm-8">
                             <h4 className="font-alt">Cart Information</h4>
-                            <table className="table table-striped table-border checkout-table">
+                            <table className="table table-striped custom-border-table">
                                 <tbody>
                                     <tr>
                                         <th className="hidden-xs">Item</th>
@@ -83,34 +83,39 @@ export default function ConfirmInfo (props) {
                                             </td>
                                         </tr>
                                     }
-                                    <tr>
-                                        <td colSpan="4" className="text-right"><h5 className="m-0"><strong>Total:</strong></h5></td>
-                                        <td><h5 className="product-title font-alt m-0">{CommonService.formatMoney(cartTotal, 0) + ' VNĐ'}</h5></td>
-                                    </tr>
                                 </tbody>
                             </table>
                         </div>
                         <div className="col-sm-4">
-                            <div className="flex-display vertical-center">
-                                <h4 className="font-alt mb-0">Shipment Details</h4>
-                                <button className="btn btn-b btn-round btn-xs ml-10 small-text" type="button" onClick={openModal}><i className="fa fa-edit"></i> Edit</button>
+                            <div className="sticky-item">
+                                <div className="flex-display vertical-center">
+                                    <h4 className="font-alt mb-0">Shipment Details</h4>
+                                    <button className="btn btn-b btn-round btn-xs ml-10 small-text" type="button" onClick={openModal}><i className="fa fa-edit"></i> Edit</button>
+                                </div>
+                                <hr className="divider-w mt-10 mb-10"/>
+                                <h5><strong>Fullname</strong>: {selectedAddress.fullname}</h5>
+                                <h5><strong>Address</strong>: {selectedAddress.address}</h5>
+                                <h5><strong>Phone</strong>: {selectedAddress.phone}</h5>
+                                <hr className="divider-w mt-10 mb-10"/>
+                                <div className="flex-display">
+                                    <h5 className="m-0"><strong>Total:</strong></h5>
+                                    <h5 className="product-title font-alt ml-10">{CommonService.formatMoney(cartTotal, 0) + ' VNĐ'}</h5>
+                                </div>
+                                <button className="btn btn-b btn-md btn-round btn-block small-text" type="button" onClick={() => handleConfirmOrder()}>Confirm</button>
                             </div>
-                            <hr className="divider-w mt-10 mb-10"/>
-                            <h5><strong>Fullname</strong>: {selectedAddress.fullname}</h5>
-                            <h5><strong>Address</strong>: {selectedAddress.address}</h5>
-                            <h5><strong>Phone</strong>: {selectedAddress.phone}</h5>
                         </div>
                     </div>
                 </div>
             </section>
             <Modal ref={modalRef} modalWidth="70%">
                 <h4 className="font-alt mb-0">Shipment Addresses</h4>
+                <button className="btn btn-b btn-round btn-xs ml-10 small-text" type="button" onClick={openModal}><i className="fa fa-edit"></i> Edit</button>
                 <hr className="divider-w mt-10 mb-20"/>
-                <table className="table table-striped table-border checkout-table">
+                <table className="table table-striped table-border address-table">
                     <thead>
                         <tr>
-                            <th className="col-sm-4">Fullname</th>
-                            <th className="col-sm-4">Address</th>
+                            <th className="col-sm-3">Fullname</th>
+                            <th className="col-sm-6">Address</th>
                             <th className="col-sm-2">Phone</th>
                             <th></th>
                         </tr>

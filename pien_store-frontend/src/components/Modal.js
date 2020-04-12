@@ -23,7 +23,7 @@ const Modal = forwardRef((props, ref) => {
     if(isShowModal){
         return ReactDom.createPortal(
             <div className={'modal-wrapper'}>
-                <div onClick={close} className={'modal-backdrop'}></div>
+                <div className={'modal-backdrop'}></div>
                 <div className={'modal-box'} style={{width: modalWidth}}>
                     {props.children}
                 </div>
