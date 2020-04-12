@@ -84,30 +84,27 @@
 	border-top: 0;
 }
 
-.checkout-table {
+.custom-border-table {
 	border: 1px solid #e5e5e5;
 
 }
 
 
-.checkout-table > tbody > tr > td,
-.checkout-table > tbody > tr > th,
-.checkout-table > tfoot > tr > td,
-.checkout-table > tfoot > tr > th,
-.checkout-table > thead > tr > td,
-.checkout-table > thead > tr > th {
+.custom-border-table > tbody > tr > td,
+.custom-border-table > tbody > tr > th,
+.custom-border-table > tfoot > tr > td,
+.custom-border-table > tfoot > tr > th,
+.custom-border-table > thead > tr > td,
+.custom-border-table > thead > tr > th {
 	padding: 12px;
 }
 
-.checkout-table tr td,
-.checkout-table tr th {
-	border-top: 1px solid #e5e5e5;
-	border-bottom: 1px solid #e5e5e5;
-	border-right: 1px solid #e5e5e5;
-	border-left: 1px solid #e5e5e5;
+.custom-border-table tr td,
+.custom-border-table tr th {
+	border: 1px solid #e5e5e5;
 }
 
-.checkout-table tbody tr td:first-child,
-.checkout-table tbody tr th:first-child {
+.custom-border-table tbody tr td:first-child,
+.custom-border-table tbody tr th:first-child {
 	max-width: 50px;
 }

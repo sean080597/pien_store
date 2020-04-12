@@ -1,0 +1,21 @@
+.address-table {
+	border: 1px solid #e5e5e5;
+}
+
+.address-table > tbody > tr > td,
+.address-table > tbody > tr > th,
+.address-table > tfoot > tr > td,
+.address-table > tfoot > tr > th,
+.address-table > thead > tr > td,
+.address-table > thead > tr > th {
+	padding: 12px;
+}
+
+.address-table tbody tr td:last-child {
+	text-align: center;
+}
+
+.sticky-item {
+    position: sticky;
+    top: 60px;
+}

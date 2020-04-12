@@ -27,7 +27,7 @@ export default function Cart (props) {
                     <hr className="divider-w pt-20"/>
                     <div className="row">
                         <div className="col-sm-12">
-                            <table className="table table-striped table-border checkout-table">
+                            <table className="table table-striped table-border custom-border-table">
                                 <tbody>
                                     <tr>
                                         <th className="hidden-xs">Item</th>
@@ -94,7 +94,7 @@ export default function Cart (props) {
                         <div className="col-sm-5 col-sm-offset-7">
                             <div className="shop-Cart-totalbox">
                                 <h4 className="font-alt">Cart Totals</h4>
-                                <table className="table table-striped table-border checkout-table">
+                                <table className="table table-striped table-border custom-border-table">
                                     <tbody>
                                     {/* <tr>
                                         <th>Cart Subtotal :</th>

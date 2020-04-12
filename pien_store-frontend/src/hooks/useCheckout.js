@@ -53,6 +53,15 @@ export default function useCheckout(initial, modalRef) {
         modalRef.current.closeModal()
     }
 
+    const handleConfirmOrder = () => {
+        iziToast.show({
+            theme: 'dark',
+            icon: 'fa fa-check-circle',
+            title: 'Thanks for ordering!',
+            position: 'topRight'
+        })
+    }
+
     //apply
     const applyGetOrderAddresses = async () => {
         const cusId = cusInfo.googleId ? cusInfo.googleId : cusInfo.id
@@ -73,5 +82,5 @@ export default function useCheckout(initial, modalRef) {
         if(!CommonService.isObjectEmpty(cusInfo)) applyGetOrderAddresses()
         return () => {}
     }, [cusInfo])
-    return {userInputs, handleChange, handleSwitchAddress, handleChangedAddress, handleCancelChangedAddress};
+    return {userInputs, handleChange, handleSwitchAddress, handleChangedAddress, handleCancelChangedAddress, handleConfirmOrder};
 }
