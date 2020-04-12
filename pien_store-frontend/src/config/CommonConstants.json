@@ -34,6 +34,10 @@
         },
         "PRODUCT_DETAILS": {
             "UPDATED_CUSTOMER_INFO": "Profile is updated successfully"
+        },
+        "CHECKOUT": {
+            "MISSING_INFO": "Please complete the receipt information",
+            "ORDER_SUCCESS": "The receipt is received"
         }
     },
     "PAGES": {
@@ -42,7 +46,6 @@
         "CART": {
             "TITLE": "Cart",
             "NO_CART_ITEMS": "You don't have any product"
-        },
-        "CONFIRM_ORDER_INFO": {}
+        }
     }
 }

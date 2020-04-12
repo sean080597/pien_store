@@ -14,10 +14,12 @@ const routeCanGetProductsAll = ['/shop']
 
 export default function useShopCart(initial, componentName){
     const dispatch = useDispatch()
-    const {isLoggedIn, currentPath, cartItems} = useSelector(state => ({
+    const {isLoggedIn, currentPath, cartItems, allCategories, allProducts} = useSelector(state => ({
         isLoggedIn: state.auth.loggedIn,
         currentPath: state.currentPath,
-        cartItems: state.shop.cartItems
+        cartItems: state.shop.cartItems,
+        allCategories: state.shop.categories,
+        allProducts: state.shop.products
     }))
     const [filterInputs, setFilterInputs] = useState(initial)
 
@@ -150,8 +152,8 @@ export default function useShopCart(initial, componentName){
     useEffect(()=>{
         //component will be undefined after redirecting to another route then should pass componetName
         if(isMounted.current && componentName){
-            if (routeCanGetCategoriesAll.some(t => t === currentPath.payload)) applyCategoriesAll()
-            if (routeCanGetProductsAll.some(t => t === currentPath.payload)) applyProductsFilter()
+            if (routeCanGetCategoriesAll.some(t => t === currentPath.payload) && allCategories.length < 1) applyCategoriesAll()
+            if (routeCanGetProductsAll.some(t => t === currentPath.payload) && allProducts.length < 1) applyProductsFilter()
         }else{
             isMounted.current = true
         }

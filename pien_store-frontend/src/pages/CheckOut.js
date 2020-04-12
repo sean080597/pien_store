@@ -90,7 +90,9 @@ export default function ConfirmInfo (props) {
                             <div className="sticky-item">
                                 <div className="flex-display vertical-center">
                                     <h4 className="font-alt mb-0">Shipment Details</h4>
-                                    <button className="btn btn-b btn-round btn-xs ml-10 small-text" type="button" onClick={openModal}><i className="fa fa-edit"></i> Edit</button>
+                                    <button className="btn btn-b btn-round btn-xs ml-10 small-text" type="button" onClick={openModal} disabled={CommonService.isObjectEmpty(orderAddresses)}>
+                                        <i className="fa fa-edit"></i> Edit
+                                    </button>
                                 </div>
                                 <hr className="divider-w mt-10 mb-10"/>
                                 <h5><strong>Fullname</strong>: {selectedAddress.fullname}</h5>
@@ -101,7 +103,8 @@ export default function ConfirmInfo (props) {
                                     <h5 className="m-0"><strong>Total:</strong></h5>
                                     <h5 className="product-title font-alt ml-10">{CommonService.formatMoney(cartTotal, 0) + ' VNĐ'}</h5>
                                 </div>
-                                <button className="btn btn-b btn-md btn-round btn-block small-text" type="button" onClick={() => handleConfirmOrder()}>Confirm</button>
+                                <button type="button" className="btn btn-b btn-md btn-round btn-block small-text" onClick={() => handleConfirmOrder()}
+                                disabled={CommonService.isObjectEmpty(orderAddresses)} >Confirm</button>
                             </div>
                         </div>
                     </div>
@@ -109,7 +112,6 @@ export default function ConfirmInfo (props) {
             </section>
             <Modal ref={modalRef} modalWidth="70%">
                 <h4 className="font-alt mb-0">Shipment Addresses</h4>
-                <button className="btn btn-b btn-round btn-xs ml-10 small-text" type="button" onClick={openModal}><i className="fa fa-edit"></i> Edit</button>
                 <hr className="divider-w mt-10 mb-20"/>
                 <table className="table table-striped table-border address-table">
                     <thead>

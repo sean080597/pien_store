@@ -7,6 +7,7 @@ import Cookie from 'js-cookie'
 import axios from 'axios'
 import _ from 'lodash'
 import iziToast from 'izitoast'
+import {useHistory} from 'react-router-dom'
 
 const apiUrl = CommonConstants.API_URL;
 const headers = {
@@ -16,10 +17,13 @@ const headers = {
 
 export default function useCheckout(initial, modalRef) {
     const dispatch = useDispatch()
-    const {cusInfo, orderAddresses, cloneOrderAddresses} = useSelector(state => ({
+    const history = useHistory()
+    const {cusInfo, orderAddresses, cloneOrderAddresses, selectedAddress, cartItems} = useSelector(state => ({
         cusInfo: state.auth.user,
         orderAddresses: state.checkout.orderAddresses,
-        cloneOrderAddresses: state.checkout.cloneOrderAddresses
+        cloneOrderAddresses: state.checkout.cloneOrderAddresses,
+        selectedAddress: state.checkout.selectedAddress,
+        cartItems: state.shop.cartItems
     }))
 
     const [userInputs, setUserInputs] = useState(initial)
@@ -54,12 +58,43 @@ export default function useCheckout(initial, modalRef) {
     }
 
     const handleConfirmOrder = () => {
-        iziToast.show({
-            theme: 'dark',
-            icon: 'fa fa-check-circle',
-            title: 'Thanks for ordering!',
-            position: 'topRight'
-        })
+        if(CommonService.isAnyPropertyOfObjectEmpty(selectedAddress, ['midname'])){
+            iziToast.error({
+                theme: 'dark',
+                title: CommonConstants.NOTIFY.CHECKOUT.MISSING_INFO,
+                position: 'topCenter'
+            })
+        }else{
+            const cusId = cusInfo.googleId ? cusInfo.googleId : cusInfo.id
+            const items = cartItems.map(item => { return { prod_id: item.id, quantity: item.quantity } })
+            //delete fullname and isChecked before confirm order info
+            delete selectedAddress['fullname']
+            delete selectedAddress['isChecked']
+            const sendData = {
+                'cus_id': cusId,
+                'cart_items': items,
+                'shipment_details': selectedAddress
+            }
+
+            trackPromise(
+                axios.post(`${apiUrl}/order/confirmOrderInfo`, sendData, { headers: headers })
+                .then(async res => {
+                    if(res.data.success){
+                        localStorage.removeItem(CommonConstants.LOCALSTORAGE_NAME)
+                        dispatch({type: 'SET_CART_ITEMS', payload: []})
+                        dispatch({type: 'SET_CART_COUNT', payload: 0})
+                        dispatch({type: 'SET_CART_TOTAL', payload: 0})
+                        iziToast.success({
+                            title: CommonConstants.NOTIFY.CHECKOUT.ORDER_SUCCESS,
+                            position: 'topCenter'
+                        })
+                        history.push("/shop");
+                    }
+                }).catch(error => {
+                    throw (error);
+                })
+            )
+        }
     }
 
     //apply
@@ -68,10 +103,11 @@ export default function useCheckout(initial, modalRef) {
         trackPromise(
             axios.get(`${apiUrl}/customer/getOrderAddresses/${cusId}`, { headers: headers })
             .then(res => {
-                if(res.data.success)
+                if(res.data.success){
                     dispatch({type: 'SET_ORDER_ADDRESSES', payload: res.data.data})
                     dispatch({type: 'SET_CLONE_ORDER_ADDRESSES', payload: res.data.data})
                     dispatch({type: 'SET_SELECTED_ADDRESS', payload: res.data.data[0]})
+                }
             }).catch(error => {
                 throw (error);
             })

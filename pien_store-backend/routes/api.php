@@ -48,3 +48,7 @@ Route::group(['prefix' => 'category'], function () {
 Route::group(['prefix' => 'customer'], function () {
     Route::get('getOrderAddresses/{id}', 'CustomerController@getOrderAddresses');
 });
+
+Route::group(['prefix' => 'order'], function () {
+    Route::post('confirmOrderInfo', 'OrderController@confirmOrderInfo');
+});
