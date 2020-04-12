@@ -21,7 +21,7 @@ class UserInfo extends Authenticatable implements JWTSubject
     ];
 
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'email_verified_at', 'user_infoable_id', 'user_infoable_type'
     ];
 
     public function getFullNameAttribute()

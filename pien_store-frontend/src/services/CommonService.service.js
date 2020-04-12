@@ -1,4 +1,5 @@
 import $ from 'jquery'
+import _ from 'lodash'
 
 const protectedRoutes = ['/profile', '/checkout']
 
@@ -39,6 +40,15 @@ const CommonService = {
                 return false;
         }
         return true;
+    },
+    isAnyPropertyOfObjectEmpty(obj, skipProperty = null) {
+        let cloneObj = _.cloneDeep(obj)
+        if(skipProperty){
+            skipProperty.forEach(element => {
+                delete cloneObj[element]
+            });
+        }
+        return Object.values(cloneObj).some(element => element === null);
     }
 };
 

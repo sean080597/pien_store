@@ -10,7 +10,7 @@ class Order extends Model
 
     protected $table = 'orders';
 
-    protected $guarded = ['cus_id'];
+    protected $guarded = [];
 
     public function orderDetails(){
         return $this->hasMany('App\OrderDetail');

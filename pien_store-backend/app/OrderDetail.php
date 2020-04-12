@@ -10,7 +10,7 @@ class OrderDetail extends Model
 
     protected $table = 'order_details';
 
-    protected $guarded = ['order_id', 'prod_id'];
+    protected $guarded = [];
 
     public function order(){
         return $this->belongsTo('App\Order');
