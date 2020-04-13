@@ -115,7 +115,8 @@ export default function useCheckout(initial, modalRef) {
     }
 
     useEffect(() => {
-        if(!CommonService.isObjectEmpty(cusInfo)) applyGetOrderAddresses()
+        if(cartItems.length < 1) history.push('/shop')
+        else if(!CommonService.isObjectEmpty(cusInfo)) applyGetOrderAddresses()
         return () => {}
     }, [cusInfo])
     return {userInputs, handleChange, handleSwitchAddress, handleChangedAddress, handleCancelChangedAddress, handleConfirmOrder};

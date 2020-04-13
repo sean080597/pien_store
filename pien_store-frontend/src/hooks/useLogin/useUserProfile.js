@@ -84,7 +84,8 @@ export default function useUserProfile(initial, modalRef) {
 
     useEffect(() => {
         if(CommonService.isObjectEmpty(userProfile)) applyGetUserProfile()
+        else applySetUserInfo(userProfile)
         return () => {}
-    }, [])
+    }, [userProfile])
     return {userInputs, handleChange, handleSubmitInfo};
 }

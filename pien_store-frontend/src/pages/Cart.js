@@ -7,7 +7,7 @@ import {useTurnOnOffLoader, useShopCart} from '../hooks/HookManager'
 
 export default function Cart (props) {
     useTurnOnOffLoader()
-    const {handleChangeQuantity, applyRemoveCartItem} = useShopCart({}, 'CART_COMPONENT')
+    const {handleChangeQuantity, applyRemoveCartItem, handleGoToCheckoutPage} = useShopCart({}, 'CART_COMPONENT')
     //state
     const {cartItems, cartTotal} = useSelector(state => ({
         cartItems: state.shop.cartItems,
@@ -110,7 +110,8 @@ export default function Cart (props) {
                                     </tr>
                                     </tbody>
                                 </table>
-                                <Link to="/checkout" className="btn btn-lg btn-block btn-round btn-d" type="submit" disabled={!cartItems || cartItems.length === 0}>Proceed to Checkout</Link>
+                                <button className="btn btn-lg btn-block btn-round btn-d" type="button"
+                                disabled={!cartItems || cartItems.length === 0} onClick={() => handleGoToCheckoutPage()}>Proceed to Checkout</button>
                                 {/* <button onClick={() => handleProceedToCheckout()}>checkiut</button> */}
                             </div>
                         </div>

@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import {useEffect, useState, useRef} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
+import {useHistory} from 'react-router-dom'
 import CommonService from '../services/CommonService.service'
 import axios from 'axios';
 import CommonConstants from '../config/CommonConstants'
@@ -13,6 +14,7 @@ const routeCanGetCategoriesAll = ['/', '/shop']
 const routeCanGetProductsAll = ['/shop']
 
 export default function useShopCart(initial, componentName){
+    const history = useHistory()
     const dispatch = useDispatch()
     const {isLoggedIn, currentPath, cartItems, allCategories, allProducts} = useSelector(state => ({
         isLoggedIn: state.auth.loggedIn,
@@ -52,7 +54,7 @@ export default function useShopCart(initial, componentName){
             iziToast.show({
                 theme: 'dark',
                 icon: 'fa fa-sign-in',
-                title: 'Please login to order!',
+                title: CommonConstants.NOTIFY.SHOP.CANCELED_ADD_TO_CART,
                 position: 'topCenter'
             })
         }
@@ -62,6 +64,10 @@ export default function useShopCart(initial, componentName){
         if(evt.target.value){
             await applyAddToCart(product, parseInt(evt.target.value))
         }
+    }
+
+    const handleGoToCheckoutPage = () => {
+        history.push('/checkout')
     }
 
     //apply
@@ -165,6 +171,6 @@ export default function useShopCart(initial, componentName){
 
     return {
         filterInputs, handleChange, handleSubmitFilter, handlePaginate, handleAddToCart,
-        handleChangeQuantity, applyRemoveCartItem
+        handleChangeQuantity, applyRemoveCartItem, handleGoToCheckoutPage
     }
 }
