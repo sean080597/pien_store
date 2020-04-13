@@ -7,6 +7,7 @@ import CommonConstants from '../config/CommonConstants'
 import CommonService from '../services/CommonService.service'
 import { useGoogleLogin } from '../hooks/HookManager'
 import Cookie from 'js-cookie'
+import iziToast from "izitoast";
 
 export default function Navbar(props) {
   const history = useHistory()
@@ -43,7 +44,13 @@ export default function Navbar(props) {
   // }
 
   const test = () => {
-    console.log(Cookie.get('access_token'))
+    // console.log(Cookie.get('access_token'))
+    iziToast.show({
+      theme: 'dark',
+      icon: 'fa fa-sign-in',
+      title: CommonConstants.NOTIFY.CHECKOUT.ORDER_SUCCESS,
+      position: 'topCenter'
+  })
   }
 
   return (

@@ -30,14 +30,17 @@
     ],
     "NOTIFY": {
         "SHOP": {
-            "ADDED_TO_CART": "Added product to cart"
+            "ADDED_TO_CART": "Added product to cart",
+            "CANCELED_ADD_TO_CART": "Please login to order!",
+            "GET_AWAY_OK": "If buy nothing, then turn!"
         },
+        "CART": {},
         "PRODUCT_DETAILS": {
             "UPDATED_CUSTOMER_INFO": "Profile is updated successfully"
         },
         "CHECKOUT": {
             "MISSING_INFO": "Please complete the receipt information",
-            "ORDER_SUCCESS": "The receipt is received"
+            "ORDER_SUCCESS": "Thank you for the purchase!"
         }
     },
     "PAGES": {

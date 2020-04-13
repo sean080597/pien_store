@@ -94,11 +94,11 @@ export default function ConfirmInfo (props) {
                                         <i className="fa fa-edit"></i> Edit
                                     </button>
                                 </div>
-                                <hr className="divider-w mt-10 mb-10"/>
+                                <hr className="divider-w mt-10 mb-20"/>
                                 <h5><strong>Fullname</strong>: {selectedAddress.fullname}</h5>
                                 <h5><strong>Address</strong>: {selectedAddress.address}</h5>
                                 <h5><strong>Phone</strong>: {selectedAddress.phone}</h5>
-                                <hr className="divider-w mt-10 mb-10"/>
+                                <hr className="divider-w mt-10 mb-20"/>
                                 <div className="flex-display">
                                     <h5 className="m-0"><strong>Total:</strong></h5>
                                     <h5 className="product-title font-alt ml-10">{CommonService.formatMoney(cartTotal, 0) + ' VNĐ'}</h5>
