@@ -17,8 +17,10 @@ export default function useUserProfile(initial, modalRef) {
     const [userInputs, setUserInputs] = useState(initial)
     //handle
     const handleChange = (evt) => {
-        const {name, value} = evt.target;
-        setUserInputs({...userInputs, [name]: value})
+        const {name, value, validity} = evt.target;
+        if((name === 'phone' && validity.valid) || name !== 'phone'){
+            setUserInputs({...userInputs, [name]: value})
+        }
     }
 
     const handleSubmitInfo = async (evt) => {
@@ -86,6 +88,6 @@ export default function useUserProfile(initial, modalRef) {
         if(CommonService.isObjectEmpty(userProfile)) applyGetUserProfile()
         else applySetUserInfo(userProfile)
         return () => {}
-    }, [userProfile])
+    }, [])
     return {userInputs, handleChange, handleSubmitInfo};
 }

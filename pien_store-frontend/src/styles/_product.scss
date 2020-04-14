@@ -20,6 +20,15 @@
 	color: #111;
 }
 
+.product-item__quantity{
+	input{
+		flex: 1;
+		margin: 0 -1px;
+		text-align: center;
+		font-size: 14px;
+	}
+}
+
 .star,
 .star-off {
 	margin-bottom: 5px;

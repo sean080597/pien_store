@@ -22,6 +22,7 @@ export default function Profile(props) {
     const userFullname = (userProfileDetails.firstname ? userProfileDetails.firstname : '') + (userProfileDetails.lastname ? (' ' + userProfileDetails.lastname) : '')
     const INITIAL_STATE = {firstname: '', lastname: '', gender: '1', phone: '', address: ''}
     const {userInputs, handleChange, handleSubmitInfo} = useUserProfile(INITIAL_STATE, modalRef)
+    const isSubmitDisabled = !(userInputs.firstname && userInputs.lastname && userInputs.address && userInputs.phone)
 
     return (
         <div className="main">
@@ -75,7 +76,7 @@ export default function Profile(props) {
                             <option value="1" defaultValue>Male</option>
                             <option value="0" >Female</option>
                         </select>
-                        <input className="form-control" id="phone" type="text" name="phone" placeholder="Enter phone" maxLength="10"
+                        <input className="form-control" id="phone" type="text" pattern="[0-9]*" name="phone" placeholder="Enter phone" maxLength="10"
                         onChange={handleChange} value={userInputs.phone}/>
                     </div>
                   </div>
@@ -85,7 +86,7 @@ export default function Profile(props) {
                   </div>
                   <hr className="divider-w mt-10 mb-20"/>
                   <div className="form-group row form-group-input flex-display">
-                    <button className="btn btn-b btn-round m" type="submit">Submit</button>
+                    <button className="btn btn-b btn-round m" type="submit" disabled={isSubmitDisabled}>Submit</button>
                     <button className="btn btn-b btn-round m" type="button" onClick={closeModal}>Close</button>
                   </div>
                 </form>

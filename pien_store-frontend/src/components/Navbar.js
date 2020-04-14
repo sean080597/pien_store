@@ -105,8 +105,8 @@ export default function Navbar(props) {
                     {userName}
                   </a>
                   <ul className="dropdown-menu">
-                    <li><Link to="/profile">Profile</Link></li>
-                    <li><Link to="/dadasd">One Page</Link></li>
+                    <li><Link to="/customer/profile">Profile</Link></li>
+                    <li><Link to="/customer/yourOrders">Your Orders</Link></li>
                     <li>
                       <GoogleLogout
                         clientId={CommonConstants.GOOGLE_CLIENT_ID}

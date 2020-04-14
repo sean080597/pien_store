@@ -7,7 +7,7 @@ import {useTurnOnOffLoader, useShopCart} from '../hooks/HookManager'
 
 export default function Cart (props) {
     useTurnOnOffLoader()
-    const {handleChangeQuantity, applyRemoveCartItem, handleGoToCheckoutPage} = useShopCart({}, 'CART_COMPONENT')
+    const {handleChangeQuantity, applyRemoveCartItem, handleGoToCheckoutPage, handleSubtractQuantity, handleAddQuantity} = useShopCart({}, 'CART_COMPONENT')
     //state
     const {cartItems, cartTotal} = useSelector(state => ({
         cartItems: state.shop.cartItems,
@@ -33,8 +33,8 @@ export default function Cart (props) {
                                         <th className="hidden-xs">Item</th>
                                         <th className="col-sm-4">Description</th>
                                         <th className="hidden-xs col-sm-2">Price</th>
-                                        <th className="col-sm-1">Quantity</th>
-                                        <th className="col-sm-3">Total</th>
+                                        <th className="col-sm-2">Quantity</th>
+                                        <th className="col-sm-2">Total</th>
                                         <th className="col-sm-1">Remove</th>
                                     </tr>
                                     {
@@ -51,7 +51,12 @@ export default function Cart (props) {
                                                     <h5 className="product-title font-alt">{CommonService.formatMoney(item.price, 0) + ' VNĐ'}</h5>
                                                 </td>
                                                 <td>
-                                                    <input className="form-control" type="text" pattern="[0-9]*" name={'cart_quantity_' + index} onChange={(e) => handleChangeQuantity(e, item)} value={item.quantity} maxLength="4" min="1"/>
+                                                    <div className="flex-display product-item__quantity">
+                                                        <button onClick={() => handleSubtractQuantity(item)}><i className="fa fa-minus"></i></button>
+                                                        <input className="form-control" type="text" pattern="[0-9]*" name={'cart_quantity_' + index}
+                                                        onChange={(e) => handleChangeQuantity(e, item)} value={item.quantity} maxLength="4" min="1"/>
+                                                        <button onClick={() => handleAddQuantity(item)}><i className="fa fa-plus"></i></button>
+                                                    </div>
                                                 </td>
                                                 <td>
                                                     <h5 className="product-title font-alt">{CommonService.formatMoney(item.price * item.quantity, 0) + ' VNĐ'}</h5>
@@ -104,9 +109,9 @@ export default function Cart (props) {
                                         <th>Shipping Total :</th>
                                         <td>£2.00</td>
                                     </tr> */}
-                                    <tr className="shop-Cart-totalprice">
-                                        <th>Total :</th>
-                                        <td>{CommonService.formatMoney(cartTotal, 0) + ' VNĐ'}</td>
+                                    <tr className="shop-Cart-totalprice row">
+                                        <th className="col-sm-4">Total :</th>
+                                        <td className="col-sm-8">{CommonService.formatMoney(cartTotal, 0) + ' VNĐ'}</td>
                                     </tr>
                                     </tbody>
                                 </table>
