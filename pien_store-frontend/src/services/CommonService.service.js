@@ -1,7 +1,7 @@
 import $ from 'jquery'
 import _ from 'lodash'
 
-const protectedRoutes = ['/profile', '/checkout']
+const protectedRoutes = ['/customer/profile', '/customer/checkout', '/customer/yourOrders']
 
 const CommonService = {
     turnOffLoader() {

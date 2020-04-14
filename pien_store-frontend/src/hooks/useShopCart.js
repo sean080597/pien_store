@@ -70,6 +70,14 @@ export default function useShopCart(initial, componentName){
         history.push('/checkout')
     }
 
+    const handleSubtractQuantity = (product) => {
+        applyAddSubtractQuantity(product, -1)
+    }
+
+    const handleAddQuantity = (product) => {
+        applyAddSubtractQuantity(product)
+    }
+
     //apply
     const applyCategoriesAll = () => {
         trackPromise(
@@ -102,7 +110,7 @@ export default function useShopCart(initial, componentName){
             })
         )
     }
-
+    //use for button AddToCart on Image and change quantity of input quantity
     const applyAddToCart = (product, quantity = 1) => {
         if(cartItems.some(item => item.id === product.id)){
             cartItems.map(item =>{
@@ -133,26 +141,21 @@ export default function useShopCart(initial, componentName){
         localStorage.setItem(CommonConstants.LOCALSTORAGE_NAME, JSON.stringify(updateCartItems))
     }
 
-    const applyRemoveCartItem = async (item) => {
+    const applyRemoveCartItem = (item) => {
         let updateCartItems = cartItems.filter((obj) => {
             return obj.id !== item.id
         })
-        await applySetCartItems(updateCartItems)
+        applySetCartItems(updateCartItems)
     }
 
-    const applyCheckCustomerInfo = async () => {
-        trackPromise(
-            axios.post(`${apiUrl}/user/me`, null, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${Cookie.get('access_token')}`
-                }
-            }).then(async res => {
-                console.log(JSON.stringify(res.data))
-            }).catch(error => {
-                throw (error);
-            })
-        )
+    const applyAddSubtractQuantity = (product, quantity = 1) => {
+        cartItems.map(item => {
+            if(item.id === product.id && currentPath.payload.includes('/cart')){
+                item.quantity += ((item.quantity + quantity) > 0) ? quantity : 0
+            }
+            return item
+        })
+        applySetCartItems(cartItems)
     }
 
     useEffect(()=>{
@@ -171,6 +174,6 @@ export default function useShopCart(initial, componentName){
 
     return {
         filterInputs, handleChange, handleSubmitFilter, handlePaginate, handleAddToCart,
-        handleChangeQuantity, applyRemoveCartItem, handleGoToCheckoutPage
+        handleChangeQuantity, applyRemoveCartItem, handleGoToCheckoutPage, handleSubtractQuantity, handleAddQuantity
     }
 }

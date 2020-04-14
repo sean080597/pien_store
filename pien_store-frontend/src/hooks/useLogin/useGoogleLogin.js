@@ -1,20 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import {useEffect} from 'react'
 import {useDispatch} from 'react-redux'
+// import {useHistory} from 'react-router-dom'
 import Cookie from 'js-cookie'
 import moment from "moment";
 import axios from 'axios'
 import PageLoadService from '../../services/PageLoadService.service'
 import CommonConstants from '../../config/CommonConstants'
 import {trackPromise} from 'react-promise-tracker'
-// import { useHistory } from 'react-router-dom';
 
 // const apiUrl = window.location.origin + '/api/user';
 const apiUrl = CommonConstants.API_URL + '/user';
 
 export default function useGoogleLogin(){
     const dispatch = useDispatch()
-    // const history = useHistory()
 
     const setCookieToken = (resGoogle, resJWT) => {
         let expiryIn = resGoogle.tokenObj.expires_in
@@ -45,7 +44,7 @@ export default function useGoogleLogin(){
         )
     }
 
-    const applyGoogleLogout = () => {
+    const applyGoogleLogout = async () => {
         axios.post(`${apiUrl}/logout`, null, {
             headers: {
                 'Content-Type': 'application/json',
@@ -59,10 +58,11 @@ export default function useGoogleLogin(){
         dispatch({type: 'SET_CART_ITEMS', payload: []})
         dispatch({type: 'SET_CART_COUNT', payload: 0})
         dispatch({type: 'SET_CART_TOTAL', payload: 0})
+        dispatch({type: 'SET_USER_PROFILE', payload: {}})
         //remove localStorage
-        localStorage.removeItem(CommonConstants.LOCALSTORAGE_NAME)
-        Cookie.remove('google_token')
-        Cookie.remove('access_token')
+        await localStorage.removeItem(CommonConstants.LOCALSTORAGE_NAME)
+        await Cookie.remove('google_token')
+        await Cookie.remove('access_token')
     }
 
     useEffect(() => {

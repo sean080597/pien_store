@@ -12,6 +12,7 @@ import Cart from './pages/Cart'
 import Profile from './pages/Profile'
 import NotFound from './pages/NotFound'
 import CheckOut from './pages/CheckOut'
+import YourOrders from './pages/YourOrders'
 
 // const defineRoutes = [
 //   {path: '/', component: Home, exact: true, },
@@ -37,7 +38,15 @@ const routes = () => (
       <Route path='/shop' component={Shop} exact/>
       <Route path='/cart' component={Cart} exact/>
       <Route path='/productDetail/:prod_id' component={ProductDetail} exact/>
-      <PrivateRoute path='/profile' component={Profile} exact/>
+      <Route
+        path='/customer'
+        render={({match: {url}}) => (
+          <>
+            <PrivateRoute path={`${url}/profile`} component={Profile} exact/>
+            <PrivateRoute path={`${url}/yourOrders`} component={YourOrders} exact/>
+          </>
+        )}
+      />
       <PrivateRoute path='/checkout' component={CheckOut} exact/>
       <Route path='*' component={NotFound}/>
     </Switch>

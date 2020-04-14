@@ -5,7 +5,7 @@ const GoogleAuthReducer = (state = {}, {type, payload}) => {
         case 'LOGOUT_GOOGLE':
             return {...state, loggedIn: false, token: '', user: {}}
         case 'SET_USER_PROFILE':
-            return {...state, loggedIn: true, profile: payload}
+            return {...state, profile: payload}
         default:
             return state
     }
