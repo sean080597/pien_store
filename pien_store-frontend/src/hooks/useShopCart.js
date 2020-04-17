@@ -18,7 +18,7 @@ export default function useShopCart(initial, componentName){
     const dispatch = useDispatch()
     const {isLoggedIn, currentPath, cartItems, allCategories, allProducts} = useSelector(state => ({
         isLoggedIn: state.auth.loggedIn,
-        currentPath: state.currentPath,
+        currentPath: state.common.currentPath,
         cartItems: state.shop.cartItems,
         allCategories: state.shop.categories,
         allProducts: state.shop.products
@@ -116,10 +116,10 @@ export default function useShopCart(initial, componentName){
             cartItems.map(item =>{
                 // item.id === product.id ? {...item, quantity: updateQuantity} : item
                 if(item.id === product.id){
-                    if(currentPath.payload.includes('/productDetail')){
+                    if(currentPath.includes('/productDetail')){
                         item.quantity += quantity
                     }else{
-                        currentPath.payload.includes('/cart') ? (item.quantity = quantity) : (item.quantity = ++item.quantity)
+                        currentPath.includes('/cart') ? (item.quantity = quantity) : (item.quantity = ++item.quantity)
                     }
                 }
                 return item
@@ -150,7 +150,7 @@ export default function useShopCart(initial, componentName){
 
     const applyAddSubtractQuantity = (product, quantity = 1) => {
         cartItems.map(item => {
-            if(item.id === product.id && currentPath.payload.includes('/cart')){
+            if(item.id === product.id && currentPath.includes('/cart')){
                 item.quantity += ((item.quantity + quantity) > 0) ? quantity : 0
             }
             return item
@@ -161,8 +161,8 @@ export default function useShopCart(initial, componentName){
     useEffect(()=>{
         //component will be undefined after redirecting to another route then should pass componetName
         if(isMounted.current && componentName){
-            if (routeCanGetCategoriesAll.some(t => t === currentPath.payload) && allCategories.length < 1) applyCategoriesAll()
-            if (routeCanGetProductsAll.some(t => t === currentPath.payload) && allProducts.length < 1) applyProductsFilter()
+            if (routeCanGetCategoriesAll.some(t => t === currentPath) && allCategories.length < 1) applyCategoriesAll()
+            if (routeCanGetProductsAll.some(t => t === currentPath) && allProducts.length < 1) applyProductsFilter()
         }else{
             isMounted.current = true
         }
@@ -170,7 +170,7 @@ export default function useShopCart(initial, componentName){
             if(localStorage.getItem(CommonConstants.LOCALSTORAGE_NAME))
                 applySetCartItems(JSON.parse(localStorage.getItem(CommonConstants.LOCALSTORAGE_NAME)))
         }
-    }, [currentPath.payload])
+    }, [currentPath])
 
     return {
         filterInputs, handleChange, handleSubmitFilter, handlePaginate, handleAddToCart,

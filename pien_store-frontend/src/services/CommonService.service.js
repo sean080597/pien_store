@@ -49,6 +49,9 @@ const CommonService = {
             });
         }
         return Object.values(cloneObj).some(element => element === null);
+    },
+    hasValueNotNull(val){
+        return val !== null && val !== undefined && val !== ''
     }
 };
 

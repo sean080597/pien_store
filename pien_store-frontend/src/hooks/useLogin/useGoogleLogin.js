@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import {useEffect} from 'react'
-import {useDispatch} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 // import {useHistory} from 'react-router-dom'
 import Cookie from 'js-cookie'
 import moment from "moment";
@@ -14,7 +14,6 @@ const apiUrl = CommonConstants.API_URL + '/user';
 
 export default function useGoogleLogin(){
     const dispatch = useDispatch()
-
     const setCookieToken = (resGoogle, resJWT) => {
         let expiryIn = resGoogle.tokenObj.expires_in
         let expiryDate = moment(new Date()).add(expiryIn, 's').toDate()
@@ -22,7 +21,14 @@ export default function useGoogleLogin(){
         Cookie.set('google_token', resGoogle.accessToken, { sameSite: 'strict', expires: expiryDate})
         //set cookie jwt token
         Cookie.set('access_token', resJWT.token, { sameSite: 'strict', expires: expiryDate})
+        //set headers for redux state
+        const apiHeaders = {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${Cookie.get('access_token')}`
+        }
+        dispatch({type: 'SET_API_HEADERS', payload:apiHeaders})
     }
+    const headers = useSelector(state => state.common.apiHeaders)
 
     const applyGoogleLogin = (resGoogle) => {
         const sendData = {
@@ -45,24 +51,24 @@ export default function useGoogleLogin(){
     }
 
     const applyGoogleLogout = async () => {
-        axios.post(`${apiUrl}/logout`, null, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${Cookie.get('access_token')}`
-            }
-        }).catch(error => {
-            throw (error);
-        })
-        dispatch({type: 'LOGOUT_GOOGLE'})
-        //reset CartItems redux state
-        dispatch({type: 'SET_CART_ITEMS', payload: []})
-        dispatch({type: 'SET_CART_COUNT', payload: 0})
-        dispatch({type: 'SET_CART_TOTAL', payload: 0})
-        dispatch({type: 'SET_USER_PROFILE', payload: {}})
-        //remove localStorage
-        await localStorage.removeItem(CommonConstants.LOCALSTORAGE_NAME)
-        await Cookie.remove('google_token')
-        await Cookie.remove('access_token')
+        trackPromise(
+            axios.post(`${apiUrl}/logout`, null, { headers: headers })
+            .then(() => {
+                dispatch({type: 'LOGOUT_GOOGLE'})
+                //reset CartItems redux state
+                dispatch({type: 'SET_CART_ITEMS', payload: []})
+                dispatch({type: 'SET_CART_COUNT', payload: 0})
+                dispatch({type: 'SET_CART_TOTAL', payload: 0})
+                dispatch({type: 'SET_USER_PROFILE', payload: {}})
+                //remove localStorage
+                localStorage.removeItem(CommonConstants.LOCALSTORAGE_NAME)
+                Cookie.remove('google_token')
+                Cookie.remove('access_token')
+            })
+            .catch(error => {
+                throw (error);
+            })
+        )
     }
 
     useEffect(() => {

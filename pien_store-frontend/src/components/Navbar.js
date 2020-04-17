@@ -15,9 +15,9 @@ export default function Navbar(props) {
     userName: state.auth.user.name,
     userImage: state.auth.user.imageUrl,
     token: state.auth.token,
-    isNotFoundPage: state.isNotFoundPage,
+    isNotFoundPage: state.common.isNotFoundPage,
     cartCount: state.shop.cartCount,
-    currentPath: state.currentPath.payload
+    currentPath: state.common.currentPath
   }))
   //login by Google
   const {applyGoogleLogin, applyGoogleLogout} = useGoogleLogin({})
@@ -44,13 +44,13 @@ export default function Navbar(props) {
   // }
 
   const test = () => {
-    // console.log(Cookie.get('access_token'))
-    iziToast.show({
-      theme: 'dark',
-      icon: 'fa fa-sign-in',
-      title: CommonConstants.NOTIFY.CHECKOUT.ORDER_SUCCESS,
-      position: 'topCenter'
-  })
+    console.log(Cookie.get('access_token'))
+  //   iziToast.show({
+  //     theme: 'dark',
+  //     icon: 'fa fa-sign-in',
+  //     title: CommonConstants.NOTIFY.CHECKOUT.ORDER_SUCCESS,
+  //     position: 'topCenter'
+  // })
   }
 
   return (
@@ -84,6 +84,7 @@ export default function Navbar(props) {
                     onFailure={responseGoogle}
                     cookiePolicy={'single_host_origin'}
                     isSignedIn={true}
+                    prompt="select_account"
                   />
                 </li>}
                 {/* <li>

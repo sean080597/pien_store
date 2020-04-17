@@ -11,8 +11,9 @@ const apiUrl = CommonConstants.API_URL;
 
 export default function useUserProfile(initial, modalRef) {
     const dispatch = useDispatch()
-    const {userProfile} = useSelector(state => ({
-        userProfile: state.auth.profile
+    const {userProfile, headers} = useSelector(state => ({
+        userProfile: state.auth.profile,
+        headers: state.common.apiHeaders
     }))
     const [userInputs, setUserInputs] = useState(initial)
     //handle
@@ -31,12 +32,8 @@ export default function useUserProfile(initial, modalRef) {
     //apply
     const applyGetUserProfile = async () => {
         trackPromise(
-            axios.post(`${apiUrl}/user/me`, null, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${Cookie.get('access_token')}`
-                }
-            }).then(async res => {
+            axios.post(`${apiUrl}/user/me`, null, { headers: headers })
+            .then(async res => {
                 await applySetUserInfo(res.data)
                 await dispatch({type: 'SET_USER_PROFILE', payload: res.data})
             }).catch(error => {
@@ -64,12 +61,8 @@ export default function useUserProfile(initial, modalRef) {
 
     const applyUpdateUserProfile = () => {
         trackPromise(
-            axios.post(`${apiUrl}/user/updateCustomerInfo`, userInputs, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${Cookie.get('access_token')}`
-                }
-            }).then(async res => {
+            axios.post(`${apiUrl}/user/updateCustomerInfo`, userInputs, { headers: headers })
+            .then(async res => {
                 if(res.data.success){
                     await applySetUserInfoReduxState(userProfile)
                     await dispatch({type: 'SET_USER_PROFILE', payload: userProfile})
@@ -85,9 +78,9 @@ export default function useUserProfile(initial, modalRef) {
     }
 
     useEffect(() => {
-        if(CommonService.isObjectEmpty(userProfile)) applyGetUserProfile()
+        if(CommonService.isObjectEmpty(userProfile) && CommonService.hasValueNotNull(headers.Authorization)) applyGetUserProfile()
         else applySetUserInfo(userProfile)
         return () => {}
-    }, [])
+    }, [headers])
     return {userInputs, handleChange, handleSubmitInfo};
 }
