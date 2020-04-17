@@ -3,7 +3,7 @@ import {useSelector} from 'react-redux'
 import CommonConstants from '../config/CommonConstants'
 
 export default function Footer(props) {
-    const isNotFoundPage = useSelector(state => state.isNotFoundPage)
+    const isNotFoundPage = useSelector(state => state.common.isNotFoundPage)
     return (
         <>
             {!isNotFoundPage && <>

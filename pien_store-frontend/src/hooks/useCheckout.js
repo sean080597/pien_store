@@ -10,20 +10,17 @@ import iziToast from 'izitoast'
 import {useHistory} from 'react-router-dom'
 
 const apiUrl = CommonConstants.API_URL;
-const headers = {
-    'Content-Type': 'application/json',
-    'Authorization': `Bearer ${Cookie.get('access_token')}`
-}
 
 export default function useCheckout(initial, modalRef) {
     const dispatch = useDispatch()
     const history = useHistory()
-    const {cusInfo, orderAddresses, cloneOrderAddresses, selectedAddress, cartItems} = useSelector(state => ({
+    const {headers, cusInfo, orderAddresses, cloneOrderAddresses, selectedAddress, cartItems} = useSelector(state => ({
         cusInfo: state.auth.user,
         orderAddresses: state.checkout.orderAddresses,
         cloneOrderAddresses: state.checkout.cloneOrderAddresses,
         selectedAddress: state.checkout.selectedAddress,
-        cartItems: state.shop.cartItems
+        cartItems: state.shop.cartItems,
+        headers: state.common.apiHeaders
     }))
 
     const [userInputs, setUserInputs] = useState(initial)
@@ -49,6 +46,7 @@ export default function useCheckout(initial, modalRef) {
                 return
             }
         });
+        dispatch({type: 'SET_CLONE_ORDER_ADDRESSES', payload: orderAddresses})
         modalRef.current.closeModal()
     }
 
@@ -118,6 +116,6 @@ export default function useCheckout(initial, modalRef) {
         if(cartItems.length < 1) history.push('/shop')
         else if(!CommonService.isObjectEmpty(cusInfo)) applyGetOrderAddresses()
         return () => {}
-    }, [cusInfo])
+    }, [cusInfo, headers])
     return {userInputs, handleChange, handleSwitchAddress, handleChangedAddress, handleCancelChangedAddress, handleConfirmOrder};
 }

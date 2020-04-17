@@ -94,6 +94,8 @@ class AuthController extends Controller
 
     public function me()
     {
+        // return \JWTAuth::parseToken()->getClaim('exp');
+        // return auth('api')->payload();
         // return response()->json(auth()->user()->load('user_infoable'));
         return response()->json(auth()->user());
     }
@@ -113,11 +115,13 @@ class AuthController extends Controller
     public function authGoogleLogin(Request $request)
     {
         $token = '';
+        // $expire_minutes = round(($request->expiresIn)/60, 0, PHP_ROUND_HALF_DOWN);
+        $expire_minutes = 2;
         //check if exists
         $findData = $this->userInfo->where('email', $request->email)->first();
         if($findData){
             //create jwt token
-            $token = auth('api')->setTTL($request->expiresIn)->fromUser($findData);
+            $token = auth('api')->setTTL($expire_minutes)->fromUser($findData);
         }else{
             //create new user if not exist
             $registerComplete = $this->cus::create([
@@ -131,14 +135,14 @@ class AuthController extends Controller
                     'user_infoable_type' => 'App\Customer',
                 ]);
                 //create jwt token
-                $token = auth('api')->setTTL($request->expiresIn)->fromUser($registerComplete->user_infoable);
+                $token = auth('api')->setTTL($expire_minutes)->fromUser($registerComplete->user_infoable);
             }
         }
 
         return response()->json([
             'token' => $token,
             'type' => 'bearer', // you can ommit this
-            'expires' => $request->expiresIn, // time to expiration
+            'expires' => $expire_minutes, // time to expiration
         ], 200);
     }
 

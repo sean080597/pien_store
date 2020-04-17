@@ -12,7 +12,7 @@ export default function useTurnOnOffLoader() {
     // const { promiseInProgress } = usePromiseTracker({delay: 500})
 
     useEffect(() => {
-        dispatch({type: 'SET_PAYLOAD_DIRECTLY', payload: window.location.pathname})
+        dispatch({type: 'SET_CURRENT_PATH', payload: window.location.pathname})
         dispatch({type: 'SET_FALSE_IS_FIRST_LOADED'})
         CommonService.goToPosition()
         // if(!isLoggedIn){

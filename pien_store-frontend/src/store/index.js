@@ -2,9 +2,15 @@ import { createStore } from 'redux'
 import CombinedAllReducers from './reducers/CombinedAllReducers'
 
 const initialStates = {
-    isFirstLoadPage: true,
-    isNotFoundPage: false,
-    currentPath: '',
+    common: {
+        isFirstLoadPage: true,
+        isNotFoundPage: false,
+        currentPath: '',
+        apiHeaders: {
+            'Content-Type': 'application/json',
+            'Authorization': ''
+        }
+    },
     auth: {
         loggedIn: false,
         token: '',
