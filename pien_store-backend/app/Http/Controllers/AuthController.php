@@ -115,8 +115,8 @@ class AuthController extends Controller
     public function authGoogleLogin(Request $request)
     {
         $token = '';
-        // $expire_minutes = round(($request->expiresIn)/60, 0, PHP_ROUND_HALF_DOWN);
-        $expire_minutes = 2;
+        $expire_minutes = round(($request->expiresIn)/60, 0, PHP_ROUND_HALF_DOWN);
+        // $expire_minutes = 2;
         //check if exists
         $findData = $this->userInfo->where('email', $request->email)->first();
         if($findData){
@@ -142,7 +142,7 @@ class AuthController extends Controller
         return response()->json([
             'token' => $token,
             'type' => 'bearer', // you can ommit this
-            'expires' => $expire_minutes, // time to expiration
+            'expires' => $request->expiresIn, // time to expiration (sec)
         ], 200);
     }
 

@@ -22,7 +22,7 @@ export default function Shop(props) {
                 <div className="container">
                     <div className="row">
                         <div className="col-sm-6 col-sm-offset-3">
-                            <h2 className="module-title font-alt">Shop Products</h2>
+                            <h2 className="titan-title-size-4 font-alt text-center">Products</h2>
                             <div className="module-subtitle font-serif">A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart.</div>
                         </div>
                     </div>
