@@ -70,9 +70,10 @@ export default function Navbar(props) {
             <div className="collapse navbar-collapse" id="custom-collapse">
               <ul className="nav navbar-nav navbar-right">
                 <li><button onClick={test}>test</button></li>
+                <li><Link to='/ourStory'>Our story</Link></li>
+                <li><Link to='/gallery'>Gallery</Link></li>
                 <li><Link to='/shop'>Shop</Link></li>
                 <li><Link to='/cart'>Cart<span className="badge">{cartCount}</span></Link></li>
-                <li><Link to='/about'>About</Link></li>
                 {!token && <li>
                   <GoogleLogin
                     clientId={CommonConstants.GOOGLE_CLIENT_ID}

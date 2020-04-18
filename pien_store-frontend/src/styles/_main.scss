@@ -54,6 +54,12 @@ img {
   &.vertical-center{
     align-items: center;
   }
+  &.space-bettween{
+    justify-content: space-between;
+  }
+  &.justify-center{
+    justify-content: center;
+  }
 }
 
 /*--------------------------------------------------------------
@@ -283,4 +289,18 @@ img {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
   overflow-y: auto;
   z-index: 102;
+}
+
+.story-container {
+  p{
+    font-size: 15px;
+    text-align: justify;
+  }
+  &--card{
+    display: flex;
+    justify-content: space-between;
+    div{
+      width: 30%;
+    }
+  }
 }

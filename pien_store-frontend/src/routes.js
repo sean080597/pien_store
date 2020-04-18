@@ -5,7 +5,7 @@ import PrivateRoute from './PrivateRoutes'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import Home from './pages/Home'
-import About from './pages/About'
+import OurStory from './pages/OurStory'
 import Shop from './pages/Shop'
 import ProductDetail from './pages/ProductDetails'
 import Cart from './pages/Cart'
@@ -13,6 +13,7 @@ import Profile from './pages/Profile'
 import NotFound from './pages/NotFound'
 import CheckOut from './pages/CheckOut'
 import YourOrders from './pages/YourOrders'
+import Gallery from './pages/Gallery'
 
 // const defineRoutes = [
 //   {path: '/', component: Home, exact: true, },
@@ -34,9 +35,10 @@ const routes = () => (
         ))
       } */}
       <Route path='/' component={Home} exact/>
-      <Route path='/about' component={About} exact/>
+      <Route path='/ourStory' component={OurStory} exact/>
       <Route path='/shop' component={Shop} exact/>
       <Route path='/cart' component={Cart} exact/>
+      <Route path='/gallery' component={Gallery} exact/>
       <Route path='/productDetail/:prod_id' component={ProductDetail} exact/>
       <Route
         path='/customer'

@@ -25,9 +25,39 @@ export default function Home(props) {
             </section>
             <div className="main showcase-page">
                 <NewProduct/>
-                <section className="module-medium" id="category">
+                <section>
+                    <Link to="/ourStory"><h1 className="font-alt mb-20 mt-50 text-center"><strong>Our Story</strong></h1></Link>
+                    <div className="module-small pb-0 pt-30">
+                        <div className="container">
+                            <div className="row">
+                                <div className="col-sm-6 story-container">
+                                    <h4 className="font-alt m-0"><strong>Story 1</strong></h4>
+                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                                </div>
+                                <div className="col-sm-5 col-sm-offset-1">
+                                    <img src="https://images.ctfassets.net/00i767ygo3tc/2uG03zy1JOqRA1Avv0m2RF/322c69b49fa975772b98b77679cebfd8/instagram-story-highlight-cover.jpg" alt="story image" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="module-small pb-0 pt-30">
+                        <div className="container">
+                            <div className="row">
+                                <div className="col-sm-5">
+                                    <img src="https://images.ctfassets.net/00i767ygo3tc/2uG03zy1JOqRA1Avv0m2RF/322c69b49fa975772b98b77679cebfd8/instagram-story-highlight-cover.jpg" alt="story image" />
+                                </div>
+                                <div className="col-sm-offset-1 col-sm-6 story-container">
+                                    <h4 className="font-alt m-0 text-right"><strong>Story 2</strong></h4>
+                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section className="mb-0 mt-50" id="category">
                     <div className="container">
-                        <div className="row flex-display">
+                        <div className="row">
+                            <h1 className="font-alt m-0 text-center"><strong>Category</strong></h1>
                         {
                             categories.map((cate, index) =>
                                 <div className="col-md-4 col-sm-6 col-xs-12" key={index}>
@@ -43,7 +73,6 @@ export default function Home(props) {
                         </div>
                     </div>
                 </section>
-                <NewProduct/>
             </div>
         </div>
     )
