@@ -12,6 +12,8 @@ import useProductDetails from './useProductDetails'
 import useNotFoundPage from './useNotFoundPage'
 import useUserProfile from './useLogin/useUserProfile'
 import useCheckout from './useCheckout'
+import useOurGallery from './gallery/useOurGallery'
+import useSinglePhoto from './gallery/useSinglePhoto'
 
 export {
     //turn on & off laoder
@@ -29,5 +31,7 @@ export {
     //others
     useNotFoundPage,
     useUserProfile,
-    useCheckout
+    useCheckout,
+    useOurGallery,
+    useSinglePhoto
 }
