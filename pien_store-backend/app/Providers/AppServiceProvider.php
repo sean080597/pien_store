@@ -7,10 +7,13 @@ use App\Product;
 use App\Category;
 use App\Customer;
 use App\Order;
+use App\ImageGallery;
+
 use App\Observers\ProductObserver;
 use App\Observers\CategoryObserver;
 use App\Observers\CustomerObserver;
 use App\Observers\OrderObserver;
+use App\Observers\ImageGalleryObserver;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -35,5 +38,6 @@ class AppServiceProvider extends ServiceProvider
         Category::observe(CategoryObserver::class);
         Customer::observe(CustomerObserver::class);
         Order::observe(OrderObserver::class);
+        ImageGallery::observe(ImageGalleryObserver::class);
     }
 }

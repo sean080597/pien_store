@@ -13,7 +13,7 @@ import Profile from './pages/Profile'
 import NotFound from './pages/NotFound'
 import CheckOut from './pages/CheckOut'
 import YourOrders from './pages/YourOrders'
-import Gallery from './pages/Gallery'
+import OurGallery from './pages/OurGallery'
 
 // const defineRoutes = [
 //   {path: '/', component: Home, exact: true, },
@@ -38,7 +38,7 @@ const routes = () => (
       <Route path='/ourStory' component={OurStory} exact/>
       <Route path='/shop' component={Shop} exact/>
       <Route path='/cart' component={Cart} exact/>
-      <Route path='/gallery' component={Gallery} exact/>
+      <Route path='/gallery' component={OurGallery} exact/>
       <Route path='/productDetail/:prod_id' component={ProductDetail} exact/>
       <Route
         path='/customer'

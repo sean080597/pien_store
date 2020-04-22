@@ -304,3 +304,29 @@ img {
     }
   }
 }
+
+.gallery-single-photo{
+  &:hover .gallery-single-photo__title{
+    opacity: 1 !important;
+  }
+  img{
+    border-radius: 10px;
+    &:hover{
+      filter: brightness(0.9);
+    }
+    &:hover .gallery-single-photo__title{
+      opacity: 1 !important;
+    }
+  }
+  h1, h2, h3, h4, h5, h6{
+    margin: 16px !important;
+    padding: 8px;
+    background-color: #333;
+    color: white;
+    font-weight: 600;
+    border-radius: 4px;
+    opacity: 0;
+    z-index: 1;
+    transition: 0.15s ease-out;
+  }
+}
