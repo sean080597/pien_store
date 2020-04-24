@@ -1,5 +1,12 @@
 .address-table {
 	border: 1px solid #e5e5e5;
+	height: 60vh;
+    overflow-y: auto;
+	display: block;
+	@extend .custom-scrollbar;
+	tbody > tr > td{
+		vertical-align: unset !important;
+	}
 }
 
 .address-table > tbody > tr > td,
@@ -18,4 +25,17 @@
 .sticky-item {
     position: sticky;
     top: 60px;
+}
+
+.btn-neutral{
+	border: #CACACA 1px solid;
+	&:hover{
+		border: #333 1px solid !important;
+	}
+}
+
+.col-new-address{
+	button{
+		padding: 6px 18px;
+	}
 }

@@ -48,10 +48,13 @@ const CommonService = {
                 delete cloneObj[element]
             });
         }
-        return Object.values(cloneObj).some(element => element === null);
+        return Object.values(cloneObj).some(element => this.hasValueNotNull(element));
     },
     hasValueNotNull(val){
         return val !== null && val !== undefined && val !== ''
+    },
+    checkValueToShow(val){
+        return this.hasValueNotNull(val) ? val : ''
     },
     isElementInViewport(el) {
         const rect = el.getBoundingClientRect();

@@ -24,8 +24,11 @@ export default function ConfirmInfo (props) {
         selectedAddress: state.checkout.selectedAddress
     }))
 
-    const INITIAL_STATE = {firstname: '', lastname: '', gender: '1', phone: '', address: ''}
-    const {userInputs, handleChange, handleSwitchAddress, handleChangedAddress, handleCancelChangedAddress, handleConfirmOrder} = useCheckout(INITIAL_STATE, modalRef)
+    const INITIAL_STATE = {firstname: '', lastname: '', phone: '', address: '', isShowAddNewAddress: false}
+    const {userInputs, handleChange, handleSwitchAddress, handleChangedAddress, handleCancelChangedAddress,
+        handleAddNewAddress, handleConfirmOrder, handleShowAddNewAddress, handleDeleteShipmentDetails,
+        handleSetEditableShipment, handleEditShipmentDetail} = useCheckout(INITIAL_STATE, modalRef)
+    const isSubmitDisabled = !(userInputs.firstname && userInputs.lastname && userInputs.address && userInputs.phone)
 
     return (
         <>
@@ -90,21 +93,22 @@ export default function ConfirmInfo (props) {
                             <div className="sticky-item">
                                 <div className="flex-display vertical-center">
                                     <h4 className="font-alt mb-0">Shipment Details</h4>
-                                    <button className="btn btn-b btn-round btn-xs ml-10 small-text" type="button" onClick={openModal} disabled={CommonService.isObjectEmpty(orderAddresses)}>
+                                    <button className="btn btn-b btn-round btn-xs ml-10 small-text" type="button" onClick={openModal}>
                                         <i className="fa fa-edit"></i> Edit
                                     </button>
                                 </div>
                                 <hr className="divider-w mt-10 mb-20"/>
-                                <h5><strong>Fullname</strong>: {selectedAddress.fullname}</h5>
-                                <h5><strong>Address</strong>: {selectedAddress.address}</h5>
-                                <h5><strong>Phone</strong>: {selectedAddress.phone}</h5>
+                                <h5><strong>Fullname</strong>: {CommonService.checkValueToShow(selectedAddress.fullname)}</h5>
+                                <h5><strong>Address</strong>: {CommonService.checkValueToShow(selectedAddress.address)}</h5>
+                                <h5><strong>Phone</strong>: {CommonService.checkValueToShow(selectedAddress.phone)}</h5>
                                 <hr className="divider-w mt-10 mb-20"/>
                                 <div className="flex-display">
                                     <h5 className="m-0"><strong>Total:</strong></h5>
                                     <h5 className="product-title font-alt ml-10">{CommonService.formatMoney(cartTotal, 0) + ' VNĐ'}</h5>
                                 </div>
-                                <button type="button" className="btn btn-b btn-md btn-round btn-block small-text" onClick={() => handleConfirmOrder()}
-                                disabled={CommonService.isObjectEmpty(orderAddresses)} >Confirm</button>
+                                { CommonService.isObjectEmpty(selectedAddress) && <span>{CommonConstants.MSG.ERROR.REQUIRED_ORDER_ADDRESS}</span> }
+                                <button type="button" className="btn btn-b btn-md btn-round btn-block small-text mt-10" onClick={() => handleConfirmOrder()}
+                                    disabled={CommonService.isObjectEmpty(selectedAddress)} >Confirm</button>
                             </div>
                         </div>
                     </div>
@@ -113,11 +117,11 @@ export default function ConfirmInfo (props) {
             <Modal ref={modalRef} modalWidth="70%">
                 <h4 className="font-alt mb-0">Shipment Addresses</h4>
                 <hr className="divider-w mt-10 mb-20"/>
-                <table className="table table-striped table-border address-table">
+                <table className="table table-striped table-border address-table mb-0">
                     <thead>
                         <tr>
                             <th className="col-sm-3">Fullname</th>
-                            <th className="col-sm-6">Address</th>
+                            <th className="col-sm-5">Address</th>
                             <th className="col-sm-2">Phone</th>
                             <th></th>
                         </tr>
@@ -127,20 +131,91 @@ export default function ConfirmInfo (props) {
                         orderAddresses.map((addr, index) =>
                             <tr key={index}>
                                 <td>
-                                    <h5 className="product-title font-alt mb-0">{addr.fullname}</h5>
+                                    {!addr.isEditable && <h5 className="product-title font-alt mb-0">{addr.fullname}</h5>}
+                                    {addr.isEditable &&
+                                    <div className="row form-group-input flex-display direction-row">
+                                        <input className="form-control mr-0" id="firstname" type="text" name="firstname" placeholder="Firstname"
+                                            onChange={handleChange} value={userInputs.firstname}/>
+                                        <input className="form-control" id="lastname" type="text" name="lastname" placeholder="Lastname"
+                                            onChange={handleChange} value={userInputs.lastname}/>
+                                    </div>
+                                    }
                                 </td>
                                 <td>
-                                    <h5 className="product-title font-alt mb-0">{addr.address}</h5>
+                                    {!addr.isEditable && <h5 className="product-title font-alt mb-0">{addr.address}</h5>}
+                                    {addr.isEditable &&
+                                    <input className="form-control" id="address" type="text" name="address" placeholder="Address"
+                                        onChange={handleChange} value={userInputs.address}/>
+                                    }
                                 </td>
                                 <td>
-                                    <h5 className="product-title font-alt mb-0">{addr.phone}</h5>
+                                    {!addr.isEditable && <h5 className="product-title font-alt mb-0">{addr.phone}</h5>}
+                                    {addr.isEditable &&
+                                    <input className="form-control" id="phone" type="text" pattern="[0-9]*" name="phone" placeholder="Phone" maxLength="10"
+                                        onChange={handleChange} value={userInputs.phone}/>
+                                    }
                                 </td>
                                 <td>
-                                    <input type='radio' name={'rad_btn_checkout_' + index} value={index} checked={addr.isChecked} onChange={(e)=>handleSwitchAddress(e)}/>
+                                    {!addr.isEditable &&
+                                    <div className="flex-display space-around vertical-center">
+                                        <input className="m-0" type='radio' name={'rad_btn_checkout_' + index} value={index} checked={addr.isChecked} onChange={(e)=>handleSwitchAddress(e)}/>
+                                        <button className="btn-b btn btn-round px-10 py-5" title="Edit shipment details"
+                                        style={{ visibility: !addr.email ? 'visible': 'hidden' }}
+                                        disabled={addr.email ? true : false}
+                                        onClick={() => handleSetEditableShipment(addr, true)}>
+                                            <i className="fa fa-edit"></i>
+                                        </button>
+                                        <button className="btn-danger btn btn-round px-10 py-5" title="Delete shipment details"
+                                        style={{ visibility: !addr.email ? 'visible': 'hidden' }}
+                                        disabled={addr.email ? true : false}
+                                        onClick={() => handleDeleteShipmentDetails(addr.id)}>
+                                            <i className="fa fa-times"></i>
+                                        </button>
+                                    </div>
+                                    }
+                                    {addr.isEditable &&
+                                    <div className="flex-display space-around col-new-address">
+                                        <button className="btn btn-b btn-round" type="button" onClick={() => handleEditShipmentDetail(addr)} disabled={isSubmitDisabled}><i className="fa fa-check"></i></button>
+                                        <button className="btn btn-b btn-round" type="button" onClick={() => handleSetEditableShipment(addr, false)}><i className="fa fa-times"></i></button>
+                                    </div>
+                                    }
                                 </td>
                             </tr>
                         )
                     }
+                        <tr key={999}>
+                            { !userInputs.isShowAddNewAddress &&
+                                <td colSpan="4">
+                                    <button className="btn btn-round btn-block btn-neutral" onClick={() => handleShowAddNewAddress(true)}><i className="fa fa-plus"></i></button>
+                                </td>
+                            }
+                            { userInputs.isShowAddNewAddress &&
+                            <>
+                                <td>
+                                    <div className="row form-group-input flex-display direction-row">
+                                        <input className="form-control mr-0" id="firstname" type="text" name="firstname" placeholder="Firstname"
+                                            onChange={handleChange} value={userInputs.firstname}/>
+                                        <input className="form-control" id="lastname" type="text" name="lastname" placeholder="Lastname"
+                                            onChange={handleChange} value={userInputs.lastname}/>
+                                    </div>
+                                </td>
+                                <td>
+                                    <input className="form-control" id="address" type="text" name="address" placeholder="Address"
+                                        onChange={handleChange} value={userInputs.address}/>
+                                </td>
+                                <td>
+                                    <input className="form-control" id="phone" type="text" pattern="[0-9]*" name="phone" placeholder="Phone" maxLength="10"
+                                        onChange={handleChange} value={userInputs.phone}/>
+                                </td>
+                                <td>
+                                    <div className="flex-display space-around col-new-address">
+                                        <button className="btn btn-b btn-round" type="button" onClick={() => handleAddNewAddress()} disabled={isSubmitDisabled}><i className="fa fa-check"></i></button>
+                                        <button className="btn btn-b btn-round" type="button" onClick={() => handleShowAddNewAddress(false)}><i className="fa fa-times"></i></button>
+                                    </div>
+                                </td>
+                            </>
+                            }
+                        </tr>
                     </tbody>
                 </table>
                 <hr className="divider-w mt-10 mb-20"/>

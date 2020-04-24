@@ -48,30 +48,30 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $exception)
     {
         //just for testing api
-        // if ($exception instanceof UnauthorizedHttpException) {
+        if ($exception instanceof UnauthorizedHttpException) {
 
-        //     $preException = $exception->getPrevious();
+            $preException = $exception->getPrevious();
 
-        //     if ($preException instanceof \Tymon\JWTAuth\Exceptions\TokenExpiredException){
-        //         return response()->json(['error' => 'TOKEN_EXPIRED']);
-        //     }else if ($preException instanceof \Tymon\JWTAuth\Exceptions\TokenInvalidException){
-        //         return response()->json(['error' => 'TOKEN_INVALID']);
-        //     }else if ($preException instanceof \Tymon\JWTAuth\Exceptions\TokenBlacklistedException) {
-        //         return response()->json(['error' => 'TOKEN_BLACKLISTED']);
-        //     }
-        // }
+            if ($preException instanceof \Tymon\JWTAuth\Exceptions\TokenExpiredException){
+                return response()->json(['error' => 'TOKEN_EXPIRED']);
+            }else if ($preException instanceof \Tymon\JWTAuth\Exceptions\TokenInvalidException){
+                return response()->json(['error' => 'TOKEN_INVALID']);
+            }else if ($preException instanceof \Tymon\JWTAuth\Exceptions\TokenBlacklistedException) {
+                return response()->json(['error' => 'TOKEN_BLACKLISTED']);
+            }
+        }
 
-        // if ($exception->getMessage() === 'Token not provided'){
-        //     return response()->json(['error' => 'Token not provided']);
-        // }
+        if ($exception->getMessage() === 'Token not provided'){
+            return response()->json(['error' => 'Token not provided']);
+        }
 
-        // return parent::render($request, $exception);
+        return parent::render($request, $exception);
 
         //just for production
-        return response()->json([
-            'success'=>false,
-            'status'=>401,
-            'message'=>'unauthenticated'
-        ], 401);
+        // return response()->json([
+        //     'success'=>false,
+        //     'status'=>401,
+        //     'message'=>'unauthenticated'
+        // ], 401);
     }
 }

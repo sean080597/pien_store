@@ -44,11 +44,11 @@ export default function useUserProfile(initial, modalRef) {
     //set userInputs
     const applySetUserInfo = (user) => {
         setUserInputs({...userInputs,
-            firstname: user.firstname?user.firstname:'',
-            lastname: user.lastname?user.lastname:'',
+            firstname: user.firstname ? user.firstname : '',
+            lastname: user.lastname ? user.lastname : '',
             gender: user.gender,
-            phone: user.phone?user.phone:'',
-            address: user.address?user.address:''})
+            phone: user.phone ? user.phone : '',
+            address: user.address ? user.address : ''})
     }
     //update redux store
     const applySetUserInfoReduxState = (userProfile) => {
