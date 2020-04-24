@@ -37,6 +37,9 @@ return [
             'PRODUCT_CREATED' => 'Product created successfully',
             'PRODUCT_DELETED' => 'Product deleted successfully',
             'PRODUCT_UPDATED' => 'Product updated successfully',
+            'SHIPMENT_DETAILS_CREATED' => 'Shipment details created successfully',
+            'SHIPMENT_DETAILS_DELETED' => 'Shipment details deleted successfully',
+            'SHIPMENT_DETAILS_EDITED' => 'Shipment details edited successfully',
             'USERINFO_UPDATED' => 'User information updated successfully'
         ]
     ],

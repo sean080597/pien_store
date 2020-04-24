@@ -13,21 +13,22 @@
     "SHOP_BG": "/product-page-bg.jpg",
     "ERROR_BG": "/login_bg.jpg",
     "CONFIRM_INFO_BG": "/home_bg.jpg",
-    "MSG": {
-        "ERROR":{
-            "REQUIRED_EMAIL": "Required Email",
-            "REQUIRED_PASSWORD": "Required Password",
-            "INVALID_EMAIL": "Invalid Email",
-            "INVALID_PASSWORD": "Invalid Password",
-            "WRONG_LOGIN_INFO": "Wrong username or password",
-            "AT_LEAST_6_CHARACTERS": "Password must be at least 6 characters"
-        }
-    },
     "SORT_TYPES": [
         {"key": "latest", "value": "Latest"},
         {"key": "low", "value": "Low Price"},
         {"key": "high", "value": "High Price"}
     ],
+    "MSG": {
+        "ERROR":{
+            "AT_LEAST_6_CHARACTERS": "Password must be at least 6 characters",
+            "INVALID_EMAIL": "Invalid Email",
+            "INVALID_PASSWORD": "Invalid Password",
+            "REQUIRED_EMAIL": "Required Email",
+            "REQUIRED_PASSWORD": "Required Password",
+            "REQUIRED_ORDER_ADDRESS": "Please choose an address to confirm your order",
+            "WRONG_LOGIN_INFO": "Wrong username or password"
+        }
+    },
     "NOTIFY": {
         "SHOP": {
             "ADDED_TO_CART": "Added product to cart",
@@ -40,7 +41,9 @@
         },
         "CHECKOUT": {
             "MISSING_INFO": "Please complete the receipt information",
-            "ORDER_SUCCESS": "Thank you for the purchase!"
+            "ORDER_SUCCESS": "Thank you for the purchase!",
+            "DELETE_SHIPMENT_SUCCESS": "Shipment detail deleted successfully",
+            "EDITED_SHIPMENT_SUCCESS": "Shipment detail edited successfully"
         }
     },
     "PAGES": {

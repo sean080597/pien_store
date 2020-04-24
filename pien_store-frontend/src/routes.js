@@ -46,10 +46,10 @@ const routes = () => (
           <>
             <PrivateRoute path={`${url}/profile`} component={Profile} exact/>
             <PrivateRoute path={`${url}/yourOrders`} component={YourOrders} exact/>
+            <PrivateRoute path={`${url}/checkout`} component={CheckOut} exact/>
           </>
         )}
       />
-      <PrivateRoute path='/checkout' component={CheckOut} exact/>
       <Route path='*' component={NotFound}/>
     </Switch>
     <Footer/>

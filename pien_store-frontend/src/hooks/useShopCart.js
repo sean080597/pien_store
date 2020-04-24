@@ -67,7 +67,7 @@ export default function useShopCart(initial, componentName){
     }
 
     const handleGoToCheckoutPage = () => {
-        history.push('/checkout')
+        history.push('/customer/checkout')
     }
 
     const handleSubtractQuantity = (product) => {
