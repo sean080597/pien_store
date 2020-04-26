@@ -45,19 +45,10 @@ export default function useShopCart(initial, componentName){
     }
 
     const handleAddToCart = async (product, quantity = 1) => {
-        if(isLoggedIn){
-            await applyAddToCart(product, parseInt(quantity))
-            iziToast.success({
-                title: CommonConstants.NOTIFY.SHOP.ADDED_TO_CART,
-            });
-        }else{
-            iziToast.show({
-                theme: 'dark',
-                icon: 'fa fa-sign-in',
-                title: CommonConstants.NOTIFY.SHOP.CANCELED_ADD_TO_CART,
-                position: 'topCenter'
-            })
-        }
+        await applyAddToCart(product, parseInt(quantity))
+        iziToast.success({
+            title: CommonConstants.NOTIFY.SHOP.ADDED_TO_CART,
+        });
     }
 
     const handleChangeQuantity = async (evt, product) => {
@@ -67,7 +58,16 @@ export default function useShopCart(initial, componentName){
     }
 
     const handleGoToCheckoutPage = () => {
-        history.push('/customer/checkout')
+        if(isLoggedIn){
+            history.push('/customer/checkout')
+        }else{
+            iziToast.show({
+                theme: 'dark',
+                icon: 'fa fa-sign-in',
+                title: CommonConstants.NOTIFY.SHOP.CANCELED_GO_TO_CHECKOUT,
+                position: 'topCenter'
+            })
+        }
     }
 
     const handleSubtractQuantity = (product) => {
