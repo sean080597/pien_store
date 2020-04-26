@@ -48,7 +48,7 @@ const CommonService = {
                 delete cloneObj[element]
             });
         }
-        return Object.values(cloneObj).some(element => this.hasValueNotNull(element));
+        return Object.values(cloneObj).some(element => !this.hasValueNotNull(element));
     },
     hasValueNotNull(val){
         return val !== null && val !== undefined && val !== ''

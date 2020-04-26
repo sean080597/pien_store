@@ -68,6 +68,8 @@ export default function useCheckout(initial, modalRef) {
             //delete fullname and isChecked before confirm order info
             delete selectedAddress['fullname']
             delete selectedAddress['isChecked']
+            delete selectedAddress['isEditable']
+            delete selectedAddress['gender']
             const sendData = {
                 'cus_id': cusId,
                 'cart_items': items,
@@ -182,17 +184,17 @@ export default function useCheckout(initial, modalRef) {
         const cusId = cusInfo.googleId ? cusInfo.googleId : cusInfo.id
         trackPromise(
             axios.delete(`${apiUrl}/customer/deleteShipmentDetail/${cusId}/${delete_id}`, { headers: headers })
-            .then(async res => {
+            .then(res => {
                 if(res.data.success){
                     _.remove(orderAddresses, (item) => {
                         return item.id === delete_id
                     })
                     if(selectedAddress.id === delete_id){
-                        await dispatch({type: 'SET_SELECTED_ADDRESS', payload: orderAddresses[0]})
-                        selectedAddress.isChecked = true
+                        orderAddresses[0].isChecked = true
+                        dispatch({type: 'SET_SELECTED_ADDRESS', payload: orderAddresses[0]})
                     }
-                    dispatch({type: 'SET_ORDER_ADDRESSES', payload: orderAddresses})
-                    dispatch({type: 'SET_CLONE_ORDER_ADDRESSES', payload: orderAddresses})
+                    // set orderAddresses
+                    applySetStateOrderAddresses(orderAddresses)
                     iziToast.success({
                         title: CommonConstants.NOTIFY.CHECKOUT.DELETE_SHIPMENT_SUCCESS,
                         position: 'topCenter'
