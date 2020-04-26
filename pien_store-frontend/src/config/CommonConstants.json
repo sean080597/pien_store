@@ -32,7 +32,7 @@
     "NOTIFY": {
         "SHOP": {
             "ADDED_TO_CART": "Added product to cart",
-            "CANCELED_ADD_TO_CART": "Please login to order!",
+            "CANCELED_GO_TO_CHECKOUT": "Please login to checkout!",
             "GET_AWAY_OK": "If buy nothing, then turn!"
         },
         "CART": {},
