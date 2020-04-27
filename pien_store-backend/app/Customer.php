@@ -27,4 +27,8 @@ class Customer extends Model
     public function shipmentable(){
         return $this->morphMany(ShipmentDetails::class, 'shipmentable');
     }
+
+    public function orders(){
+        return $this->hasMany('App\Order', 'cus_id', 'id');
+    }
 }

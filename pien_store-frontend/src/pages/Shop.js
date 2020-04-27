@@ -9,7 +9,7 @@ import { useTurnOnOffLoader, useShopCart } from '../hooks/HookManager'
 export default function Shop(props) {
     useTurnOnOffLoader()
     const INITIAL = {sort_price: "", cate_id: props.location.state ? props.location.state.cate_id : ''}
-    const {filterInputs, handleChange, handleSubmitFilter, handleAddToCart} = useShopCart(INITIAL, 'SHOP_COMPONENT')
+    const {filterInputs, handleChange, handleSubmitFilter, handleAddToCart, handlePaginate} = useShopCart(INITIAL, 'SHOP_COMPONENT')
     //state
     const {categories, products} = useSelector(state => ({
         categories: state.shop.categories,
@@ -81,7 +81,7 @@ export default function Shop(props) {
                             )
                         }
                     </div>
-                    <PagePagination isShow="true" filterInputs={filterInputs}/>
+                    <PagePagination isShow="true" filterInputs={filterInputs} handlePaginate={handlePaginate}/>
                 </div>
             </section>
         </div>

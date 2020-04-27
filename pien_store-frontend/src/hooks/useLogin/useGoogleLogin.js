@@ -4,13 +4,13 @@ import {useDispatch, useSelector} from 'react-redux'
 // import {useHistory} from 'react-router-dom'
 import Cookie from 'js-cookie'
 import moment from "moment";
-import axios from 'axios'
 import PageLoadService from '../../services/PageLoadService.service'
 import CommonConstants from '../../config/CommonConstants'
-import {trackPromise} from 'react-promise-tracker'
+import ConnectionService from '../../services/ConnectionService.service'
+import CommonService from '../../services/CommonService.service';
 
 // const apiUrl = window.location.origin + '/api/user';
-const apiUrl = CommonConstants.API_URL + '/user';
+const apiUrl = CommonConstants.API_URL;
 
 export default function useGoogleLogin(){
     const dispatch = useDispatch()
@@ -21,39 +21,31 @@ export default function useGoogleLogin(){
         Cookie.set('google_token', resGoogle.accessToken, { sameSite: 'strict', expires: expiryDate})
         //set cookie jwt token
         Cookie.set('access_token', resJWT.token, { sameSite: 'strict', expires: expiryDate})
-        //set headers for redux state
-        const apiHeaders = {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${Cookie.get('access_token')}`
-        }
-        dispatch({type: 'SET_API_HEADERS', payload:apiHeaders})
     }
-    const headers = useSelector(state => state.common.apiHeaders)
 
     const applyGoogleLogin = (resGoogle) => {
+        const apiQuery = `${apiUrl}/user/authGoogleLogin`
         const sendData = {
             'googleId': resGoogle.googleId,
             'email': resGoogle.profileObj.email,
             'expiresIn':  resGoogle.tokenObj.expires_in
         }
-        trackPromise(
-            axios.post(`${apiUrl}/authGoogleLogin`, sendData)
-            .then(async resJWT => {
-                //dispatch
-                await dispatch({type: 'LOGIN_GOOGLE', payload: resGoogle})
-                await setCookieToken(resGoogle, resJWT.data)
-                //recall event hover dropdown
-                await PageLoadService.setNavbarHoverDropdown()
-            }).catch(error => {
-                throw (error);
-            })
-        )
+        ConnectionService.axiosPostByUrl(apiQuery, sendData)
+        .then(async resJWT => {
+            //dispatch
+            await dispatch({type: 'LOGIN_GOOGLE', payload: resGoogle})
+            await setCookieToken(resGoogle, resJWT)
+            //recall event hover dropdown
+            await PageLoadService.setNavbarHoverDropdown()
+            CommonService.turnOffLoader()
+        })
     }
 
     const applyGoogleLogout = async () => {
-        trackPromise(
-            axios.post(`${apiUrl}/logout`, null, { headers: headers })
-            .then(() => {
+        const apiQuery = `${apiUrl}/user/logout`
+        ConnectionService.axiosPostByUrlWithToken(apiQuery)
+        .then(res => {
+            if(res.success){
                 dispatch({type: 'LOGOUT_GOOGLE'})
                 //reset CartItems redux state
                 dispatch({type: 'SET_CART_ITEMS', payload: []})
@@ -64,11 +56,9 @@ export default function useGoogleLogin(){
                 localStorage.removeItem(CommonConstants.LOCALSTORAGE_NAME)
                 Cookie.remove('google_token')
                 Cookie.remove('access_token')
-            })
-            .catch(error => {
-                throw (error);
-            })
-        )
+                CommonService.turnOffLoader()
+            }
+        })
     }
 
     useEffect(() => {

@@ -1,0 +1,31 @@
+.single-order{
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    .well {
+        border-top: none;
+        border-left: none;
+        border-right: none;
+        border-radius: unset;
+        padding-bottom: 10px;
+    }
+    &__title{
+        display: flex;
+        justify-content: space-between;
+    }
+    &__details{
+        display: flex;
+        img{
+            flex: 1;
+            width: 100%;
+        }
+        button{
+            flex: 3;
+            height: fit-content;
+        }
+    }
+    &__desc{
+        flex: 6;
+    }
+}

@@ -27,5 +27,9 @@ class Product extends Model
 
     public function orderDetails(){
       return $this->hasMany('App\OrderDetail');
+    }
+
+    public function orders(){
+      return $this->belongsToMany('App\Order');
   }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Order;
+use App\Customer;
 use App\Traits\CommonService;
 use Illuminate\Http\Request;
 use Validator;
@@ -13,11 +14,15 @@ class OrderController extends Controller
 {
     use CommonService;
     protected $order;
+    protected $customer;
+    protected $default_page_size;
 
     public function __construct()
     {
         $this->middleware('jwt.auth');
         $this->order = new Order;
+        $this->customer = new Customer;
+        $this->default_page_size = 16;
     }
 
     public function confirmOrderInfo(Request $request)
@@ -41,5 +46,16 @@ class OrderController extends Controller
                 'message' => Config::get('constants.MSG.SUCCESS.ORDER_CONFIRMED'),
             ], 200);
         }
+    }
+
+    public function getPaginatedYourOrders($cus_id, $pagination = null)
+    {
+        $page_size = $pagination ? $pagination : $this->default_page_size;
+        $result = $this->customer::find($cus_id)->orders->load('shipmentable', 'orderDetails');
+
+        return response()->json([
+            'success' => true,
+            'data' => $lsOrders
+        ], 200);
     }
 }

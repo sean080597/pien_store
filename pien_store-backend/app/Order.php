@@ -23,4 +23,8 @@ class Order extends Model
     public function shipmentable(){
         return $this->morphOne(ShipmentDetails::class, 'shipmentable');
     }
+
+    public function products(){
+        return $this->belongsToMany('App\Product');
+    }
 }

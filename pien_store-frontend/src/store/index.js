@@ -5,11 +5,7 @@ const initialStates = {
     common: {
         isFirstLoadPage: true,
         isNotFoundPage: false,
-        currentPath: '',
-        apiHeaders: {
-            'Content-Type': 'application/json',
-            'Authorization': ''
-        }
+        currentPath: ''
     },
     auth: {
         loggedIn: false,
@@ -30,6 +26,9 @@ const initialStates = {
         selectedAddress: {},
         orderAddresses: [],
         cloneOrderAddresses: []
+    },
+    yourOrders: {
+        lsRecentOrders: []
     }
 }
 
