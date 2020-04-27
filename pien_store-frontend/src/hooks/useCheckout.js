@@ -2,9 +2,7 @@ import {useEffect, useState} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import CommonConstants from '../config/CommonConstants'
 import CommonService from '../services/CommonService.service'
-import {trackPromise} from 'react-promise-tracker'
-import Cookie from 'js-cookie'
-import axios from 'axios'
+import ConnectionService from '../services/ConnectionService.service'
 import _ from 'lodash'
 import iziToast from 'izitoast'
 import {useHistory} from 'react-router-dom'
@@ -14,13 +12,12 @@ const apiUrl = CommonConstants.API_URL;
 export default function useCheckout(initial, modalRef) {
     const dispatch = useDispatch()
     const history = useHistory()
-    const {headers, cusInfo, orderAddresses, cloneOrderAddresses, selectedAddress, cartItems} = useSelector(state => ({
+    const {cusInfo, orderAddresses, cloneOrderAddresses, selectedAddress, cartItems} = useSelector(state => ({
         cusInfo: state.auth.user,
         orderAddresses: state.checkout.orderAddresses,
         cloneOrderAddresses: state.checkout.cloneOrderAddresses,
         selectedAddress: state.checkout.selectedAddress,
-        cartItems: state.shop.cartItems,
-        headers: state.common.apiHeaders
+        cartItems: state.shop.cartItems
     }))
 
     const [userInputs, setUserInputs] = useState(initial)
@@ -30,6 +27,10 @@ export default function useCheckout(initial, modalRef) {
         const {name, value} = evt.target;
         setUserInputs({...userInputs, [name]: value})
     }
+
+    const handleClearState = () => {
+        setUserInputs({ ...initial });
+      };
 
     const handleSwitchAddress = (evt) => {
         const temp = _.cloneDeep(orderAddresses)
@@ -63,6 +64,7 @@ export default function useCheckout(initial, modalRef) {
                 position: 'topCenter'
             })
         }else{
+            const apiQuery = `${apiUrl}/order/confirmOrderInfo`
             const cusId = cusInfo.googleId ? cusInfo.googleId : cusInfo.id
             const items = cartItems.map(item => { return { prod_id: item.id, quantity: item.quantity } })
             //delete fullname and isChecked before confirm order info
@@ -76,24 +78,21 @@ export default function useCheckout(initial, modalRef) {
                 'shipment_details': selectedAddress
             }
 
-            trackPromise(
-                axios.post(`${apiUrl}/order/confirmOrderInfo`, sendData, { headers: headers })
-                .then(async res => {
-                    if(res.data.success){
-                        localStorage.removeItem(CommonConstants.LOCALSTORAGE_NAME)
-                        dispatch({type: 'SET_CART_ITEMS', payload: []})
-                        dispatch({type: 'SET_CART_COUNT', payload: 0})
-                        dispatch({type: 'SET_CART_TOTAL', payload: 0})
-                        iziToast.success({
-                            title: CommonConstants.NOTIFY.CHECKOUT.ORDER_SUCCESS,
-                            position: 'topCenter'
-                        })
-                        history.push("/shop");
-                    }
-                }).catch(error => {
-                    throw (error);
-                })
-            )
+            ConnectionService.axiosPostByUrlWithToken(apiQuery, sendData)
+            .then(async res => {
+                if(res.success){
+                    localStorage.removeItem(CommonConstants.LOCALSTORAGE_NAME)
+                    dispatch({type: 'SET_CART_ITEMS', payload: []})
+                    dispatch({type: 'SET_CART_COUNT', payload: 0})
+                    dispatch({type: 'SET_CART_TOTAL', payload: 0})
+                    CommonService.turnOffLoader()
+                    iziToast.success({
+                        title: CommonConstants.NOTIFY.CHECKOUT.ORDER_SUCCESS,
+                        position: 'topCenter'
+                    })
+                    history.push("/shop");
+                }
+            })
         }
     }
 
@@ -106,19 +105,19 @@ export default function useCheckout(initial, modalRef) {
 
     const handleAddNewAddress = () => {
         const cusId = cusInfo.googleId ? cusInfo.googleId : cusInfo.id
+        const apiQuery = `${apiUrl}/customer/createShipmentDetail/${cusId}`
         const sendData = _.cloneDeep(userInputs)
         delete sendData['isShowAddNewAddress']
-        trackPromise(
-            axios.post(`${apiUrl}/customer/createShipmentDetail/${cusId}`, sendData, { headers: headers })
-            .then(res => {
-                if(res.data.success){
-                    orderAddresses.push(res.data.data)
-                    applySetStateOrderAddresses(orderAddresses)
-                }
-            }).catch(error => {
-                throw (error);
-            })
-        )
+        ConnectionService.axiosPostByUrlWithToken(apiQuery, sendData)
+        .then(async res => {
+            if(res.success){
+                orderAddresses.push(res.data)
+                await applySetStateOrderAddresses(orderAddresses)
+                // empty userInputs after adding new address
+                handleClearState()
+                CommonService.turnOffLoader()
+            }
+        })
     }
 
     const handleDeleteShipmentDetails = (delete_id) => {
@@ -165,45 +164,41 @@ export default function useCheckout(initial, modalRef) {
     //apply
     const applyGetOrderAddresses = async () => {
         const cusId = cusInfo.googleId ? cusInfo.googleId : cusInfo.id
-        trackPromise(
-            axios.get(`${apiUrl}/customer/getOrderAddresses/${cusId}`, { headers: headers })
-            .then(res => {
-                if(res.data.success){
-                    if(res.data.data.length > 0){
-                        applySetStateOrderAddresses(res.data.data)
-                        dispatch({type: 'SET_SELECTED_ADDRESS', payload: res.data.data[0]})
-                    }
+        const apiQuery = `${apiUrl}/customer/getOrderAddresses/${cusId}`
+        ConnectionService.axiosGetByUrlWithToken(apiQuery)
+        .then(async res => {
+            if(res.success){
+                if(res.data.length > 0){
+                    await applySetStateOrderAddresses(res.data)
+                    await dispatch({type: 'SET_SELECTED_ADDRESS', payload: res.data[0]})
+                    CommonService.turnOffLoader()
                 }
-            }).catch(error => {
-                throw (error);
-            })
-        )
+            }
+        })
     }
 
     const applyDeleteShipmentDetail = (delete_id) => {
         const cusId = cusInfo.googleId ? cusInfo.googleId : cusInfo.id
-        trackPromise(
-            axios.delete(`${apiUrl}/customer/deleteShipmentDetail/${cusId}/${delete_id}`, { headers: headers })
-            .then(res => {
-                if(res.data.success){
-                    _.remove(orderAddresses, (item) => {
-                        return item.id === delete_id
-                    })
-                    if(selectedAddress.id === delete_id){
-                        orderAddresses[0].isChecked = true
-                        dispatch({type: 'SET_SELECTED_ADDRESS', payload: orderAddresses[0]})
-                    }
-                    // set orderAddresses
-                    applySetStateOrderAddresses(orderAddresses)
-                    iziToast.success({
-                        title: CommonConstants.NOTIFY.CHECKOUT.DELETE_SHIPMENT_SUCCESS,
-                        position: 'topCenter'
-                    })
+        const apiQuery = `${apiUrl}/customer/deleteShipmentDetail/${cusId}/${delete_id}`
+        ConnectionService.axiosDeleteByUrlWithToken(apiQuery)
+        .then(async res => {
+            if(res.success){
+                _.remove(orderAddresses, (item) => {
+                    return item.id === delete_id
+                })
+                if(selectedAddress.id === delete_id){
+                    orderAddresses[0].isChecked = true
+                    await dispatch({type: 'SET_SELECTED_ADDRESS', payload: orderAddresses[0]})
                 }
-            }).catch(error => {
-                throw (error);
-            })
-        )
+                // set orderAddresses
+                await applySetStateOrderAddresses(orderAddresses)
+                CommonService.turnOffLoader()
+                iziToast.success({
+                    title: CommonConstants.NOTIFY.CHECKOUT.DELETE_SHIPMENT_SUCCESS,
+                    position: 'topCenter'
+                })
+            }
+        })
     }
 
     const applySetStateOrderAddresses = (data) => {
@@ -221,30 +216,28 @@ export default function useCheckout(initial, modalRef) {
         })
     }
 
-    const applyEditShipmentDetails = (shipmentDetail) => {
+    const applyEditShipmentDetails = (shipmentDetails) => {
         const cusId = cusInfo.googleId ? cusInfo.googleId : cusInfo.id
-        trackPromise(
-            axios.put(`${apiUrl}/customer/editShipmentDetail/${cusId}`, shipmentDetail, { headers: headers })
-            .then(async res => {
-                if(res.data.success){
-                    orderAddresses.map((item) => { return item.isEditable = false })
-                    applySetStateOrderAddresses(orderAddresses)
-                    iziToast.success({
-                        title: CommonConstants.NOTIFY.CHECKOUT.EDITED_SHIPMENT_SUCCESS,
-                        position: 'topCenter'
-                    })
-                }
-            }).catch(error => {
-                throw (error);
-            })
-        )
+        const apiQuery = `${apiUrl}/customer/editShipmentDetail/${cusId}`
+        ConnectionService.axiosPutByUrlWithToken(apiQuery, shipmentDetails)
+        .then(async res => {
+            if(res.success){
+                orderAddresses.map((item) => { return item.isEditable = false })
+                await applySetStateOrderAddresses(orderAddresses)
+                CommonService.turnOffLoader()
+                iziToast.success({
+                    title: CommonConstants.NOTIFY.CHECKOUT.EDITED_SHIPMENT_SUCCESS,
+                    position: 'topCenter'
+                })
+            }
+        })
     }
 
     useEffect(() => {
         if(cartItems.length < 1) history.push('/shop')
         else if(!CommonService.isObjectEmpty(cusInfo)) applyGetOrderAddresses()
         return () => {}
-    }, [cusInfo, headers])
+    }, [cusInfo])
     return {userInputs, handleChange, handleSwitchAddress, handleChangedAddress, handleCancelChangedAddress,
         handleAddNewAddress, handleConfirmOrder, handleShowAddNewAddress, handleDeleteShipmentDetails,
         handleSetEditableShipment, handleEditShipmentDetail};

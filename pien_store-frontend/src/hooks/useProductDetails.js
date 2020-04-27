@@ -2,8 +2,7 @@ import {useEffect, useState} from 'react'
 import {useDispatch} from 'react-redux'
 import CommonConstants from '../config/CommonConstants'
 import CommonService from '../services/CommonService.service'
-import axios from 'axios'
-import { trackPromise } from 'react-promise-tracker';
+import ConnectionService from '../services/ConnectionService.service'
 
 const apiUrl = CommonConstants.API_URL;
 
@@ -31,25 +30,21 @@ export default function useProductDetails(prod_id, initial){
 
     //apply
     const applyGetProductDetails = () => {
-        trackPromise(
-            axios.get(`${apiUrl}/product/getSingle/${prod_id}`)
-            .then(res => {
-                setProductInfo(res.data.data)
-                applyGetRelatedProducts()
-            })
-            .catch(error => {
-                throw(error)
-            })
-        )
+        const apiQuery = `${apiUrl}/product/getSingle/${prod_id}`
+        ConnectionService.axiosGetByUrl(apiQuery)
+        .then(async res => {
+            await setProductInfo(res.data)
+            await applyGetRelatedProducts()
+            CommonService.turnOffLoader()
+        })
     }
 
     const applyGetRelatedProducts = () => {
-        axios.get(`${apiUrl}/product/getRelatedProduct/${prod_id}`)
-        .then(res => {
-            dispatch({type: 'SET_RELATED_PRODUCTS', payload: res.data.data})
-        })
-        .catch(error => {
-            throw(error)
+        const apiQuery = `${apiUrl}/product/getRelatedProduct/${prod_id}`
+        ConnectionService.axiosGetByUrl(apiQuery)
+        .then(async res => {
+            await dispatch({type: 'SET_RELATED_PRODUCTS', payload: res.data})
+            CommonService.turnOffLoader()
         })
     }
 

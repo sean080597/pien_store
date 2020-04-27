@@ -219,9 +219,9 @@ class ProductController extends Controller
       ], 200);
     }
 
-    public function searchData($search, $cate_id = null, $paginate = null)
+    public function searchData($search, $cate_id = null, $pagination = null)
     {
-      $page_size = $paginate ? $paginate : $this->default_page_size;
+      $page_size = $pagination ? $pagination : $this->default_page_size;
       $query = Product::query()->with('image:url,imageable_id');
       //check if exists cate_id
       $query->when($cate_id, function ($q, $cate_id) {

@@ -10,8 +10,6 @@ const doSetCommon = (state = {}, {type, payload}) => {
             return {...state, isNotFoundPage: false}
         case 'SET_CURRENT_PATH':
             return {...state, currentPath: payload}
-        case 'SET_API_HEADERS':
-            return {...state, apiHeaders: payload}
         default:
             return state
     }

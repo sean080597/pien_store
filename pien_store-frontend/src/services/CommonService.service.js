@@ -6,7 +6,7 @@ const protectedRoutes = ['/customer/profile', '/customer/checkout', '/customer/y
 const CommonService = {
     turnOffLoader() {
         $('.loader').fadeOut();
-        $('.page-loader').delay(350).fadeOut('slow');
+        $('.page-loader').fadeOut('slow');
     },
     turnOnLoader() {
         $('.loader').fadeIn();
@@ -63,6 +63,17 @@ const CommonService = {
           && rect.left >= 0
           && rect.top <= (window.innerHeight || document.documentElement.clientHeight)
         )
+    },
+    setEmptyValueObject(obj){
+        let keys = Object.keys(obj);
+        keys.map(key => {
+            if(typeof obj[key] !== 'object' ){
+                obj[key] = null
+            }else{
+                this.setEmptyValueObject(obj[key])
+            }
+            return key
+        })
     }
 };
 

@@ -1,13 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import CommonService from '../services/CommonService.service'
+import ConnectionService from '../services/ConnectionService.service'
 import {useEffect, useState, useRef} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {useHistory} from 'react-router-dom'
-import CommonService from '../services/CommonService.service'
-import axios from 'axios';
 import CommonConstants from '../config/CommonConstants'
-import Cookie from 'js-cookie'
-import {trackPromise} from 'react-promise-tracker'
 import iziToast from 'izitoast'
+import _ from 'lodash'
 
 const apiUrl = CommonConstants.API_URL;
 const routeCanGetCategoriesAll = ['/', '/shop']
@@ -26,6 +25,7 @@ export default function useShopCart(initial, componentName){
     const [filterInputs, setFilterInputs] = useState(initial)
 
     let isMounted = useRef(false);
+    let sendPaginateFilters = useRef(initial)
 
     //handle
     const handleChange = (evt) => {
@@ -35,12 +35,13 @@ export default function useShopCart(initial, componentName){
 
     const handleSubmitFilter = async (evt) => {
         evt.preventDefault();
+        sendPaginateFilters.current = filterInputs
         await applyProductsFilter()
         CommonService.goToPosition('#section-filter')
     }
 
-    const handlePaginate = async (pageIndex, filterData) => {
-        await applyProductsFilter(pageIndex, filterData)
+    const handlePaginate = async (pageIndex) => {
+        await applyProductsFilter(pageIndex)
         CommonService.goToPosition('#section-filter')
     }
 
@@ -80,35 +81,28 @@ export default function useShopCart(initial, componentName){
 
     //apply
     const applyCategoriesAll = () => {
-        trackPromise(
-            axios.get(`${apiUrl}/category/getAll`)
-            .then(async res => {
-                //dispatch
-                await dispatch({type: 'SET_CATEGORIES', payload: res.data.data.data})
-            }).catch(error => {
-                throw (error);
-            })
-        )
+        let apiQuery = `${apiUrl}/category/getAll`
+        ConnectionService.axiosGetByUrl(apiQuery)
+        .then(async res => {
+            await dispatch({type: 'SET_CATEGORIES', payload: res.data.data})
+            CommonService.turnOffLoader()
+        })
     }
 
-    const applyProductsFilter = (pageIndex, filterData) => {
+    const applyProductsFilter = (pageIndex) => {
         let apiQuery = `${apiUrl}/product/getAll/filterData${pageIndex ? '?page=' + pageIndex : ''}`
-        let sendFilters = filterData || filterInputs
-        trackPromise(
-            axios.post(apiQuery, sendFilters)
-            .then( async res => {
-                let products = res.data.data.data
-                delete res.data.data.data
-                let pagination = res.data.data
-                let storeData = {
-                    products: products,
-                    pagination: pagination
-                }
-                await dispatch({type: 'SET_PRODUCTS', payload: storeData})
-            }).catch(error => {
-                throw (error);
-            })
-        )
+        ConnectionService.axiosPostByUrl(apiQuery, sendPaginateFilters.current)
+        .then(async res => {
+            let products = res.data.data
+            delete res.data.data
+            let pagination = res.data
+            let storeData = {
+                products: products,
+                pagination: pagination
+            }
+            await dispatch({type: 'SET_PRODUCTS', payload: storeData})
+            CommonService.turnOffLoader()
+        })
     }
     //use for button AddToCart on Image and change quantity of input quantity
     const applyAddToCart = (product, quantity = 1) => {
@@ -163,6 +157,7 @@ export default function useShopCart(initial, componentName){
         if(isMounted.current && componentName){
             if (routeCanGetCategoriesAll.some(t => t === currentPath) && allCategories.length < 1) applyCategoriesAll()
             if (routeCanGetProductsAll.some(t => t === currentPath) && allProducts.length < 1) applyProductsFilter()
+            if (currentPath.includes('/cart')) CommonService.turnOffLoader()
         }else{
             isMounted.current = true
         }
