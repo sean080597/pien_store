@@ -51,11 +51,11 @@ class OrderController extends Controller
     public function getPaginatedYourOrders($cus_id, $pagination = null)
     {
         $page_size = $pagination ? $pagination : $this->default_page_size;
-        $result = $this->customer::find($cus_id)->orders->load('shipmentable', 'orderDetails');
-
+        $query = Order::query()->with('shipmentable', 'orderDetails', 'products');
+        $result = $query->where('cus_id', $cus_id)->latest()->paginate($page_size);
         return response()->json([
             'success' => true,
-            'data' => $lsOrders
+            'data' => $result
         ], 200);
     }
 }

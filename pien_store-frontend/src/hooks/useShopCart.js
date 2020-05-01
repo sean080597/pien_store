@@ -94,13 +94,10 @@ export default function useShopCart(initial, componentName){
         ConnectionService.axiosPostByUrl(apiQuery, sendPaginateFilters.current)
         .then(async res => {
             let products = res.data.data
+            // delete products list to take all pagination info
             delete res.data.data
-            let pagination = res.data
-            let storeData = {
-                products: products,
-                pagination: pagination
-            }
-            await dispatch({type: 'SET_PRODUCTS', payload: storeData})
+            await dispatch({type: 'SET_PRODUCTS', payload: products})
+            await dispatch({type: 'SET_PAGINATION', payload: res.data})
             CommonService.turnOffLoader()
         })
     }

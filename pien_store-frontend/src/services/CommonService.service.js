@@ -74,6 +74,22 @@ const CommonService = {
             }
             return key
         })
+    },
+    formatNumber(val){
+        return new Intl.NumberFormat("en-GB", {
+            style: "currency",
+            currency: "VND",
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0
+        }).format(val)
+    },
+    formatDateTime(val){
+        return new Intl.DateTimeFormat("en-GB", {
+            year: "numeric",
+            month: "long",
+            day: "2-digit",
+            timeZone: "Asia/Ho_Chi_Minh"
+        }).format(new Date(val))
     }
 };
 

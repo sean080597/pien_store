@@ -1,11 +1,17 @@
 import React from 'react'
+import {useSelector} from 'react-redux'
 import {useYourOrders, useTurnOnOffLoader} from '../hooks/HookManager'
 import CommonConstants from '../config/CommonConstants'
 import SingleOrder from '../components/SingleOrder'
+import PagePagination from '../components/PagePagination'
 
 export default function YourOrders (props) {
     useTurnOnOffLoader()
     const {handlePaginate} = useYourOrders()
+    //state
+    const {recentOrders} = useSelector(state => ({
+        recentOrders: state.yourOrders.lsRecentOrders
+    }))
     return (
         <div className="main">
             <section className="module-small" id="order-section">
@@ -13,15 +19,14 @@ export default function YourOrders (props) {
                     <div className="row">
                         <div className="col-sm-12">
                             <h3 className="product-title font-alt">Your Orders</h3>
-                            <SingleOrder/>
-                            <SingleOrder/>
-                            <SingleOrder/>
-                            <SingleOrder/>
-                            <SingleOrder/>
-                            <SingleOrder/>
+                            {
+                                recentOrders.map((item, index) =>
+                                    <SingleOrder orderInfo={item} key={index}/>
+                                )
+                            }
                         </div>
                         <div className="col-sm-12">
-                            {/* <PagePagination isShow="true" filterInputs={filterInputs}/> */}
+                            <PagePagination isShow="true" handlePaginate={handlePaginate} statePagination={0}/>
                         </div>
                     </div>
                 </div>
