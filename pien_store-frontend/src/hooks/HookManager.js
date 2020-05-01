@@ -1,16 +1,16 @@
 import useTurnOnOffLoader from './useTurnOnOffLoader'
 import useScreenWidth from './useScreenWidth'
 //login hooks
-import useFormLogin from './useFormLogin/useFormLogin'
-import validationAuth from './useFormLogin/validationAuth'
+import useFormLogin from './use-form-login/useFormLogin'
+import validationAuth from './use-form-login/validationAuth'
 //social login
-import useGoogleLogin from './useLogin/useGoogleLogin'
+import useGoogleLogin from './use-login/useGoogleLogin'
 //Shop Cart
-import useShopCart from './useShopCart'
-import useProductDetails from './useProductDetails'
+import useShopCart from './shop/useShopCart'
+import useProductDetails from './shop/useProductDetails'
 //------------------
 import useNotFoundPage from './useNotFoundPage'
-import useUserProfile from './useLogin/useUserProfile'
+import useUserProfile from './use-login/useUserProfile'
 import useCheckout from './useCheckout'
 import useOurGallery from './gallery/useOurGallery'
 import useSinglePhoto from './gallery/useSinglePhoto'

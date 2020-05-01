@@ -1,10 +1,10 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
-import CommonConstants from '../config/CommonConstants'
-import CommonService from '../services/CommonService.service'
+import CommonConstants from '../../config/CommonConstants'
+import CommonService from '../../services/CommonService.service'
 import { useSelector } from 'react-redux';
-import { useTurnOnOffLoader, useProductDetails, useShopCart } from '../hooks/HookManager'
-import GliderImages from '../components/ProductDetailsGliderImages'
+import { useTurnOnOffLoader, useProductDetails, useShopCart } from '../../hooks/HookManager'
+import {ProductDetailsGliderImages} from '../../components/ComponentsManager'
 
 export default function ProductDetails(props) {
     useTurnOnOffLoader()
@@ -101,7 +101,7 @@ export default function ProductDetails(props) {
                     </div>
                     <div className="row">
                         { relatedProducts.length > 0 &&
-                        <GliderImages>
+                        <ProductDetailsGliderImages>
                             {
                                 relatedProducts.map(prod =>
                                     <div key={prod.id} onClick={() => handleReplaceProduct(prod.id)}>
@@ -114,7 +114,7 @@ export default function ProductDetails(props) {
                                     </div>
                                 )
                             }
-                        </GliderImages> }
+                        </ProductDetailsGliderImages> }
                     </div>
                 </div>
             </section>
