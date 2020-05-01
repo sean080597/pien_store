@@ -16,16 +16,16 @@
     }
     &__details{
         display: flex;
-        img{
-            flex: 1;
-            width: 100%;
-        }
-        button{
-            flex: 3;
-            height: fit-content;
-        }
+    }
+    &__img{
+        flex: 1;
+        width: 100%;
     }
     &__desc{
         flex: 6;
+    }
+    &__button{
+        flex: 3;
+        height: fit-content;
     }
 }

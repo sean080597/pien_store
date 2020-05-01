@@ -10,6 +10,8 @@ const doSetCommon = (state = {}, {type, payload}) => {
             return {...state, isNotFoundPage: false}
         case 'SET_CURRENT_PATH':
             return {...state, currentPath: payload}
+        case 'SET_PAGINATION':
+            return {...state, pagePagination: payload}
         default:
             return state
     }

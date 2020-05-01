@@ -5,7 +5,8 @@ const initialStates = {
     common: {
         isFirstLoadPage: true,
         isNotFoundPage: false,
-        currentPath: ''
+        currentPath: '',
+        pagePagination: {}
     },
     auth: {
         loggedIn: false,
@@ -16,7 +17,6 @@ const initialStates = {
     shop:{
         categories: [],
         products: [],
-        pagePagination: {},
         cartItems: [],
         cartCount: 0,
         cartTotal: 0,

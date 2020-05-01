@@ -3,17 +3,19 @@ import { useSelector } from 'react-redux'
 import { usePagePagination } from '../hooks/HookManager'
 
 export default function PagePagination(props) {
-    const {nextPageUrl, prevPageUrl, total, perPage, curPage} = useSelector(state => ({
-        nextPageUrl: state.shop.pagePagination.next_page_url,
-        prevPageUrl: state.shop.pagePagination.prev_page_url,
-        total: state.shop.pagePagination.total,
-        perPage: state.shop.pagePagination.per_page,
-        curPage: state.shop.pagePagination.current_page
+    const {pagePaginationInfo} = useSelector(state => ({
+        pagePaginationInfo: state.common.pagePagination
     }))
+
+    const nextPageUrl = pagePaginationInfo.next_page_url
+    const prevPageUrl = pagePaginationInfo.prev_page_url
+    const total = pagePaginationInfo.total
+    const perPage = pagePaginationInfo.per_page
+    const curPage = pagePaginationInfo.current_page
 
     let pageNumbers = Math.ceil(total/perPage)
     pageNumbers = Array.from({length:pageNumbers},(v,k)=>k+1)
-
+    console.log(pageNumbers)
     const getPageNumber = (url) => {
         let x = url.split('=')
         return x[x.length - 1]
@@ -21,7 +23,7 @@ export default function PagePagination(props) {
 
     return (
         <>
-            {props.isShow === 'true' && pageNumbers &&
+            {props.isShow === 'true' && pageNumbers && pagePaginationInfo &&
             <div className="row">
                 <div className="col-sm-12">
                     <div className="pagination font-alt">

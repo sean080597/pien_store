@@ -3,7 +3,7 @@ const doShopCart = (state = {}, {type, payload}) => {
         case 'SET_CATEGORIES':
             return {...state, categories: payload}
         case 'SET_PRODUCTS':
-            return {...state, products: payload.products, pagePagination: payload.pagination}
+            return {...state, products: payload}
         case 'SET_CART_ITEMS':
             return {...state, cartItems: payload}
         case 'SET_CART_COUNT':

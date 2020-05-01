@@ -81,7 +81,7 @@ export default function Shop(props) {
                             )
                         }
                     </div>
-                    <PagePagination isShow="true" filterInputs={filterInputs} handlePaginate={handlePaginate}/>
+                    <PagePagination isShow="true" handlePaginate={handlePaginate} statePagination={0}/>
                 </div>
             </section>
         </div>
