@@ -2,17 +2,16 @@ import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import PrivateRoute from './PrivateRoutes'
 
-import Navbar from './components/Navbar'
-import Footer from './components/Footer'
+import {Navbar, Footer} from './components/ComponentsManager'
 import Home from './pages/Home'
 import OurStory from './pages/OurStory'
-import Shop from './pages/Shop'
-import ProductDetail from './pages/ProductDetails'
+import Shop from './pages/shop/Shop'
+import ProductDetail from './pages/shop/ProductDetails'
 import Cart from './pages/Cart'
 import Profile from './pages/Profile'
 import NotFound from './pages/NotFound'
 import CheckOut from './pages/CheckOut'
-import YourOrders from './pages/YourOrders'
+import YourOrders from './pages/your-orders/YourOrders'
 import OurGallery from './pages/OurGallery'
 
 // const defineRoutes = [

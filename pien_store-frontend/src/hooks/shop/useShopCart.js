@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import CommonService from '../services/CommonService.service'
-import ConnectionService from '../services/ConnectionService.service'
+import CommonService from '../../services/CommonService.service'
+import ConnectionService from '../../services/ConnectionService.service'
 import {useEffect, useState, useRef} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {useHistory} from 'react-router-dom'
-import CommonConstants from '../config/CommonConstants'
+import CommonConstants from '../../config/CommonConstants'
 import iziToast from 'izitoast'
 import _ from 'lodash'
 

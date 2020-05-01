@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Router from '../routes';
 import $ from 'jquery';
 import PageLoadService from '../services/PageLoadService.service';
-import LoadingIndicator from '../components/LoadingIndicator'
+import {LoadingIndicator} from '../components/ComponentsManager'
 //plugins
 import '../plugins/iziToast'
 

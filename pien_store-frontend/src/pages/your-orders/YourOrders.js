@@ -1,9 +1,7 @@
 import React from 'react'
 import {useSelector} from 'react-redux'
-import {useYourOrders, useTurnOnOffLoader} from '../hooks/HookManager'
-import CommonConstants from '../config/CommonConstants'
-import SingleOrder from '../components/SingleOrder'
-import PagePagination from '../components/PagePagination'
+import {useYourOrders, useTurnOnOffLoader} from '../../hooks/HookManager'
+import {SingleOrder, PagePagination} from '../../components/ComponentsManager'
 
 export default function YourOrders (props) {
     useTurnOnOffLoader()

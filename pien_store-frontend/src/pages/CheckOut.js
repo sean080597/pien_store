@@ -3,7 +3,7 @@ import {useSelector} from 'react-redux'
 import CommonConstants from '../config/CommonConstants'
 import CommonService from '../services/CommonService.service'
 import {useTurnOnOffLoader, useCheckout, useShopCart} from '../hooks/HookManager'
-import Modal from '../components/Modal'
+import {Modal} from '../components/ComponentsManager'
 
 export default function ConfirmInfo (props) {
     useTurnOnOffLoader()
