@@ -10,13 +10,7 @@ class OrderDetail extends Model
 
     protected $table = 'order_details';
 
+    protected $keyType = 'string';
+
     protected $guarded = [];
-
-    public function order(){
-        return $this->belongsTo('App\Order');
-    }
-
-    public function product(){
-        return $this->belongsTo('App\Product');
-    }
 }

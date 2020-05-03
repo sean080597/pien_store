@@ -158,10 +158,7 @@ export default function useShopCart(initial, componentName){
         }else{
             isMounted.current = true
         }
-        return () => {
-            if(localStorage.getItem(CommonConstants.LOCALSTORAGE_NAME))
-                applySetCartItems(JSON.parse(localStorage.getItem(CommonConstants.LOCALSTORAGE_NAME)))
-        }
+        return () => {}
     }, [currentPath])
 
     return {

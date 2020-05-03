@@ -16,6 +16,7 @@ class CreateOrderDetailsTable extends Migration
         Schema::create('order_details', function (Blueprint $table) {
             $table->string('order_id', 50);
             $table->string('prod_id', 50);
+            $table->string('status', 10);
             $table->unsignedSmallInteger('quantity');
             $table->primary(['order_id','prod_id']);
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade')->onUpdate('cascade');

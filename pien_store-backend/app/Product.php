@@ -11,6 +11,8 @@ class Product extends Model
 
     protected $table = 'products';
 
+    protected $keyType = 'string';
+
     // protected $fillable = [
     //     'id', 'name', 'price', 'description', 'image', 'origin', 'category_id'
     // ];

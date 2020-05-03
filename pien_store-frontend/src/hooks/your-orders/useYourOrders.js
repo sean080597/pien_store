@@ -1,17 +1,16 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import CommonConstants from '../config/CommonConstants'
-import CommonService from '../services/CommonService.service'
-import ConnectionService from '../services/ConnectionService.service';
+import CommonConstants from '../../config/CommonConstants'
+import CommonService from '../../services/CommonService.service'
+import ConnectionService from '../../services/ConnectionService.service';
 
 const apiUrl = CommonConstants.API_URL;
 
 export default function useYourOrders() {
     const dispatch = useDispatch()
-    const defaultPageSize = 3
-    const {cusInfo, recentOrders} = useSelector(state => ({
-        cusInfo: state.auth.user,
-        recentOrders: state.yourOrders.lsRecentOrders
+    const defaultPageSize = 5
+    const {cusInfo} = useSelector(state => ({
+        cusInfo: state.auth.user
     }))
     // handle
     const handlePaginate = async (pageIndex) => {
