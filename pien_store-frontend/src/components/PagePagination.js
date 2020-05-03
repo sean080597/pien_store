@@ -15,7 +15,6 @@ export default function PagePagination(props) {
 
     let pageNumbers = Math.ceil(total/perPage)
     pageNumbers = Array.from({length:pageNumbers},(v,k)=>k+1)
-    console.log(pageNumbers)
     const getPageNumber = (url) => {
         let x = url.split('=')
         return x[x.length - 1]

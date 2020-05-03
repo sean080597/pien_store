@@ -14,8 +14,9 @@ import useUserProfile from './use-login/useUserProfile'
 import useCheckout from './useCheckout'
 import useOurGallery from './gallery/useOurGallery'
 import useSinglePhoto from './gallery/useSinglePhoto'
-import useYourOrders from './useYourOrders'
 import usePagePagination from './usePagePagination'
+import useYourOrders from './your-orders/useYourOrders'
+import useOrderDetails from './your-orders/useOrderDetails'
 
 export {
     //turn on & off laoder
@@ -35,7 +36,8 @@ export {
     useUserProfile,
     useCheckout,
     useOurGallery,
+    usePagePagination,
     useSinglePhoto,
     useYourOrders,
-    usePagePagination
+    useOrderDetails
 }

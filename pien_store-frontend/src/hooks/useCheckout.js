@@ -171,8 +171,8 @@ export default function useCheckout(initial, modalRef) {
                 if(res.data.length > 0){
                     await applySetStateOrderAddresses(res.data)
                     await dispatch({type: 'SET_SELECTED_ADDRESS', payload: res.data[0]})
-                    CommonService.turnOffLoader()
                 }
+                CommonService.turnOffLoader()
             }
         })
     }
@@ -235,7 +235,7 @@ export default function useCheckout(initial, modalRef) {
 
     useEffect(() => {
         if(cartItems.length < 1) history.push('/shop')
-        else if(!CommonService.isObjectEmpty(cusInfo)) applyGetOrderAddresses()
+        else if(!CommonService.isObjectEmpty(cusInfo) && CommonService.isObjectEmpty(orderAddresses)) applyGetOrderAddresses()
         return () => {}
     }, [cusInfo])
     return {userInputs, handleChange, handleSwitchAddress, handleChangedAddress, handleCancelChangedAddress,

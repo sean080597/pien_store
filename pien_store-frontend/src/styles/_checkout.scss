@@ -1,11 +1,29 @@
 .address-table {
 	border: 1px solid #e5e5e5;
-	height: 60vh;
-    overflow-y: auto;
-	display: block;
-	@extend .custom-scrollbar;
-	tbody > tr > td{
-		vertical-align: unset !important;
+	height: 55vh;
+	tbody{
+		display: block;
+		overflow-y: auto;
+		height: 45vh;
+		@extend .custom-scrollbar;
+	}
+	thead, tbody{
+		tr {
+			display: table;
+			width: 100%;
+			table-layout: fixed;
+		}
+		th, td{
+			&:first-child{
+				width: 25%;
+			}
+			&:nth-child(2){
+				width: calc(5/12*100%);
+			}
+			&:last-child{
+				width: calc(1/6*100%);
+			}
+		}
 	}
 }
 
@@ -16,6 +34,7 @@
 .address-table > thead > tr > td,
 .address-table > thead > tr > th {
 	padding: 12px;
+	vertical-align: middle;
 }
 
 .address-table tbody tr td:last-child {

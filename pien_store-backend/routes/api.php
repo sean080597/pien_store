@@ -55,6 +55,7 @@ Route::group(['prefix' => 'customer'], function () {
 Route::group(['prefix' => 'order'], function () {
     Route::post('confirmOrderInfo', 'OrderController@confirmOrderInfo');
     Route::get('getPaginatedYourOrders/{cus_id}/{pagination?}', 'OrderController@getPaginatedYourOrders');
+    Route::get('getSingle/{id}', 'OrderController@getSingleData');
 });
 
 Route::group(['prefix' => 'image-gallery'], function () {

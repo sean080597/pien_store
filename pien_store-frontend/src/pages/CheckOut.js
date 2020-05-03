@@ -120,9 +120,9 @@ export default function ConfirmInfo (props) {
                 <table className="table table-striped table-border address-table mb-0">
                     <thead>
                         <tr>
-                            <th className="col-sm-3">Fullname</th>
-                            <th className="col-sm-5">Address</th>
-                            <th className="col-sm-2">Phone</th>
+                            <th>Fullname</th>
+                            <th>Address</th>
+                            <th>Phone</th>
                             <th></th>
                         </tr>
                     </thead>

@@ -52,6 +52,9 @@
         "CART": {
             "TITLE": "Cart",
             "NO_CART_ITEMS": "You don't have any product"
+        },
+        "YOUR_ORDERS": {
+            "NO_ORDERS": "You don't have any orders"
         }
     }
 }

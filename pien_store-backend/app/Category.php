@@ -10,6 +10,8 @@ class Category extends Model
 
     protected $table = 'categories';
 
+    protected $keyType = 'string';
+
     // protected $fillable = [
     //     'id', 'name'
     // ];

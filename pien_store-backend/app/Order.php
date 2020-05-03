@@ -10,14 +10,16 @@ class Order extends Model
 
     protected $table = 'orders';
 
+    protected $keyType = 'string';
+
     protected $guarded = [];
 
     public function orderDetails(){
-        return $this->hasMany('App\OrderDetail');
+        return $this->hasMany('App\OrderDetail', 'order_id', 'id');
     }
 
     public function customer(){
-        return $this->belongsTo('App\Customer');
+        return $this->belongsTo('App\Customer', 'cus_id', 'id');
     }
 
     public function shipmentable(){
@@ -25,6 +27,6 @@ class Order extends Model
     }
 
     public function products(){
-        return $this->belongsToMany('App\Product', 'order_details', 'order_id', 'prod_id');
+        return $this->belongsToMany('App\Product', 'order_details', 'order_id', 'prod_id')->as('order_details')->withPivot('quantity');
     }
 }

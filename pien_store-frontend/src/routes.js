@@ -11,8 +11,9 @@ import Cart from './pages/Cart'
 import Profile from './pages/Profile'
 import NotFound from './pages/NotFound'
 import CheckOut from './pages/CheckOut'
-import YourOrders from './pages/your-orders/YourOrders'
 import OurGallery from './pages/OurGallery'
+import YourOrders from './pages/your-orders/YourOrders'
+import OrderDetails from './pages/your-orders/OrderDetails'
 
 // const defineRoutes = [
 //   {path: '/', component: Home, exact: true, },
@@ -44,8 +45,9 @@ const routes = () => (
         render={({match: {url}}) => (
           <>
             <PrivateRoute path={`${url}/profile`} component={Profile} exact/>
-            <PrivateRoute path={`${url}/yourOrders`} component={YourOrders} exact/>
             <PrivateRoute path={`${url}/checkout`} component={CheckOut} exact/>
+            <PrivateRoute path={`${url}/yourOrders`} component={YourOrders} exact/>
+            <PrivateRoute path={`${url}/OrderDetails/:order_id`} component={OrderDetails} exact/>
           </>
         )}
       />

@@ -8,6 +8,8 @@ class Role extends Model
 {
     protected $table = 'roles';
 
+    protected $keyType = 'string';
+
     protected $fillable = [
         'id','name'
     ];
