@@ -103,10 +103,6 @@ const PageLoadService = {
             }
         }
     }
-    /* ---------------------------------------------- /*
-    * handle pagination
-    /* ---------------------------------------------- */
-    
 };
 
 export default PageLoadService;

@@ -7,6 +7,8 @@ import PagePagination from './PagePagination'
 import GliderImages from './GliderImages'
 import ProductDetailsGliderImages from './ProductDetailsGliderImages'
 import SingleOrder from './SingleOrder'
+import ProgressBarAnimation from './ProgressBarAnimation'
+import ProgressBarSteps from './ProgressBarSteps'
 import SinglePhoto from './gallery/SinglePhoto'
 import lsPhotos from './gallery/lsPhotos'
 
@@ -20,6 +22,8 @@ export {
     GliderImages,
     ProductDetailsGliderImages,
     SingleOrder,
+    ProgressBarAnimation,
+    ProgressBarSteps,
     // lab
     SinglePhoto,
     lsPhotos

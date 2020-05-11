@@ -1,12 +1,17 @@
-//images url
+// images url
+$public_image_url: '/assets/images/';
 $home_bg_url: '/assets/images/home_bg.jpg';
 $login_top_section_url: 'assets/images/login_bg.jpg';
 
-//fonts
+// fonts
 $font_roboto: Roboto Condensed;
 $font_sanserif: sans-serif;
 
-//color
+// color
+$blue:  #2183dd;
+$grey:  #777;
+$grey-light: #dfe3e4;
+$green: #009900;
 $white: #fff;
 $white_10: rgba(255, 255, 255, 0.1);
 $white_70: rgba(255, 255, 255, 0.7);

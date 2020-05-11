@@ -1,11 +1,8 @@
 import React, { useEffect } from 'react'
-import CommonConstants from '../config/CommonConstants'
-import CommonService from '../services/CommonService.service'
 import glider from 'glider-js';
 import 'glider-js/glider.min.css';
 
 export default function GliderImages(props) {
-    console.log('props chagned ==> ', props)
     //methods
     const handleGlider = () => {
         new glider(document.querySelector('.glider'), {

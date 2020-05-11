@@ -1,5 +1,6 @@
 import React from 'react'
 import { useTurnOnOffLoader, useOrderDetails } from '../../hooks/HookManager'
+import {ProgressBarSteps} from '../../components/ComponentsManager'
 
 export default function OrderDetails(props) {
     useTurnOnOffLoader()
@@ -11,7 +12,7 @@ export default function OrderDetails(props) {
                 <div className="container">
                     <div className="row">
                         <div className="col-sm-12 col-lg-10 col-lg-offset-1">
-                            
+                            <ProgressBarSteps curStep={2}/>
                         </div>
                     </div>
                 </div>

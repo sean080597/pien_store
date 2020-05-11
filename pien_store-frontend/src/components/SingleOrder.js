@@ -13,7 +13,7 @@ export default function YourOrders (props) {
                     <div className="single-order__title m-0">
                         <h4 className="product-title font-alt mb-0"><strong>{CommonService.formatDateTime(props.orderInfo.created_at)}</strong></h4>
                         <div>
-                            <Link to={'/customer/OrderDetails/' + props.orderInfo.id}>Order Details</Link>
+                            <Link to={'/customer/orderDetails/' + props.orderInfo.id}>Order Details</Link>
                             <span className="v-line mx-10"></span>
                             <a href="#">Invoice</a>
                         </div>

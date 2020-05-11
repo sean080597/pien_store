@@ -1,0 +1,267 @@
+/* Progress bars */
+.progress {
+  overflow: visible;
+  height: 4px;
+}
+
+.progress-bar {
+  position: relative;
+}
+
+.progress-bar.pb-dark {
+  background: #111;
+}
+
+.progress-bar span {
+  position: absolute;
+  display: block;
+  right: -0px;
+  top: -24px;
+  opacity: 0;
+  line-height: 12px;
+  font-size: 12px;
+  color: #111;
+  padding: 4px 0px;
+}
+
+.progress-bar span:after {
+  display: inline-block;
+  content: "%";
+}
+
+/* Steps Progress Bar */
+// Mixin --------------------------------------
+@mixin progress-bar-icon($icon-content, $isSVG) {
+  &::before {
+    @if $isSVG == true {
+      content: "";
+      background-image: $icon-content;
+      background-size: 50% 50%;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+    @if $isSVG == false {
+      font-family: "FontAwesome";
+      content: $icon-content;
+    }
+    font-size: 20px;
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    border: 2px solid #979797;
+    display: block;
+    margin: 0 auto 10px;
+    border-radius: 50%;
+    background-color: white;
+    text-align: center;
+  }
+}
+
+@mixin color-active($input_animation, $isInBefore){
+  &::before{
+    border-color: #3aac5d;
+    @if $isInBefore == true{
+      animation: $input_animation;
+    }
+  }
+  &::after{
+    background-color: #3aac5d;
+    @if $isInBefore == false{
+      animation: $input_animation;
+    }
+  }
+}
+
+// Animations --------------------------------------
+// Pulse animation for Step's circle in active state
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(58, 172, 93, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(58, 172, 93, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(58, 172, 93, 0);
+  }
+}
+
+// Progressing to next step animation for Step's progress bar
+@keyframes nextStep {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+.progress-steps {
+  display: flex;
+  padding: 0;
+  justify-content: space-between;
+  li{
+    list-style-type: none;
+    position: relative;
+    text-align: center;
+    flex: 1;
+    &.progress-steps{
+			&--received{
+				@include progress-bar-icon(url($public_image_url + 'clipboard-checklist.svg'), true);
+      }
+      &--received-active{
+				@include progress-bar-icon(url($public_image_url + 'clipboard-checklist-active.svg'), true);
+			}
+			&--processing{
+				@include progress-bar-icon(url($public_image_url + 'truck-loading.svg'), true);
+      }
+      &--processing-active{
+				@include progress-bar-icon(url($public_image_url + 'truck-loading-active.svg'), true);
+			}
+			&--delivering{
+				@include progress-bar-icon('\f0d1', false);
+      }
+      &--delivering-active{
+        @include progress-bar-icon('\f0d1', false);
+        &::before{
+          color: #3aac5d;
+        }
+      }
+			&--delivered{
+				@include progress-bar-icon(url($public_image_url + 'delivered-box.svg'), true);
+      }
+      &--delivered-active{
+				@include progress-bar-icon(url($public_image_url + 'delivered-box-active.svg'), true);
+			}
+    }
+    &::after{
+      content: '';
+      position: absolute;
+      width:100%;
+      height: 3px;
+      background: #979797;
+      top: 25px;
+      left: -50%;
+      z-index: -1;
+    }
+    &:first-child::after{
+      content: none;
+    }
+    &.active{
+      @include color-active(pulse 2s infinite, true);
+    }
+    &.complete{
+      @include color-active(nextStep 1s, false);
+    }
+  }
+}
+
+/* Tabs */
+
+.tab-content .tab-pane {
+  padding: 20px 0;
+}
+
+/* Accordion */
+
+.panel-title {
+  font-size: 14px;
+}
+
+.panel-heading a {
+  position: relative;
+  display: block;
+}
+
+.panel-heading a:after {
+  position: absolute;
+  content: "\f106";
+  top: 50%;
+  right: 0px;
+  font-family: "FontAwesome";
+  line-height: 1;
+  font-size: 14px;
+  margin-top: -7px;
+}
+
+.panel-heading a.collapsed:after {
+  content: "\f107";
+}
+
+/* Sidebar / Widget common*/
+
+.sidebar .widget {
+  margin-bottom: 60px;
+}
+
+.sidebar .widget-title {
+  color: #111;
+}
+
+.widget .widget-title {
+  border-bottom: 1px dotted #c2c2c2;
+  font-size: 14px;
+  padding: 0 0 10px;
+  margin: 0 0 15px;
+}
+
+.widget ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Icon List */
+
+.widget .icon-list li {
+  padding: 5px 0;
+}
+
+.widget .icon-list li a:before {
+  content: "\00BB";
+  color: #666666;
+  padding-right: 5px;
+}
+
+/* Posts */
+
+.widget-posts li {
+  margin: 0 0 15px;
+}
+
+.widget-posts li:last-child {
+  margin: 0;
+}
+
+.widget-posts-image {
+  float: left;
+  width: 64px;
+}
+
+.widget-posts-body {
+  margin-left: 74px;
+}
+
+/* Search */
+
+.search-box {
+  position: relative;
+}
+
+/* Tags */
+
+.tags a {
+  background: #111;
+  display: inline-block;
+  font-size: 10px;
+  color: #fff;
+  padding: 4px 10px 4px 12px;
+  margin: 0 1px 4px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+}
+
+.tags a:hover {
+  background: rgba(17, 17, 17, 0.8);
+}
