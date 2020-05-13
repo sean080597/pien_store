@@ -7,13 +7,10 @@ use Illuminate\Support\Str;
 
 class ProductObserver
 {
-    // private $checkRole = ['adm'];
-    // public function retrieved(Product $product)
-    // {
-      // if(!auth('api')->user() || !in_array(auth('api')->user()->role_id, $this->checkRole)){
-      //   $product->makeHidden('id');
-      // }
-    // }
+    public function retrieved(Product $product)
+    {
+      $product->image = $product->load('image:url,imageable_id');
+    }
 
     public function creating(Product $product)
     {

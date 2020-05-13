@@ -30,7 +30,7 @@ export default function Profile(props) {
                 <div className="container">
                     <div className="row">
                         <div className="col-sm-8 col-sm-offset-2">
-                            <div className="row m-0 flex-display vertical-center">
+                            <div className="row m-0 flex-display align-ver-center">
                                 <h4 className="font-alt mb-0"><strong>My Profile</strong></h4>
                                 <button className="btn btn-b btn-round btn-xs ml-10 small-text" type="button" onClick={openModal}><i className="fa fa-edit"></i> Edit</button>
                             </div>

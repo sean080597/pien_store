@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Validator;
 use Config;
 use DB;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class OrderController extends Controller
 {
@@ -36,7 +37,7 @@ class OrderController extends Controller
         if($created_order){
             for ($i = 0; $i < count($request->cart_items); $i++) {
                 $order_info = $request->cart_items[$i];
-                $order_info['status'] = Config::get('constants.ORDER_STATUS.PENDING');
+                $order_info['status'] = Config::get('constants.ORDER_STATUS.RECEIVED');
                 $order_info['order_id'] = $created_order->id;
                 $order_details[] = $order_info;
             }
