@@ -57,20 +57,29 @@ img {
     display: flex;
     flex-direction: column;
   }
-  &.vertical-center{
+  &.align-ver-center{
     align-items: center;
   }
-  &.space-bettween{
+  &.jus-space-bettween{
     justify-content: space-between;
   }
-  &.space-around{
+  &.jus-space-around{
     justify-content: space-around;
   }
-  &.justify-center{
+  &.jus-center{
     justify-content: center;
   }
   &.direction-row{
     flex-direction: row;
+  }
+  &.direction-column{
+    flex-direction: row;
+  }
+  &.jus-flex-start{
+    justify-content: flex-start;
+  }
+  &.jus-flex-end{
+    justify-content: flex-end;
   }
   .flex-1{
     flex: 1 !important;

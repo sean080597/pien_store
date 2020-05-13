@@ -91,7 +91,7 @@ export default function ConfirmInfo (props) {
                         </div>
                         <div className="col-sm-4">
                             <div className="sticky-item">
-                                <div className="flex-display vertical-center">
+                                <div className="flex-display align-ver-center">
                                     <h4 className="font-alt mb-0">Shipment Details</h4>
                                     <button className="btn btn-b btn-round btn-xs ml-10 small-text" type="button" onClick={openModal}>
                                         <i className="fa fa-edit"></i> Edit
@@ -157,7 +157,7 @@ export default function ConfirmInfo (props) {
                                 </td>
                                 <td>
                                     {!addr.isEditable &&
-                                    <div className="flex-display space-around vertical-center">
+                                    <div className="flex-display jus-space-around align-ver-center">
                                         <input className="m-0" type='radio' name={'rad_btn_checkout_' + index} value={index} checked={addr.isChecked} onChange={(e)=>handleSwitchAddress(e)}/>
                                         <button className="btn-b btn btn-round px-10 py-5" title="Edit shipment details"
                                         style={{ visibility: !addr.email ? 'visible': 'hidden' }}
@@ -174,7 +174,7 @@ export default function ConfirmInfo (props) {
                                     </div>
                                     }
                                     {addr.isEditable &&
-                                    <div className="flex-display space-around col-new-address">
+                                    <div className="flex-display jus-space-around col-new-address">
                                         <button className="btn btn-b btn-round" type="button" onClick={() => handleEditShipmentDetail(addr)} disabled={isSubmitDisabled}><i className="fa fa-check"></i></button>
                                         <button className="btn btn-b btn-round" type="button" onClick={() => handleSetEditableShipment(addr, false)}><i className="fa fa-times"></i></button>
                                     </div>
@@ -208,7 +208,7 @@ export default function ConfirmInfo (props) {
                                         onChange={handleChange} value={userInputs.phone}/>
                                 </td>
                                 <td>
-                                    <div className="flex-display space-around col-new-address">
+                                    <div className="flex-display jus-space-around col-new-address">
                                         <button className="btn btn-b btn-round" type="button" onClick={() => handleAddNewAddress()} disabled={isSubmitDisabled}><i className="fa fa-check"></i></button>
                                         <button className="btn btn-b btn-round" type="button" onClick={() => handleShowAddNewAddress(false)}><i className="fa fa-times"></i></button>
                                     </div>

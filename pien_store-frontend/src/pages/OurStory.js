@@ -29,19 +29,19 @@ export default function OurStory(props) {
                         </div>
                     </div>
                     <div className="story-container--card mt-40">
-                        <div className="story-container mt-20 flex-display justify-center">
+                        <div className="story-container mt-20 flex-display jus-center">
                             <img src="https://images.ctfassets.net/00i767ygo3tc/2uG03zy1JOqRA1Avv0m2RF/322c69b49fa975772b98b77679cebfd8/instagram-story-highlight-cover.jpg" alt="story image" />
                             <h4 className="font-alt m-0 mt-20"><strong>Story 2</strong></h4>
                             <p>Lorem Ipsum is simply dummy e the ecimen book. It ha remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
                             <a href="#" className="btn btn-circle btn-d" type="button">Read more <i className="fa fa-chevron-circle-right"></i></a>
                         </div>
-                        <div className="story-container mt-20 flex-display justify-center">
+                        <div className="story-container mt-20 flex-display jus-center">
                             <img src="https://images.ctfassets.net/00i767ygo3tc/2uG03zy1JOqRA1Avv0m2RF/322c69b49fa975772b98b77679cebfd8/instagram-story-highlight-cover.jpg" alt="story image" />
                             <h4 className="font-alt m-0 mt-20"><strong>Story 2</strong></h4>
                             <p>Lorem Ipsum is simply dummy e the ecimen book. It ha remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
                             <a href="#" className="btn btn-circle btn-d" type="button">Read more <i className="fa fa-chevron-circle-right"></i></a>
                         </div>
-                        <div className="story-container mt-20 flex-display justify-center">
+                        <div className="story-container mt-20 flex-display jus-center">
                             <img src="https://images.ctfassets.net/00i767ygo3tc/2uG03zy1JOqRA1Avv0m2RF/322c69b49fa975772b98b77679cebfd8/instagram-story-highlight-cover.jpg" alt="story image" />
                             <h4 className="font-alt m-0 mt-20"><strong>Story 2</strong></h4>
                             <p>Lorem Ipsum is simply dummy e the ecimen book. It ha remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>

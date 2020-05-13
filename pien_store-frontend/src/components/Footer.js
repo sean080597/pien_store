@@ -71,7 +71,7 @@ export default function Footer(props) {
                 <hr className="divider-d" />
                 <footer className="footer bg-dark">
                     <div className="container">
-                        <div className="flex-display space-bettween vertical-center">
+                        <div className="flex-display jus-space-bettween align-ver-center">
                             <p className="copyright font-alt">Thổ Cẩm PIÊU - Brocade Decor</p>
                             <div className="footer-social-links">
                                 <a href="#"><i className="fa fa-facebook"></i></a>
