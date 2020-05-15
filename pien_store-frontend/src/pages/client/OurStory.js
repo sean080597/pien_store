@@ -1,6 +1,6 @@
 import React from 'react'
-import {useTurnOnOffLoader} from '../hooks/HookManager'
-import CommonConstants from '../config/CommonConstants'
+import {useTurnOnOffLoader} from '../../hooks/HookManager'
+import CommonConstants from '../../config/CommonConstants'
 
 export default function OurStory(props) {
     useTurnOnOffLoader()

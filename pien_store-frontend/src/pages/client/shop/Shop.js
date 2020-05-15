@@ -1,10 +1,10 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
-import CommonConstants from '../../config/CommonConstants'
-import CommonService from '../../services/CommonService.service'
-import {PagePagination} from '../../components/ComponentsManager'
+import CommonConstants from '../../../config/CommonConstants'
+import CommonService from '../../../services/CommonService.service'
+import {PagePagination} from '../../../components/ComponentsManager'
 import { useSelector } from 'react-redux';
-import { useTurnOnOffLoader, useShopCart } from '../../hooks/HookManager'
+import { useTurnOnOffLoader, useShopCart } from '../../../hooks/HookManager'
 
 export default function Shop(props) {
     useTurnOnOffLoader()

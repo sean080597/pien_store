@@ -23,7 +23,7 @@ export default function YourOrders (props) {
                     props.orderInfo.products.map(item =>
                         <div className="single-order__details px-20 py-10" key={item.id}>
                             <div className="single-order__img">
-                                <img src={process.env.PUBLIC_URL + CommonConstants.PRODUCTS_DIR + "/" + (item.image ? item.image : CommonConstants.PRODUCT_DEFAULT_IMAGE)} alt={item.name} />
+                                <img src={process.env.PUBLIC_URL + CommonConstants.PRODUCTS_DIR + "/" + (item.image ? item.image.url : CommonConstants.PRODUCT_DEFAULT_IMAGE)} alt={item.name} />
                             </div>
                             <div className="single-order__desc mx-30">
                                 <h5 className="product-title font-alt m-0"><strong>{item.name}</strong></h5>

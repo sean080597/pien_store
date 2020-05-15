@@ -1,8 +1,8 @@
 import React from 'react'
 import {useSelector} from 'react-redux'
-import CommonConstants from '../config/CommonConstants'
-import CommonService from '../services/CommonService.service'
-import {useTurnOnOffLoader, useShopCart} from '../hooks/HookManager'
+import CommonConstants from '../../config/CommonConstants'
+import CommonService from '../../services/CommonService.service'
+import {useTurnOnOffLoader, useShopCart} from '../../hooks/HookManager'
 
 export default function Cart (props) {
     useTurnOnOffLoader()
