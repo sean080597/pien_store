@@ -1,8 +1,8 @@
 import React from 'react'
 import {useSelector} from 'react-redux'
-import {useYourOrders, useTurnOnOffLoader} from '../../hooks/HookManager'
-import {SingleOrder, PagePagination} from '../../components/ComponentsManager'
-import CommonConstants from '../../config/CommonConstants'
+import {useYourOrders, useTurnOnOffLoader} from '../../../hooks/HookManager'
+import {SingleOrder, PagePagination} from '../../../components/ComponentsManager'
+import CommonConstants from '../../../config/CommonConstants'
 
 export default function YourOrders (props) {
     useTurnOnOffLoader()

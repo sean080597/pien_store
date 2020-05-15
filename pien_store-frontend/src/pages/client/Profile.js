@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 import {useSelector} from 'react-redux'
-import {useTurnOnOffLoader, useUserProfile, useShopCart} from '../hooks/HookManager'
-import {Modal} from '../components/ComponentsManager'
+import {useTurnOnOffLoader, useUserProfile, useShopCart} from '../../hooks/HookManager'
+import {Modal} from '../../components/ComponentsManager'
 
 export default function Profile(props) {
     useTurnOnOffLoader()

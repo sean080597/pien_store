@@ -1,8 +1,8 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
-import CommonConstants from '../config/CommonConstants'
-import {useShopCart, useTurnOnOffLoader} from '../hooks/HookManager'
-import {NewProduct} from '../components/ComponentsManager'
+import CommonConstants from '../../config/CommonConstants'
+import {useShopCart, useTurnOnOffLoader} from '../../hooks/HookManager'
+import {NewProduct} from '../../components/ComponentsManager'
 import { useSelector } from 'react-redux';
 
 export default function Home(props) {

@@ -1,9 +1,9 @@
 import React from 'react'
-import CommonConstants from '../config/CommonConstants'
+import CommonConstants from '../../config/CommonConstants'
 import Gallery from "react-photo-gallery";
 import Carousel, { Modal, ModalGateway } from "react-images";
-import {SinglePhoto, lsPhotos} from '../components/ComponentsManager'
-import {useTurnOnOffLoader, useOurGallery} from '../hooks/HookManager'
+import {SinglePhoto, lsPhotos} from '../../components/ComponentsManager'
+import {useTurnOnOffLoader, useOurGallery} from '../../hooks/HookManager'
 
 export default function OurGallery(props) {
     useTurnOnOffLoader()

@@ -2,18 +2,23 @@ import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import PrivateRoute from './PrivateRoutes'
 
+// client
 import {Navbar, Footer} from './components/ComponentsManager'
-import Home from './pages/Home'
-import OurStory from './pages/OurStory'
-import Shop from './pages/shop/Shop'
-import ProductDetail from './pages/shop/ProductDetails'
-import Cart from './pages/Cart'
-import Profile from './pages/Profile'
+import Home from './pages/client/Home'
+import OurStory from './pages/client/OurStory'
+import Shop from './pages/client/shop/Shop'
+import ProductDetail from './pages/client/shop/ProductDetails'
+import Cart from './pages/client/Cart'
+import Profile from './pages/client/Profile'
+import CheckOut from './pages/client/CheckOut'
+import OurGallery from './pages/client/OurGallery'
+import YourOrders from './pages/client/your-orders/YourOrders'
+import OrderDetails from './pages/client/your-orders/OrderDetails'
+
+// admin
+
+// common
 import NotFound from './pages/NotFound'
-import CheckOut from './pages/CheckOut'
-import OurGallery from './pages/OurGallery'
-import YourOrders from './pages/your-orders/YourOrders'
-import OrderDetails from './pages/your-orders/OrderDetails'
 
 // const defineRoutes = [
 //   {path: '/', component: Home, exact: true, },

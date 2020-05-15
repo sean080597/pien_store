@@ -1,9 +1,9 @@
 import React from 'react'
-import CommonConstants from '../../config/CommonConstants'
-import CommonService from '../../services/CommonService.service'
+import CommonConstants from '../../../config/CommonConstants'
+import CommonService from '../../../services/CommonService.service'
 import { useSelector } from 'react-redux';
-import { useTurnOnOffLoader, useProductDetails, useShopCart } from '../../hooks/HookManager'
-import {ProductDetailsGliderImages} from '../../components/ComponentsManager'
+import { useTurnOnOffLoader, useProductDetails, useShopCart } from '../../../hooks/HookManager'
+import {ProductDetailsGliderImages} from '../../../components/ComponentsManager'
 
 export default function ProductDetails(props) {
     useTurnOnOffLoader()

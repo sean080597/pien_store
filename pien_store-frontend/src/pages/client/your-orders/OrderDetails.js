@@ -1,9 +1,9 @@
 import React from 'react'
 import _ from 'lodash'
-import { useTurnOnOffLoader, useOrderDetails } from '../../hooks/HookManager'
-import {ProgressBarSteps} from '../../components/ComponentsManager'
-import CommonService from '../../services/CommonService.service'
-import CommonConstants from '../../config/CommonConstants'
+import { useTurnOnOffLoader, useOrderDetails } from '../../../hooks/HookManager'
+import {ProgressBarSteps} from '../../../components/ComponentsManager'
+import CommonService from '../../../services/CommonService.service'
+import CommonConstants from '../../../config/CommonConstants'
 
 export default function OrderDetails(props) {
     useTurnOnOffLoader()
