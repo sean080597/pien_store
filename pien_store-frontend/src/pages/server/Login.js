@@ -1,5 +1,5 @@
 import React from 'react'
-import CommonConstants from '../config/CommonConstants'
+import CommonConstants from '../../config/CommonConstants'
 import {useTurnOnOffLoader, useFormLogin, validationAuth} from '../../hooks/HookManager'
 
 export default function Login (props){

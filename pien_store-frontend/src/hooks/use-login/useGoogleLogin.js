@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import {useEffect} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
-// import {useHistory} from 'react-router-dom'
 import Cookie from 'js-cookie'
 import moment from "moment";
 import PageLoadService from '../../services/PageLoadService.service'
@@ -9,7 +8,6 @@ import CommonConstants from '../../config/CommonConstants'
 import ConnectionService from '../../services/ConnectionService.service'
 import CommonService from '../../services/CommonService.service';
 
-// const apiUrl = window.location.origin + '/api/user';
 const apiUrl = CommonConstants.API_URL;
 
 export default function useGoogleLogin(){
@@ -32,6 +30,7 @@ export default function useGoogleLogin(){
         }
         ConnectionService.axiosPostByUrl(apiQuery, sendData)
         .then(async resJWT => {
+            resGoogle.profileObj.role = resJWT.role
             //dispatch
             await dispatch({type: 'LOGIN_GOOGLE', payload: resGoogle})
             await setCookieToken(resGoogle, resJWT)
@@ -62,9 +61,6 @@ export default function useGoogleLogin(){
     }
 
     useEffect(() => {
-        // if(cookies.access_token){
-        //     applyGoogleLogout()
-        // }
         return () => {}
     }, [])
 
