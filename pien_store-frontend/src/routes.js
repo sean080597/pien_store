@@ -16,6 +16,8 @@ import YourOrders from './pages/client/your-orders/YourOrders'
 import OrderDetails from './pages/client/your-orders/OrderDetails'
 
 // admin
+import Login from './pages/server/Login'
+import AdminOrder from './pages/server/AdminOrder'
 
 // common
 import NotFound from './pages/NotFound'
@@ -39,6 +41,7 @@ const routes = () => (
           <Route path={path} exact={exact} render={(props) => <C {...props}/>} key={index} />
         ))
       } */}
+      {/* Client Routes */}
       <Route path='/' component={Home} exact/>
       <Route path='/ourStory' component={OurStory} exact/>
       <Route path='/shop' component={Shop} exact/>
@@ -49,10 +52,22 @@ const routes = () => (
         path='/customer'
         render={({match: {url}}) => (
           <>
+            <Route path={`${url}`} component={NotFound}/>
             <PrivateRoute path={`${url}/profile`} component={Profile} exact/>
             <PrivateRoute path={`${url}/checkout`} component={CheckOut} exact/>
             <PrivateRoute path={`${url}/yourOrders`} component={YourOrders} exact/>
             <PrivateRoute path={`${url}/orderDetails/:order_id`} component={OrderDetails} exact/>
+          </>
+        )}
+      />
+      {/* Admin Routes */}
+      <Route
+        path='/admin-su'
+        render={({match: {url}}) => (
+          <>
+            <Route path={`${url}/login`} component={Login} exact/>
+            <Route path={`${url}`} component={NotFound}/>
+            <PrivateRoute path={`${url}/order-managerment`} component={AdminOrder} exact loginType='managerment'/>
           </>
         )}
       />

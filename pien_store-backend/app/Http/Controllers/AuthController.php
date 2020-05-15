@@ -140,6 +140,7 @@ class AuthController extends Controller
         }
 
         return response()->json([
+            'role' => 'cus',
             'token' => $token,
             'type' => 'bearer', // you can ommit this
             'expires' => $request->expiresIn, // time to expiration (sec)
