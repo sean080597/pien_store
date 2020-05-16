@@ -1,14 +1,19 @@
 import React from 'react'
 import CommonConstants from '../config/CommonConstants'
 import { useNotFoundPage } from '../hooks/HookManager'
+import { useSelector } from 'react-redux'
 
 export default function NotFound(props) {
     //init page
     useNotFoundPage()
+    const {curPath} = useSelector(state => ({
+        curPath: state.common.currentPath
+    }))
     const handleBackToHome = () => {
         props.history.push("/");
     }
     return (
+        !curPath &&
         <section className="home-section home-parallax home-fade home-full-height bg-dark bg-dark-30" style={{backgroundImage:`url(${CommonConstants.IMAGES_DIR + CommonConstants.ERROR_BG})`}}>
             <div className="titan-caption">
                 <div className="caption-content">

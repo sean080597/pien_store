@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react'
 import {useHistory} from 'react-router-dom'
-import CommonService from '../../services/CommonService.service'
+import CommonService from '../../../services/CommonService.service'
 import CommonConstants from '../../config/CommonConstants'
 import axios from 'axios'
 

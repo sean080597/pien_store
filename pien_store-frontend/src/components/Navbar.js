@@ -55,7 +55,8 @@ export default function Navbar(props) {
 
   return (
     <>
-      {!isNotFoundPage && <>
+      {!isNotFoundPage && !currentPath.includes('admin') &&
+      <>
         <nav className="navbar navbar-custom navbar-fixed-top" role="navigation">
           <div className="container">
             <div className="navbar-header">

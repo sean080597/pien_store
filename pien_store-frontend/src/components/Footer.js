@@ -3,10 +3,14 @@ import {useSelector} from 'react-redux'
 import CommonConstants from '../config/CommonConstants'
 
 export default function Footer(props) {
-    const isNotFoundPage = useSelector(state => state.common.isNotFoundPage)
+    const {isNotFoundPage, currentPath} = useSelector(state => ({
+        isNotFoundPage: state.common.isNotFoundPage,
+        currentPath: state.common.currentPath
+    }))
     return (
         <>
-            {!isNotFoundPage && <>
+            {!isNotFoundPage && !currentPath.includes('admin') &&
+            <>
                 <div className="bg-dark pt-30 pb-0 mt-50">
                     <div className="container">
                         <div className="row">
