@@ -1,43 +1,45 @@
-import useTurnOnOffLoader from './useTurnOnOffLoader'
-import useScreenWidth from './useScreenWidth'
-//login hooks
-import useFormLogin from './use-form-login/useFormLogin'
-import validationAuth from './use-form-login/validationAuth'
-//social login
-import useGoogleLogin from './use-login/useGoogleLogin'
-//Shop Cart
-import useShopCart from './shop/useShopCart'
-import useProductDetails from './shop/useProductDetails'
-//------------------
+// client
+import useTurnOnOffLoader from './client/useTurnOnOffLoader'
+import useGoogleLogin from './client/use-login/useGoogleLogin'
+import useShopCart from './client/shop/useShopCart'
+import useProductDetails from './client/shop/useProductDetails'
+import useUserProfile from './client/use-login/useUserProfile'
+import useCheckout from './client/useCheckout'
+import useOurGallery from './client/gallery/useOurGallery'
+import useSinglePhoto from './client/gallery/useSinglePhoto'
+import useYourOrders from './client/your-orders/useYourOrders'
+import useOrderDetails from './client/your-orders/useOrderDetails'
+
+// admin
+import useInitializePageAdmin from './admin/useInitializePageAdmin'
+import useFormLogin from './admin/use-form-login/useFormLogin'
+import validationAuth from './admin/use-form-login/validationAuth'
+
+// common
 import useNotFoundPage from './useNotFoundPage'
-import useUserProfile from './use-login/useUserProfile'
-import useCheckout from './useCheckout'
-import useOurGallery from './gallery/useOurGallery'
-import useSinglePhoto from './gallery/useSinglePhoto'
 import usePagePagination from './usePagePagination'
-import useYourOrders from './your-orders/useYourOrders'
-import useOrderDetails from './your-orders/useOrderDetails'
+import useScreenWidth from './useScreenWidth'
 
 export {
-    //turn on & off laoder
+    // client
     useTurnOnOffLoader,
-    //return screen width with event resize
-    useScreenWidth,
-    //form login
-    useFormLogin,
-    validationAuth,
-    //social login
     useGoogleLogin,
-    //shop cart
     useShopCart,
     useProductDetails,
-    //others
-    useNotFoundPage,
     useUserProfile,
     useCheckout,
     useOurGallery,
-    usePagePagination,
     useSinglePhoto,
     useYourOrders,
-    useOrderDetails
+    useOrderDetails,
+
+    // admin
+    useInitializePageAdmin,
+    useFormLogin,
+    validationAuth,
+
+    // common
+    useScreenWidth,
+    useNotFoundPage,
+    usePagePagination,
 }

@@ -3,10 +3,10 @@ import {useEffect} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import Cookie from 'js-cookie'
 import moment from "moment";
-import PageLoadService from '../../services/PageLoadService.service'
-import CommonConstants from '../../config/CommonConstants'
-import ConnectionService from '../../services/ConnectionService.service'
-import CommonService from '../../services/CommonService.service';
+import PageLoadService from '../../../services/PageLoadService.service'
+import CommonConstants from '../../../config/CommonConstants'
+import ConnectionService from '../../../services/ConnectionService.service'
+import CommonService from '../../../services/CommonService.service';
 
 const apiUrl = CommonConstants.API_URL;
 

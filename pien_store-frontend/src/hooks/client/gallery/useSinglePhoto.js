@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
-import CommonService from '../../services/CommonService.service'
-import $ from 'jquery'
+import CommonService from '../../../services/CommonService.service'
 
 export default function useSinglePhoto(initial, refImage) {
     const [userInputs, setUserInputs] = useState(initial)

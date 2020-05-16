@@ -10,6 +10,7 @@
     "PRODUCT_DEFAULT_IMAGE": "/default-product-image.jpg",
     "HOME_BG": "/home_bg.jpg",
     "LOGIN_BG": "/login_bg.jpg",
+    "LOGIN_BG_ADMIN": "/login_bg2.jpg",
     "SHOP_BG": "/product-page-bg.jpg",
     "ERROR_BG": "/login_bg.jpg",
     "CONFIRM_INFO_BG": "/home_bg.jpg",

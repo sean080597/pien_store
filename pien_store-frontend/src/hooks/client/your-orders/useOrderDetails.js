@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import CommonConstants from '../../config/CommonConstants'
-import CommonService from '../../services/CommonService.service'
-import ConnectionService from '../../services/ConnectionService.service';
+import CommonConstants from '../../../config/CommonConstants'
+import CommonService from '../../../services/CommonService.service'
+import ConnectionService from '../../../services/ConnectionService.service';
 
 const apiUrl = CommonConstants.API_URL;
 
