@@ -1,5 +1,6 @@
 import $ from 'jquery'
 import _ from 'lodash'
+import moment from 'moment'
 
 const protectedRoutes = ['/customer/profile', '/customer/checkout', '/customer/yourOrders']
 
@@ -15,21 +16,6 @@ const CommonService = {
     goToPosition(el = null){
         if(el) $('html, body').animate({ scrollTop: $(el).position().top }, 'slow');
         else window.scrollTo(0, 0)
-    },
-    formatMoney(amount, decimalCount = 2, decimal = ".", thousands = ",") {
-        try {
-            decimalCount = Math.abs(decimalCount);
-            decimalCount = isNaN(decimalCount) ? 2 : decimalCount;
-
-            const negativeSign = amount < 0 ? "-" : "";
-
-            let i = parseInt(amount = Math.abs(Number(amount) || 0).toFixed(decimalCount)).toString();
-            let j = (i.length > 3) ? i.length % 3 : 0;
-
-            return negativeSign + (j ? i.substr(0, j) + thousands : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousands) + (decimalCount ? decimal + Math.abs(amount - i).toFixed(decimalCount).slice(2) : "");
-        } catch (e) {
-            console.log(e)
-        }
     },
     checkProtectedRoutes(currentPath){
         return protectedRoutes.some(path => path === currentPath)
@@ -75,6 +61,21 @@ const CommonService = {
             return key
         })
     },
+    formatMoney(amount, decimalCount = 2, decimal = ".", thousands = ",") {
+        try {
+            decimalCount = Math.abs(decimalCount);
+            decimalCount = isNaN(decimalCount) ? 2 : decimalCount;
+
+            const negativeSign = amount < 0 ? "-" : "";
+
+            let i = parseInt(amount = Math.abs(Number(amount) || 0).toFixed(decimalCount)).toString();
+            let j = (i.length > 3) ? i.length % 3 : 0;
+
+            return negativeSign + (j ? i.substr(0, j) + thousands : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousands) + (decimalCount ? decimal + Math.abs(amount - i).toFixed(decimalCount).slice(2) : "");
+        } catch (e) {
+            console.log(e)
+        }
+    },
     formatNumber(val){
         return new Intl.NumberFormat("en-GB", {
             style: "currency",
@@ -90,6 +91,9 @@ const CommonService = {
             day: "2-digit",
             timeZone: "Asia/Ho_Chi_Minh"
         }).format(new Date(val))
+    },
+    compareDateIsAfter(dateInput, dateToCompare){
+        return moment(dateInput).isAfter(moment(dateToCompare))
     }
 };
 

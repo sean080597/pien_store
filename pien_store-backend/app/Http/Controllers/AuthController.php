@@ -85,7 +85,10 @@ class AuthController extends Controller
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
+        $profileObj = auth()->user();
+        $profileObj->role = auth()->user()->user_infoable->role->id;
         return response()->json([
+            'profileObj' => $profileObj,
             'token' => $token,
             'type' => 'bearer', // you can ommit this
             'expires' => auth('api')->factory()->getTTL() * 60, // time to expiration
