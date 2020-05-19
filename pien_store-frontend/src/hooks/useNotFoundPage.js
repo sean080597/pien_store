@@ -4,7 +4,6 @@ import PageLoadService from '../services/PageLoadService.service'
 
 export default function useNotFoundPage() {
     const dispatch = useDispatch()
-    const abortController = new AbortController()
     const {curPath} = useSelector(state => ({
         curPath: state.common.currentPath
     }))
@@ -16,7 +15,6 @@ export default function useNotFoundPage() {
         }
         return () => {
             dispatch({type: 'SET_FALSE_IS_NOT_FOUND_PAGE'})
-            abortController.abort()
         }
     }, [curPath])
     return;

@@ -3,24 +3,18 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import PrivateRoute from './PrivateRoutes'
 
 // client
-import {Navbar, Footer} from './components/ComponentsManager'
-import Home from './pages/client/Home'
-import OurStory from './pages/client/OurStory'
-import Shop from './pages/client/shop/Shop'
-import ProductDetail from './pages/client/shop/ProductDetails'
-import Cart from './pages/client/Cart'
-import Profile from './pages/client/Profile'
-import CheckOut from './pages/client/CheckOut'
-import OurGallery from './pages/client/OurGallery'
-import YourOrders from './pages/client/your-orders/YourOrders'
-import OrderDetails from './pages/client/your-orders/OrderDetails'
-
-// admin
-import Login from './pages/admin/Login'
-import AdminOrder from './pages/admin/AdminOrder'
-
-// common
-import NotFound from './pages/NotFound'
+import {Navbar, Footer} from '../components/ComponentsManager'
+import Home from '../pages/client/Home'
+import OurStory from '../pages/client/OurStory'
+import Shop from '../pages/client/shop/Shop'
+import ProductDetail from '../pages/client/shop/ProductDetails'
+import Cart from '../pages/client/Cart'
+import Profile from '../pages/client/Profile'
+import CheckOut from '../pages/client/CheckOut'
+import OurGallery from '../pages/client/OurGallery'
+import YourOrders from '../pages/client/your-orders/YourOrders'
+import OrderDetails from '../pages/client/your-orders/OrderDetails'
+import NotFound from '../pages/NotFound'
 
 // const defineRoutes = [
 //   {path: '/', component: Home, exact: true, },
@@ -41,7 +35,6 @@ const routes = () => (
           <Route path={path} exact={exact} render={(props) => <C {...props}/>} key={index} />
         ))
       } */}
-      {/* Client Routes */}
       <Route path='/' component={Home} exact/>
       <Route path='/ourStory' component={OurStory} exact/>
       <Route path='/shop' component={Shop} exact/>
@@ -56,26 +49,12 @@ const routes = () => (
             <PrivateRoute path={`${url}/checkout`} component={CheckOut} exact/>
             <PrivateRoute path={`${url}/yourOrders`} component={YourOrders} exact/>
             <PrivateRoute path={`${url}/orderDetails/:order_id`} component={OrderDetails} exact/>
-            <Route path={`${url}/*`} component={NotFound}/>
           </>
         )}
       />
       <Route path='*' component={NotFound}/>
     </Switch>
     <Footer/>
-    <Switch>
-      {/* Admin Routes */}
-      <Route
-        path='/admin-su'
-        render={({match: {url}}) => (
-          <>
-            <Route path={`${url}/login`} component={Login} exact/>
-            <PrivateRoute path={`${url}/order-managerment`} component={AdminOrder} exact loginType='managerment'/>
-            <Route path={`${url}/*`} component={NotFound}/>
-          </>
-        )}
-      />
-    </Switch>
   </Router>
 );
 

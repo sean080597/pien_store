@@ -1,6 +1,7 @@
 import React from 'react'
 import CommonConstants from '../../config/CommonConstants'
-import {useInitializePageAdmin ,useFormLogin, validationAuth} from '../../hooks/HookManager'
+import {useInitializePageAdmin, useFormLogin, validationAuth} from '../../hooks/HookManager'
+import { Link } from 'react-router-dom'
 
 export default function Login (props){
     useInitializePageAdmin('LOGIN')
@@ -14,7 +15,7 @@ export default function Login (props){
             <section className="module-small flex-display align-ver-center login-admin--section">
                 <div className="container">
                     <div className="row">
-                        <div className="col-sm-6">
+                        <div className="col-sm-5 col-sm-offset-1 login-admin--form">
                             <h3 className="font-alt login-admin--title">Login</h3>
                             <hr className="divider-w mb-10" />
                             <form className="form" onSubmit={handleSubmitLogin}>
@@ -33,6 +34,7 @@ export default function Login (props){
                                 </div>
                                 <div className="form-group">
                                     <button className="btn btn-round btn-b" type="submit">Login</button>
+                                    <Link className="btn btn-round btn-b" to="/admin-su/dashboard">Test</Link>
                                 </div>
                                 <div className="form-group"><a href="/">Forgot Password?</a></div>
                             </form>

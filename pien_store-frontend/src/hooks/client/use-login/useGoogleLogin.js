@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import {useEffect} from 'react'
-import {useDispatch, useSelector} from 'react-redux'
+import {useDispatch} from 'react-redux'
 import Cookie from 'js-cookie'
 import moment from "moment";
 import PageLoadService from '../../../services/PageLoadService.service'

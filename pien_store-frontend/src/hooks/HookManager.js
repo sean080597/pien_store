@@ -14,6 +14,7 @@ import useOrderDetails from './client/your-orders/useOrderDetails'
 import useInitializePageAdmin from './admin/useInitializePageAdmin'
 import useFormLogin from './admin/use-form-login/useFormLogin'
 import validationAuth from './admin/use-form-login/validationAuth'
+import useAdminHome from './admin/useAdminHome'
 
 // common
 import useNotFoundPage from './useNotFoundPage'
@@ -37,6 +38,7 @@ export {
     useInitializePageAdmin,
     useFormLogin,
     validationAuth,
+    useAdminHome,
 
     // common
     useScreenWidth,

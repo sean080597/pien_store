@@ -55,7 +55,7 @@ export default function Navbar(props) {
 
   return (
     <>
-      {!isNotFoundPage && !currentPath.includes('admin') &&
+      {!isNotFoundPage &&
       <>
         <nav className="navbar navbar-custom navbar-fixed-top" role="navigation">
           <div className="container">
@@ -71,7 +71,8 @@ export default function Navbar(props) {
             <div className="collapse navbar-collapse" id="custom-collapse">
               <ul className="nav navbar-nav navbar-right">
                 <li><button onClick={test}>test</button></li>
-                <li><Link to='/admin-su/order-managerment'>TestLink</Link></li>
+                <li><Link to='/admin-su/order-managerment'>TestLinkADmin</Link></li>
+                <li><Link to='/customer/yourOrders'>TestLinkYourOrder</Link></li>
                 <li><Link to='/ourStory'>Our story</Link></li>
                 <li><Link to='/gallery'>Gallery</Link></li>
                 <li><Link to='/shop'>Shop</Link></li>

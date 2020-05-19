@@ -26,7 +26,7 @@ const PrivateRoute = ({component: Component, ...rest}) => {
                 ) : (
                     <Redirect
                         to={{
-                            pathname: "/",
+                            pathname: rest.loginType === 'managerment' ? "/admin-su/login" : '/',
                             state: { from: props.location }
                         }}
                     />

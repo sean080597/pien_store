@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import Router from '../routes';
+import RouterClient from '../routes/routes-client'
+import RouterAdmin from '../routes/routes-admin'
 import $ from 'jquery';
 import PageLoadService from '../services/PageLoadService.service';
 import {LoadingIndicator} from '../components/ComponentsManager'
@@ -22,6 +23,9 @@ export default class MainLayout extends Component {
         PageLoadService.setNavbarHoverDropdown();
         PageLoadService.buildHomeSection();
     }
+    handleRenderRoutes = () => {
+        return window.location.pathname.includes('admin') ? <RouterAdmin/> : <RouterClient/>
+    }
 
     //component methods
     componentDidMount(){
@@ -42,7 +46,7 @@ export default class MainLayout extends Component {
         return (
             <div>
                 <LoadingIndicator/>
-                <Router/>
+                {this.handleRenderRoutes()}
                 <div className="scroll-up"><a href="#totop"><i className="fa fa-angle-double-up"></i></a></div>
             </div>
         )
