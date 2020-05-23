@@ -1,6 +1,6 @@
 import React from 'react'
 import {useSelector} from 'react-redux'
-import CommonConstants from '../config/CommonConstants'
+import CommonConstants from '../../config/CommonConstants'
 
 export default function Footer(props) {
     const {isNotFoundPage} = useSelector(state => ({
@@ -74,7 +74,7 @@ export default function Footer(props) {
                 <hr className="divider-d" />
                 <footer className="footer bg-dark">
                     <div className="container">
-                        <div className="flex-display jus-space-bettween align-ver-center">
+                        <div className="flex-display jus-space-bettween align-items-center">
                             <p className="copyright font-alt">Thổ Cẩm PIÊU - Brocade Decor</p>
                             <div className="footer-social-links">
                                 <a href="#"><i className="fa fa-facebook"></i></a>

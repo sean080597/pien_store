@@ -3,9 +3,9 @@ import { Link, useHistory } from 'react-router-dom';
 import {GoogleLogin, GoogleLogout} from 'react-google-login'
 // import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
 import { useSelector } from 'react-redux'
-import CommonConstants from '../config/CommonConstants'
-import CommonService from '../services/CommonService.service'
-import { useGoogleLogin } from '../hooks/HookManager'
+import CommonConstants from '../../config/CommonConstants'
+import CommonService from '../../services/CommonService.service'
+import { useGoogleLogin } from '../../hooks/HookManager'
 import Cookie from 'js-cookie'
 import iziToast from "izitoast";
 
@@ -71,8 +71,6 @@ export default function Navbar(props) {
             <div className="collapse navbar-collapse" id="custom-collapse">
               <ul className="nav navbar-nav navbar-right">
                 <li><button onClick={test}>test</button></li>
-                <li><Link to='/admin-su/order-managerment'>TestLinkADmin</Link></li>
-                <li><Link to='/customer/yourOrders'>TestLinkYourOrder</Link></li>
                 <li><Link to='/ourStory'>Our story</Link></li>
                 <li><Link to='/gallery'>Gallery</Link></li>
                 <li><Link to='/shop'>Shop</Link></li>

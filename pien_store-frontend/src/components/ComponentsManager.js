@@ -1,16 +1,20 @@
-import Footer from './Footer'
+// client
+import Footer from './client/Footer'
+import Navbar from './client/Navbar'
+import NewProduct from './client/NewProduct'
+import GliderImages from './client/GliderImages'
+import ProductDetailsGliderImages from './client/ProductDetailsGliderImages'
+import SingleOrder from './client/SingleOrder'
+import SinglePhoto from './client/gallery/SinglePhoto'
+import lsPhotos from './client/gallery/lsPhotos'
+// admin
+import SideBarCollapse from './admin/SideBarCollapse'
+// common
 import LoadingIndicator from './LoadingIndicator'
 import Modal from './Modal'
-import Navbar from './Navbar'
-import NewProduct from './NewProduct'
 import PagePagination from './PagePagination'
-import GliderImages from './GliderImages'
-import ProductDetailsGliderImages from './ProductDetailsGliderImages'
-import SingleOrder from './SingleOrder'
 import ProgressBarAnimation from './ProgressBarAnimation'
 import ProgressBarSteps from './ProgressBarSteps'
-import SinglePhoto from './gallery/SinglePhoto'
-import lsPhotos from './gallery/lsPhotos'
 
 export {
     Footer,
@@ -24,6 +28,7 @@ export {
     SingleOrder,
     ProgressBarAnimation,
     ProgressBarSteps,
+    SideBarCollapse,
     // lab
     SinglePhoto,
     lsPhotos
