@@ -3,39 +3,48 @@
   color: #fff;
   transition: all 0.3s;
   height: 100vh;
-  .h6{
-  	color: $white;
-  }
-  &.active{
-  	margin-left: -300px;
-	  .btn{
-			&.btn-primary{
-				&:before{
-					content: "\f054";
-				  font-family: "FontAwesome";
-				  left: 2px !important;
-				}
-				&:after{
-					display: none;
-				}
-			}
-		}
-  }
-  h1{
-  	margin-bottom: 20px;
-  	font-weight: 700;
-  	font-size: 20px;
-  	.logo{
-  		color: $white;
-  		display: block;
-  		padding: 10px 30px;
-  		background: $primary;
-  	}
-  }
+	position: sticky;
+	top: 0;
+
+	.bg-wrap{
+    width: 100%;
+    position: relative;
+    z-index: 0;
+    &:after{
+      z-index: -1;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      content: '';
+      background: $black;
+      opacity: .3;
+    }
+    .user-logo{
+      .img--avatar{
+        position: relative;
+        z-index: 100;
+        img{
+          width: 100px;
+          height: 100px;
+          object-fit: cover;
+          border-radius: 50%;
+        }
+      }
+      h3{
+        color: $white;
+        font-size: 18px;
+      }
+    }
+	}
+
   ul{
     &.components{
       padding: 0;
-      margin: 0;
+			margin: 0;
+			overflow-y: auto;
+			max-height: 100vh;
     }
     li{
     	font-size: 16px;
@@ -84,39 +93,6 @@
     			}
     		}
     	}
-    }
-  }
-
-  .bg-wrap{
-    width: 100%;
-    position: relative;
-    z-index: 0;
-    &:after{
-      z-index: -1;
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      content: '';
-      background: $black;
-      opacity: .3;
-    }
-    .user-logo{
-      .img--avatar{
-        position: relative;
-        z-index: 100;
-        img{
-          width: 100px;
-          height: 100px;
-          object-fit: cover;
-          border-radius: 50%;
-        }
-      }
-      h3{
-        color: $white;
-        font-size: 18px;
-      }
     }
   }
 }

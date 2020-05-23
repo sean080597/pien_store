@@ -15,7 +15,7 @@ import NotFound from '../pages/NotFound'
 const routes = () => (
   <Router>
     <Switch>
-      <PrivateRoute path='/admin-su/login' component={Login} exact />
+      <Route path='/admin-su/login' component={Login} exact />
       <Route
         path='/admin-su'
         render={({ match: { url } }) => (

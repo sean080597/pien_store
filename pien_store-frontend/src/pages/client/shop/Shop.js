@@ -41,12 +41,6 @@ export default function Shop(props) {
                                 }
                             </select>
                         </div>
-                        {/* <div className="col-sm-2 mb-sm-20">
-                            <select className="form-control">
-                                <option defaultValue>Woman</option>
-                                <option>Man</option>
-                            </select>
-                        </div> */}
                         <div className="col-sm-3 mb-sm-20">
                             <select className="form-control" name="cate_id" onChange={handleChange} value={filterInputs.cate_id}>
                                 <option value="" defaultValue>All</option>
@@ -72,7 +66,7 @@ export default function Shop(props) {
                                 <div className="col-sm-6 col-md-3 col-lg-3" key={index}>
                                     <div className="shop-item">
                                         <div className="shop-item-image">
-                                            <img src={process.env.PUBLIC_URL + CommonConstants.PRODUCTS_DIR + "/" + (prod.image ? prod.image : CommonConstants.PRODUCT_DEFAULT_IMAGE)} alt={prod.name} />
+                                            <img src={process.env.PUBLIC_URL + CommonConstants.PRODUCTS_DIR + "/" + (prod.image ? prod.image.url : CommonConstants.PRODUCT_DEFAULT_IMAGE)} alt={prod.name} />
                                             <div className="shop-item-detail"><button className="btn btn-round btn-b" onClick={() => handleAddToCart(prod)}><span className="icon-basket">Add To Cart</span></button></div>
                                         </div>
                                         <h4 className="shop-item-title font-alt"><Link to={'/productDetail/' + prod.id}>{prod.name}</Link></h4>{CommonService.formatMoney(prod.price, 0) + ' VNĐ'}
