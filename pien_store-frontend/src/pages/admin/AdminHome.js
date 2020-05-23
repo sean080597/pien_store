@@ -1,16 +1,34 @@
 import React from 'react'
-import {useInitializePageAdmin} from '../../hooks/HookManager'
-import { Link } from 'react-router-dom'
-import {useAdminHome} from '../../hooks/HookManager'
+import { useInitializePageAdmin } from '../../hooks/HookManager'
+import { useAdminHome } from '../../hooks/HookManager'
+import AreaChart from '../../plugins/charts/AreaChart'
 
 export default function AdminHome(props) {
-    useInitializePageAdmin('ADMIN_HOME')
-    useAdminHome()
+  useInitializePageAdmin('ADMIN_HOME')
+  useAdminHome()
 
-    return (
-        <div>
-            <h1>Admin Home</h1>
-            <Link className="btn btn-round btn-b" to="/admin-su/login">Test</Link>
+  return (
+    <section className="container-fluid">
+      <div className="row">
+        <div className="col-sm-5">
+          <AreaChart />
         </div>
-    )
+        <div className="col-sm-5 col-sm-offset-1">
+          <AreaChart />
+        </div>
+        <div className="col-sm-5">
+          <AreaChart />
+        </div>
+        <div className="col-sm-5 col-sm-offset-1">
+          <AreaChart />
+        </div>
+        <div className="col-sm-5">
+          <AreaChart />
+        </div>
+        <div className="col-sm-5 col-sm-offset-1">
+          <AreaChart />
+        </div>
+      </div>
+    </section>
+  )
 }

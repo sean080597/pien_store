@@ -24,19 +24,10 @@ const PrivateRoute = ({component: Component, ...rest}) => {
                 checkValidLogin() ? (
                     <Component {...props}/>
                 ) : (
-                    <Redirect
-                        to={{
-                            pathname: rest.loginType === 'managerment' ? "/admin-su/login" : '/',
-                            state: { from: props.location }
-                        }}
-                    />
+                    <Redirect to={{ pathname: rest.loginType === 'managerment' ? "/admin-su/login" : '/', state: { from: props.location } }} />
                 )
             }
         />
-        // <Route {...rest}
-        //     render={props => !token ? (<Component {...props}/>) : (<Redirect to={{pathname: '/profile'}}/>)}
-        // >
-        // </Route>
     )
 }
 export default PrivateRoute;

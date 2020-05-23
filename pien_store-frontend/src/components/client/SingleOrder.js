@@ -1,7 +1,7 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
-import CommonConstants from '../config/CommonConstants'
-import CommonService from '../services/CommonService.service'
+import CommonConstants from '../../config/CommonConstants'
+import CommonService from '../../services/CommonService.service'
 
 export default function YourOrders (props) {
     return (

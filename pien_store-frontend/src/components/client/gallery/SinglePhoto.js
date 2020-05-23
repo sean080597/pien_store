@@ -1,6 +1,6 @@
 import React, {useRef} from "react";
-import {useSinglePhoto} from '../../hooks/HookManager'
-import CommonConstants from '../../config/CommonConstants'
+import {useSinglePhoto} from '../../../hooks/HookManager'
+import CommonConstants from '../../../config/CommonConstants'
 
 const imgWithClick = { cursor: "pointer" };
 const placeholder = CommonConstants.IMAGES_DIR + '/placeholder.png'
