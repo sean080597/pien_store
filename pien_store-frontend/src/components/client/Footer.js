@@ -12,8 +12,8 @@ export default function Footer(props) {
             <>
                 <div className="bg-dark pt-30 pb-0 mt-50">
                     <div className="container">
-                        <div className="row">
-                            <div className="col-sm-4">
+                        <div className="row pb-4 flex-display">
+                            <div className="col-md-6 col-lg-4">
                                 <div className="widget">
                                     <h5 className="widget-title font-alt">About PIÊU</h5>
                                     <p>The languages only differ in their grammar, their pronunciation and their most common words.</p>
@@ -28,20 +28,11 @@ export default function Footer(props) {
                                     <p>Address: 45/69 Tran Huy Lieu, phuong 12, Phu Nhuan, HCM</p>
                                 </div>
                             </div>
-                            <div className="col-sm-4">
+                            <div className="col-md-6 col-lg-4">
                                 <div className="widget">
                                     <h5 className="widget-title font-alt">Something</h5>
                                     <div className="row">
-                                        <div className="col-sm-4">
-                                        <ul className="icon-list">
-                                            <li><a href="#">Decor</a></li>
-                                            <li><a href="#">Phu kien</a></li>
-                                            <li><a href="#">Tui</a></li>
-                                            <li><a href="#">Decor tuong</a></li>
-                                            <li><a href="#">Decor Phong</a></li>
-                                        </ul>
-                                        </div>
-                                        <div className="col-sm-4">
+                                        <div className="col-md-4">
                                             <ul className="icon-list">
                                                 <li><a href="#">Decor</a></li>
                                                 <li><a href="#">Phu kien</a></li>
@@ -50,7 +41,16 @@ export default function Footer(props) {
                                                 <li><a href="#">Decor Phong</a></li>
                                             </ul>
                                         </div>
-                                        <div className="col-sm-4">
+                                        <div className="col-md-4">
+                                            <ul className="icon-list">
+                                                <li><a href="#">Decor</a></li>
+                                                <li><a href="#">Phu kien</a></li>
+                                                <li><a href="#">Tui</a></li>
+                                                <li><a href="#">Decor tuong</a></li>
+                                                <li><a href="#">Decor Phong</a></li>
+                                            </ul>
+                                        </div>
+                                        <div className="col-md-4">
                                             <ul className="icon-list">
                                                 <li><a href="#">Decor</a></li>
                                                 <li><a href="#">Phu kien</a></li>
@@ -62,7 +62,7 @@ export default function Footer(props) {
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-sm-4">
+                            <div className="col-md-6 col-lg-4">
                                 <div className="widget">
                                     <h5 className="widget-title font-alt">Map</h5>
                                     <img src={process.env.PUBLIC_URL + CommonConstants.IMAGES_DIR + "/popular_post_1.jpg"} alt="Post Thumbnail" />

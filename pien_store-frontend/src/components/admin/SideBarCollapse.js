@@ -28,6 +28,45 @@ export default function SideBarCollapse(props) {
         <li>
           <Link to='/admin-su/config-managerment'><span className="fa fa-cogs mr-3"></span> Configuration</Link>
         </li>
+    
+        <li>
+          <Link to='/admin-su/user-managerment'><span className="fa fa-users mr-3 notif"><small className="flex-display align-items-center jus-center">5</small></span> Users</Link>
+        </li>
+        <li>
+          <Link to='/admin-su/order-managerment'><span className="fa fa-clipboard mr-3"></span> Orders</Link>
+        </li>
+        <li>
+          <Link to='/admin-su/gallery-managerment'><span className="fa fa-file-image-o mr-3"></span> Gallery</Link>
+        </li>
+        <li>
+          <Link to='/admin-su/config-managerment'><span className="fa fa-cogs mr-3"></span> Configuration</Link>
+        </li>
+        
+        <li>
+          <Link to='/admin-su/user-managerment'><span className="fa fa-users mr-3 notif"><small className="flex-display align-items-center jus-center">5</small></span> Users</Link>
+        </li>
+        <li>
+          <Link to='/admin-su/order-managerment'><span className="fa fa-clipboard mr-3"></span> Orders</Link>
+        </li>
+        <li>
+          <Link to='/admin-su/gallery-managerment'><span className="fa fa-file-image-o mr-3"></span> Gallery</Link>
+        </li>
+        <li>
+          <Link to='/admin-su/config-managerment'><span className="fa fa-cogs mr-3"></span> Configuration</Link>
+        </li>
+     
+        <li>
+          <Link to='/admin-su/user-managerment'><span className="fa fa-users mr-3 notif"><small className="flex-display align-items-center jus-center">5</small></span> Users</Link>
+        </li>
+        <li>
+          <Link to='/admin-su/order-managerment'><span className="fa fa-clipboard mr-3"></span> Orders</Link>
+        </li>
+        <li>
+          <Link to='/admin-su/gallery-managerment'><span className="fa fa-file-image-o mr-3"></span> Gallery</Link>
+        </li>
+        <li>
+          <Link to='/admin-su/config-managerment'><span className="fa fa-cogs mr-3"></span> Configuration</Link>
+        </li>
       </ul>
     </nav>
   )
