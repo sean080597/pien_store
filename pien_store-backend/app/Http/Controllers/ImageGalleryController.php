@@ -25,14 +25,13 @@ class ImageGalleryController extends Controller
 
     public function deleteData($id){}
 
-    public function getData($size)
+    public function getData($size, $pos = 0)
     {
-        $get_size = $pagination ? $pagination : $this->default_page_size;
-        $ls_categories = $this->category->with('image:url,imageable_id')->orderBy('name', 'DESC')->paginate($page_size);
+        $page_size = $size ? $size : $this->default_page_size;
+        $ls_images = $this->image->offset($pos)->limit($page_size)->get();
         return response()->json([
             'success' => true,
-            'data' => $ls_categories,
-            'file_directory' => $this->file_directory,
+            'data' => $ls_images
         ], 200);
     }
 }

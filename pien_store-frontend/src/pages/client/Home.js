@@ -14,7 +14,7 @@ export default function Home(props) {
     }))
 
     return (
-        <div>
+        <>
             <section className="bg-dark-30 showcase-page-header module parallax-bg" style={{backgroundImage: `url(${CommonConstants.IMAGES_DIR + CommonConstants.HOME_BG})`}}>
                 <div className="titan-caption">
                     <div className="caption-content">
@@ -74,6 +74,6 @@ export default function Home(props) {
                     </div>
                 </section>
             </div>
-        </div>
+        </>
     )
 }
