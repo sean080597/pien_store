@@ -1,9 +1,8 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import CommonService from '../../../services/CommonService.service'
 
 export default function useSinglePhoto(initial, refImage) {
   const [userInputs, setUserInputs] = useState(initial)
-  const isMountedRef = useRef(false)
 
   //handle
   const handleScroll = () => {
@@ -17,9 +16,8 @@ export default function useSinglePhoto(initial, refImage) {
             `src`,
             `${userInputs.imgSrc}`
           );
+          setUserInputs({ ...userInputs, isLoaded: true })
         }
-
-        setUserInputs({ ...userInputs, isLoaded: true })
       }
     }
   }
