@@ -168,7 +168,7 @@ class ProductController extends Controller
     public function getPaginatedData($cate_id = null, $pagination = null)
     {
         $page_size = $pagination ? $pagination : $this->default_page_size;
-        $query = Product::query()->with('image:url,imageable_id');
+        $query = Product::query()->with('image:src,imageable_id');
         if(isset($cate_id) && !empty($cate_id)){
             $query = $query->where('category_id', $cate_id);
         }
@@ -183,7 +183,7 @@ class ProductController extends Controller
 
     public function getSingleData($id)
     {
-        $findData = $this->product::with('image:url,imageable_id')->find($id);
+        $findData = $this->product::with('image:src,imageable_id')->find($id);
         if (!$findData) {
             return response()->json([
                 'success' => false,
@@ -199,7 +199,7 @@ class ProductController extends Controller
 
     public function filterData(){
       $page_size = request('page_size') ? request('page_size') : $this->default_page_size;
-      $query = Product::query()->with('image:url,imageable_id');
+      $query = Product::query()->with('image:src,imageable_id');
 
       //check if exists cate_id
       $paginated_sort_query = $query->when(request('cate_id'), function ($q) {
@@ -222,7 +222,7 @@ class ProductController extends Controller
     public function searchData($search, $cate_id = null, $pagination = null)
     {
       $page_size = $pagination ? $pagination : $this->default_page_size;
-      $query = Product::query()->with('image:url,imageable_id');
+      $query = Product::query()->with('image:src,imageable_id');
       //check if exists cate_id
       $query->when($cate_id, function ($q, $cate_id) {
         return $q->where('category_id', $cate_id);
@@ -244,7 +244,7 @@ class ProductController extends Controller
     public function getRelatedProduct($id)
     {
         $findData = $this->product->find($id);
-        $query = Product::query()->with('image:url,imageable_id');
+        $query = Product::query()->with('image:src,imageable_id');
         $lsRelatedProduct = $query->where('category_id', $findData->category_id)->where('id', '<>', $id)->inRandomOrder()->limit($this->default_page_size)->get();
         return response()->json([
             'success' => true,

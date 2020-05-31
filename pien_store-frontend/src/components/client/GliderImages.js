@@ -36,7 +36,7 @@ export default function GliderImages(props) {
                 props.relatedProducts.map(prod =>
                     <div key={prod.id} onClick={() => handleCliclkOtherProduct}>
                         <img alt={prod.name}
-                        src={process.env.PUBLIC_URL + CommonConstants.PRODUCTS_DIR + "/" + (prod.image ? prod.image.url : CommonConstants.PRODUCT_DEFAULT_IMAGE)} />
+                        src={process.env.PUBLIC_URL + CommonConstants.PRODUCTS_DIR + "/" + (prod.image ? prod.image.src : CommonConstants.PRODUCT_DEFAULT_IMAGE)} />
                         <h4 className="shop-item-title font-alt">{prod.name}</h4>{CommonService.formatMoney(prod.price, 0) + ' VNĐ'}
                     </div>
                 )

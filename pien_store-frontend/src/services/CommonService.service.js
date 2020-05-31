@@ -14,8 +14,13 @@ const CommonService = {
         $('.page-loader').fadeIn('fast');
     },
     goToPosition(el = null){
-        if(el) $('html, body').animate({ scrollTop: $(el).position().top }, 'slow');
-        else window.scrollTo(0, 0)
+        if(el) $('html, body').animate({ scrollTop: $(el).position().top }, 'slow')
+        else{
+            window.onbeforeunload = function () {
+                window.scrollTo(0, 0);
+            }
+            window.scrollTo(0, 0)
+        }
     },
     checkProtectedRoutes(currentPath){
         return protectedRoutes.some(path => path === currentPath)

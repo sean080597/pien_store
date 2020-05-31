@@ -9,7 +9,7 @@ class ProductObserver
 {
     public function retrieved(Product $product)
     {
-      $product->image = $product->load('image:url,imageable_id');
+      $product->image = $product->load('image:src,imageable_id');
     }
 
     public function creating(Product $product)

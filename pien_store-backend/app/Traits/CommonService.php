@@ -56,8 +56,9 @@
     }
 
     // convert fraction (a/b)- Numerator(a) & Denominator(b)
-    public static function dec2frac($dec) {
-        $nume = $dec*10; $deno = 10;
+    public static function getRatioImage($img_width, $img_height) {
+        $aspectRatio = round($img_width/$img_height, 1);
+        $nume = $aspectRatio*10; $deno = 10;
         $uscln = self::USCLN($nume, $deno);
         return response()->json([
             'numerator' => $nume/$uscln,
