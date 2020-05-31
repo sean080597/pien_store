@@ -9,6 +9,7 @@ import useOurGallery from './client/gallery/useOurGallery'
 import useSinglePhoto from './client/gallery/useSinglePhoto'
 import useYourOrders from './client/your-orders/useYourOrders'
 import useOrderDetails from './client/your-orders/useOrderDetails'
+import useOurStory from './client/useOurStory'
 
 // admin
 import useInitializePageAdmin from './admin/useInitializePageAdmin'
@@ -32,6 +33,7 @@ export {
     useSinglePhoto,
     useYourOrders,
     useOrderDetails,
+    useOurStory,
 
     // admin
     useInitializePageAdmin,

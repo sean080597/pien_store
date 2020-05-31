@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\ImageGallery;
 use Illuminate\Http\Request;
 use App\Traits\CommonService;
-use Image;
-use App\ClientModel\PhotoGallery;
 
 class ImageGalleryController extends Controller
 {
