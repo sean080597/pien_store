@@ -1,13 +1,15 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import CommonConstants from '../../config/CommonConstants'
 import Gallery from "react-photo-gallery";
 import Carousel, { Modal, ModalGateway } from "react-images";
-import { SinglePhoto, lsPhotos, BottomLoading } from '../../components/ComponentsManager'
+import { SinglePhoto, BottomLoading } from '../../components/ComponentsManager'
 import { useTurnOnOffLoader, useOurGallery } from '../../hooks/HookManager'
 
 export default function OurGallery(props) {
   useTurnOnOffLoader()
   const { currentImage, isViewerOpen, openLightbox, closeLightbox } = useOurGallery()
+  const lsPhotos = useSelector(state => state.gallery.lsPhotos)
 
   return (
     <div className="main">
@@ -23,10 +25,12 @@ export default function OurGallery(props) {
       </section>
       <section className="pb-0 pt-50">
         <div className="container-fluid">
+          {lsPhotos.length > 0 &&
           <Gallery photos={lsPhotos} direction={"column"} columns={5} margin={8}
             onClick={openLightbox}
             renderImage={props => <SinglePhoto {...props} />}
           />
+          }
           <ModalGateway>
             {isViewerOpen ? (
               <Modal onClose={closeLightbox}>

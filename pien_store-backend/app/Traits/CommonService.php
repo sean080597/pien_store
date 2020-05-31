@@ -43,4 +43,25 @@
     public static function isSetNotEmpty($val){
         return isset($val) && !empty($val);
     }
+
+    // greatest common divisor (USCLN - VI)
+    public static function USCLN($a, $b) {
+        if ($b == 0) return $a;
+        return self::USCLN($b, $a % $b);
+    }
+
+    // least common multiple (BSCNN - VI)
+    public static function BSCNN($a, $b) {
+        return ($a * $b) / self::USCLN($a, $b);
+    }
+
+    // convert fraction (a/b)- Numerator(a) & Denominator(b)
+    public static function dec2frac($dec) {
+        $nume = $dec*10; $deno = 10;
+        $uscln = self::USCLN($nume, $deno);
+        return response()->json([
+            'numerator' => $nume/$uscln,
+            'denominator' => $deno/$uscln
+        ]);
+    }
  }

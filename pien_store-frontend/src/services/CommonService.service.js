@@ -94,6 +94,11 @@ const CommonService = {
     },
     compareDateIsAfter(dateInput, dateToCompare){
         return moment(dateInput).isAfter(moment(dateToCompare))
+    },
+    getDimensionImage(url, callback){
+        let img = new Image()
+        img.src = url
+        img.onload = () => { callback(this.width, this.height) }
     }
 };
 
