@@ -61,3 +61,7 @@ Route::group(['prefix' => 'order'], function () {
 Route::group(['prefix' => 'image-gallery'], function () {
     Route::get('getData/{size?}/{pos?}', 'ImageGalleryController@getData');
 });
+
+Route::group(['prefix' => 'our-stories'], function () {
+    Route::get('getData', 'OurStoryController@getData');
+});

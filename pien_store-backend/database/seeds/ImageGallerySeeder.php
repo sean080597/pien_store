@@ -12,7 +12,6 @@ class ImageGallerySeeder extends Seeder
             'description' => $desc,
             'slug' => str_slug($title),
             'src' => $url,
-            'src_type' => 'external',
             'width' => $width,
             'height' => $height,
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
