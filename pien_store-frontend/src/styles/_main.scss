@@ -322,6 +322,9 @@ img {
   z-index: 102;
 }
 
+/*--------------------------------------------------------------
+	story page css
+--------------------------------------------------------------*/
 .story-container {
   p{
     font-size: 15px;
@@ -336,12 +339,17 @@ img {
   }
 }
 
+/*--------------------------------------------------------------
+	single photo
+--------------------------------------------------------------*/
 .gallery-single-photo{
   &:hover .gallery-single-photo__title{
     opacity: 1 !important;
   }
   img{
     border-radius: 10px;
+    opacity: 0;
+    transition: opacity 1.5s;
     &:hover{
       filter: brightness(0.9);
     }
@@ -360,4 +368,19 @@ img {
     z-index: 1;
     transition: 0.15s ease-out;
   }
+}
+
+/*--------------------------------------------------------------
+	bottom loading
+--------------------------------------------------------------*/
+.bottom-loading{
+  display: flex;
+  justify-content: center;
+}
+
+/*--------------------------------------------------------------
+	lazy loading
+--------------------------------------------------------------*/
+.reveal{
+  opacity: 1 !important;
 }
