@@ -26,10 +26,10 @@ export default function OurGallery(props) {
       <section className="pb-0 pt-50">
         <div className="container-fluid">
           {lsPhotos.length > 0 &&
-          <Gallery photos={lsPhotos} direction={"column"} columns={5} margin={8}
-            onClick={openLightbox}
-            renderImage={props => <SinglePhoto {...props} />}
-          />
+            <Gallery photos={lsPhotos} direction={"column"} columns={5} margin={8}
+              onClick={openLightbox}
+              renderImage={props => <SinglePhoto {...props} />}
+            />
           }
           <ModalGateway>
             {isViewerOpen ? (
@@ -45,7 +45,7 @@ export default function OurGallery(props) {
               </Modal>
             ) : null}
           </ModalGateway>
-          {/* <BottomLoading/> */}
+          <BottomLoading/>
         </div>
       </section>
     </div>

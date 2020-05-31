@@ -19,8 +19,10 @@ class CreateImageGalleriesTable extends Migration
             $table->string('slug', 150);
             $table->text('description')->nullable();
             $table->text('keyword')->nullable();
-            $table->string('url');
-            $table->string('url_type', 10)->default('internal');
+            $table->string('src');
+            $table->string('src_type', 10)->default('internal');
+            $table->unsignedTinyInteger('width');
+            $table->unsignedTinyInteger('height');
             $table->timestamps();
         });
     }

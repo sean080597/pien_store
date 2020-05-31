@@ -5,7 +5,7 @@ import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 export default class BottomLoading extends Component {
   render() {
     return (
-      <div className="bottom-loading" >
+      <div id="bottom-loading-component" className="bottom-loading">
         {/* <Loader type="Audio" color="#00BFFF" height={50} width={50} timeout={0} />
         <Loader type="BallTriangle" color="#00BFFF" height={50} width={50} timeout={0} />
         <Loader type="Bars" color="#00BFFF" height={50} width={50} timeout={0} />

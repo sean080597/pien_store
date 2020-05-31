@@ -156,7 +156,7 @@ class CategoryController extends Controller
     public function getPaginatedData($pagination = null)
     {
         $page_size = $pagination ? $pagination : $this->default_page_size;
-        $ls_categories = $this->category->with('image:url,imageable_id')->orderBy('name', 'DESC')->paginate($page_size);
+        $ls_categories = $this->category->with('image:src,imageable_id')->orderBy('name', 'DESC')->paginate($page_size);
         return response()->json([
             'success' => true,
             'data' => $ls_categories,
@@ -183,7 +183,7 @@ class CategoryController extends Controller
     public function searchData($search, $pagination = null)
     {
         $page_size = $pagination ? $pagination : $this->default_page_size;
-        $paginated_search_query = $this->category->with('image:url,imageable_id')->where(function ($query) use ($search) {
+        $paginated_search_query = $this->category->with('image:src,imageable_id')->where(function ($query) use ($search) {
             $query->where('name', 'LIKE', "%$search%")
                 ->orWhere('cate_id', 'LIKE', "%$search%");
         })->orderBy('name', 'DESC')->paginate($page_size);

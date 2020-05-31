@@ -30,25 +30,16 @@ class ImageGalleryController extends Controller
     public function getData($size, $pos = 0)
     {
         $page_size = $size ? $size : $this->default_page_size;
-        $ls_images = $this->image->offset($pos)->limit($page_size)->get();
-        $result = collect();
+        $ls_images = $this->image->select('id', 'title', 'src', 'width', 'height')->offset($pos)->limit($page_size)->get();
+        $count = $this->image->count();
         // make result
-        $ls_images->each(function($item, $key) use($result){
-            $obj = new PhotoGallery();
-            $obj->key = \strval($item->id);
-            $obj->title = $item->title;
-            $obj->src = $item->url;
-            // calculate ratio
-            $img_width = Image::make($item->url)->width();
-            $img_height = Image::make($item->url)->height();
-            $aspectRatio = round($img_width/$img_height, 1);
-            $obj->width = $this->dec2frac($aspectRatio)->getData()->numerator;
-            $obj->height = $this->dec2frac($aspectRatio)->getData()->denominator;
-            $result->push($obj);
+        $ls_images->map(function($item, $key){
+            $item->key = \strval($item->id);
         });
         return response()->json([
             'success' => true,
-            'data' => $result
+            'data' => $ls_images,
+            'count' => $count
         ], 200);
     }
 }

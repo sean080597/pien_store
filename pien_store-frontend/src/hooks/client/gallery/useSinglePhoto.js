@@ -26,12 +26,8 @@ export default function useSinglePhoto(initial, refImage) {
   }
 
   useEffect(() => {
-    window.addEventListener('load', handleScroll);
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('load', handleScroll);
-      window.removeEventListener('scroll', handleScroll);
-    }
+    handleScroll()
+    return () => {}
   }, [])
   return { userInputs }
 }
