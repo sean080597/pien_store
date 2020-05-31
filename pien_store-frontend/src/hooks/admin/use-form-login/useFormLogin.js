@@ -50,7 +50,7 @@ export default function useFormLogin(initital, validate) {
             const noErrors = Object.keys(errors).length === 0
             if(noErrors){
                 CommonService.turnOnLoader()
-                let apiQuery = `${apiUrl}/user/login`
+                const apiQuery = `${apiUrl}/user/login`
                 ConnectionService.axiosPostByUrl(apiQuery, userInputs)
                 .then(async resJWT => {
                     //dispatch

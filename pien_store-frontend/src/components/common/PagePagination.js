@@ -1,6 +1,5 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { usePagePagination } from '../hooks/HookManager'
 
 export default function PagePagination(props) {
     const {pagePaginationInfo} = useSelector(state => ({

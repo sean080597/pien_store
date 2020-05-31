@@ -18,7 +18,6 @@ import useAdminHome from './admin/useAdminHome'
 
 // common
 import useNotFoundPage from './useNotFoundPage'
-import usePagePagination from './usePagePagination'
 import useScreenWidth from './useScreenWidth'
 
 export {
@@ -42,6 +41,5 @@ export {
 
     // common
     useScreenWidth,
-    useNotFoundPage,
-    usePagePagination,
+    useNotFoundPage
 }

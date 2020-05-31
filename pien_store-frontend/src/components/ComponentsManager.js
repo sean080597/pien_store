@@ -10,11 +10,12 @@ import lsPhotos from './client/gallery/lsPhotos'
 // admin
 import SideBarCollapse from './admin/SideBarCollapse'
 // common
-import LoadingIndicator from './LoadingIndicator'
-import Modal from './Modal'
-import PagePagination from './PagePagination'
-import ProgressBarAnimation from './ProgressBarAnimation'
-import ProgressBarSteps from './ProgressBarSteps'
+import LoadingIndicator from './common/LoadingIndicator'
+import Modal from './common/Modal'
+import PagePagination from './common/PagePagination'
+import ProgressBarAnimation from './common/ProgressBarAnimation'
+import ProgressBarSteps from './common/ProgressBarSteps'
+import BottomLoading from './common/BottomLoading'
 
 export {
     Footer,
@@ -31,5 +32,6 @@ export {
     SideBarCollapse,
     // lab
     SinglePhoto,
-    lsPhotos
+    lsPhotos,
+    BottomLoading
 }

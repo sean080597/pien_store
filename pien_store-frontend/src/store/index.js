@@ -29,6 +29,10 @@ const initialStates = {
     },
     yourOrders: {
         lsRecentOrders: []
+    },
+    gallery: {
+        lsPhotos: [],
+        continuousPos: 0
     }
 }
 

@@ -81,7 +81,7 @@ export default function useShopCart(initial, componentName){
 
     //apply
     const applyCategoriesAll = () => {
-        let apiQuery = `${apiUrl}/category/getAll`
+        const apiQuery = `${apiUrl}/category/getAll`
         ConnectionService.axiosGetByUrl(apiQuery)
         .then(async res => {
             await dispatch({type: 'SET_CATEGORIES', payload: res.data.data})
@@ -90,7 +90,7 @@ export default function useShopCart(initial, componentName){
     }
 
     const applyProductsFilter = (pageIndex) => {
-        let apiQuery = `${apiUrl}/product/getAll/filterData${pageIndex ? '?page=' + pageIndex : ''}`
+        const apiQuery = `${apiUrl}/product/getAll/filterData${pageIndex ? '?page=' + pageIndex : ''}`
         ConnectionService.axiosPostByUrl(apiQuery, sendPaginateFilters.current)
         .then(async res => {
             let products = res.data.data
