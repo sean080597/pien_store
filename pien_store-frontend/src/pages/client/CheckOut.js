@@ -60,7 +60,7 @@ export default function ConfirmInfo (props) {
                                         cartItems.map((item, index) =>
                                             <tr key={index}>
                                                 <td className="hidden-xs"><a href="#">
-                                                    <img src={process.env.PUBLIC_URL + CommonConstants.PRODUCTS_DIR + "/" + (item.image ? item.image : CommonConstants.PRODUCT_DEFAULT_IMAGE)} alt={item.name}/>
+                                                    <img src={CommonService.generateImageSrc('products', item)} alt={item.name}/>
                                                     </a>
                                                 </td>
                                                 <td>

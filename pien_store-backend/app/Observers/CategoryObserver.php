@@ -15,6 +15,11 @@ class CategoryObserver
       // }
     // }
 
+    public function retrieved(Category $category)
+    {
+        $category->image = $category->load('image:src,imageable_id');
+    }
+
     public function creating(Category $category)
     {
       $category->id = Str::random(10);

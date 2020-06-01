@@ -19,7 +19,7 @@ export default function ProductDetails(props) {
                 <div className="container">
                     <div className="row">
                         <div className="col-sm-6 mb-sm-40">
-                            <img src={process.env.PUBLIC_URL + CommonConstants.PRODUCTS_DIR + "/" + (productInfo.image ? productInfo.image.src : CommonConstants.PRODUCT_DEFAULT_IMAGE)} alt={productInfo.name} />
+                            <img src={CommonService.generateImageSrc('products', productInfo)} alt={productInfo.name} />
                         </div>
                         <div className="col-sm-6">
                             <div className="row">
@@ -105,7 +105,7 @@ export default function ProductDetails(props) {
                                 relatedProducts.map(prod =>
                                     <div key={prod.id} onClick={() => handleReplaceProduct(prod.id)}>
                                         <img alt={prod.name}
-                                        src={process.env.PUBLIC_URL + CommonConstants.PRODUCTS_DIR + "/" + (prod.image ? prod.image.src : CommonConstants.PRODUCT_DEFAULT_IMAGE)} />
+                                        src={CommonService.generateImageSrc('products', prod)} />
                                         <div className="glide__title">
                                             <h4 className="shop-item-title font-alt ml-10 mr-10">{prod.name}</h4>
                                             <p className="ml-10 mr-10 mb-10">{CommonService.formatMoney(prod.price, 0) + ' VNĐ'}</p>
