@@ -25,7 +25,7 @@ class CustomerController extends Controller
         $shipment_data = $this->customer::find($id)->shipmentable;
         $user_info_data = $this->customer::find($id)->user_infoable;
         $result = $shipment_data->push($user_info_data);
-        $result->filter(function($value, $key){
+        $result = $result->filter(function($value, $key){
             return $value->firstname && $value->lastname && $value->phone && $value->address;
         });
         $result->map(function($item, $key){

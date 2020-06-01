@@ -1,6 +1,7 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 import CommonConstants from '../../config/CommonConstants'
+import CommonService from '../../services/CommonService.service'
 import {useShopCart, useTurnOnOffLoader} from '../../hooks/HookManager'
 import {NewProduct} from '../../components/ComponentsManager'
 import { useSelector } from 'react-redux';
@@ -63,7 +64,7 @@ export default function Home(props) {
                                 <div className="col-md-4 col-sm-6 col-xs-12" key={index}>
                                     <Link className="content-box" to={{ pathname: '/shop', state: { cate_id: cate.id } }}>
                                         <div className="content-box-image">
-                                            <img src={process.env.PUBLIC_URL + CommonConstants.CATEGORIES_DIR + "/" + (cate.image ? cate.image : CommonConstants.CATEGORY_DEFAULT_IMAGE)} alt={cate.name} />
+                                            <img src={CommonService.generateImageSrc('categories', cate)} alt={cate.name} />
                                         </div>
                                         <h3 className="content-box-title font-serif">{cate.name}</h3>
                                     </Link>
