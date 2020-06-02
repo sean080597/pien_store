@@ -4,6 +4,7 @@
     "FACEBOOK_APP_ID": "875917776179798",
     "LOCALSTORAGE_NAME": "pieu_carts",
     "IMAGES_DIR": "/assets/images",
+    "PROFILES_DIR": "/assets/images/profiles",
     "CATEGORIES_DIR": "/assets/images/categories",
     "PRODUCTS_DIR": "/assets/images/products",
     "STORIES_DIR": "/assets/images/stories",

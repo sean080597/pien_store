@@ -273,6 +273,9 @@ a, .btn {
 
 /* padding rem unit */
 .p {
+  &-0 {
+    padding: !important;
+  }
   &-1 {
     padding: 0.25rem !important;
   }
@@ -292,6 +295,9 @@ a, .btn {
 
 .pt,
 .py {
+  &-0 {
+    padding-top: 0 !important;
+  }
   &-1 {
     padding-top: 0.25rem !important;
   }
@@ -311,6 +317,9 @@ a, .btn {
 
 .pr,
 .px {
+  &-0 {
+    padding-right: 0 !important;
+  }
   &-1 {
     padding-right: 0.25rem !important;
   }
@@ -330,6 +339,9 @@ a, .btn {
 
 .pb,
 .py {
+  &-0 {
+    padding-bottom: 0 !important;
+  }
   &-1 {
     padding-bottom: 0.25rem !important;
   }
@@ -349,6 +361,9 @@ a, .btn {
 
 .pl,
 .px {
+  &-0 {
+    padding-left: 0 !important;
+  }
   &-1 {
     padding-left: 0.25rem !important;
   }
@@ -366,10 +381,6 @@ a, .btn {
   }
 }
 /* margin, padding */
-.p-0 {
-  padding: 0 !important;
-}
-
 .p-10 {
   padding: 10px !important;
 }
@@ -561,11 +572,6 @@ a, .btn {
 .px-90 {
   padding-left: 90px !important;
   padding-right: 90px !important;
-}
-
-.py-5 {
-  padding-top: 5px !important;
-  padding-bottom: 5px !important;
 }
 
 .py-10 {

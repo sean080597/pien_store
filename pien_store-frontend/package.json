@@ -31,6 +31,7 @@
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0",
+    "react-table": "^7.1.0",
     "react-text-rotator": "^0.1.1",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0"
@@ -62,5 +63,8 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1"
+  },
+  "scarfSettings": {
+    "enabled": false
   }
 }

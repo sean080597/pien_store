@@ -65,3 +65,10 @@ Route::group(['prefix' => 'image-gallery'], function () {
 Route::group(['prefix' => 'our-stories'], function () {
     Route::get('getData', 'OurStoryController@getData');
 });
+
+Route::group(['prefix' => 'admin-user'], function () {
+    Route::post('createData', 'UserController@createData');
+    Route::put('editData/{id}', 'UserController@editData');
+    Route::delete('deleteData/{id}', 'UserController@deleteData');
+    Route::get('searchData/{search?}/{pagination?}', 'UserController@searchData');
+});

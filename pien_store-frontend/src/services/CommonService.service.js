@@ -6,6 +6,7 @@ import CommonConstants from '../config/CommonConstants.json'
 const protectedRoutes = ['/customer/profile', '/customer/checkout', '/customer/yourOrders']
 const imgDirectorypath = {
     images: [CommonConstants.IMAGES_DIR, CommonConstants.USER_DEFAULT_IMAGE],
+    profiles: [CommonConstants.PROFILES_DIR, CommonConstants.USER_DEFAULT_IMAGE],
     categories: [CommonConstants.CATEGORIES_DIR, CommonConstants.CATEGORY_DEFAULT_IMAGE],
     products: [CommonConstants.PRODUCTS_DIR, CommonConstants.PRODUCT_DEFAULT_IMAGE],
     stories: [CommonConstants.STORIES_DIR, CommonConstants.STORY_DEFAULT_IMAGE]
@@ -107,14 +108,10 @@ const CommonService = {
     compareDateIsAfter(dateInput, dateToCompare){
         return moment(dateInput).isAfter(moment(dateToCompare))
     },
-    generateImageSrc(dirPath, imgObj, testImg = null){
-        const resDirPath = imgDirectorypath[dirPath][0]
-        let resDefImg = testImg
-        if(imgObj.image){
-            if(imgObj.image.src.includes('http')) return imgObj.image.src
-            resDefImg = imgObj.image.src
-        }else resDefImg = imgDirectorypath[dirPath][1]
-        return process.env.PUBLIC_URL + resDirPath + "/" + resDefImg
+    generateImageSrc(dirPath, imgSrc){
+        if(!imgSrc) throw new Error('Something wrong happened - I108')
+        if(imgSrc && imgSrc.includes('http')) return imgSrc
+        return process.env.PUBLIC_URL + imgDirectorypath[dirPath][0] + "/" + imgDirectorypath[dirPath][1]
     }
 };
 
