@@ -64,7 +64,7 @@ export default function Home(props) {
                                 <div className="col-md-4 col-sm-6 col-xs-12" key={index}>
                                     <Link className="content-box" to={{ pathname: '/shop', state: { cate_id: cate.id } }}>
                                         <div className="content-box-image">
-                                            <img src={CommonService.generateImageSrc('categories', cate)} alt={cate.name} />
+                                            <img src={CommonService.generateImageSrc('categories', cate.image.src)} alt={cate.name} />
                                         </div>
                                         <h3 className="content-box-title font-serif">{cate.name}</h3>
                                     </Link>

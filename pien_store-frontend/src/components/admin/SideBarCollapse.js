@@ -1,5 +1,6 @@
 import React from 'react'
 import CommonConstants from '../../config/CommonConstants'
+import CommonService from '../../services/CommonService.service'
 import {Link} from 'react-router-dom'
 
 export default function SideBarCollapse(props) {
@@ -8,7 +9,7 @@ export default function SideBarCollapse(props) {
       <div className="img--cover-bg bg-wrap text-center py-4" style={{backgroundImage: `url(${CommonConstants.IMAGES_DIR + CommonConstants.AVATAR_BG_ADMIN})`}}>
         <div className="user-logo">
           {/* <img src={process.env.PUBLIC_URL + CommonConstants.IMAGES_DIR + "/" + (prod.image ? prod.image : CommonConstants.USER_DEFAULT_IMAGE)}/> */}
-          <div className="img--avatar"><img src={process.env.PUBLIC_URL + CommonConstants.IMAGES_DIR + "/sample-profile-image.jpg"}/></div>
+          <div className="img--avatar"><img src={CommonService.generateImageSrc('profiles', null, 'sample-profile-image.jpg')}/></div>
           <h3>Catriona Henderson</h3>
         </div>
       </div>
@@ -18,6 +19,9 @@ export default function SideBarCollapse(props) {
         </li>
         <li>
           <Link to='/admin-su/user-managerment'><span className="fa fa-users mr-3 notif"><small className="flex-display align-items-center jus-center">5</small></span> Users</Link>
+        </li>
+        <li>
+          <Link to='/admin-su/customer-managerment'> Customers</Link>
         </li>
         <li>
           <Link to='/admin-su/order-managerment'><span className="fa fa-clipboard mr-3"></span> Orders</Link>
