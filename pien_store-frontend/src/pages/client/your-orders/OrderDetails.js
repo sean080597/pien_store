@@ -41,7 +41,7 @@ export default function OrderDetails(props) {
                                         orderDetailsInfo.products.map(item =>
                                             <div className="order-info__details px-20 py-10" key={item.id}>
                                                 <div className="order-info__img">
-                                                    <img src={CommonService.generateImageSrc('products', item.image.src)} alt={item.image} />
+                                                    <img src={CommonService.generateImageSrc('products', item)} alt={item.image} />
                                                 </div>
                                                 <div className="order-info__desc mx-20">
                                                     <h5 className="product-title font-alt m-0"><strong>{item.name}</strong></h5>

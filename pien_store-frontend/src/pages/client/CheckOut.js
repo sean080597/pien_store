@@ -60,7 +60,7 @@ export default function ConfirmInfo (props) {
                                         cartItems.map((item, index) =>
                                             <tr key={index}>
                                                 <td className="hidden-xs"><a href="#">
-                                                    <img src={CommonService.generateImageSrc('products', item.image.src)} alt={item.name}/>
+                                                    <img src={CommonService.generateImageSrc('products', item)} alt={item.name}/>
                                                     </a>
                                                 </td>
                                                 <td>
@@ -114,6 +114,7 @@ export default function ConfirmInfo (props) {
                     </div>
                 </div>
             </section>
+            {/* Modal */}
             <Modal ref={modalRef} modalWidth="70%">
                 <h4 className="font-alt mb-0">Shipment Addresses</h4>
                 <hr className="divider-w mt-10 mb-20"/>
@@ -159,13 +160,13 @@ export default function ConfirmInfo (props) {
                                     {!addr.isEditable &&
                                     <div className="flex-display jus-space-around align-items-center">
                                         <input className="m-0" type='radio' name={'rad_btn_checkout_' + index} value={index} checked={addr.isChecked} onChange={(e)=>handleSwitchAddress(e)}/>
-                                        <button className="btn-b btn btn-round px-10 py-5" title="Edit shipment details"
+                                        <button className="btn-b btn btn-round px-10" title="Edit shipment details"
                                         style={{ visibility: !addr.email ? 'visible': 'hidden' }}
                                         disabled={addr.email ? true : false}
                                         onClick={() => handleSetEditableShipment(addr, true)}>
                                             <i className="fa fa-edit"></i>
                                         </button>
-                                        <button className="btn-danger btn btn-round px-10 py-5" title="Delete shipment details"
+                                        <button className="btn-danger btn btn-round px-10" title="Delete shipment details"
                                         style={{ visibility: !addr.email ? 'visible': 'hidden' }}
                                         disabled={addr.email ? true : false}
                                         onClick={() => handleDeleteShipmentDetails(addr.id)}>

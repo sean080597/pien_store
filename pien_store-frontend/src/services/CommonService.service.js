@@ -108,10 +108,15 @@ const CommonService = {
     compareDateIsAfter(dateInput, dateToCompare){
         return moment(dateInput).isAfter(moment(dateToCompare))
     },
-    generateImageSrc(dirPath, imgSrc){
-        if(!imgSrc) throw new Error('Something wrong happened - I108')
-        if(imgSrc && imgSrc.includes('http')) return imgSrc
-        return process.env.PUBLIC_URL + imgDirectorypath[dirPath][0] + "/" + imgDirectorypath[dirPath][1]
+    generateImageSrc(dirPath, imgObj, imgSrc = null){
+        const resDirPath = imgDirectorypath[dirPath][0]
+        let resDefImg = imgSrc
+        if(imgObj && imgObj.image){
+            if(imgObj.image.src.includes('http')) return imgObj.image.src
+            resDefImg = imgObj.image.src
+        }
+        if(!imgObj && !imgSrc) resDefImg = imgDirectorypath[dirPath][1]
+        return process.env.PUBLIC_URL + resDirPath + "/" + resDefImg
     }
 };
 
