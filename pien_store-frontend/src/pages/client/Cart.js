@@ -40,7 +40,7 @@ export default function Cart (props) {
                                         cartItems.map((item, index) =>
                                             <tr key={index}>
                                                 <td className="hidden-xs"><a href="#">
-                                                    <img src={CommonService.generateImageSrc('products', item.image.src)} alt={item.name}/>
+                                                    <img src={CommonService.generateImageSrc('products', item)} alt={item.name}/>
                                                     </a>
                                                 </td>
                                                 <td>
@@ -116,7 +116,6 @@ export default function Cart (props) {
                                 </table>
                                 <button className="btn btn-lg btn-block btn-round btn-d" type="button"
                                 disabled={!cartItems || cartItems.length === 0} onClick={() => handleGoToCheckoutPage()}>Proceed to Checkout</button>
-                                {/* <button onClick={() => handleProceedToCheckout()}>checkiut</button> */}
                             </div>
                         </div>
                     </div>

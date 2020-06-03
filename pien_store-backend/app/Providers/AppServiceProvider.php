@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\User;
 use App\Product;
 use App\Category;
 use App\Customer;
@@ -10,6 +11,7 @@ use App\Order;
 use App\ImageGallery;
 use App\OurStory;
 
+use App\Observers\UserObserver;
 use App\Observers\ProductObserver;
 use App\Observers\CategoryObserver;
 use App\Observers\CustomerObserver;
@@ -36,6 +38,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        User::observe(UserObserver::class);
         Product::observe(ProductObserver::class);
         Category::observe(CategoryObserver::class);
         Customer::observe(CustomerObserver::class);
@@ -43,12 +46,12 @@ class AppServiceProvider extends ServiceProvider
         ImageGallery::observe(ImageGalleryObserver::class);
         OurStory::observe(OurStoryObserver::class);
         // Log queries
-        if (true) {
-            \DB::listen(function ($query) {
-                \Log::info(
-                    $query->sql, $query->bindings, $query->time
-                );
-            });
-        }
+        // if (true) {
+        //     \DB::listen(function ($query) {
+        //         \Log::info(
+        //             $query->sql, $query->bindings, $query->time
+        //         );
+        //     });
+        // }
     }
 }

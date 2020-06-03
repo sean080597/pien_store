@@ -66,7 +66,7 @@ export default function Shop(props) {
                                 <div className="col-sm-6 col-md-3 col-lg-3" key={index}>
                                     <div className="shop-item">
                                         <div className="shop-item-image">
-                                            <img src={CommonService.generateImageSrc('products', prod.image.src)} alt={prod.name} />
+                                            <img src={CommonService.generateImageSrc('products', prod)} alt={prod.name} />
                                             <div className="shop-item-detail"><button className="btn btn-round btn-b" onClick={() => handleAddToCart(prod)}><span className="icon-basket">Add To Cart</span></button></div>
                                         </div>
                                         <h4 className="shop-item-title font-alt"><Link to={'/productDetail/' + prod.id}>{prod.name}</Link></h4>{CommonService.formatMoney(prod.price, 0) + ' VNĐ'}
