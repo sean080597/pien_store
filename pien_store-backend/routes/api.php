@@ -67,8 +67,13 @@ Route::group(['prefix' => 'our-stories'], function () {
 });
 
 Route::group(['prefix' => 'admin-user'], function () {
+    Route::get('getSingleData/{id}', 'UserController@getSingleData');
     Route::post('createData', 'UserController@createData');
     Route::put('editData/{id}', 'UserController@editData');
     Route::delete('deleteData/{id}', 'UserController@deleteData');
     Route::get('searchData/{search?}/{pagination?}', 'UserController@searchData');
+});
+
+Route::get('test', function () {
+    var_dump(new DateTime);
 });

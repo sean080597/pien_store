@@ -33,6 +33,10 @@ class ProductController extends Controller
 
     public function createData(Request $request)
     {
+        $user_role = auth()->user()->user_infoable->role_id;
+        if(\strcmp($user_role, 'adm') !== 0){
+            return response()->json(['success'=>false, 'message'=>Config::get('constants.MSG.ERROR.FORBIDDEN')], 403);
+        }
         $validator = Validator::make($request->all(),
         [
             'name' => 'required|string',
@@ -48,13 +52,12 @@ class ProductController extends Controller
         }
 
         //handle file
-        $fileTypes = ['image/png', 'image/jpg', 'image/jpeg'];
         $product_image = $request->product_image;
         $file_name = '';
         if (is_null($product_image)) {
             $file_name = $this->default_product_image;
         } else {
-            $isSaved = $this->checkSaveImage($fileTypes, $product_image, $this->file_directory);
+            $isSaved = $this->checkSaveImage($product_image, $this->file_directory);
             if(strcmp($isSaved->getData()->success, true) == 0){
                 $file_name = $isSaved->getData()->file_name;
             }else{
@@ -81,6 +84,19 @@ class ProductController extends Controller
 
     public function editData(Request $request, $id)
     {
+        $user_role = auth()->user()->user_infoable->role_id;
+        if(\strcmp($user_role, 'adm') !== 0){
+            return response()->json(['success'=>false, 'message'=>Config::get('constants.MSG.ERROR.FORBIDDEN')], 403);
+        }
+        // find product
+        $findData = $this->product::find($id);
+        if (!$findData) {
+            return response()->json([
+                'success' => false,
+                'message' => Config::get('constants.MSG.ERROR.INVALID_ID'),
+            ], 500);
+        }
+
         $validator = Validator::make($request->all(),
         [
             'name' => 'required|string',
@@ -95,15 +111,7 @@ class ProductController extends Controller
             ], 500);
         }
 
-        $findData = $this->product::find($id);
-        if (!$findData) {
-            return response()->json([
-                'success' => false,
-                'message' => Config::get('constants.MSG.ERROR.INVALID_ID'),
-            ], 500);
-        }
-        //handle file
-        $fileTypes = ['image/png', 'image/jpg', 'image/jpeg'];
+        //handle image
         $product_image = $request->product_image;
         $getFile = $findData->image;
         if($getFile){
@@ -117,7 +125,7 @@ class ProductController extends Controller
         if (is_null($product_image)) {
             $file_name = $this->default_product_image;
         } else {
-            $isSaved = $this->checkSaveImage($fileTypes, $product_image, $this->file_directory);
+            $isSaved = $this->checkSaveImage($product_image, $this->file_directory);
             if(strcmp($isSaved->getData()->success, true) == 0){
                 $file_name = $isSaved->getData()->file_name;
             }else{
@@ -127,6 +135,7 @@ class ProductController extends Controller
                 ], 500);
             }
         }
+        // end handle image
 
         //save record
         $newData = $request->except('product_image');
@@ -143,6 +152,10 @@ class ProductController extends Controller
 
     public function deleteData($id)
     {
+        $user_role = auth()->user()->user_infoable->role_id;
+        if(\strcmp($user_role, 'adm') !== 0){
+            return response()->json(['success'=>false, 'message'=>Config::get('constants.MSG.ERROR.FORBIDDEN')], 403);
+        }
         $findData = $this->product::find($id);
         if (!$findData) {
             return response()->json([
