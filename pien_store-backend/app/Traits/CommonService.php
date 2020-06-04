@@ -14,14 +14,15 @@
         return substr(str_shuffle(str_repeat($pool, $length)), 0, $length);
     }
 
-    public static function checkSaveImage($list_file_types, $input_image, $file_directory){
+    public static function checkSaveImage($input_image, $file_directory){
+        $list_file_types = ['image/png', 'image/jpg', 'image/jpeg'];
         //generate image file name
         $generate_name = uniqid() . '_' . time() . date('Ymd') . '_IMG';
         //get mime type
         $mimeType = Image::make($input_image)->mime();
         if (in_array($mimeType, $list_file_types)) {
             foreach ($list_file_types as $type) {
-                if (strcmp($type, $mimeType) == 0) {
+                if (strcmp($type, $mimeType) === 0) {
                     $mime_split = explode('/', $type);
                     $file_name = $generate_name . '.' . end($mime_split);
                 }
@@ -32,12 +33,11 @@
                 'success' => true,
                 'file_name' => $file_name
             ]);
-        }else{
-            return response()->json([
-                'success' => false,
-                'error_msg' => Config::get('constants.MSG.ERROR.ONLY_IMG_TYPE'),
-            ]);
         }
+        return response()->json([
+            'success' => false,
+            'error_msg' => Config::get('constants.MSG.ERROR.ONLY_IMG_TYPE')
+        ]);
     }
 
     public static function isSetNotEmpty($val){

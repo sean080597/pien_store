@@ -40,14 +40,13 @@ class CategoryController extends Controller
             ], 500);
         }
 
-        //handle file
-        $fileTypes = ['image/png', 'image/jpg', 'image/jpeg'];
+        //handle image
         $category_image = $request->category_image;
         $file_name = '';
         if (is_null($category_image)) {
             $file_name = $this->default_category_image;
         } else {
-            $isSaved = $this->checkSaveImage($fileTypes, $category_image, $this->file_directory);
+            $isSaved = $this->checkSaveImage($category_image, $this->file_directory);
             if(strcmp($isSaved->getData()->success, true) == 0){
                 $file_name = $isSaved->getData()->file_name;
             }else{
@@ -93,7 +92,6 @@ class CategoryController extends Controller
             ], 500);
         }
         //handle file
-        $fileTypes = ['image/png', 'image/jpg', 'image/jpeg'];
         $category_image = $request->category_image;
         $getFile = $findData->image;
         if($getFile){
@@ -106,7 +104,7 @@ class CategoryController extends Controller
         if (is_null($category_image)) {
             $file_name = $this->default_category_image;
         } else {
-            $isSaved = $this->checkSaveImage($fileTypes, $category_image, $this->file_directory);
+            $isSaved = $this->checkSaveImage($category_image, $this->file_directory);
             if(strcmp($isSaved->getData()->success, true) == 0){
                 $file_name = $isSaved->getData()->file_name;
             }else{

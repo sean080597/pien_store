@@ -46,6 +46,17 @@ class User extends Model
 
     // Please ADD this two methods at the end of the class
 
+    public static function boot() {
+        parent::boot();
+        static::deleting(function($user) {
+            $user->image()->delete();
+            $user->user_infoable()->delete();
+            // $post->comments->each(function($comment) {
+            //     $comment->delete();
+            // });
+        });
+    } 
+
     public function role(){
         return $this->belongsTo('App\Role');
     }
