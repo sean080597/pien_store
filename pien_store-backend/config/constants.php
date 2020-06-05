@@ -45,13 +45,5 @@ return [
             'USER_CREATED' => 'User Account created successfully',
             'USER_DELETED' => 'User Account deleted successfully'
         ]
-    ],
-    'FRONT_END' => [
-        'IMAGE_DIRECTORY' => env('IMAGE_DIRECTORY'),
-        'IMAGES_DIR' => '/assets/images/',
-        'PROFILES_DIR' => '/assets/images/profiles/',
-        'CATEGORIES_DIR' => '/assets/images/categories/',
-        'PRODUCTS_DIR' => '/assets/images/products/',
-        'STORIES_DIR'=> '/assets/images/stories/'
     ]
 ];
