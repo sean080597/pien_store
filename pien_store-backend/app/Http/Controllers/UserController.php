@@ -23,8 +23,7 @@ class UserController extends Controller
     {
         $this->middleware('jwt.auth');
         $this->user = new User;
-        $this->file_directory = Config::get('constants.FRONT_END.IMAGE_DIRECTORY').Config::get('constants.FRONT_END.PROFILES_DIR');
-        // $this->file_directory = public_path('/assets/category_images/');
+        $this->file_directory = public_path('/assets/images/categories/');
         $this->default_user_image = 'default-user-image.png';
         $this->default_page_size = 16;
     }

@@ -9,7 +9,7 @@ export default function SideBarCollapse(props) {
       <div className="img--cover-bg bg-wrap text-center py-4" style={{backgroundImage: `url(${CommonConstants.IMAGES_DIR + CommonConstants.AVATAR_BG_ADMIN})`}}>
         <div className="user-logo">
           {/* <img src={process.env.PUBLIC_URL + CommonConstants.IMAGES_DIR + "/" + (prod.image ? prod.image : CommonConstants.USER_DEFAULT_IMAGE)}/> */}
-          <div className="img--avatar"><img src={CommonService.generateImageSrc('profiles', null, 'sample-profile-image.jpg')}/></div>
+          <div className="img--avatar"><img src={CommonService.generateImageSrc(true, 'profiles', null, 'sample-profile-image.jpg')}/></div>
           <h3>Catriona Henderson</h3>
         </div>
       </div>

@@ -108,15 +108,16 @@ const CommonService = {
     compareDateIsAfter(dateInput, dateToCompare){
         return moment(dateInput).isAfter(moment(dateToCompare))
     },
-    generateImageSrc(dirPath, imgObj, imgSrc = null){
-        const resDirPath = imgDirectorypath[dirPath][0]
+    generateImageSrc(isServerSide = false, dirName, imgObj, imgSrc = null){
+        const publicUrl = isServerSide ? CommonConstants.API_URL : process.env.PUBLIC_URL
+        const resDirPath = imgDirectorypath[dirName][0]
         let resDefImg = imgSrc
         if(imgObj && imgObj.image){
             if(imgObj.image.src.includes('http')) return imgObj.image.src
             resDefImg = imgObj.image.src
         }
-        if(!imgObj && !imgSrc) resDefImg = imgDirectorypath[dirPath][1]
-        return process.env.PUBLIC_URL + resDirPath + "/" + resDefImg
+        if(!imgObj && !imgSrc) resDefImg = imgDirectorypath[dirName][1]
+        return publicUrl + resDirPath + "/" + resDefImg
     }
 };
 

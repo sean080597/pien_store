@@ -40,7 +40,7 @@ export default function Cart (props) {
                                         cartItems.map((item, index) =>
                                             <tr key={index}>
                                                 <td className="hidden-xs"><a href="#">
-                                                    <img src={CommonService.generateImageSrc('products', item)} alt={item.name}/>
+                                                    <img src={CommonService.generateImageSrc(true, 'products', item)} alt={item.name}/>
                                                     </a>
                                                 </td>
                                                 <td>
