@@ -16,15 +16,13 @@ class UserController extends Controller
     use CommonService;
     protected $user;
     protected $file_directory;
-    protected $default_user_image;
     protected $default_page_size;
 
     public function __construct()
     {
         $this->middleware('jwt.auth');
         $this->user = new User;
-        $this->file_directory = public_path('/assets/images/categories/');
-        $this->default_user_image = 'default-user-image.png';
+        $this->file_directory = public_path('/assets/images/profiles/');
         $this->default_page_size = 16;
     }
 
@@ -57,43 +55,33 @@ class UserController extends Controller
             return response()->json(['success'=>false, 'message'=>$validator->messages()->toArray()], 400);
         }
 
-        //handle image
-        $input_image = $request->input_image;
-        $file_name = '';
-        if (is_null($input_image)) {
-            $file_name = $this->default_user_image;
-        } else {
-            $isSaved = $this->checkSaveImage($input_image, $this->file_directory);
-            if(strcmp($isSaved->getData()->success, true) === 0){
-                $file_name = $isSaved->getData()->file_name;
-            }else{
+        // create new user
+        $createdUser = $this->user::create(['role_id' => $request->role_id]);
+        if($createdUser){
+            //handle image
+            $input_image = $request->input_image;
+            $file_name = '';
+            if ($this->isSetNotEmpty($input_image)) {
+                $isSaved = $this->saveImage($input_image, $this->file_directory);
+                if(strcmp($isSaved->getData()->success, true) === 0){
+                    $file_name = $isSaved->getData()->file_name;
+                }else{
+                    return response()->json(['success' => false, 'message' => $isSaved->getData()->error_msg], 500);
+                }
+            }
+            if ($this->isSetNotEmpty($file_name)) $createdUser->image()->create(['src' => $file_name]);
+            // create new userInfo
+            $newData = $request->except(['role_id', 'input_image']);
+            $newData['password'] = Hash::make($request->password);
+            $createdUserInfo = $createdUser->user_infoable()->create($newData);
+            if($createdUserInfo){
                 return response()->json([
-                    'success' => false,
-                    'message' => $isSaved->getData()->error_msg
-                ], 500);
+                    'success'=>true,
+                    'message'=>Config::get('constants.MSG.SUCCESS.USER_CREATED'),
+                    'data'=>$createdUser->user_infoable
+                ], 200);
             }
         }
-        return response()->json([
-            'success' => true,
-            'image_dir' => $this->file_directory
-        ], 500);
-
-        // create new user
-        // $createdUser = $this->user::create(['role_id' => $request->role_id]);
-        // if($createdUser){
-        //     $createdUser->image()->create(['src' => $file_name]);
-        //     // create new userInfo
-        //     $newData = $request->except(['role_id', 'input_image']);
-        //     $newData['password'] = Hash::make($request->password);
-        //     $createdUserInfo = $createdUser->user_infoable()->create($newData);
-        //     if($createdUserInfo){
-        //         return response()->json([
-        //             'success'=>true,
-        //             'message'=>Config::get('constants.MSG.SUCCESS.USER_CREATED'),
-        //             'data'=>$createdUser->user_infoable
-        //         ], 200);
-        //     }
-        // }
     }
 
     public function editData(Request $request, $id){
@@ -109,22 +97,40 @@ class UserController extends Controller
         // validate
         $validator = Validator::make($request->all(),
         [
-            'firstname' => 'required|string',
-            'lastname' => 'required|string',
-            'phone' => 'required|string',
-            'email' => 'required|email|unique:user_infos',
-            'password' => 'required|string|min:6',
-            'role_id' => 'required|string',
+            'firstname' => 'string',
+            'lastname' => 'string',
+            'phone' => 'string|max:10',
+            'email' => 'email|unique:user_infos',
+            'password' => 'string|min:6',
+            'role_id' => 'string',
         ]);
 
         if($validator->fails()){
             return response()->json(['success'=>false, 'message'=>$validator->messages()->toArray()], 400);
         }
 
-        //save record
+        // save record
         $updatedData = $findData->update(['role_id' => $request->role_id]);
         if ($updatedData) {
-            $newData = $request->except('role_id');
+            // delete old image
+            $input_image = $request->input_image;
+            if($this->isSetNotEmpty($input_image)){
+                if($this->isSetNotEmpty($findData->image)) unlink($this->file_directory . $findData->image->src);
+                // create new image
+                $file_name = '';
+                $isSaved = $this->saveImage($input_image, $this->file_directory);
+                if(strcmp($isSaved->getData()->success, true) === 0){
+                    $file_name = $isSaved->getData()->file_name;
+                }else{
+                    return response()->json(['success' => false, 'message' => $isSaved->getData()->error_msg], 500);
+                }
+                // update new image record
+                if($this->isSetNotEmpty($file_name)){
+                    $this->isSetNotEmpty($findData->image) ? $findData->image()->update(['src' => $file_name]) : $findData->image()->create(['src' => $file_name]);
+                }
+            }
+            // update user data
+            $newData = $request->except(['role_id', 'input_image']);
             $newData['password'] = Hash::make($request->password);
             $updatedUserInfo = $findData->user_infoable()->update($newData);
             if($updatedUserInfo){
@@ -149,9 +155,7 @@ class UserController extends Controller
         }
         // delete data
         $getFile = $findData->image;
-        if($getFile){
-            $getFile->src == $this->default_user_image ?: unlink($this->file_directory . $getFile->src);
-        }
+        if($this->isSetNotEmpty($getFile)) unlink($this->file_directory . $getFile->src);
         if ($findData->delete()) {
             return response()->json(['success' => true, 'message' => Config::get('constants.MSG.SUCCESS.USER_DELETED')], 200);
         }

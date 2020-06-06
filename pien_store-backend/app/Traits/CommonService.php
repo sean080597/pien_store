@@ -14,10 +14,10 @@
         return substr(str_shuffle(str_repeat($pool, $length)), 0, $length);
     }
 
-    public static function checkSaveImage($input_image, $file_directory){
+    public static function saveImage($input_image, $file_directory){
         $list_file_types = ['image/png', 'image/jpg', 'image/jpeg'];
         //generate image file name
-        $generate_name = uniqid() . '_' . time() . date('Ymd') . '_IMG';
+        $generate_name = uniqid() . '_' . time() . date('Ymd');
         //get mime type
         $mimeType = Image::make($input_image)->mime();
         if (in_array($mimeType, $list_file_types)) {
