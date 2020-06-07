@@ -6,12 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class User extends Model
 {
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-
     public $incrementing = false;
 
     protected $table = 'users';
@@ -25,26 +19,6 @@ class User extends Model
     // ];
 
     protected $guarded = [];
-
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    // protected $hidden = [
-    //     'password', 'remember_token',
-    // ];
-
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    // protected $casts = [
-    //     'email_verified_at' => 'datetime',
-    // ];
-
-    // Please ADD this two methods at the end of the class
 
     public static function boot() {
         parent::boot();
@@ -69,4 +43,7 @@ class User extends Model
         return $this->morphOne(UserInfo::class, 'user_infoable');
     }
 
+    public function addressable(){
+        return $this->morphOne(AddressInfo::class, 'addressable');
+    }
 }

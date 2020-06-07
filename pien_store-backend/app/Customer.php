@@ -24,8 +24,8 @@ class Customer extends Model
         return $this->morphOne(UserInfo::class, 'user_infoable');
     }
 
-    public function shipmentable(){
-        return $this->morphMany(ShipmentDetails::class, 'shipmentable');
+    public function addressable(){
+        return $this->morphMany(AddressInfo::class, 'addressable');
     }
 
     public function orders(){

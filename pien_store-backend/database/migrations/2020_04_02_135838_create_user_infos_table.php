@@ -15,14 +15,8 @@ class CreateUserInfosTable extends Migration
     {
         Schema::create('user_infos', function (Blueprint $table) {
             $table->bigIncrements('id');
-            // $table->string('fullname', 50);
-            $table->string('firstname', 50)->nullable();
-            $table->string('midname', 30)->nullable();
-            $table->string('lastname', 30)->nullable();
             $table->boolean('gender')->default('0');
             $table->date('birthday')->nullable();
-            $table->char('phone', 10)->nullable();
-            $table->string('address')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();

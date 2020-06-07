@@ -50,7 +50,7 @@ Route::group(['prefix' => 'customer'], function () {
 
 Route::group(['prefix' => 'order'], function () {
     Route::post('confirmOrderInfo', 'OrderController@confirmOrderInfo');
-    Route::get('getPaginatedYourOrders/{cus_id}/{pagination?}', 'OrderController@getPaginatedYourOrders');
+    Route::post('searchData/{cus_id}', 'OrderController@searchData');
     Route::get('getSingleData/{id}', 'OrderController@getSingleData');
 });
 
@@ -78,6 +78,11 @@ Route::group(['prefix' => 'admin-product'], function () {
     Route::post('createData', 'ProductController@createData');
     Route::put('editData/{id}', 'ProductController@editData');
     Route::delete('deleteData/{id}', 'ProductController@deleteData');
+});
+
+Route::group(['prefix' => 'admin-order'], function () {
+    Route::put('editData/{id}', 'OrderController@editData');
+    Route::delete('deleteData/{id}', 'OrderController@deleteData');
 });
 
 Route::get('test', function () {

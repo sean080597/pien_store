@@ -10,7 +10,6 @@ use Illuminate\Http\Request;
 use Validator;
 use Config;
 use DB;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class OrderController extends Controller
 {
@@ -29,8 +28,27 @@ class OrderController extends Controller
         $this->default_page_size = 16;
     }
 
-    public function confirmOrderInfo(Request $request)
-    {
+    public function getSingleData($order_id){
+        $findData = $this->order::with('shipmentable', 'products')->find($order_id);
+        if (!$findData) {
+            return response()->json(['success' => false, 'message' => Config::get('constants.MSG.ERROR.NOT_FOUND')], 500);
+        }
+        return response()->json(['success' => true, 'data' => $findData], 200);
+    }
+
+    public function confirmOrderInfo(Request $request){
+        // validate data
+        $validator = Validator::make($request->all(),
+        [
+            'cus_id' => 'string|exists:customers,id',
+            'shipment_details.id' => 'exists:shipment_details,id'
+        ]);
+
+        if($validator->fails()){
+            return response()->json(['success'=>false, 'message'=>$validator->messages()->toArray()], 400);
+        }
+
+        // create order
         $created_order = $this->order::create([
             'cus_id' => $request->cus_id
         ]);
@@ -52,28 +70,76 @@ class OrderController extends Controller
         }
     }
 
-    public function getPaginatedYourOrders($cus_id, $pagination = null)
-    {
-        $page_size = $pagination ? $pagination : $this->default_page_size;
-        $result = $this->order->with('shipmentable', 'products')->where('cus_id', $cus_id)->latest()->paginate($page_size);
+    public function editData(Request $request, $id){
+        $user_role = auth()->user()->user_infoable->role_id;
+        if(\strcmp($user_role, 'adm') !== 0 && \strcmp($user_role, 'mgr') !== 0){
+            return response()->json(['success'=>false, 'message'=>Config::get('constants.MSG.ERROR.FORBIDDEN')], 403);
+        }
+        // find data
+        $findData = $this->order::find($id);
+        if (!$findData) {
+            return response()->json(['success' => false, 'message' => Config::get('constants.MSG.ERROR.INVALID_ID')], 500);
+        }
+        // validate data
+        $validator = Validator::make($request->all(),
+        [
+            'cus_id' => 'string|exists:customers,id',
+            'shipment_details.id' => 'exists:shipment_details,id'
+        ]);
+
+        if($validator->fails()){
+            return response()->json(['success'=>false, 'message'=>$validator->messages()->toArray()], 400);
+        }
+        // update data
+        for ($i = 0; $i < count($request->cart_items); $i++) {
+            $order_info = $request->cart_items[$i];
+            $order_info['status'] = Config::get('constants.ORDER_STATUS.RECEIVED');
+            $order_info['order_id'] = $created_order->id;
+            $order_details[] = $order_info;
+        }
+        //update many order details
+        $created_order->orderDetails()->createMany($order_details);
+        //update shipment details
+        $created_order->shipmentable()->create($request->shipment_details);
         return response()->json([
             'success' => true,
-            'data' => $result
+            'message' => Config::get('constants.MSG.SUCCESS.ORDER_CONFIRMED'),
         ], 200);
     }
 
-    public function getSingleData($order_id)
-    {
-        $findData = $this->order::with('shipmentable', 'products')->find($order_id);
-        if (!$findData) {
-            return response()->json([
-                'success' => false,
-                'message' => Config::get('constants.MSG.ERROR.NOT_FOUND')
-            ], 500);
+    public function deleteData($id){
+        $user_role = auth()->user()->user_infoable->role_id;
+        if(\strcmp($user_role, 'adm') !== 0 && \strcmp($user_role, 'mgr') !== 0){
+            return response()->json(['success'=>false, 'message'=>Config::get('constants.MSG.ERROR.FORBIDDEN')], 403);
         }
-        return response()->json([
-            'success' => true,
-            'data' => $findData
-        ], 200);
+        // find data
+        $findData = $this->category::find($id);
+        if (!$findData) {
+            return response()->json(['success' => false, 'message' => Config::get('constants.MSG.ERROR.INVALID_ID'),], 500);
+        }
+        // delete data
+        $getFile = $findData->image;
+        if($this->isSetNotEmpty($getFile)) unlink($this->file_directory . $getFile->src);
+        if ($findData->delete()) {
+            return response()->json(['success' => true, 'message' => Config::get('constants.MSG.SUCCESS.CATEGORY_DELETED')], 200);
+        }
+    }
+
+    public function searchData(Request $request, $cus_id)
+    {
+        $sql = Order::query()->with('shipmentable', 'products')
+        ->where('cus_id', $cus_id)
+        ->when($request->search, function($query) use ($request){
+            $search = $request->search;
+            return $query->where('id', 'LIKE', "%$search%")
+            ->orWhere('status', 'LIKE', "%$search%");
+        })
+        ->latest();
+        if($request->pageSize){
+            $result = $sql->paginate($request->pageSize);
+        }else{
+            $result = $sql->get();
+        }
+        return response()->json(['success' => true, 'data' => $result], 200);
     }
 }

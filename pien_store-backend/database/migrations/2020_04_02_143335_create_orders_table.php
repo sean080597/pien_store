@@ -18,7 +18,9 @@ class CreateOrdersTable extends Migration
             $table->string('status', 10);
             $table->string('cus_id', 30);
             $table->primary('id');
+            $table->unsignedBigInteger('address_id');
             $table->foreign('cus_id')->references('id')->on('customers')->onUpdate('cascade');
+            $table->foreign('address_id')->references('id')->on('address_infos')->onUpdate('cascade');
             $table->timestamps();
         });
     }
