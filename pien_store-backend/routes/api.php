@@ -30,14 +30,10 @@ Route::group(['prefix' => 'user'], function(){
 });
 
 Route::group(['prefix' => 'product'], function () {
-    Route::post('createNewProd', 'ProductController@createData');
-    Route::post('updateProd/{id}', 'ProductController@editData');
-    Route::delete('delete/{id}', 'ProductController@deleteData');
     Route::post('getAll/filterData', 'ProductController@filterData');
-    Route::get('getAll/search/{search}/{cate_id?}/{pagination?}', 'ProductController@searchData');
-    Route::get('getAll/{cate_id?}/{pagination?}', 'ProductController@getPaginatedData');
-    Route::get('getSingle/{id}', 'ProductController@getSingleData');
+    Route::get('getSingleData/{id}', 'ProductController@getSingleData');
     Route::get('getRelatedProduct/{id}', 'ProductController@getRelatedProduct');
+    Route::post('searchData', 'ProductController@searchData');
 });
 
 Route::group(['prefix' => 'category'], function () {
@@ -55,7 +51,7 @@ Route::group(['prefix' => 'customer'], function () {
 Route::group(['prefix' => 'order'], function () {
     Route::post('confirmOrderInfo', 'OrderController@confirmOrderInfo');
     Route::get('getPaginatedYourOrders/{cus_id}/{pagination?}', 'OrderController@getPaginatedYourOrders');
-    Route::get('getSingle/{id}', 'OrderController@getSingleData');
+    Route::get('getSingleData/{id}', 'OrderController@getSingleData');
 });
 
 Route::group(['prefix' => 'image-gallery'], function () {
@@ -76,6 +72,12 @@ Route::group(['prefix' => 'admin-category'], function () {
     Route::post('createData', 'CategoryController@createData');
     Route::put('editData/{id}', 'CategoryController@editData');
     Route::delete('deleteData/{id}', 'CategoryController@deleteData');
+});
+
+Route::group(['prefix' => 'admin-product'], function () {
+    Route::post('createData', 'ProductController@createData');
+    Route::put('editData/{id}', 'ProductController@editData');
+    Route::delete('deleteData/{id}', 'ProductController@deleteData');
 });
 
 Route::get('test', function () {

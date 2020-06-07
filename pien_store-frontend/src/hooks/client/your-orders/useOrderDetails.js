@@ -12,7 +12,7 @@ export default function useOrderDetails(order_id) {
 
     // handle
     const applyGetOrderDetails = () => {
-        const apiQuery = `${apiUrl}/order/getSingle/${order_id}`
+        const apiQuery = `${apiUrl}/order/getSingleData/${order_id}`
         ConnectionService.axiosGetByUrlWithToken(apiQuery)
         .then(async res => {
             await setOrderDetailsInfo(res.data)

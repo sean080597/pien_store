@@ -30,7 +30,7 @@ export default function useProductDetails(prod_id, initial){
 
     //apply
     const applyGetProductDetails = () => {
-        const apiQuery = `${apiUrl}/product/getSingle/${prod_id}`
+        const apiQuery = `${apiUrl}/product/getSingleData/${prod_id}`
         ConnectionService.axiosGetByUrl(apiQuery)
         .then(async res => {
             await setProductInfo(res.data)

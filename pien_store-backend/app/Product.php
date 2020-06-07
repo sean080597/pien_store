@@ -13,11 +13,14 @@ class Product extends Model
 
     protected $keyType = 'string';
 
-    // protected $fillable = [
-    //     'id', 'name', 'price', 'description', 'image', 'origin', 'category_id'
-    // ];
+    protected $guarded = [];
 
-    protected $guarded = ['id'];
+    public static function boot() {
+      parent::boot();
+      static::deleting(function($cate) {
+          $cate->image()->delete();
+      });
+  }
 
     public function category(){
         return $this->belongsTo('App\Category');

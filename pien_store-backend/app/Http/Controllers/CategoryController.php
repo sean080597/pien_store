@@ -48,7 +48,7 @@ class CategoryController extends Controller
             return response()->json(['success' => false, 'message' => $validator->messages()->toArray()], 500);
         }
 
-        // create new user
+        // create new data
         $createdCategory = $this->category::create($request->except('input_image'));
         if($createdCategory){
             //handle image
@@ -144,10 +144,10 @@ class CategoryController extends Controller
         $sql = Category::query()->with('image:src,imageable_id')
         ->when($request->search, function($query) use ($request){
             $search = $request->search;
-            return $query->where('categories.id', 'LIKE', "%$search%")
-            ->orWhere('categories.name', 'LIKE', "%$search%");
+            return $query->where('id', 'LIKE', "%$search%")
+            ->orWhere('name', 'LIKE', "%$search%");
         })
-        ->orderBy('categories.name', 'ASC');
+        ->orderBy('name', 'ASC');
         if($request->pageSize){
             $result = $sql->paginate($request->pageSize);
         }else{
