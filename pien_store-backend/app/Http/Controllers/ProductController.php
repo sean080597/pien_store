@@ -15,199 +15,141 @@ class ProductController extends Controller
 {
     use CommonService;
     protected $product;
-    protected $base_url;
     protected $file_directory;
-    protected $default_product_image;
     protected $default_page_size;
+    // protected $base_url;
 
     public function __construct(UrlGenerator $urlGenerator)
     {
         $this->middleware('jwt.auth', ['only' => ['createData', 'editData', 'deleteData']]);
         $this->product = new Product;
-        $this->base_url = $urlGenerator->to('/');
+        // $this->base_url = $urlGenerator->to('/');
         // $this->file_directory = url('/').'/assets/product_images/';
-        $this->file_directory = public_path('/assets/product_images/');
-        $this->default_product_image = 'default-product-image.png';
+        $this->file_directory = public_path('/assets/images/products/');
         $this->default_page_size = 16;
     }
 
-    public function createData(Request $request)
-    {
+    public function getSingleData($id){
+        $findData = $this->product->with('image:src,imageable_id')->find($id);
+        if (!$findData) {
+            return response()->json(['success' => false, 'message' => Config::get('constants.MSG.ERROR.NOT_FOUND')], 500);
+        }
+        return response()->json(['success' => true, 'data' => $findData], 200);
+    }
+
+    public function createData(Request $request){
         $user_role = auth()->user()->user_infoable->role_id;
-        if(\strcmp($user_role, 'adm') !== 0){
+        if(\strcmp($user_role, 'adm') !== 0 && \strcmp($user_role, 'mgr') !== 0){
             return response()->json(['success'=>false, 'message'=>Config::get('constants.MSG.ERROR.FORBIDDEN')], 403);
         }
         $validator = Validator::make($request->all(),
         [
+            'id' => 'string|unique:products',
             'name' => 'required|string',
             'price' => 'required|string|min:4|max:12',
-            'category_id' => 'required|string|max:10',
+            'description' => 'string',
+            'origin' => 'string',
+            'category_id' => 'required|string|max:10|exists:categories,id',
         ]);
 
         if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'message' => $validator->messages()->toArray(),
-            ], 500);
+            return response()->json(['success' => false, 'message' => $validator->messages()->toArray()], 500);
         }
 
-        //handle file
-        $product_image = $request->product_image;
-        $file_name = '';
-        if (is_null($product_image)) {
-            $file_name = $this->default_product_image;
-        } else {
-            $isSaved = $this->checkSaveImage($product_image, $this->file_directory);
-            if(strcmp($isSaved->getData()->success, true) == 0){
-                $file_name = $isSaved->getData()->file_name;
-            }else{
-                return response()->json([
-                    'success' => false,
-                    'message' => $isSaved->getData()->error_msg
-                ], 500);
+        // create new data
+        $createdProduct = $this->product::create($request->except('input_image'));
+        if($createdProduct){
+            //handle image
+            $input_image = $request->input_image;
+            $file_name = '';
+            if ($this->isSetNotEmpty($input_image)) {
+                $isSaved = $this->saveImage($input_image, $this->file_directory);
+                if(strcmp($isSaved->getData()->success, true) === 0){
+                    $file_name = $isSaved->getData()->file_name;
+                }else{
+                    return response()->json(['success' => false, 'message' => $isSaved->getData()->error_msg], 500);
+                }
             }
-        }
-
-        //create new record
-        $newData = $request->except('product_image');
-        // $newData = $request->all();
-        $created_product = $this->product->create($newData);
-
-        if ($created_product) {
-            $created_product->image()->create(['url' => $file_name]);
+            if ($this->isSetNotEmpty($file_name)) $createdProduct->image()->create(['src' => $file_name]);
+            // result
             return response()->json([
-                'success' => true,
-                'message' => Config::get('constants.MSG.SUCCESS.PRODUCT_CREATED'),
+                'success'=>true,
+                'message'=>Config::get('constants.MSG.SUCCESS.PRODUCT_CREATED'),
+                'data'=>$createdProduct
             ], 200);
         }
     }
 
-    public function editData(Request $request, $id)
-    {
+    public function editData(Request $request, $id){
         $user_role = auth()->user()->user_infoable->role_id;
-        if(\strcmp($user_role, 'adm') !== 0){
+        if(\strcmp($user_role, 'adm') !== 0 && \strcmp($user_role, 'mgr') !== 0){
             return response()->json(['success'=>false, 'message'=>Config::get('constants.MSG.ERROR.FORBIDDEN')], 403);
         }
-        // find product
+        // find data
         $findData = $this->product::find($id);
         if (!$findData) {
-            return response()->json([
-                'success' => false,
-                'message' => Config::get('constants.MSG.ERROR.INVALID_ID'),
-            ], 500);
+            return response()->json(['success' => false, 'message' => Config::get('constants.MSG.ERROR.INVALID_ID')], 500);
         }
-
+        // validate data
         $validator = Validator::make($request->all(),
         [
-            'name' => 'required|string',
-            'price' => 'required|string|min:4|max:12',
-            'category_id' => 'string|max:10',
+            'id' => 'string|unique:products',
+            'name' => 'string',
+            'price' => 'string|min:4|max:12',
+            'description' => 'string',
+            'origin' => 'string',
+            'category_id' => 'required|string|max:10|exists:categories,id',
         ]);
 
         if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'message' => $validator->messages()->toArray(),
-            ], 500);
+            return response()->json(['success' => false, 'message' => $validator->messages()->toArray()], 500);
         }
 
-        //handle image
-        $product_image = $request->product_image;
-        $getFile = $findData->image;
-        if($getFile){
-            //remove old image first
-            $getFile->url == $this->default_product_image ?: unlink($this->file_directory . $getFile->url);
-            $findData->image()->delete();
-        }
-
-        //generate file name
-        $file_name = '';
-        if (is_null($product_image)) {
-            $file_name = $this->default_product_image;
-        } else {
-            $isSaved = $this->checkSaveImage($product_image, $this->file_directory);
-            if(strcmp($isSaved->getData()->success, true) == 0){
-                $file_name = $isSaved->getData()->file_name;
-            }else{
-                return response()->json([
-                    'success' => false,
-                    'message' => $isSaved->getData()->error_msg
-                ], 500);
+        // save record
+        $updatedData = $findData->update($request->except('input_image'));
+        if ($updatedData) {
+            // delete old image
+            $input_image = $request->input_image;
+            if($this->isSetNotEmpty($input_image)){
+                if($this->isSetNotEmpty($findData->image)) unlink($this->file_directory . $findData->image->src);
+                // create new image
+                $file_name = '';
+                $isSaved = $this->saveImage($input_image, $this->file_directory);
+                if(strcmp($isSaved->getData()->success, true) === 0){
+                    $file_name = $isSaved->getData()->file_name;
+                }else{
+                    return response()->json(['success' => false, 'message' => $isSaved->getData()->error_msg], 500);
+                }
+                // update new image record
+                if($this->isSetNotEmpty($file_name)){
+                    $this->isSetNotEmpty($findData->image) ? $findData->image()->update(['src' => $file_name]) : $findData->image()->create(['src' => $file_name]);
+                }
             }
-        }
-        // end handle image
-
-        //save record
-        $newData = $request->except('product_image');
-        $updated_product = $findData->update($newData);
-
-        if ($updated_product) {
-            $findData->image()->create(['url' => $file_name]);
+            // update data
             return response()->json([
                 'success' => true,
                 'message' => Config::get('constants.MSG.SUCCESS.PRODUCT_UPDATED'),
+                'data' => $findData
             ], 200);
         }
     }
 
-    public function deleteData($id)
-    {
+    public function deleteData($id){
         $user_role = auth()->user()->user_infoable->role_id;
-        if(\strcmp($user_role, 'adm') !== 0){
+        if(\strcmp($user_role, 'adm') !== 0 && \strcmp($user_role, 'mgr') !== 0){
             return response()->json(['success'=>false, 'message'=>Config::get('constants.MSG.ERROR.FORBIDDEN')], 403);
         }
+        // find data
         $findData = $this->product::find($id);
         if (!$findData) {
-            return response()->json([
-                'success' => false,
-                'message' => Config::get('constants.MSG.ERROR.INVALID_ID'),
-            ], 500);
+            return response()->json(['success' => false, 'message' => Config::get('constants.MSG.ERROR.INVALID_ID'),], 500);
         }
+        // delete data
         $getFile = $findData->image;
-        if($getFile){
-            //remove old image first
-            $getFile->url == $this->default_product_image ?: unlink($this->file_directory . $getFile->url);
-            $findData->image()->delete();
-        }
+        if($this->isSetNotEmpty($getFile)) unlink($this->file_directory . $getFile->src);
         if ($findData->delete()) {
-            strcmp($getFile, $this->default_product_image) == 0 ? : unlink($this->file_directory . $getFile);
-            return response()->json([
-                'success' => true,
-                'message' => Config::get('constants.MSG.SUCCESS.PRODUCT_DELETED'),
-            ], 200);
+            return response()->json(['success' => true, 'message' => Config::get('constants.MSG.SUCCESS.PRODUCT_DELETED')], 200);
         }
-    }
-
-    public function getPaginatedData($cate_id = null, $pagination = null)
-    {
-        $page_size = $pagination ? $pagination : $this->default_page_size;
-        $query = Product::query()->with('image:src,imageable_id');
-        if(isset($cate_id) && !empty($cate_id)){
-            $query = $query->where('category_id', $cate_id);
-        }
-        $ls_products = $query->orderBy('name', 'DESC')->paginate($page_size);
-        // return $query->toSql();
-        return response()->json([
-            'success' => true,
-            'data' => $ls_products,
-            'file_directory' => $this->file_directory,
-        ], 200);
-    }
-
-    public function getSingleData($id)
-    {
-        $findData = $this->product::with('image:src,imageable_id')->find($id);
-        if (!$findData) {
-            return response()->json([
-                'success' => false,
-                'message' => Config::get('constants.MSG.ERROR.NOT_FOUND')
-            ], 500);
-        }
-        return response()->json([
-            'success' => true,
-            'data' => $findData,
-            'file_directory' => $this->file_directory,
-        ], 200);
     }
 
     public function filterData(){
@@ -232,26 +174,21 @@ class ProductController extends Controller
       ], 200);
     }
 
-    public function searchData($search, $cate_id = null, $pagination = null)
+    public function searchData(Request $request)
     {
-      $page_size = $pagination ? $pagination : $this->default_page_size;
-      $query = Product::query()->with('image:src,imageable_id');
-      //check if exists cate_id
-      $query->when($cate_id, function ($q, $cate_id) {
-        return $q->where('category_id', $cate_id);
-      });
-
-      $paginated_search_query = $query->where(function ($q) use ($search) {
-        $q->where('name', 'LIKE', "%$search%")
-            ->orWhere('origin', 'LIKE', "%$search%")
-            ->orWhere('category_id', 'LIKE', "%$search%");
-      })->orderBy('name', 'DESC')->paginate($page_size);
-
-      return response()->json([
-          'success' => true,
-          'data' => $paginated_search_query,
-          'file_directory' => $this->file_directory,
-      ], 200);
+        $sql = Product::query()->with('image:src,imageable_id')
+        ->when($request->search, function($query) use ($request){
+            $search = $request->search;
+            return $query->where('name', 'LIKE', "%$search%")
+            ->orWhere('origin', 'LIKE', "%$search%");
+        })
+        ->orderBy('name', 'ASC');
+        if($request->pageSize){
+            $result = $sql->paginate($request->pageSize);
+        }else{
+            $result = $sql->get();
+        }
+        return response()->json(['success' => true, 'data' => $result], 200);
     }
 
     public function getRelatedProduct($id)
