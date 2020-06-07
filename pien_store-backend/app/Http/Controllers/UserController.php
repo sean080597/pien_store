@@ -27,7 +27,7 @@ class UserController extends Controller
     }
 
     public function getSingleData($id){
-        $findData = $this->user->with('image:src,imageable_id', 'user_infoable')->find($id);
+        $findData = $this->user->with('user_infoable', 'addressable')->find($id);
         if (!$findData) {
             return response()->json(['success' => false, 'message' => Config::get('constants.MSG.ERROR.NOT_FOUND')], 500);
         }
@@ -70,14 +70,18 @@ class UserController extends Controller
             }
             if ($this->isSetNotEmpty($file_name)) $createdUser->image()->create(['src' => $file_name]);
             // create new userInfo
-            $newData = $request->except(['role_id', 'input_image']);
-            $newData['password'] = Hash::make($request->password);
-            $createdUserInfo = $createdUser->user_infoable()->create($newData);
-            if($createdUserInfo){
+            // update userInfo
+            $newDataUser = $request->only(['gender', 'birthday', 'email']);
+            $newDataUser['password'] = Hash::make($request->password);
+            $createdUserInfo = $createdUser->user_infoable()->create($newDataUser);
+            // update address
+            $newDataAddress = $request->only(['firstname', 'midname', 'lastname', 'phone', 'address']);
+            $createdAddress = $createdUser->addressable()->create($newDataAddress);
+            if($createdUserInfo && $createdAddress){
                 return response()->json([
                     'success'=>true,
                     'message'=>Config::get('constants.MSG.SUCCESS.USER_CREATED'),
-                    'data'=>$createdUser->user_infoable
+                    'data'=>$createdUser->load('image', 'user_infoable', 'addressable')
                 ], 200);
             }
         }
@@ -128,15 +132,18 @@ class UserController extends Controller
                     $this->isSetNotEmpty($findData->image) ? $findData->image()->update(['src' => $file_name]) : $findData->image()->create(['src' => $file_name]);
                 }
             }
-            // update data
-            $newData = $request->except(['role_id', 'input_image']);
-            $newData['password'] = Hash::make($request->password);
-            $updatedUserInfo = $findData->user_infoable()->update($newData);
-            if($updatedUserInfo){
+            // update userInfo
+            $newDataUser = $request->only(['gender', 'birthday', 'email']);
+            $newDataUser['password'] = Hash::make($request->password);
+            $updatedUser = $findData->user_infoable()->update($newDataUser);
+            // update address
+            $newDataAddress = $request->only(['firstname', 'midname', 'lastname', 'phone', 'address']);
+            $updatedAddress = $findData->addressable()->update($newDataAddress);
+            if($updatedUser && $updatedAddress){
                 return response()->json([
                     'success' => true,
                     'message' => Config::get('constants.MSG.SUCCESS.USERINFO_UPDATED'),
-                    'data' => $findData->user_infoable
+                    'data' => $findData->load('image', 'user_infoable', 'addressable')
                 ], 200);
             }
         }
@@ -162,18 +169,20 @@ class UserController extends Controller
 
     public function searchData(Request $request){
         $sql = User::query()->with('image:src,imageable_id')
-        ->select('users.id', 'users.role_id', 'ui.firstname', 'ui.midname', 'ui.lastname', 'ui.gender', 'ui.birthday', 'ui.phone', 'ui.address', 'ui.email')
+        ->select('users.id', 'users.role_id', 'ui.gender', 'ui.birthday', 'ui.email',
+        'addr.firstname', 'addr.midname', 'addr.lastname', 'addr.phone', 'addr.address')
         ->join('user_infos AS ui', 'ui.user_infoable_id', '=', 'users.id')
+        ->join('address_infos AS addr', 'addr.addressable_id', '=', 'users.id')
         ->when($request->search, function($query) use ($request){
             $search = $request->search;
-            return $query->where('ui.firstname', 'LIKE', "%$search%")
-            ->orWhere('ui.midname', 'LIKE', "%$search%")
-            ->orWhere('ui.lastname', 'LIKE', "%$search%")
-            ->orWhere('ui.phone', 'LIKE', "%$search%")
-            ->orWhere('ui.address', 'LIKE', "%$search%")
+            return $query->where('addr.firstname', 'LIKE', "%$search%")
+            ->orWhere('addr.midname', 'LIKE', "%$search%")
+            ->orWhere('addr.lastname', 'LIKE', "%$search%")
+            ->orWhere('addr.phone', 'LIKE', "%$search%")
+            ->orWhere('addr.address', 'LIKE', "%$search%")
             ->orWhere('ui.email', 'LIKE', "%$search%");
         })
-        ->orderBy('ui.lastname', 'ASC');
+        ->orderBy('addr.lastname', 'ASC');
         if($request->pageSize){
             $result = $sql->paginate($request->pageSize);
         }else{

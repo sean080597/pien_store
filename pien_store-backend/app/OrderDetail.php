@@ -12,5 +12,9 @@ class OrderDetail extends Model
 
     protected $keyType = 'string';
 
+    protected $hidden = [
+        'order_id', 'prod_id'
+    ];
+
     protected $guarded = [];
 }

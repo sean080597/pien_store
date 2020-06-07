@@ -32,7 +32,7 @@ class Order extends Model
     }
 
     public function address(){
-        return $this->belongsTo('App\Address');
+        return $this->belongsTo('App\AddressInfo', 'shipment_id', 'id');
     }
 
     public function products(){

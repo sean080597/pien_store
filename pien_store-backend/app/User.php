@@ -18,6 +18,8 @@ class User extends Model
     //     'id', 'firstname', 'lastname', 'email', 'password', 'phone', 'role_id', 'login_type'
     // ];
 
+    protected $with = ['image'];
+
     protected $guarded = [];
 
     public static function boot() {
@@ -25,6 +27,7 @@ class User extends Model
         static::deleting(function($user) {
             $user->image()->delete();
             $user->user_infoable()->delete();
+            $user->addressable()->delete();
             // $post->comments->each(function($comment) {
             //     $comment->delete();
             // });

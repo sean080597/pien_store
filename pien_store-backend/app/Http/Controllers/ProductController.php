@@ -104,7 +104,6 @@ class ProductController extends Controller
         if ($validator->fails()) {
             return response()->json(['success' => false, 'message' => $validator->messages()->toArray()], 500);
         }
-
         // save record
         $updatedData = $findData->update($request->except('input_image'));
         if ($updatedData) {
