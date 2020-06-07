@@ -12,11 +12,14 @@ class Category extends Model
 
     protected $keyType = 'string';
 
-    // protected $fillable = [
-    //     'id', 'name'
-    // ];
+    public static function boot() {
+        parent::boot();
+        static::deleting(function($cate) {
+            $cate->image()->delete();
+        });
+    }
 
-    protected $guarded = ['id'];
+    protected $guarded = [];
 
     public function products(){
         return $this->hasMany('App\Product');

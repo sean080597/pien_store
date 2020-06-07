@@ -14,7 +14,7 @@
 // Route::middleware('jwt.auth')->get('users', function () {
 //     return auth('api')->user();
 // });
-
+// client
 Route::group(['prefix' => 'user'], function(){
     Route::post('register', 'AuthController@register');
     Route::post('login', 'AuthController@login');
@@ -22,7 +22,11 @@ Route::group(['prefix' => 'user'], function(){
     Route::post('refresh', 'AuthController@refresh');
     Route::post('me', 'AuthController@me');
     Route::post('authGoogleLogin', 'AuthController@authGoogleLogin');
+    // update customer info
     Route::post('updateCustomerInfo', 'AuthController@updateCustomerInfo');
+    // search & paginate users
+    Route::get('getSingleData/{id}', 'UserController@getSingleData');
+    Route::post('searchData', 'UserController@searchData');
 });
 
 Route::group(['prefix' => 'product'], function () {
@@ -37,12 +41,8 @@ Route::group(['prefix' => 'product'], function () {
 });
 
 Route::group(['prefix' => 'category'], function () {
-    Route::post('createNewCate', 'CategoryController@createData');
-    Route::post('updateCate/{id}', 'CategoryController@editData');
-    Route::delete('delete/{id}', 'CategoryController@deleteData');
-    Route::get('getAll/search/{search}/{pagination?}', 'CategoryController@searchData');
-    Route::get('getAll/{pagination?}', 'CategoryController@getPaginatedData');
-    Route::get('getSingle/{id}', 'CategoryController@getSingleData');
+    Route::get('getSingleData/{id}', 'CategoryController@getSingleData');
+    Route::post('searchData', 'CategoryController@searchData');
 });
 
 Route::group(['prefix' => 'customer'], function () {
@@ -65,13 +65,17 @@ Route::group(['prefix' => 'image-gallery'], function () {
 Route::group(['prefix' => 'our-stories'], function () {
     Route::get('getData', 'OurStoryController@getData');
 });
-
+// admin
 Route::group(['prefix' => 'admin-user'], function () {
-    Route::get('getSingleData/{id}', 'UserController@getSingleData');
     Route::post('createData', 'UserController@createData');
     Route::put('editData/{id}', 'UserController@editData');
     Route::delete('deleteData/{id}', 'UserController@deleteData');
-    Route::get('searchData/{search?}/{pagination?}', 'UserController@searchData');
+});
+
+Route::group(['prefix' => 'admin-category'], function () {
+    Route::post('createData', 'CategoryController@createData');
+    Route::put('editData/{id}', 'CategoryController@editData');
+    Route::delete('deleteData/{id}', 'CategoryController@deleteData');
 });
 
 Route::get('test', function () {

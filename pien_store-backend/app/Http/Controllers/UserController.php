@@ -20,7 +20,7 @@ class UserController extends Controller
 
     public function __construct()
     {
-        $this->middleware('jwt.auth');
+        $this->middleware('jwt.auth', ['only' => ['createData', 'editData', 'deleteData']]);
         $this->user = new User;
         $this->file_directory = public_path('/assets/images/profiles/');
         $this->default_page_size = 16;
@@ -35,7 +35,6 @@ class UserController extends Controller
     }
 
     public function createData(Request $request){
-        // return str_replace(' ', '', $this->file_directory);
         $user_role = auth()->user()->user_infoable->role_id;
         if(\strcmp($user_role, 'adm') !== 0){
             return response()->json(['success'=>false, 'message'=>Config::get('constants.MSG.ERROR.FORBIDDEN')], 403);
@@ -129,7 +128,7 @@ class UserController extends Controller
                     $this->isSetNotEmpty($findData->image) ? $findData->image()->update(['src' => $file_name]) : $findData->image()->create(['src' => $file_name]);
                 }
             }
-            // update user data
+            // update data
             $newData = $request->except(['role_id', 'input_image']);
             $newData['password'] = Hash::make($request->password);
             $updatedUserInfo = $findData->user_infoable()->update($newData);
@@ -161,13 +160,12 @@ class UserController extends Controller
         }
     }
 
-    public function searchData($search = null, $pagination = null)
-    {
-        $page_size = $pagination ? $pagination : $this->default_page_size;
-        $result = User::query()->with('image:src,imageable_id')
+    public function searchData(Request $request){
+        $sql = User::query()->with('image:src,imageable_id')
         ->select('users.id', 'users.role_id', 'ui.firstname', 'ui.midname', 'ui.lastname', 'ui.gender', 'ui.birthday', 'ui.phone', 'ui.address', 'ui.email')
         ->join('user_infos AS ui', 'ui.user_infoable_id', '=', 'users.id')
-        ->when($search, function($query) use ($search){
+        ->when($request->search, function($query) use ($request){
+            $search = $request->search;
             return $query->where('ui.firstname', 'LIKE', "%$search%")
             ->orWhere('ui.midname', 'LIKE', "%$search%")
             ->orWhere('ui.lastname', 'LIKE', "%$search%")
@@ -175,8 +173,12 @@ class UserController extends Controller
             ->orWhere('ui.address', 'LIKE', "%$search%")
             ->orWhere('ui.email', 'LIKE', "%$search%");
         })
-        ->orderBy('ui.lastname', 'DESC')->paginate($page_size);
-
+        ->orderBy('ui.lastname', 'ASC');
+        if($request->pageSize){
+            $result = $sql->paginate($request->pageSize);
+        }else{
+            $result = $sql->get();
+        }
         return response()->json(['success' => true, 'data' => $result], 200);
     }
 }
