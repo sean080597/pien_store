@@ -41,7 +41,7 @@ class OrderController extends Controller
         $validator = Validator::make($request->all(),
         [
             'cus_id' => 'string|exists:customers,id',
-            'shipment_details.id' => 'exists:shipment_details,id'
+            'shipment_id' => 'exists:address_infos,id'
         ]);
 
         if($validator->fails()){
@@ -50,7 +50,8 @@ class OrderController extends Controller
 
         // create order
         $created_order = $this->order::create([
-            'cus_id' => $request->cus_id
+            'cus_id' => $request->cus_id,
+            'shipment_id' => $request->shipment_id
         ]);
         if($created_order){
             for ($i = 0; $i < count($request->cart_items); $i++) {
@@ -61,8 +62,6 @@ class OrderController extends Controller
             }
             //create many order details
             $created_order->orderDetails()->createMany($order_details);
-            //create shipment details
-            $created_order->shipmentable()->create($request->shipment_details);
             return response()->json([
                 'success' => true,
                 'message' => Config::get('constants.MSG.SUCCESS.ORDER_CONFIRMED'),
@@ -84,7 +83,7 @@ class OrderController extends Controller
         $validator = Validator::make($request->all(),
         [
             'cus_id' => 'string|exists:customers,id',
-            'shipment_details.id' => 'exists:shipment_details,id'
+            'shipment_id' => 'exists:address_infos,id'
         ]);
 
         if($validator->fails()){
@@ -99,8 +98,6 @@ class OrderController extends Controller
         }
         //update many order details
         $created_order->orderDetails()->createMany($order_details);
-        //update shipment details
-        $created_order->shipmentable()->create($request->shipment_details);
         return response()->json([
             'success' => true,
             'message' => Config::get('constants.MSG.SUCCESS.ORDER_CONFIRMED'),
@@ -127,7 +124,7 @@ class OrderController extends Controller
 
     public function searchData(Request $request, $cus_id)
     {
-        $sql = Order::query()->with('shipmentable', 'products')
+        $sql = Order::query()->with('address', 'products')
         ->where('cus_id', $cus_id)
         ->when($request->search, function($query) use ($request){
             $search = $request->search;

@@ -13,8 +13,8 @@ $factory->define(AddressInfo::class, function (Faker $faker) {
         'lastname' => $faker->lastName,
         'phone' => $faker->regexify('[0-9]{10}'),
         'address' => $faker->address,
-        // 'addressable_type' => 'App\User',
-        'addressable_type' => 'App\Customer',
+        'addressable_type' => 'App\User',
+        // 'addressable_type' => 'App\Customer',
         'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
         'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
     ];

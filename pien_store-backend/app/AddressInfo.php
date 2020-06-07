@@ -10,7 +10,7 @@ class AddressInfo extends Model
     protected $guarded = ['id'];
     // protected $visible = ['id', 'phone', 'address'];
     protected $hidden = [
-        'addressable_id', 'addressable_type'
+        'addressable_id', 'addressable_type', 'created_at', 'updated_at'
     ];
     public function getFullNameAttribute()
     {
