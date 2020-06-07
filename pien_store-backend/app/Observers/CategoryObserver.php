@@ -15,14 +15,9 @@ class CategoryObserver
       // }
     // }
 
-    public function retrieved(Category $category)
-    {
-        $category->image = $category->load('image:src,imageable_id');
-    }
-
     public function creating(Category $category)
     {
-      $category->id = Str::random(10);
+      $category->id = $category->id ? $category->id : Str::random(10);
       $category->slug = str_slug($category->name, '-');
     }
 

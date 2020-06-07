@@ -3,14 +3,12 @@
 namespace App\Observers;
 
 use App\User;
-use App\Traits\CommonService;
+use Illuminate\Support\Str;
 
 class UserObserver
 {
-    use CommonService;
-
     public function creating(User $user)
     {
-        $user->id = $this->quickRandomString(30);
+        $user->id = Str::random(30);
     }
 }

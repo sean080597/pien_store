@@ -55,7 +55,7 @@ class User extends Model
             //     $comment->delete();
             // });
         });
-    } 
+    }
 
     public function role(){
         return $this->belongsTo('App\Role');
