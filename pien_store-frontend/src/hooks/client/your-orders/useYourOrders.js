@@ -21,7 +21,7 @@ export default function useYourOrders() {
     // apply
     const applyGetYourOrders = (pageIndex = null, pagination) => {
         const cusId = cusInfo.googleId ? cusInfo.googleId : cusInfo.id
-        const apiQuery = `${apiUrl}/order/getPaginatedYourOrders/${cusId}/${pagination}${pageIndex ? '?page=' + pageIndex : ''}`
+        const apiQuery = `${apiUrl}/order/searchData/${cusId}/${pagination}${pageIndex ? '?page=' + pageIndex : ''}`
         ConnectionService.axiosGetByUrlWithToken(apiQuery)
         .then(async res => {
             let recentOrders = res.data.data
