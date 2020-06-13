@@ -16,6 +16,7 @@ import PagePagination from './common/PagePagination'
 import ProgressBarAnimation from './common/ProgressBarAnimation'
 import ProgressBarSteps from './common/ProgressBarSteps'
 import BottomLoading from './common/BottomLoading'
+import LazyLoadingImage from './common/LazyLoadingImage'
 
 export {
     Footer,
@@ -32,6 +33,7 @@ export {
     SideBarCollapse,
     // lab
     SinglePhoto,
-    lsPhotos,
-    BottomLoading
+    LazyLoadingImage,
+    BottomLoading,
+    lsPhotos
 }

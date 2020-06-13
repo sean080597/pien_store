@@ -5,7 +5,7 @@ import CommonConstants from '../../../config/CommonConstants'
 const imgWithClick = { cursor: "pointer" };
 const placeholder = CommonConstants.IMAGES_DIR + '/placeholder.png'
 
-export default function Photo({ index, onClick, photo, margin, direction, top, left }) {
+export default function SinglePhoto({ index, onClick, photo, margin, direction, top, left }) {
   const INITIAL = { isLoaded: false, imgSrc: photo.src || placeholder }
   const refImage = useRef(null)
   useSinglePhoto(INITIAL, refImage)

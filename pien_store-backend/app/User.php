@@ -14,11 +14,11 @@ class User extends Model
 
     protected $keyType = 'string';
 
+    protected $with = ['image'];
+
     // protected $fillable = [
     //     'id', 'firstname', 'lastname', 'email', 'password', 'phone', 'role_id', 'login_type'
     // ];
-
-    protected $with = ['image'];
 
     protected $guarded = [];
 
@@ -46,7 +46,7 @@ class User extends Model
         return $this->morphOne(UserInfo::class, 'user_infoable');
     }
 
-    public function addressable(){
+    public function addressInfo(){
         return $this->morphOne(AddressInfo::class, 'addressable');
     }
 }

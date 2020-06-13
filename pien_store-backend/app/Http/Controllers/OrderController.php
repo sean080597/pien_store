@@ -29,7 +29,7 @@ class OrderController extends Controller
     }
 
     public function getSingleData($order_id){
-        $findData = $this->order::with('shipmentable', 'products')->find($order_id);
+        $findData = $this->order::with('addressInfo', 'products')->find($order_id);
         if (!$findData) {
             return response()->json(['success' => false, 'message' => Config::get('constants.MSG.ERROR.NOT_FOUND')], 500);
         }
@@ -124,7 +124,7 @@ class OrderController extends Controller
 
     public function searchData(Request $request, $cus_id)
     {
-        $sql = Order::query()->with('address', 'products')
+        $sql = Order::query()->with('addressInfo', 'products')
         ->where('cus_id', $cus_id)
         ->when($request->search, function($query) use ($request){
             $search = $request->search;

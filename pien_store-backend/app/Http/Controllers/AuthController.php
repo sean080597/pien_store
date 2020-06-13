@@ -100,7 +100,11 @@ class AuthController extends Controller
         // return \JWTAuth::parseToken()->getClaim('exp');
         // return auth('api')->payload();
         // return response()->json(auth()->user()->load('user_infoable'));
-        return response()->json(auth()->user());
+        // return response()->json(auth()->user());
+        $userData = auth()->user();
+        $findData = $this->cus->find($userData->user_infoable->id)->addressInfo()->where('isMainAddress', 1)->first();
+        $result = array_merge($userData->toArray(), $findData->toArray());
+        return response()->json($result);
     }
 
     public function logout()
@@ -148,19 +152,5 @@ class AuthController extends Controller
             'type' => 'bearer', // you can ommit this
             'expires' => $request->expiresIn, // time to expiration (sec)
         ], 200);
-    }
-
-    public function updateCustomerInfo(Request $request)
-    {
-        $findData = $this->userInfo::where('email', auth()->user()->email)->first();
-        $newData = $request->all();
-        $updated_userInfo = $findData->update($newData);
-        //save image file
-        if ($updated_userInfo) {
-            return response()->json([
-                'success' => true,
-                // 'message' => Config::get('constants.MSG.SUCCESS.USERINFO_UPDATED')
-            ], 200);
-        }
     }
 }

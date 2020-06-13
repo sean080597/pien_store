@@ -8,7 +8,7 @@ export default function useSinglePhoto(initial, refImage) {
   })
 
   //handle
-  const handleScroll = () => {
+  const handleLazyLoading = () => {
     if (!userInputs.isLoaded) {
       boundary.watch(refImage.current, () => whenImageEnters(refImage.current))
     }
@@ -26,7 +26,7 @@ export default function useSinglePhoto(initial, refImage) {
   }
 
   useEffect(() => {
-    handleScroll()
+    handleLazyLoading()
     return () => {}
   }, [])
   return { userInputs }

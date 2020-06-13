@@ -3,17 +3,17 @@ import _ from 'lodash'
 import { useTurnOnOffLoader, useOrderDetails } from '../../../hooks/HookManager'
 import {ProgressBarSteps} from '../../../components/ComponentsManager'
 import CommonService from '../../../services/CommonService.service'
-import CommonConstants from '../../../config/CommonConstants'
+import {LazyLoadingImage} from '../../../components/ComponentsManager'
 
 export default function OrderDetails(props) {
     useTurnOnOffLoader()
     const lsSteps = ['received', 'processing', 'delivering', 'delivered']
     const {orderDetailsInfo} = useOrderDetails(props.match.params.order_id)
     // shipping info
-    const shipmentable = orderDetailsInfo.shipmentable
-    const shipFullname = shipmentable ? (shipmentable.firstname + (shipmentable.midname ? ' ' + shipmentable.midname : '') + ' ' + shipmentable.lastname) : ''
-    const shipPhone = shipmentable ? shipmentable.phone : ''
-    const shipAddress = shipmentable ? shipmentable.address: ''
+    const addressInfo = orderDetailsInfo.address_info
+    const shipFullname = addressInfo ? (addressInfo.firstname + (addressInfo.midname ? ' ' + addressInfo.midname : '') + ' ' + addressInfo.lastname) : ''
+    const shipPhone = addressInfo ? addressInfo.phone : ''
+    const shipAddress = addressInfo ? addressInfo.address: ''
     const shipFee = CommonService.formatMoney(20000, 0)
     // status
     const orderDate = orderDetailsInfo.created_at ? CommonService.formatDateTime(orderDetailsInfo.created_at) : ''
@@ -39,9 +39,9 @@ export default function OrderDetails(props) {
                                 <div className="panel-body order-info">
                                     {
                                         orderDetailsInfo.products.map(item =>
-                                            <div className="order-info__details px-20 py-10" key={item.id}>
+                                            <div className="col-sm-12 col-md-6 order-info__details px-20 py-10" key={item.id}>
                                                 <div className="order-info__img">
-                                                    <img src={CommonService.generateImageSrc(true, 'products', item)} alt={item.image} />
+                                                    <LazyLoadingImage src={CommonService.generateImageSrc(true, 'products', item)} alt={item.image} />
                                                 </div>
                                                 <div className="order-info__desc mx-20">
                                                     <h5 className="product-title font-alt m-0"><strong>{item.name}</strong></h5>
@@ -55,8 +55,8 @@ export default function OrderDetails(props) {
                             </div>
                             }
                             {/* Others info */}
-                            <div className="flex-display mt-30">
-                                <div className="flex-1 pr-20">
+                            <div className="row mt-30">
+                                <div className="col-sm-12 col-md-6 pr-20">
                                     <div className="panel panel-default">
                                         <div className="panel-heading">
                                             <h4 className="panel-title font-alt">Shipping Information</h4>
@@ -68,7 +68,7 @@ export default function OrderDetails(props) {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="flex-1 pl-20">
+                                <div className="col-sm-12 col-md-6 pl-20">
                                     <div className="panel panel-default">
                                         <div className="panel-heading">
                                             <h4 className="panel-title font-alt">Order Information</h4>

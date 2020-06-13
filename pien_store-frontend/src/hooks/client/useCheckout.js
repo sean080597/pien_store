@@ -67,15 +67,10 @@ export default function useCheckout(initial, modalRef) {
             const apiQuery = `${apiUrl}/order/confirmOrderInfo`
             const cusId = cusInfo.googleId ? cusInfo.googleId : cusInfo.id
             const items = cartItems.map(item => { return { prod_id: item.id, quantity: item.quantity } })
-            //delete fullname and isChecked before confirm order info
-            delete selectedAddress['fullname']
-            delete selectedAddress['isChecked']
-            delete selectedAddress['isEditable']
-            delete selectedAddress['gender']
             const sendData = {
                 'cus_id': cusId,
                 'cart_items': items,
-                'shipment_details': selectedAddress
+                'shipment_id': selectedAddress.id
             }
 
             ConnectionService.axiosPostByUrlWithToken(apiQuery, sendData)
@@ -104,8 +99,7 @@ export default function useCheckout(initial, modalRef) {
     }
 
     const handleAddNewAddress = () => {
-        const cusId = cusInfo.googleId ? cusInfo.googleId : cusInfo.id
-        const apiQuery = `${apiUrl}/customer/createShipmentDetail/${cusId}`
+        const apiQuery = `${apiUrl}/customer/createShipmentDetail`
         const sendData = _.cloneDeep(userInputs)
         delete sendData['isShowAddNewAddress']
         ConnectionService.axiosPostByUrlWithToken(apiQuery, sendData)
@@ -120,7 +114,7 @@ export default function useCheckout(initial, modalRef) {
         })
     }
 
-    const handleDeleteShipmentDetails = (delete_id) => {
+    const handleDeleteShipmentDetails = (shipment_id) => {
         iziToast.question({
             timeout: false,
             overlay: true,
@@ -130,7 +124,7 @@ export default function useCheckout(initial, modalRef) {
             position: 'center',
             buttons: [
                 ['<button><b>YES</b></button>', function (instance, toast) {
-                    applyDeleteShipmentDetail(delete_id)
+                    applyDeleteShipmentDetail(shipment_id)
                     instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
                 }, true],
                 ['<button>NO</button>', function (instance, toast) {
@@ -163,8 +157,7 @@ export default function useCheckout(initial, modalRef) {
 
     //apply
     const applyGetOrderAddresses = async () => {
-        const cusId = cusInfo.googleId ? cusInfo.googleId : cusInfo.id
-        const apiQuery = `${apiUrl}/customer/getOrderAddresses/${cusId}`
+        const apiQuery = `${apiUrl}/customer/getOrderAddresses`
         ConnectionService.axiosGetByUrlWithToken(apiQuery)
         .then(async res => {
             if(res.success){
@@ -177,16 +170,15 @@ export default function useCheckout(initial, modalRef) {
         })
     }
 
-    const applyDeleteShipmentDetail = (delete_id) => {
-        const cusId = cusInfo.googleId ? cusInfo.googleId : cusInfo.id
-        const apiQuery = `${apiUrl}/customer/deleteShipmentDetail/${cusId}/${delete_id}`
+    const applyDeleteShipmentDetail = (shipment_id) => {
+        const apiQuery = `${apiUrl}/customer/deleteShipmentDetail/${shipment_id}`
         ConnectionService.axiosDeleteByUrlWithToken(apiQuery)
         .then(async res => {
             if(res.success){
                 _.remove(orderAddresses, (item) => {
-                    return item.id === delete_id
+                    return item.id === shipment_id
                 })
-                if(selectedAddress.id === delete_id){
+                if(selectedAddress.id === shipment_id){
                     orderAddresses[0].isChecked = true
                     await dispatch({type: 'SET_SELECTED_ADDRESS', payload: orderAddresses[0]})
                 }
@@ -217,8 +209,7 @@ export default function useCheckout(initial, modalRef) {
     }
 
     const applyEditShipmentDetails = (shipmentDetails) => {
-        const cusId = cusInfo.googleId ? cusInfo.googleId : cusInfo.id
-        const apiQuery = `${apiUrl}/customer/editShipmentDetail/${cusId}`
+        const apiQuery = `${apiUrl}/customer/editShipmentDetail`
         ConnectionService.axiosPutByUrlWithToken(apiQuery, shipmentDetails)
         .then(async res => {
             if(res.success){
