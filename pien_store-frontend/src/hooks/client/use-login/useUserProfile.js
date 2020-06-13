@@ -55,7 +55,7 @@ export default function useUserProfile(initial, modalRef) {
     }
 
     const applyUpdateUserProfile = () => {
-        const apiQuery = `${apiUrl}/user/updateCustomerInfo`
+        const apiQuery = `${apiUrl}/customer/updateCustomerInfo`
         ConnectionService.axiosPostByUrlWithToken(apiQuery, userInputs)
         .then(async res => {
             if(res.success){

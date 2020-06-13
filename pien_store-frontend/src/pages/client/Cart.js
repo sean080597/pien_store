@@ -3,6 +3,7 @@ import {useSelector} from 'react-redux'
 import CommonConstants from '../../config/CommonConstants'
 import CommonService from '../../services/CommonService.service'
 import {useTurnOnOffLoader, useShopCart} from '../../hooks/HookManager'
+import {LazyLoadingImage} from '../../components/ComponentsManager'
 
 export default function Cart (props) {
     useTurnOnOffLoader()
@@ -40,7 +41,7 @@ export default function Cart (props) {
                                         cartItems.map((item, index) =>
                                             <tr key={index}>
                                                 <td className="hidden-xs"><a href="#">
-                                                    <img src={CommonService.generateImageSrc(true, 'products', item)} alt={item.name}/>
+                                                    <LazyLoadingImage src={CommonService.generateImageSrc(true, 'products', item)} alt={item.name}/>
                                                     </a>
                                                 </td>
                                                 <td>

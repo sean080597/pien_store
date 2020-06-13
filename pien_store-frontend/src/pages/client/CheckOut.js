@@ -4,6 +4,7 @@ import CommonConstants from '../../config/CommonConstants'
 import CommonService from '../../services/CommonService.service'
 import {useTurnOnOffLoader, useCheckout, useShopCart} from '../../hooks/HookManager'
 import {Modal} from '../../components/ComponentsManager'
+import {LazyLoadingImage} from '../../components/ComponentsManager'
 
 export default function ConfirmInfo (props) {
     useTurnOnOffLoader()
@@ -60,7 +61,7 @@ export default function ConfirmInfo (props) {
                                         cartItems.map((item, index) =>
                                             <tr key={index}>
                                                 <td className="hidden-xs"><a href="#">
-                                                    <img src={CommonService.generateImageSrc(true, 'products', item)} alt={item.name}/>
+                                                    <LazyLoadingImage src={CommonService.generateImageSrc(true, 'products', item)} alt={item.name}/>
                                                     </a>
                                                 </td>
                                                 <td>
@@ -160,18 +161,16 @@ export default function ConfirmInfo (props) {
                                     {!addr.isEditable &&
                                     <div className="flex-display jus-space-around align-items-center">
                                         <input className="m-0" type='radio' name={'rad_btn_checkout_' + index} value={index} checked={addr.isChecked} onChange={(e)=>handleSwitchAddress(e)}/>
-                                        <button className="btn-b btn btn-round px-10" title="Edit shipment details"
-                                        style={{ visibility: !addr.email ? 'visible': 'hidden' }}
-                                        disabled={addr.email ? true : false}
-                                        onClick={() => handleSetEditableShipment(addr, true)}>
-                                            <i className="fa fa-edit"></i>
-                                        </button>
-                                        <button className="btn-danger btn btn-round px-10" title="Delete shipment details"
-                                        style={{ visibility: !addr.email ? 'visible': 'hidden' }}
-                                        disabled={addr.email ? true : false}
-                                        onClick={() => handleDeleteShipmentDetails(addr.id)}>
-                                            <i className="fa fa-times"></i>
-                                        </button>
+                                        {addr.isMainAddress === 0 &&
+                                        <>
+                                            <button className="btn-b btn btn-round px-10" title="Edit shipment details" onClick={() => handleSetEditableShipment(addr, true)}>
+                                                <i className="fa fa-edit"></i>
+                                            </button>
+                                            <button className="btn-danger btn btn-round px-10" title="Delete shipment details" onClick={() => handleDeleteShipmentDetails(addr.id)}>
+                                                <i className="fa fa-times"></i>
+                                            </button>
+                                        </>
+                                        }
                                     </div>
                                     }
                                     {addr.isEditable &&
@@ -228,7 +227,6 @@ export default function ConfirmInfo (props) {
                 </div>
             </Modal>
         </div>
-        }
         </>
     )
 }

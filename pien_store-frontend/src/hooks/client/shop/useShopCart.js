@@ -81,10 +81,10 @@ export default function useShopCart(initial, componentName){
 
     //apply
     const applyCategoriesAll = () => {
-        const apiQuery = `${apiUrl}/category/getAll`
-        ConnectionService.axiosGetByUrl(apiQuery)
+        const apiQuery = `${apiUrl}/category/searchData`
+        ConnectionService.axiosPostByUrl(apiQuery)
         .then(async res => {
-            await dispatch({type: 'SET_CATEGORIES', payload: res.data.data})
+            await dispatch({type: 'SET_CATEGORIES', payload: res.data})
             CommonService.turnOffLoader()
         })
     }
@@ -133,10 +133,26 @@ export default function useShopCart(initial, componentName){
     }
 
     const applyRemoveCartItem = (item) => {
-        let updateCartItems = cartItems.filter((obj) => {
-            return obj.id !== item.id
+        iziToast.question({
+            timeout: false,
+            overlay: true,
+            displayMode: 'once',
+            title: 'Remove',
+            message: 'Are you sure want to remove?',
+            position: 'center',
+            buttons: [
+                ['<button><b>YES</b></button>', async (instance, toast) => {
+                    const updateCartItems = cartItems.filter((obj) => {
+                        return obj.id !== item.id
+                    })
+                    await applySetCartItems(updateCartItems)
+                    instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
+                }, true],
+                ['<button>NO</button>', async (instance, toast) => {
+                    instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
+                }],
+            ]
         })
-        applySetCartItems(updateCartItems)
     }
 
     const applyAddSubtractQuantity = (product, quantity = 1) => {

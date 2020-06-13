@@ -20,6 +20,7 @@ class CreateAddressInfosTable extends Migration
             $table->string('lastname', 30);
             $table->char('phone', 10);
             $table->string('address');
+            $table->boolean('isMainAddress')->default(1);
             $table->string('addressable_id', 50);
             $table->string('addressable_type', 30);
             $table->timestamps();

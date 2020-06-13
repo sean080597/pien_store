@@ -24,7 +24,7 @@ class Customer extends Model
         return $this->morphOne(UserInfo::class, 'user_infoable');
     }
 
-    public function addressable(){
+    public function addressInfo(){
         return $this->morphMany(AddressInfo::class, 'addressable');
     }
 

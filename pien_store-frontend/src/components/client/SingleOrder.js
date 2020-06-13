@@ -1,15 +1,15 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
-import CommonConstants from '../../config/CommonConstants'
 import CommonService from '../../services/CommonService.service'
+import {LazyLoadingImage} from '../ComponentsManager'
 
 export default function YourOrders (props) {
     return (
         <>
-        {props.orderInfo.shipmentable && props.orderInfo.products &&
+        {props.orderInfo.address_info && props.orderInfo.products &&
             <div className="single-order">
                 <div className="well">
-                    <h6 className="product-title font-alt mb-10">{props.orderInfo.shipmentable.address}</h6>
+                    <h6 className="product-title font-alt mb-10">{props.orderInfo.address_info.address}</h6>
                     <div className="single-order__title m-0">
                         <h4 className="product-title font-alt mb-0"><strong>{CommonService.formatDateTime(props.orderInfo.created_at)}</strong></h4>
                         <div>
@@ -23,7 +23,7 @@ export default function YourOrders (props) {
                     props.orderInfo.products.map(item =>
                         <div className="single-order__details px-20 py-10" key={item.id}>
                             <div className="single-order__img">
-                                <img src={CommonService.generateImageSrc(true, 'products', item)} alt={item.name} />
+                                <LazyLoadingImage src={CommonService.generateImageSrc(true, 'products', item)} alt={item.name} />
                             </div>
                             <div className="single-order__desc mx-30">
                                 <h5 className="product-title font-alt m-0"><strong>{item.name}</strong></h5>

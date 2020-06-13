@@ -12,6 +12,8 @@ class Category extends Model
 
     protected $keyType = 'string';
 
+    protected $with = ['image'];
+
     protected $guarded = [];
 
     public static function boot() {

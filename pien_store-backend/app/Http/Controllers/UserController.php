@@ -27,7 +27,7 @@ class UserController extends Controller
     }
 
     public function getSingleData($id){
-        $findData = $this->user->with('user_infoable', 'addressable')->find($id);
+        $findData = $this->user->with('user_infoable', 'addressInfo')->find($id);
         if (!$findData) {
             return response()->json(['success' => false, 'message' => Config::get('constants.MSG.ERROR.NOT_FOUND')], 500);
         }
@@ -76,12 +76,12 @@ class UserController extends Controller
             $createdUserInfo = $createdUser->user_infoable()->create($newDataUser);
             // update address
             $newDataAddress = $request->only(['firstname', 'midname', 'lastname', 'phone', 'address']);
-            $createdAddress = $createdUser->addressable()->create($newDataAddress);
+            $createdAddress = $createdUser->addressInfo()->create($newDataAddress);
             if($createdUserInfo && $createdAddress){
                 return response()->json([
                     'success'=>true,
                     'message'=>Config::get('constants.MSG.SUCCESS.USER_CREATED'),
-                    'data'=>$createdUser->load('image', 'user_infoable', 'addressable')
+                    'data'=>$createdUser->load('image', 'user_infoable', 'addressInfo')
                 ], 200);
             }
         }
@@ -138,12 +138,12 @@ class UserController extends Controller
             $updatedUser = $findData->user_infoable()->update($newDataUser);
             // update address
             $newDataAddress = $request->only(['firstname', 'midname', 'lastname', 'phone', 'address']);
-            $updatedAddress = $findData->addressable()->update($newDataAddress);
+            $updatedAddress = $findData->addressInfo()->update($newDataAddress);
             if($updatedUser && $updatedAddress){
                 return response()->json([
                     'success' => true,
                     'message' => Config::get('constants.MSG.SUCCESS.USERINFO_UPDATED'),
-                    'data' => $findData->load('image', 'user_infoable', 'addressable')
+                    'data' => $findData->load('image', 'user_infoable', 'addressInfo')
                 ], 200);
             }
         }

@@ -21,8 +21,11 @@ export default function useYourOrders() {
     // apply
     const applyGetYourOrders = (pageIndex = null, pagination) => {
         const cusId = cusInfo.googleId ? cusInfo.googleId : cusInfo.id
-        const apiQuery = `${apiUrl}/order/searchData/${cusId}/${pagination}${pageIndex ? '?page=' + pageIndex : ''}`
-        ConnectionService.axiosGetByUrlWithToken(apiQuery)
+        const sendData = {
+            pageSize: pagination
+        }
+        const apiQuery = `${apiUrl}/order/searchData/${cusId}${pageIndex ? '?page=' + pageIndex : ''}`
+        ConnectionService.axiosPostByUrlWithToken(apiQuery, sendData)
         .then(async res => {
             let recentOrders = res.data.data
             // delete recent orders list to take all pagination info

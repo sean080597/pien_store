@@ -8,16 +8,18 @@ import CommonService from '../../services/CommonService.service'
 import { useGoogleLogin } from '../../hooks/HookManager'
 import Cookie from 'js-cookie'
 import iziToast from "izitoast";
+import _ from 'lodash'
 
 export default function Navbar(props) {
   const history = useHistory()
-  const {userName, userImage, token, isNotFoundPage, cartCount, currentPath} = useSelector(state => ({
+  const {userName, userImage, token, isNotFoundPage, cartCount, currentPath, selectedAddress} = useSelector(state => ({
     userName: state.auth.user.name,
     userImage: state.auth.user.imageUrl,
     token: state.auth.token,
     isNotFoundPage: state.common.isNotFoundPage,
     cartCount: state.shop.cartCount,
-    currentPath: state.common.currentPath
+    currentPath: state.common.currentPath,
+    selectedAddress: state.checkout.selectedAddress,
   }))
   //login by Google
   const {applyGoogleLogin, applyGoogleLogout} = useGoogleLogin({})
@@ -45,6 +47,8 @@ export default function Navbar(props) {
 
   const test = () => {
     console.log(Cookie.get('access_token'))
+    let testData = _.cloneDeep(selectedAddress)
+    console.log(CommonService.removePropertiesObject(testData, ['firstname', 'midname']), ' - ', testData)
   //   iziToast.show({
   //     theme: 'dark',
   //     icon: 'fa fa-sign-in',

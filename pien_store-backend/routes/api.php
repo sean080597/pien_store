@@ -22,8 +22,6 @@ Route::group(['prefix' => 'user'], function(){
     Route::post('refresh', 'AuthController@refresh');
     Route::post('me', 'AuthController@me');
     Route::post('authGoogleLogin', 'AuthController@authGoogleLogin');
-    // update customer info
-    Route::post('updateCustomerInfo', 'AuthController@updateCustomerInfo');
     // search & paginate users
     Route::get('getSingleData/{id}', 'UserController@getSingleData');
     Route::post('searchData', 'UserController@searchData');
@@ -42,10 +40,11 @@ Route::group(['prefix' => 'category'], function () {
 });
 
 Route::group(['prefix' => 'customer'], function () {
-    Route::get('getOrderAddresses/{id}', 'CustomerController@getOrderAddresses');
-    Route::post('createShipmentDetail/{cus_id}', 'CustomerController@createShipmentDetail');
-    Route::delete('deleteShipmentDetail/{cus_id}/{shipment_id}', 'CustomerController@deleteShipmentDetail');
-    Route::put('editShipmentDetail/{cus_id}', 'CustomerController@editShipmentDetail');
+    Route::post('updateCustomerInfo', 'CustomerController@updateCustomerInfo');
+    Route::get('getOrderAddresses', 'CustomerController@getOrderAddresses');
+    Route::post('createShipmentDetail', 'CustomerController@createShipmentDetail');
+    Route::delete('deleteShipmentDetail/{shipment_id}', 'CustomerController@deleteShipmentDetail');
+    Route::put('editShipmentDetail', 'CustomerController@editShipmentDetail');
 });
 
 Route::group(['prefix' => 'order'], function () {

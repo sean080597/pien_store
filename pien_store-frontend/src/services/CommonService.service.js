@@ -74,6 +74,9 @@ const CommonService = {
             return key
         })
     },
+    removePropertiesObject(obj, arrProperties){
+        arrProperties.forEach(item => delete obj[item])
+    },
     formatMoney(amount, decimalCount = 2, decimal = ".", thousands = ",") {
         try {
             decimalCount = Math.abs(decimalCount);
@@ -109,14 +112,14 @@ const CommonService = {
         return moment(dateInput).isAfter(moment(dateToCompare))
     },
     generateImageSrc(isServerSide = false, dirName, imgObj, imgSrc = null){
-        const publicUrl = isServerSide ? CommonConstants.API_URL : process.env.PUBLIC_URL
+        const publicUrl = isServerSide ? CommonConstants.BE_URL : process.env.PUBLIC_URL
         const resDirPath = imgDirectorypath[dirName][0]
         let resDefImg = imgSrc
-        if(imgObj && imgObj.image){
+        if(imgObj.image && imgObj.image.src){
             if(imgObj.image.src.includes('http')) return imgObj.image.src
             resDefImg = imgObj.image.src
         }
-        if(!imgObj && !imgSrc) resDefImg = imgDirectorypath[dirName][1]
+        if(!imgObj.image && !imgSrc) resDefImg = imgDirectorypath[dirName][1]
         return publicUrl + resDirPath + "/" + resDefImg
     }
 };
