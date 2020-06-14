@@ -56,7 +56,7 @@ export default function useFormLogin(initital, validate) {
                     //dispatch
                     await dispatch({type: 'LOGIN_ADMIN', payload: resJWT})
                     await setCookieToken(resJWT)
-                    history.push('/admin-su/dashboard')
+                    history.push('/admin-su')
                     CommonService.turnOffLoader()
                 })
                 .catch(e => {

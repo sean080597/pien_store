@@ -115,11 +115,11 @@ const CommonService = {
         const publicUrl = isServerSide ? CommonConstants.BE_URL : process.env.PUBLIC_URL
         const resDirPath = imgDirectorypath[dirName][0]
         let resDefImg = imgSrc
-        if(imgObj.image && imgObj.image.src){
+        if(imgObj && imgObj.image && imgObj.image.src){
             if(imgObj.image.src.includes('http')) return imgObj.image.src
             resDefImg = imgObj.image.src
         }
-        if(!imgObj.image && !imgSrc) resDefImg = imgDirectorypath[dirName][1]
+        if(!imgSrc) resDefImg = imgDirectorypath[dirName][1]
         return publicUrl + resDirPath + "/" + resDefImg
     }
 };

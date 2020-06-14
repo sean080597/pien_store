@@ -3,7 +3,7 @@ import CommonConstants from '../../config/CommonConstants'
 import {useInitializePageAdmin, useFormLogin, validationAuth} from '../../hooks/HookManager'
 
 export default function Login (props){
-    useInitializePageAdmin('LOGIN')
+    useInitializePageAdmin('login')
     const INITIAL_STATE = {email: "", password: ""}
     const {userInputs, handleChange, handleSubmitLogin, handleBlur, errors} = useFormLogin(INITIAL_STATE, validationAuth)
 

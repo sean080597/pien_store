@@ -85,8 +85,11 @@ class AuthController extends Controller
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
-        $profileObj = auth()->user();
-        $profileObj->role = auth()->user()->user_infoable->role->id;
+        $userData = auth()->user();
+        $findData = $this->user->find($userData->user_infoable->id)->addressInfo()->where('isMainAddress', 1)->first();
+        $profileObj = array_merge($userData->toArray(), $findData->toArray());
+        $profileObj['role'] = auth()->user()->user_infoable->role->id;
+        $profileObj['fullname'] = $findData->getFullNameAttribute();
         return response()->json([
             'profileObj' => $profileObj,
             'token' => $token,

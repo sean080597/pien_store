@@ -24,11 +24,6 @@ class UserInfo extends Authenticatable implements JWTSubject
         'password', 'remember_token', 'email_verified_at', 'user_infoable_id', 'user_infoable_type'
     ];
 
-    public function getFullNameAttribute()
-    {
-        return preg_replace('/\s+/', ' ', $this->firstname . ' ' . $this->midname . ' ' . $this->lastname);
-    }
-
     // public function setFullNameAttribute()
     // {
     //     $this->attributes['fullname'] = $this->firstname . ' ' . $this->midname . ' ' . $this->lastname;

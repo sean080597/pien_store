@@ -33,6 +33,9 @@ const initialStates = {
     gallery: {
         lsPhotos: [],
         continuousPos: 0
+    },
+    admin: {
+        lsObjsManagerment: []
     }
 }
 

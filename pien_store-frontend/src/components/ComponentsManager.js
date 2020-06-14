@@ -17,6 +17,7 @@ import ProgressBarAnimation from './common/ProgressBarAnimation'
 import ProgressBarSteps from './common/ProgressBarSteps'
 import BottomLoading from './common/BottomLoading'
 import LazyLoadingImage from './common/LazyLoadingImage'
+import ReactTable from './common/ReactTable'
 
 export {
     Footer,
@@ -31,9 +32,10 @@ export {
     ProgressBarAnimation,
     ProgressBarSteps,
     SideBarCollapse,
-    // lab
     SinglePhoto,
     LazyLoadingImage,
     BottomLoading,
+    ReactTable,
+    // lab
     lsPhotos
 }
