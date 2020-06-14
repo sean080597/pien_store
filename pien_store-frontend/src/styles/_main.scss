@@ -51,6 +51,13 @@ img {
 	background-position: center center;
 }
 
+.flex-display-noWrap{
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
 .flex-display{
   display: -webkit-box;
   display: -webkit-flex;
