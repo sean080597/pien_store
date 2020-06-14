@@ -4,11 +4,18 @@ import CommonService from '../../services/CommonService.service'
 
 export default function useAdminUser() {
     // const dispatch = useDispatch()
+    // handle
+    const handleEdit = (index) => {
+        console.log('edit index ==> ', index)
+    }
+    const handleDel = (index) => {
+        console.log('delete index ==> ', index)
+    }
 
     useEffect(() => {
         return () => {
             
         }
     }, [])
-    return;
+    return {handleEdit, handleDel};
 }

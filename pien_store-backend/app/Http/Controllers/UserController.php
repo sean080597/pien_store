@@ -169,10 +169,11 @@ class UserController extends Controller
 
     public function searchData(Request $request){
         $sql = User::query()->with('image:src,imageable_id')
-        ->select('users.id', 'users.role_id', 'ui.gender', 'ui.birthday', 'ui.email',
-        'addr.firstname', 'addr.midname', 'addr.lastname', 'addr.phone', 'addr.address')
+        ->select('users.id', 'ui.gender', 'ui.birthday', 'ui.email',
+        'addr.firstname', 'addr.midname', 'addr.lastname', 'addr.phone', 'addr.address', 'r.name AS role')
         ->join('user_infos AS ui', 'ui.user_infoable_id', '=', 'users.id')
         ->join('address_infos AS addr', 'addr.addressable_id', '=', 'users.id')
+        ->join('roles AS r', 'r.id', '=', 'users.role_id')
         ->when($request->search, function($query) use ($request){
             $search = $request->search;
             return $query->where('addr.firstname', 'LIKE', "%$search%")

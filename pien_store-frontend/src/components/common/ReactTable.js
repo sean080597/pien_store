@@ -1,10 +1,10 @@
 import React from 'react'
 import { useTable } from 'react-table'
 
-export default function ReactTable({ columns, data }) {
+export default function ReactTable({ columns, data, tblClassName }) {
   const {getTableProps, getTableBodyProps, headerGroups, rows, prepareRow} = useTable({columns, data})
   return (
-    <table {...getTableProps()}>
+    <table {...getTableProps()} className={tblClassName}>
       <thead>
         {headerGroups.map(headerGroup => (
           <tr {...headerGroup.getHeaderGroupProps()}>
