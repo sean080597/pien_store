@@ -25,7 +25,7 @@ const routes = () => (
               <SideBarCollapse/>
             </div>
             <div className="col-sm-9 py-5 px-0">
-              <PrivateRoute path={`${url}/dashboard`} component={AdminHome} exact loginType='managerment' />
+              <PrivateRoute path={`${url}/`} component={AdminHome} exact loginType='managerment' />
               <PrivateRoute path={`${url}/order-managerment`} component={AdminOrder} exact loginType='managerment' />
               <PrivateRoute path={`${url}/gallery-managerment`} component={AdminGallery} exact loginType='managerment' />
               <PrivateRoute path={`${url}/user-managerment`} component={AdminUser} exact loginType='managerment' />

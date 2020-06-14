@@ -1,10 +1,9 @@
 import React from 'react'
-import { useInitializePageAdmin } from '../../hooks/HookManager'
-import { useAdminHome } from '../../hooks/HookManager'
+import { useInitializePageAdmin, useAdminHome } from '../../hooks/HookManager'
 import AreaChart from '../../plugins/charts/AreaChart'
 
 export default function AdminHome(props) {
-  useInitializePageAdmin('ADMIN_HOME')
+  useInitializePageAdmin('home')
   useAdminHome()
 
   return (

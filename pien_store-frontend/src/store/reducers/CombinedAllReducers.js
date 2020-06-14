@@ -5,6 +5,7 @@ import doShopCart from './doShopCart'
 import doCheckout from './doCheckout'
 import doYourOrders from './doYourOrders'
 import doGalleryPhotos from './doGalleryPhotos'
+import doSetAdmin from './doSetAdmin'
 
 export default combineReducers({
     common: doSetCommon,
@@ -12,5 +13,6 @@ export default combineReducers({
     shop: doShopCart,
     checkout: doCheckout,
     yourOrders: doYourOrders,
-    gallery: doGalleryPhotos
+    gallery: doGalleryPhotos,
+    admin: doSetAdmin
 });

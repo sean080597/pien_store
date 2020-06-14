@@ -16,6 +16,7 @@ import useInitializePageAdmin from './admin/useInitializePageAdmin'
 import useFormLogin from './admin/use-form-login/useFormLogin'
 import validationAuth from './admin/use-form-login/validationAuth'
 import useAdminHome from './admin/useAdminHome'
+import useAdminUser from './admin/useAdminUser'
 
 // common
 import useNotFoundPage from './useNotFoundPage'
@@ -40,6 +41,7 @@ export {
     useFormLogin,
     validationAuth,
     useAdminHome,
+    useAdminUser,
 
     // common
     useScreenWidth,
