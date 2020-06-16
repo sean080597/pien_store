@@ -53,10 +53,10 @@ class UsersTableSeeder extends Seeder
         //     'firstname' => 'Luu',
         //     'lastname' => 'Sean',
         // ]);
-        // self::insert_data('Luu', 'Sean', 'admin@adm.com', 'adm');
-        // self::insert_data('Le', 'Phu', 'manager@mgr.com', 'mgr');
-        // self::insert_data('Le', 'Man', 'staff@stf.com', 'stf');
-        // self::insert_data('Quang', 'Khanh', 'customer@cus.com', 'cus');
+        self::insert_data('Luu', 'Sean', 'admin@adm.com', 'adm');
+        self::insert_data('Le', 'Phu', 'manager@mgr.com', 'mgr');
+        self::insert_data('Le', 'Man', 'staff@stf.com', 'stf');
+        self::insert_data('Quang', 'Khanh', 'customer@cus.com', 'cus');
         factory(User::class, 30)->create()->each(function($user){
             factory(UserInfo::class)->create(['user_infoable_id' => $user->id]);
             factory(AddressInfo::class)->create(['addressable_id' => $user->id]);

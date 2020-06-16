@@ -1,4 +1,6 @@
-const lsPagesManagerment = ['category', 'order', 'product', 'user', 'customer']
+const lsPagesManagerment = [
+  'category', 'order', 'product', 'user', 'customer'
+]
 
 // export
 const AdminService = {

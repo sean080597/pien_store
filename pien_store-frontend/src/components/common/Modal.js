@@ -27,7 +27,8 @@ const Modal = forwardRef((props, ref) => {
                 <div className={'modal-box'} style={{width: modalWidth}}>
                     {props.children}
                 </div>
-            </div>, document.getElementById('modal-root'))
+            </div>, document.getElementById('modal-root')
+        )
     }
 
     return null

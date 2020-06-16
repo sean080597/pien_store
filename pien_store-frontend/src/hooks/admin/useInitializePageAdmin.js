@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import CommonConstants from '../../config/CommonConstants'
 import CommonService from '../../services/CommonService.service'
@@ -12,6 +12,7 @@ export default function useInitializePageAdmin(curType) {
     const {curPath} = useSelector(state => ({
         curPath: state.common.currentPath
     }))
+    const [lsRoles, setLsRoles] = useState([])
 
     // handle
     const handleToken = () => {}
@@ -24,13 +25,20 @@ export default function useInitializePageAdmin(curType) {
             .then(async res => {
                 if(type === 'user'){
                     res.data.data.map(item => {
-                        item.gender = item.gender ? 'Male' : 'Female'
+                        item.genderName = item.gender === 'M' ? 'Male' : 'Female'
                     })
                 }
                 await dispatch({type: 'SET_LIST_OBJECTS_MANAGERMENT', payload: res.data.data})
                 CommonService.turnOffLoader()
             })
         }
+    }
+    const applyGetAllRoles = () => {
+        const apiQuery = `${apiUrl}/admin-role/getAllData`
+        ConnectionService.axiosGetByUrlWithToken(apiQuery)
+        .then(res => {
+            setLsRoles(res.data)
+        })
     }
 
     useEffect(() => {
@@ -39,9 +47,12 @@ export default function useInitializePageAdmin(curType) {
         if(curPath.indexOf(curType) !== -1){
             applyGetLsObjsManagerment(curType)
         }
+        if(curPath.indexOf('user') !== -1){
+            applyGetAllRoles()
+        }
         return () => {
             if(AdminService.lsPagesManagerment.indexOf(curType) === -1) CommonService.turnOffLoader()
         }
     }, [curPath])
-    return;
+    return {lsRoles};
 }
