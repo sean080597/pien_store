@@ -1,10 +1,9 @@
 import React from 'react'
-import { useInitializePageAdmin, useAdminHome } from '../../hooks/HookManager'
+import { useInitializePageAdmin } from '../../hooks/HookManager'
 import AreaChart from '../../plugins/charts/AreaChart'
 
 export default function AdminHome(props) {
   useInitializePageAdmin('home')
-  useAdminHome()
 
   return (
     <section className="container-fluid">

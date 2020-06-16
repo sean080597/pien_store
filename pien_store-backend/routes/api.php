@@ -84,6 +84,10 @@ Route::group(['prefix' => 'admin-order'], function () {
     Route::delete('deleteData/{id}', 'OrderController@deleteData');
 });
 
+Route::group(['prefix' => 'admin-role'], function () {
+    Route::get('getAllData', 'RoleController@getAllData');
+});
+
 Route::get('test', function () {
     var_dump(new DateTime);
 });

@@ -15,11 +15,11 @@ class CreateAddressInfosTable extends Migration
     {
         Schema::create('address_infos', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('firstname', 50);
+            $table->string('firstname', 50)->nullable();
             $table->string('midname', 30)->nullable();
-            $table->string('lastname', 30);
-            $table->char('phone', 10);
-            $table->string('address');
+            $table->string('lastname', 30)->nullable();
+            $table->char('phone', 10)->nullable();
+            $table->string('address')->nullable();
             $table->boolean('isMainAddress')->default(1);
             $table->string('addressable_id', 50);
             $table->string('addressable_type', 30);

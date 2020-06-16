@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Traits\CommonService;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Validator;
 use App\User;
 use App\UserInfo;
@@ -49,7 +50,7 @@ class AuthController extends Controller
         }
 
         //handle id
-        $user_id = $this->quickRandomString(20);
+        $user_id = Str::random(20);
         $registerComplete = $this->user::create([
             'id' => $user_id,
             'firstname'=>$request->firstname,
@@ -139,11 +140,8 @@ class AuthController extends Controller
                 'login_type' => 'google'
             ]);
             if($registerComplete){
-                $registerComplete->user_infoable()->create([
-                    'email' => $request->email,
-                    'user_infoable_id' => $request->googleId,
-                    'user_infoable_type' => 'App\Customer',
-                ]);
+                $registerComplete->user_infoable()->create(['email' => $request->email]);
+                $registerComplete->addressInfo()->create();
                 //create jwt token
                 $token = auth('api')->setTTL($expire_minutes)->fromUser($registerComplete->user_infoable);
             }

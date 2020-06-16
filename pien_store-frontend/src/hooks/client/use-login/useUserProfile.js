@@ -22,7 +22,7 @@ export default function useUserProfile(initial, modalRef) {
     }
 
     const handleSubmitInfo = async (evt) => {
-        evt.preventDefault();
+        evt.preventDefault()
         await applyUpdateUserProfile()
     }
 

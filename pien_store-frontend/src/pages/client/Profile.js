@@ -6,21 +6,17 @@ import {Modal} from '../../components/ComponentsManager'
 export default function Profile(props) {
     useTurnOnOffLoader()
     useShopCart({}, 'PROFILE_COMPONENT')
-    //modal ref
+    // modal ref
     const modalRef = useRef()
-    const openModal = () => {
-        modalRef.current.openModal()
-    }
-    const closeModal = () => {
-        modalRef.current.closeModal()
-    }
+    const openModal = () => { modalRef.current.openModal() }
+    const closeModal = () => { modalRef.current.closeModal() }
 
-    //user profile state
+    // user profile state
     const {userProfileDetails} = useSelector(state => ({
         userProfileDetails: state.auth.profile
     }))
     const userFullname = (userProfileDetails.firstname ? userProfileDetails.firstname : '') + (userProfileDetails.lastname ? (' ' + userProfileDetails.lastname) : '')
-    const INITIAL_STATE = {firstname: '', lastname: '', gender: '1', phone: '', address: ''}
+    const INITIAL_STATE = {firstname: '', lastname: '', gender: 'M', phone: '', address: ''}
     const {userInputs, handleChange, handleSubmitInfo} = useUserProfile(INITIAL_STATE, modalRef)
     const isSubmitDisabled = !(userInputs.firstname && userInputs.lastname && userInputs.address && userInputs.phone)
 
@@ -42,7 +38,7 @@ export default function Profile(props) {
                                         <h3 className="features-title font-alt"><strong>Profile</strong></h3>
                                         <h5><strong>Fullname</strong>: {userFullname}</h5>
                                         <h5><strong>Email</strong>: {userProfileDetails.email}</h5>
-                                        <h5><strong>Gender</strong>: {userProfileDetails.gender === 0 ? 'Female' : 'Male'}</h5>
+                                        <h5><strong>Gender</strong>: {userProfileDetails.gender === 'F' ? 'Female' : 'Male'}</h5>
                                     </div>
                                 </div>
                                 <div className="col-sm-6 col-md-6 col-lg-6">
@@ -73,8 +69,8 @@ export default function Profile(props) {
                   <div className="form-group">
                     <div className="row form-group-input flex-display">
                         <select className="form-control" name="gender" onChange={handleChange} value={userInputs.gender}>
-                            <option value="1" defaultValue>Male</option>
-                            <option value="0" >Female</option>
+                            <option value='M' defaultValue>Male</option>
+                            <option value='F' >Female</option>
                         </select>
                         <input className="form-control" id="phone" type="text" pattern="[0-9]*" name="phone" placeholder="Enter phone" maxLength="10"
                         onChange={handleChange} value={userInputs.phone}/>
