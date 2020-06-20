@@ -40,6 +40,18 @@ body {
   @extend .custom-scrollbar;
 }
 
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
 img {
   max-width: 100%;
   height: auto;
@@ -87,7 +99,7 @@ img {
     flex-direction: row;
   }
   &.direction-column{
-    flex-direction: row;
+    flex-direction: column;
   }
   &.jus-flex-start{
     justify-content: flex-start;

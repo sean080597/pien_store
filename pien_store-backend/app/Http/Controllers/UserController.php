@@ -51,7 +51,7 @@ class UserController extends Controller
         ]);
 
         if($validator->fails()){
-            return response()->json(['success'=>false, 'message'=>$validator->messages()->toArray()], 400);
+            return response()->json(['success'=>false, 'message'=>$validator->messages()->toArray()]);
         }
 
         // create new user
@@ -65,16 +65,15 @@ class UserController extends Controller
                 if(strcmp($isSaved->getData()->success, true) === 0){
                     $file_name = $isSaved->getData()->file_name;
                 }else{
-                    return response()->json(['success' => false, 'message' => $isSaved->getData()->error_msg], 500);
+                    return response()->json(['success' => false, 'message' => $isSaved->getData()->error_msg]);
                 }
             }
             if ($this->isSetNotEmpty($file_name)) $createdUser->image()->create(['src' => $file_name]);
             // create new userInfo
-            // update userInfo
             $newDataUser = $request->only(['gender', 'birthday', 'email']);
             $newDataUser['password'] = Hash::make($request->password);
             $createdUserInfo = $createdUser->user_infoable()->create($newDataUser);
-            // update address
+            // create address
             $newDataAddress = $request->only(['firstname', 'midname', 'lastname', 'phone', 'address']);
             $createdAddress = $createdUser->addressInfo()->create($newDataAddress);
             if($createdUserInfo && $createdAddress){
@@ -82,7 +81,7 @@ class UserController extends Controller
                     'success'=>true,
                     'message'=>Config::get('constants.MSG.SUCCESS.USER_CREATED'),
                     'data'=>$createdUser->load('image', 'user_infoable', 'addressInfo')
-                ], 200);
+                ]);
             }
         }
     }

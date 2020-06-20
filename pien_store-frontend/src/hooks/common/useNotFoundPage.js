@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import PageLoadService from '../services/PageLoadService.service'
+import PageLoadService from '../../services/PageLoadService.service'
 
 export default function useNotFoundPage() {
     const dispatch = useDispatch()

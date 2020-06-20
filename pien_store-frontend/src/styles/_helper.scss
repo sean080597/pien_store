@@ -274,7 +274,7 @@ a, .btn {
 /* padding rem unit */
 .p {
   &-0 {
-    padding: !important;
+    padding: 0 !important;
   }
   &-1 {
     padding: 0.25rem !important;
@@ -1002,6 +1002,10 @@ a, .btn {
   outline: 0;
 }
 
+.btn.btn-fw {
+  width: 100%;
+}
+
 .btn.btn-round {
   border-radius: 2px;
 }
@@ -1193,10 +1197,31 @@ a, .btn {
   border: 1px solid red;
 }
 
-.form-group-input {
-  input, select, button{
+.custom-input{
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.form-group-input div{
+  &.custom-input{
     flex: 1;
-    margin: 0 15px;
+    margin: 0 10px;
+    &:first-child{
+      margin-left: 0;
+    }
+    &:last-child{
+      margin-right: 0;
+    }
+  }
+  &[class|="col"]{
+    padding: 0 10px;
+    &:first-child{
+      padding: 0 10px 0 0;
+    }
+    &:last-child{
+      padding: 0 0 0 10px;
+    }
   }
 }
 
