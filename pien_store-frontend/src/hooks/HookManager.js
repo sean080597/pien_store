@@ -18,8 +18,9 @@ import validationAuth from './admin/use-form-login/validationAuth'
 import useAdminActions from './admin/useAdminActions'
 
 // common
-import useNotFoundPage from './useNotFoundPage'
-import useScreenWidth from './useScreenWidth'
+import useNotFoundPage from './common/useNotFoundPage'
+import useScreenWidth from './common/useScreenWidth'
+import useCustomInput from './common/useCustomInput'
 
 export {
     // client
@@ -43,5 +44,6 @@ export {
 
     // common
     useScreenWidth,
-    useNotFoundPage
+    useNotFoundPage,
+    useCustomInput
 }

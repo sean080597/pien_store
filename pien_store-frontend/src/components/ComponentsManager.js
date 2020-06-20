@@ -18,6 +18,7 @@ import ProgressBarSteps from './common/ProgressBarSteps'
 import BottomLoading from './common/BottomLoading'
 import LazyLoadingImage from './common/LazyLoadingImage'
 import ReactTable from './common/ReactTable'
+import CustomInput from './common/CustomInput'
 
 export {
     Footer,
@@ -36,6 +37,7 @@ export {
     LazyLoadingImage,
     BottomLoading,
     ReactTable,
+    CustomInput,
     // lab
     lsPhotos
 }

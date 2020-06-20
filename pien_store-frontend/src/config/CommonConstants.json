@@ -28,6 +28,7 @@
     "MSG": {
         "ERROR":{
             "AT_LEAST_6_CHARACTERS": "Password must be at least 6 characters",
+            "AT_LEAST_6_CHARACTERS_SHORT": "At least 6 characters",
             "INVALID_EMAIL": "Invalid Email",
             "INVALID_PASSWORD": "Invalid Password",
             "REQUIRED_EMAIL": "Required Email",
