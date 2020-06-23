@@ -30,7 +30,7 @@ const validateUserInputs = (values) => {
 // apply
 function applyGetLsObjsManagerment(type, pageIndex = null) {
   if(lsPagesManagerment.indexOf(type) !== -1){
-    const apiQuery = `${apiUrl}/${type}/searchData${pageIndex ? '?page=' + pageIndex : ''}`
+    const apiQuery = `${apiUrl}/admin-${type}/searchData${pageIndex ? '?page=' + pageIndex : ''}`
     return ConnectionService.axiosPostByUrlWithToken(apiQuery, {pageSize: 15})
     .then(res => {
         if(type === 'user'){

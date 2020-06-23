@@ -28,6 +28,9 @@ export default function SideBarCollapse(props) {
           <Link to='/admin-su/customer-managerment'><span className="fa fa-users mr-3"></span> Customers</Link>
         </li>
         <li>
+          <Link to='/admin-su/product-managerment'><span className="fa fa-archive mr-3"></span> Products</Link>
+        </li>
+        <li>
           <Link to='/admin-su/order-managerment'><span className="fa fa-clipboard mr-3"></span> Orders</Link>
         </li>
         <li>

@@ -21,7 +21,7 @@ class ProductController extends Controller
 
     public function __construct(UrlGenerator $urlGenerator)
     {
-        $this->middleware('jwt.auth', ['only' => ['createData', 'editData', 'deleteData']]);
+        $this->middleware('jwt.auth', ['only' => ['createData', 'editData', 'deleteData', 'searchDataAdmin']]);
         $this->product = new Product;
         // $this->base_url = $urlGenerator->to('/');
         // $this->file_directory = url('/').'/assets/product_images/';
@@ -180,6 +180,27 @@ class ProductController extends Controller
             $search = $request->search;
             return $query->where('name', 'LIKE', "%$search%")
             ->orWhere('origin', 'LIKE', "%$search%");
+        })
+        ->orderBy('name', 'ASC');
+        if($request->pageSize){
+            $result = $sql->paginate($request->pageSize);
+        }else{
+            $result = $sql->get();
+        }
+        return response()->json(['success' => true, 'data' => $result], 200);
+    }
+
+    public function searchDataAdmin(Request $request)
+    {
+        $sql = Product::query()->with('image:src,imageable_id')
+        ->select('products.id', 'products.name', 'products.slug', 'products.price', 'products.description', 'products.origin',
+        'products.category_id', 'c.name AS category_name')
+        ->join('categories AS c', 'c.id', '=', 'products.category_id')
+        ->when($request->search, function($query) use ($request){
+            $search = $request->search;
+            return $query->where('name', 'LIKE', "%$search%")
+            ->orWhere('origin', 'LIKE', "%$search%")
+            ->orWhere('catename', 'LIKE', "%$search%");
         })
         ->orderBy('name', 'ASC');
         if($request->pageSize){
