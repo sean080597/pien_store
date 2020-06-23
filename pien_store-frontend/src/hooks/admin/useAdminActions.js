@@ -1,29 +1,44 @@
 import { useEffect, useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import CommonService from '../../services/CommonService.service'
 import CommonConstants from '../../config/CommonConstants'
 import ConnectionService from '../../services/ConnectionService.service';
-import iziToast from 'izitoast';
-// import { useDispatch } from 'react-redux'
+import AdminService from '../../services/AdminService.service';
 
 const apiUrl = CommonConstants.API_URL;
 
 export default function useAdminActions(initial, formFields, modalRef, curType) {
-    // const dispatch = useDispatch()
+    const dispatch = useDispatch()
     const [userInputs, setUserInputs] = useState(initial)
+    const [errors, setErrors] = useState({})
     const [modalTitle, setModalTitle] = useState(false)
     const [isEditing, setIsEditing] = useState(false)
     const [isDeleting, setIsDeleting] = useState(false)
     const [isSubmitDisabled, setIsSubmitDisabled] = useState(false)
     const [itemId, setItemId] = useState()
-    //handle input
+
+    const {lsObjsManagerment} = useSelector(state => ({
+        lsObjsManagerment: state.admin.lsObjsManagerment
+    }))
+
+    // handle events
     const handleChange = (evt) => {
-        const {name, value} = evt.target
-        setUserInputs({...userInputs, [name]: value})
+        const {name, value, validity, type, maxLength} = evt.target
+        const isValidInputVal = (type === 'number' && validity.valid) || type !== 'number'
+        const isValidInputLength = (maxLength > 0 && value.length <= maxLength) || maxLength === -1 || maxLength === undefined
+        if(isValidInputVal && isValidInputLength){
+            setUserInputs({...userInputs, [name]: value})
+        }
     }
+    const handleBlur = () => {
+        const validationErrors = AdminService.validateUserInputs(userInputs)
+        setErrors(validationErrors)
+    }
+
     // handle open modal
     const handleOpenCreate = () => {
         Object.keys(userInputs).map((key, index) => userInputs[key] = '')
-        setUserInputs({...userInputs, isDeleting: false, isEditing: false, gender: 'M', role_id: 'adm'})
+        setUserInputs({...userInputs, gender: 'M', role_id: 'adm'})
         applyModalProperties(`Create ${curType}`, false, false)
         modalRef.current.openModal()
     }
@@ -33,12 +48,13 @@ export default function useAdminActions(initial, formFields, modalRef, curType) 
         formFields.forEach((key, i) => {
             editData[key] = inputInfo[key]
         })
+        if(curType === 'user') editData['password'] = ''
         setUserInputs(editData)
         applyModalProperties(`Edit ${curType}`, true, false)
         modalRef.current.openModal()
     }
     const handleOpenDelete = (inputUserId) => {
-        setUserInputs({...userInputs, userId: inputUserId})
+        setItemId(inputUserId)
         applyModalProperties(`Delete ${curType}`, false, true)
         modalRef.current.openModal()
     }
@@ -52,14 +68,16 @@ export default function useAdminActions(initial, formFields, modalRef, curType) 
         })
         ConnectionService.axiosPostByUrlWithToken(apiQuery, sendData)
         .then(res => {
-            if(res.message.email) setUserInputs({...userInputs, emailError: res.message.email[0]})
-            else setUserInputs({...userInputs, emailError: ''})
-            showMessage(res.success, 'user', 'Created', false, null)
-            modalRef.current.closeModal()
+            if(!res.success && res.message.email) setErrors({...errors, email: res.message.email[0]})
+            else setErrors({...errors, email: ''})
+            AdminService.showMessage(res.success, 'user', 'Created', false, null)
+            if(res.success){
+                modalRef.current.closeModal()
+            }
             CommonService.turnOffLoader()
         })
         .catch(res => {
-            showMessage(res.success, 'user', 'Created', false, null)
+            AdminService.showMessage(res.success, 'user', 'Created', false, null)
             CommonService.turnOffLoader()
         })
     }
@@ -70,20 +88,46 @@ export default function useAdminActions(initial, formFields, modalRef, curType) 
         formFields.forEach(key => {
             sendData[key] = userInputs[key]
         })
-        ConnectionService.axiosPostByUrlWithToken(apiQuery, sendData)
+        console.log('before edit ==> ', JSON.stringify(lsObjsManagerment))
+        ConnectionService.axiosPutByUrlWithToken(apiQuery, sendData)
         .then(res => {
-            showMessage(res.success, 'user', 'Edited', false, null)
-            modalRef.current.closeModal()
+            setErrors({...errors, email: (!res.success && res.message.email) ? res.message.email[0] : ''})
+            AdminService.showMessage(res.success, 'user', 'Edited', false, null)
+            if(res.success){
+                modalRef.current.closeModal()
+            }
             CommonService.turnOffLoader()
         })
         .catch(res => {
-            showMessage(res.success, 'user', 'Edited', false, null)
+            AdminService.showMessage(res.success, 'user', 'Edited', false, null)
             CommonService.turnOffLoader()
         })
     }
     const handleSubmitDelete = async (evt) => {
         evt.preventDefault()
-        console.log('delete user input ==> ', userInputs)
+        const apiQuery = `${apiUrl}/admin-${curType}/deleteData/${itemId}`
+        ConnectionService.axiosDeleteByUrlWithToken(apiQuery)
+        .then(res => {
+            if(res.success){
+                const newLsData = lsObjsManagerment.filter(item => item.id !== itemId)
+                dispatch({type: 'SET_LIST_OBJECTS_MANAGERMENT', payload: newLsData})
+                modalRef.current.closeModal()
+            }
+            AdminService.showMessage(res.success, 'user', 'Deleted', false, null)
+            CommonService.turnOffLoader()
+        })
+        .catch(res => {
+            AdminService.showMessage(res.success, 'user', 'Edited', false, null)
+            CommonService.turnOffLoader()
+        })
+    }
+    const handleRefresh = () => {
+        AdminService.applyGetLsObjsManagerment(curType)
+        .then(async res => {
+            await dispatch({type: 'SET_LIST_OBJECTS_MANAGERMENT', payload: res.data.data})
+            CommonService.turnOffLoader()
+        })
+        .catch(() => AdminService.showMessage(false, curType, 'Get', false, null))
     }
 
     // apply
@@ -92,41 +136,24 @@ export default function useAdminActions(initial, formFields, modalRef, curType) 
         setIsEditing(isEditing)
         setIsDeleting(isDeleting)
     }
-    const showMessage = (isSuccess, type, action, isShowMsg, msg = null) => {
-        if(isSuccess){
-            iziToast.success({
-                title: 'Success',
-                message: `${action} ${type} successfully`,
-                position: 'topCenter'
-            })
+
+    const checkIsSubmitDisabled = (inputVals, type) => {
+        let isValid = ''
+        switch (type) {
+            case 'user':
+                isValid = !(inputVals.firstname && inputVals.lastname && inputVals.address && inputVals.phone && inputVals.email && inputVals.password)
+                break;
+            default:
+                break;
         }
-        if(!isSuccess){
-            if(isShowMsg){
-                iziToast.error({
-                    title: 'Failed',
-                    message: msg,
-                    position: 'topCenter'
-                })
-            }else{
-                iziToast.error({
-                    title: 'Failed',
-                    message: 'There was an error!',
-                    position: 'topCenter'
-                })
-            }
-        }
-    }
-    const checkIsSubmitDisabled = (inputVals) => {
-        let isValid = !(inputVals.firstname && inputVals.lastname && inputVals.address && inputVals.phone && inputVals.email && inputVals.password)
         setIsSubmitDisabled(isValid)
     }
 
     useEffect(() => {
-        checkIsSubmitDisabled(userInputs)
-        return () => {
-            
-        }
+        checkIsSubmitDisabled(userInputs, curType)
+        return () => {}
     }, [userInputs])
-    return {userInputs, modalTitle, isEditing, isDeleting, isSubmitDisabled,
-        handleChange, handleOpenCreate, handleOpenEdit, handleOpenDelete, handleSubmitCreate, handleSubmitEdit, handleSubmitDelete}
+
+    return {userInputs, errors, modalTitle, isEditing, isDeleting, isSubmitDisabled, handleChange, handleBlur,
+        handleOpenCreate, handleOpenEdit, handleOpenDelete, handleSubmitCreate, handleSubmitEdit, handleSubmitDelete, handleRefresh}
 }

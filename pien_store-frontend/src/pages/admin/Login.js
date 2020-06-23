@@ -1,11 +1,11 @@
 import React from 'react'
 import CommonConstants from '../../config/CommonConstants'
-import {useInitializePageAdmin, useFormLogin, validationAuth} from '../../hooks/HookManager'
+import {useInitializePageAdmin, useFormLogin, validationInputs} from '../../hooks/HookManager'
 
 export default function Login (props){
-    useInitializePageAdmin('login')
+    useInitializePageAdmin()
     const INITIAL_STATE = {email: "", password: ""}
-    const {userInputs, handleChange, handleSubmitLogin, handleBlur, errors} = useFormLogin(INITIAL_STATE, validationAuth)
+    const {userInputs, handleChange, handleSubmitLogin, handleBlur, errors} = useFormLogin(INITIAL_STATE, validationInputs)
 
     //methods
 

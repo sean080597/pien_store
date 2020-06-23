@@ -35,7 +35,8 @@ const initialStates = {
         continuousPos: 0
     },
     admin: {
-        lsObjsManagerment: []
+        lsObjsManagerment: [],
+        lsRoles: []
     }
 }
 

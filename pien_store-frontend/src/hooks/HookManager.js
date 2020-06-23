@@ -14,13 +14,12 @@ import useOurStory from './client/useOurStory'
 // admin
 import useInitializePageAdmin from './admin/useInitializePageAdmin'
 import useFormLogin from './admin/use-form-login/useFormLogin'
-import validationAuth from './admin/use-form-login/validationAuth'
+import validationInputs from './admin/use-form-login/validationInputs'
 import useAdminActions from './admin/useAdminActions'
 
 // common
 import useNotFoundPage from './common/useNotFoundPage'
 import useScreenWidth from './common/useScreenWidth'
-import useCustomInput from './common/useCustomInput'
 
 export {
     // client
@@ -39,11 +38,10 @@ export {
     // admin
     useInitializePageAdmin,
     useFormLogin,
-    validationAuth,
+    validationInputs,
     useAdminActions,
 
     // common
     useScreenWidth,
-    useNotFoundPage,
-    useCustomInput
+    useNotFoundPage
 }

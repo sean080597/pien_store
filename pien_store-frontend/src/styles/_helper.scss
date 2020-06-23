@@ -1203,8 +1203,8 @@ a, .btn {
   flex: 1;
 }
 
-.form-group-input div{
-  &.custom-input{
+.form-group-input{
+  input, button, select{
     flex: 1;
     margin: 0 10px;
     &:first-child{
@@ -1214,7 +1214,7 @@ a, .btn {
       margin-right: 0;
     }
   }
-  &[class|="col"]{
+  [class|="col"]{
     padding: 0 10px;
     &:first-child{
       padding: 0 10px 0 0;
