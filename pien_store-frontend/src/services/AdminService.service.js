@@ -28,9 +28,9 @@ const validateUserInputs = (values) => {
 }
 
 // apply
-function applyGetLsObjsManagerment(type) {
+function applyGetLsObjsManagerment(type, pageIndex = null) {
   if(lsPagesManagerment.indexOf(type) !== -1){
-    const apiQuery = `${apiUrl}/${type}/searchData`
+    const apiQuery = `${apiUrl}/${type}/searchData${pageIndex ? '?page=' + pageIndex : ''}`
     return ConnectionService.axiosPostByUrlWithToken(apiQuery, {pageSize: 15})
     .then(res => {
         if(type === 'user'){
@@ -38,7 +38,11 @@ function applyGetLsObjsManagerment(type) {
                 item.genderName = item.gender === 'M' ? 'Male' : 'Female'
             })
         }
-        return res
+        let result = {'lsObjs': [], 'pagination': {}}
+        result.lsObjs = res.data.data
+        delete res.data.data
+        result.pagination = res.data
+        return result
     })
     .catch(res => res)
   }

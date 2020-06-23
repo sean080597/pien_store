@@ -16,6 +16,15 @@ class Customer extends Model
 
     protected $guarded = [];
 
+    public static function boot() {
+        parent::boot();
+        static::deleting(function($cus) {
+            $cus->image()->delete();
+            $cus->user_infoable()->delete();
+            $cus->addressInfo()->delete();
+        });
+    }
+
     public function image(){
         return $this->morphOne(Image::class, 'imageable');
     }

@@ -75,7 +75,7 @@ export default function Shop(props) {
                             )
                         }
                     </div>
-                    <PagePagination isShow="true" handlePaginate={handlePaginate} statePagination={0}/>
+                    <PagePagination isShow="true" handlePaginate={handlePaginate}/>
                 </div>
             </section>
         </div>
