@@ -22,9 +22,6 @@ Route::group(['prefix' => 'user'], function(){
     Route::post('refresh', 'AuthController@refresh');
     Route::post('me', 'AuthController@me');
     Route::post('authGoogleLogin', 'AuthController@authGoogleLogin');
-    // search & paginate users
-    Route::get('getSingleData/{id}', 'UserController@getSingleData');
-    Route::post('searchData', 'UserController@searchData');
 });
 
 Route::group(['prefix' => 'product'], function () {
@@ -65,6 +62,9 @@ Route::group(['prefix' => 'admin-user'], function () {
     Route::post('createData', 'UserController@createData');
     Route::put('editData/{id}', 'UserController@editData');
     Route::delete('deleteData/{id}', 'UserController@deleteData');
+    // search & paginate users
+    Route::get('getSingleData/{id}', 'UserController@getSingleData');
+    Route::post('searchData', 'UserController@searchData');
 });
 
 Route::group(['prefix' => 'admin-category'], function () {
@@ -77,6 +77,7 @@ Route::group(['prefix' => 'admin-product'], function () {
     Route::post('createData', 'ProductController@createData');
     Route::put('editData/{id}', 'ProductController@editData');
     Route::delete('deleteData/{id}', 'ProductController@deleteData');
+    Route::post('searchData', 'ProductController@searchDataAdmin');
 });
 
 Route::group(['prefix' => 'admin-order'], function () {

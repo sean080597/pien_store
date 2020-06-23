@@ -20,6 +20,7 @@ class CreateUserInfosTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
+            $table->boolean('is_enabled')->default(1);
             $table->string('user_infoable_id', 30);
             $table->string('user_infoable_type', 30);
             $table->rememberToken();

@@ -21,7 +21,7 @@ class UserController extends Controller
 
     public function __construct()
     {
-        $this->middleware('jwt.auth', ['only' => ['createData', 'editData', 'deleteData']]);
+        $this->middleware('jwt.auth');
         $this->user = new User;
         $this->file_directory = public_path('/assets/images/profiles/');
         $this->default_page_size = 16;
