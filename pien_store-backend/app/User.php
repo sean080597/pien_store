@@ -27,7 +27,7 @@ class User extends Model
         static::deleting(function($user) {
             $user->image()->delete();
             $user->user_infoable()->delete();
-            $user->addressable()->delete();
+            $user->addressInfo()->delete();
             // $post->comments->each(function($comment) {
             //     $comment->delete();
             // });

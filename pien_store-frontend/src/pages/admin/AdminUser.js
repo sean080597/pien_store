@@ -1,7 +1,7 @@
 import React, {useRef, useMemo } from 'react'
 import { useSelector } from 'react-redux'
 import { useInitializePageAdmin, useAdminActions } from '../../hooks/HookManager'
-import { ReactTable, Modal } from '../../components/ComponentsManager'
+import { ReactTable, Modal, PagePagination } from '../../components/ComponentsManager'
 
 export default function AdminUser(props) {
   // modal ref
@@ -12,7 +12,7 @@ export default function AdminUser(props) {
   useInitializePageAdmin('user')
   const INITIAL = {firstname: '', lastname: '', gender: 'M', phone: '', address: '', email: '', role_id: 'adm', password: ''}
   const formFields = ['firstname', 'lastname', 'gender', 'phone', 'address', 'email', 'role_id', 'password']
-  const {userInputs, errors, handleChange, handleBlur, modalTitle, isEditing, isDeleting, isSubmitDisabled,
+  const {userInputs, errors, handleChange, handleBlur, handlePaginate, modalTitle, isEditing, isDeleting, isSubmitDisabled,
     handleOpenCreate, handleOpenEdit, handleOpenDelete, handleSubmitCreate, handleSubmitEdit, handleSubmitDelete, handleRefresh} = useAdminActions(INITIAL, formFields, modalRef, 'user')
   // data
   const {lsUsers, lsRoles} = useSelector(state => ({
@@ -46,6 +46,7 @@ export default function AdminUser(props) {
               handleEdit={handleOpenEdit} handleDel={handleOpenDelete}
             ></ReactTable>
           }
+          <PagePagination isShow="true" handlePaginate={handlePaginate}/>
         </div>
       </div>
       <Modal ref={modalRef} modalWidth="50%">

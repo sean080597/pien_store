@@ -122,12 +122,10 @@ export default function useAdminActions(initial, formFields, modalRef, curType) 
         })
     }
     const handleRefresh = () => {
-        AdminService.applyGetLsObjsManagerment(curType)
-        .then(async res => {
-            await dispatch({type: 'SET_LIST_OBJECTS_MANAGERMENT', payload: res.data.data})
-            CommonService.turnOffLoader()
-        })
-        .catch(() => AdminService.showMessage(false, curType, 'Get', false, null))
+        applyGetLsObjs(curType)
+    }
+    const handlePaginate = (pageIndex) => {
+        applyGetLsObjs(curType, pageIndex)
     }
 
     // apply
@@ -135,6 +133,16 @@ export default function useAdminActions(initial, formFields, modalRef, curType) 
         setModalTitle(title)
         setIsEditing(isEditing)
         setIsDeleting(isDeleting)
+    }
+
+    const applyGetLsObjs = (curType, pageIndex = null) => {
+        AdminService.applyGetLsObjsManagerment(curType, pageIndex)
+        .then(res => {
+            dispatch({type: 'SET_LIST_OBJECTS_MANAGERMENT', payload: res.lsObjs})
+            dispatch({type: 'SET_PAGINATION', payload: res.pagination})
+            CommonService.turnOffLoader()
+        })
+        .catch(() => AdminService.showMessage(false, curType, 'Get', false, null))
     }
 
     const checkIsSubmitDisabled = (inputVals, type) => {
@@ -154,6 +162,6 @@ export default function useAdminActions(initial, formFields, modalRef, curType) 
         return () => {}
     }, [userInputs])
 
-    return {userInputs, errors, modalTitle, isEditing, isDeleting, isSubmitDisabled, handleChange, handleBlur,
+    return {userInputs, errors, modalTitle, isEditing, isDeleting, isSubmitDisabled, handleChange, handleBlur, handlePaginate,
         handleOpenCreate, handleOpenEdit, handleOpenDelete, handleSubmitCreate, handleSubmitEdit, handleSubmitDelete, handleRefresh}
 }

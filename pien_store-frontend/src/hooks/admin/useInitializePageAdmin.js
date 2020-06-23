@@ -16,8 +16,9 @@ export default function useInitializePageAdmin(curType) {
 
     const getLsObjsManagerment = () => {
         AdminService.applyGetLsObjsManagerment(curType)
-        .then(async res => {
-            await dispatch({type: 'SET_LIST_OBJECTS_MANAGERMENT', payload: res.data.data})
+        .then(res => {
+            dispatch({type: 'SET_LIST_OBJECTS_MANAGERMENT', payload: res.lsObjs})
+            dispatch({type: 'SET_PAGINATION', payload: res.pagination})
             CommonService.turnOffLoader()
         })
         .catch(() => AdminService.showMessage(false, curType, 'Get', false, null))

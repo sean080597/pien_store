@@ -7,6 +7,7 @@ use App\UserInfo;
 use Illuminate\Http\Request;
 use App\Traits\CommonService;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 use Validator;
 use Config;
 use DB;
@@ -99,16 +100,16 @@ class UserController extends Controller
         // validate
         $validator = Validator::make($request->all(),
         [
-            'firstname' => 'string',
-            'lastname' => 'string',
-            'phone' => 'string|max:10',
-            'email' => 'email|unique:user_infos',
+            'firstname' => 'required|string',
+            'lastname' => 'required|string',
+            'phone' => 'required|string',
+            'email' => ['required', 'email', Rule::unique('user_infos', 'user_infoable_id')->ignore($findData->id)],
             'password' => 'string|min:6',
-            'role_id' => 'string',
+            'role_id' => 'required|string',
         ]);
 
         if($validator->fails()){
-            return response()->json(['success'=>false, 'message'=>$validator->messages()->toArray()], 400);
+            return response()->json(['success'=>false, 'message'=>$validator->messages()->toArray()], 200);
         }
 
         // save record
