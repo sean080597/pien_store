@@ -53,7 +53,17 @@ function applyGetAllRoles() {
   return ConnectionService.axiosGetByUrlWithToken(apiQuery).then(res => res).catch(res => res)
 }
 
-const showMessage = (isSuccess, type, action, isShowMsg, msg = null) => {
+function applyGetAllCategories() {
+  const apiQuery = `${apiUrl}/category/searchData`
+  return ConnectionService.axiosPostByUrl(apiQuery).then(res => res).catch(res => res)
+}
+
+function applyUserLogout() {
+  const apiQuery = `${apiUrl}/user/logout`
+  return ConnectionService.axiosPostByUrlWithToken(apiQuery).then(res => res).catch(res => res)
+}
+
+const showMessage = (isSuccess, type, action, isPassedMsg, msg = null) => {
   if(isSuccess){
       iziToast.success({
           title: 'Success',
@@ -62,7 +72,7 @@ const showMessage = (isSuccess, type, action, isShowMsg, msg = null) => {
       })
   }
   if(!isSuccess){
-      if(isShowMsg){
+      if(isPassedMsg){
           iziToast.error({
               title: 'Failed',
               message: msg,
@@ -84,6 +94,8 @@ const AdminService = {
   validateUserInputs: validateUserInputs,
   applyGetLsObjsManagerment: applyGetLsObjsManagerment,
   applyGetAllRoles: applyGetAllRoles,
+  applyGetAllCategories: applyGetAllCategories,
+  applyUserLogout: applyUserLogout,
   showMessage: showMessage
 }
 export default AdminService

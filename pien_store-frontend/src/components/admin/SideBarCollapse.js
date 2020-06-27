@@ -1,14 +1,29 @@
 import React from 'react'
 import CommonConstants from '../../config/CommonConstants'
 import CommonService from '../../services/CommonService.service'
+import AdminService from '../../services/AdminService.service'
 import {LazyLoadingImage} from '../ComponentsManager'
 import {Link} from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import Cookie from 'js-cookie'
 
 export default function SideBarCollapse(props) {
+  const dispatch = useDispatch()
   const {userName} = useSelector(state => ({
     userName: state.auth.user.fullname
   }))
+  const handleLogout = () => {
+    AdminService.applyUserLogout()
+    .then(res => {
+      if(res.success){
+        dispatch({type: 'LOGOUT_USER'})
+        dispatch({type: 'SET_USER_PROFILE', payload: {}})
+        Cookie.remove('access_token')
+        CommonService.turnOffLoader()
+      }
+    })
+    .catch(() => AdminService.showMessage(false, 'User', 'Logout', false, null))
+  }
   return (
     <nav id="sidebar">
       <div className="img--cover-bg bg-wrap text-center py-4" style={{backgroundImage: `url(${CommonConstants.IMAGES_DIR + CommonConstants.AVATAR_BG_ADMIN})`}}>
@@ -38,6 +53,9 @@ export default function SideBarCollapse(props) {
         </li>
         <li>
           <Link to='/admin-su/config-managerment'><span className="fa fa-cogs mr-3"></span> Configuration</Link>
+        </li>
+        <li>
+          <a href="#" onClick={handleLogout}><span className="fa fa-sign-out mr-3"></span> Logout</a>
         </li>
       </ul>
     </nav>

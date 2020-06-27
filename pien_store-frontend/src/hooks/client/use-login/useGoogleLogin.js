@@ -45,7 +45,7 @@ export default function useGoogleLogin(){
         ConnectionService.axiosPostByUrlWithToken(apiQuery)
         .then(res => {
             if(res.success){
-                dispatch({type: 'LOGOUT_GOOGLE'})
+                dispatch({type: 'LOGOUT_USER'})
                 //reset CartItems redux state
                 dispatch({type: 'SET_CART_ITEMS', payload: []})
                 dispatch({type: 'SET_CART_COUNT', payload: 0})

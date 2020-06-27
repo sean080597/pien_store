@@ -33,6 +33,15 @@ export default function useInitializePageAdmin(curType) {
         .catch(() => AdminService.showMessage(false, curType, 'Get', false, null))
     }
 
+    const getGetAllCategories = async () => {
+        AdminService.applyGetAllCategories()
+        .then(async res => {
+            await dispatch({type: 'SET_LIST_CATEGORIES', payload: res.data})
+            CommonService.turnOffLoader()
+        })
+        .catch(() => AdminService.showMessage(false, curType, 'Get', false, null))
+    }
+
     useEffect(() => {
         dispatch({type: 'SET_CURRENT_PATH', payload: window.location.pathname})
         dispatch({type: 'SET_FALSE_IS_FIRST_LOADED'})
@@ -41,6 +50,9 @@ export default function useInitializePageAdmin(curType) {
         }
         if(curPath.indexOf('user') !== -1){
             getGetAllRoles()
+        }
+        if(curPath.indexOf('product') !== -1){
+            getGetAllCategories()
         }
         return () => {
             if(AdminService.lsPagesManagerment.indexOf(curType) === -1) CommonService.turnOffLoader()
