@@ -37,8 +37,8 @@ export default function useAdminActions(initial, formFields, modalRef, curType) 
 
     // handle open modal
     const handleOpenCreate = () => {
-        Object.keys(userInputs).map((key, index) => userInputs[key] = '')
-        setUserInputs({...userInputs, gender: 'M', role_id: 'adm'})
+        Object.keys(userInputs).map(key => userInputs[key] = '')
+        applySetDefaultUserInputs(curType)
         applyModalProperties(`Create ${curType}`, false, false)
         modalRef.current.openModal()
     }
@@ -135,6 +135,19 @@ export default function useAdminActions(initial, formFields, modalRef, curType) 
         setIsDeleting(isDeleting)
     }
 
+    const applySetDefaultUserInputs = (type) => {
+        switch (type) {
+            case 'user':
+                setUserInputs({...userInputs, gender: CommonConstants.DEFAULT_GENDER, role_id: CommonConstants.DEFAULT_ROLE})
+                break;
+            case 'product':
+                setUserInputs({...userInputs, category_id: CommonConstants.DEFAULT_CATEID})
+                break;
+            default:
+                break;
+        }
+    }
+
     const applyGetLsObjs = (curType, pageIndex = null) => {
         AdminService.applyGetLsObjsManagerment(curType, pageIndex)
         .then(res => {
@@ -150,6 +163,9 @@ export default function useAdminActions(initial, formFields, modalRef, curType) 
         switch (type) {
             case 'user':
                 isValid = !(inputVals.firstname && inputVals.lastname && inputVals.address && inputVals.phone && inputVals.email && inputVals.password)
+                break;
+            case 'user':
+                isValid = !(inputVals.name && inputVals.price && inputVals.origin)
                 break;
             default:
                 break;

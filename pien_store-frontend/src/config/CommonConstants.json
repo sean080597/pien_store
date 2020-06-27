@@ -64,5 +64,8 @@
         "YOUR_ORDERS": {
             "NO_ORDERS": "You don't have any orders"
         }
-    }
+    },
+    "DEFAULT_GENDER": "M",
+    "DEFAULT_ROLE": "adm",
+    "DEFAULT_CATEID": "CATE_01"
 }
