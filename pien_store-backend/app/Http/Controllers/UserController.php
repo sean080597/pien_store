@@ -28,7 +28,15 @@ class UserController extends Controller
     }
 
     public function getSingleData($id){
-        $findData = $this->user->with('user_infoable', 'addressInfo')->find($id);
+        $findData = User::query()->with('image:src,imageable_id')
+        ->select('users.id', 'ui.gender', 'ui.birthday', 'ui.email',
+        'addr.firstname', 'addr.midname', 'addr.lastname', 'addr.phone', 'addr.address', 'r.id AS role_id', 'r.name AS rolename')
+        ->join('user_infos AS ui', 'ui.user_infoable_id', '=', 'users.id')
+        ->join('address_infos AS addr', 'addr.addressable_id', '=', 'users.id')
+        ->join('roles AS r', 'r.id', '=', 'users.role_id')
+        ->where('users.id', '=', $id)
+        ->first();
+
         if (!$findData) {
             return response()->json(['success' => false, 'message' => Config::get('constants.MSG.ERROR.NOT_FOUND')], 500);
         }
@@ -104,7 +112,7 @@ class UserController extends Controller
             'lastname' => 'required|string',
             'phone' => 'required|string',
             'email' => ['required', 'email', Rule::unique('user_infos', 'user_infoable_id')->ignore($findData->id)],
-            'password' => 'string|min:6',
+            'password' => 'nullable|string|min:6',
             'role_id' => 'required|string',
         ]);
 
@@ -135,15 +143,16 @@ class UserController extends Controller
             // update userInfo
             $newDataUser = $request->only(['gender', 'birthday', 'email']);
             $newDataUser['password'] = Hash::make($request->password);
-            $updatedUser = $findData->user_infoable()->update($newDataUser);
+            $isUpdatedUser = $findData->user_infoable()->update($newDataUser);
             // update address
             $newDataAddress = $request->only(['firstname', 'midname', 'lastname', 'phone', 'address']);
-            $updatedAddress = $findData->addressInfo()->update($newDataAddress);
-            if($updatedUser && $updatedAddress){
+            $isUpdatedAddress = $findData->addressInfo()->update($newDataAddress);
+            if($isUpdatedUser && $isUpdatedAddress){
+                $updatedData = $this->getSingleData($id);
                 return response()->json([
                     'success' => true,
                     'message' => Config::get('constants.MSG.SUCCESS.USERINFO_UPDATED'),
-                    'data' => $findData->load('image', 'user_infoable', 'addressInfo')
+                    'data' => $updatedData->getData()->data
                 ], 200);
             }
         }

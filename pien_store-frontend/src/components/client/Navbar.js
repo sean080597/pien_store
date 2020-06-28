@@ -76,7 +76,13 @@ export default function Navbar(props) {
               <ul className="nav navbar-nav navbar-right">
                 <li><button onClick={test}>test</button></li>
                 <li><Link to='/ourStory'>Our story</Link></li>
-                <li><Link to='/gallery'>Gallery</Link></li>
+                <li class="dropdown">
+                  <a class="dropdown-toggle" href="#" data-toggle="dropdown">Gallery</a>
+                  <ul class="dropdown-menu">
+                    <li><Link to="/gallery-images">Images</Link></li>
+                    <li><Link to="/gallery-videos">Videos</Link></li>
+                  </ul>
+                </li>
                 <li><Link to='/shop'>Shop</Link></li>
                 <li><Link to='/cart'>Cart<span className="badge">{cartCount}</span></Link></li>
                 {!token && <li>

@@ -17,8 +17,9 @@ export default function useAdminActions(initial, formFields, modalRef, curType) 
     const [isSubmitDisabled, setIsSubmitDisabled] = useState(false)
     const [itemId, setItemId] = useState()
 
-    const {lsObjsManagerment} = useSelector(state => ({
-        lsObjsManagerment: state.admin.lsObjsManagerment
+    const {lsObjsManagerment, lsCategories} = useSelector(state => ({
+        lsObjsManagerment: state.admin.lsObjsManagerment,
+        lsCategories: state.admin.lsCategories
     }))
 
     // handle events
@@ -46,7 +47,14 @@ export default function useAdminActions(initial, formFields, modalRef, curType) 
         setItemId(inputInfo.id)
         let editData = {...userInputs}
         formFields.forEach((key, i) => {
-            editData[key] = inputInfo[key]
+            if(key === 'input_image' && inputInfo.image){
+                editData['origin_image'] = inputInfo.image.src
+                editData[key] = inputInfo.image.src
+            }else{
+                editData['origin_image'] = ''
+                editData[key] = inputInfo[key]
+            }
+
         })
         if(curType === 'user') editData['password'] = ''
         setUserInputs(editData)
@@ -86,14 +94,40 @@ export default function useAdminActions(initial, formFields, modalRef, curType) 
         const apiQuery = `${apiUrl}/admin-${curType}/editData/${itemId}`
         let sendData = {}
         formFields.forEach(key => {
-            sendData[key] = userInputs[key]
+            if(key === 'input_image' && !userInputs[key].includes('base64') && !userInputs[key].includes('http')){
+                sendData[key] = ''
+            }else{
+                sendData[key] = userInputs[key]
+            }
         })
-        console.log('before edit ==> ', JSON.stringify(lsObjsManagerment))
         ConnectionService.axiosPutByUrlWithToken(apiQuery, sendData)
         .then(res => {
             setErrors({...errors, email: (!res.success && res.message.email) ? res.message.email[0] : ''})
             AdminService.showMessage(res.success, 'user', 'Edited', false, null)
             if(res.success){
+                let newLsData = lsObjsManagerment.map(item => {
+                    if(item.id === res.data.id){
+                        formFields.forEach(key => {
+                            if(key === 'input_image' && res.data.image){
+                                if(item.image) item.image.src = res.data.image.src
+                                else item.image = res.data.image
+                            }else if(key === 'category_id'){
+                                item['category_name'] = lsCategories.filter(cate => cate.id === res.data.category_id)[0].name
+                            }else if(key === 'gender'){
+                                item['gender'] = res.data[key]
+                                item['genderName'] = res.data[key] === 'M' ? 'Male' : 'Female'
+                            }else if(key === 'role_id'){
+                                item[key] = res.data[key]
+                                item['rolename'] = res.data['rolename']
+                            }
+                            else{
+                                item[key] = res.data[key]
+                            }
+                        })
+                    }
+                    return item
+                })
+                dispatch({type: 'SET_LIST_OBJECTS_MANAGERMENT', payload: newLsData})
                 modalRef.current.closeModal()
             }
             CommonService.turnOffLoader()
@@ -109,7 +143,7 @@ export default function useAdminActions(initial, formFields, modalRef, curType) 
         ConnectionService.axiosDeleteByUrlWithToken(apiQuery)
         .then(res => {
             if(res.success){
-                const newLsData = lsObjsManagerment.filter(item => item.id !== itemId)
+                let newLsData = lsObjsManagerment.filter(item => item.id !== itemId)
                 dispatch({type: 'SET_LIST_OBJECTS_MANAGERMENT', payload: newLsData})
                 modalRef.current.closeModal()
             }
@@ -126,6 +160,18 @@ export default function useAdminActions(initial, formFields, modalRef, curType) 
     }
     const handlePaginate = (pageIndex) => {
         applyGetLsObjs(curType, pageIndex)
+    }
+    const handleSelectedFile = (evt) => {
+        const files = evt.target.files
+        if(CommonService.hasValueNotNull(files[0])){
+            const reader = new FileReader()
+            reader.readAsDataURL(files[0])
+            reader.onload = (evt) => {
+                setUserInputs({...userInputs, input_image: `${evt.target.result}`})
+            }
+        }else{
+            setUserInputs({...userInputs, input_image: userInputs.origin_image})
+        }
     }
 
     // apply
@@ -159,18 +205,20 @@ export default function useAdminActions(initial, formFields, modalRef, curType) 
     }
 
     const checkIsSubmitDisabled = (inputVals, type) => {
-        let isValid = ''
+        let isInvalid = ''
         switch (type) {
             case 'user':
-                isValid = !(inputVals.firstname && inputVals.lastname && inputVals.address && inputVals.phone && inputVals.email && inputVals.password)
+                const firstCondition = !(inputVals.firstname && inputVals.lastname && inputVals.address && inputVals.phone && inputVals.email)
+                const secondCondition = !isEditing && !inputVals.password
+                isInvalid = firstCondition || secondCondition
                 break;
-            case 'user':
-                isValid = !(inputVals.name && inputVals.price && inputVals.origin)
+            case 'product':
+                isInvalid = !(inputVals.name && inputVals.price && inputVals.origin)
                 break;
             default:
                 break;
         }
-        setIsSubmitDisabled(isValid)
+        setIsSubmitDisabled(isInvalid)
     }
 
     useEffect(() => {
@@ -179,5 +227,6 @@ export default function useAdminActions(initial, formFields, modalRef, curType) 
     }, [userInputs])
 
     return {userInputs, errors, modalTitle, isEditing, isDeleting, isSubmitDisabled, handleChange, handleBlur, handlePaginate,
-        handleOpenCreate, handleOpenEdit, handleOpenDelete, handleSubmitCreate, handleSubmitEdit, handleSubmitDelete, handleRefresh}
+        handleOpenCreate, handleOpenEdit, handleOpenDelete, handleSubmitCreate, handleSubmitEdit, handleSubmitDelete, handleRefresh,
+        handleSelectedFile}
 }

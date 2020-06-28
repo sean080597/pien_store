@@ -10,12 +10,15 @@ export default function AdminProduct(props) {
   const modalRef = useRef()
   const openModal = () => { modalRef.current.openModal() }
   const closeModal = () => { modalRef.current.closeModal() }
+  // file upload ref
+  const fileInput = useRef()
   // hooks
   useInitializePageAdmin('product')
-  const INITIAL = {name: '', price: '', description: '', origin: '', category_id: ''}
-  const formFields = ['name', 'price', 'description', 'origin', 'category_id']
+  const INITIAL = {name: '', price: '', description: '', origin: '', category_id: '', input_image: '', origin_image: ''}
+  const formFields = ['name', 'price', 'description', 'origin', 'category_id', 'input_image']
   const {userInputs, errors, handleChange, handleBlur, handlePaginate, modalTitle, isEditing, isDeleting, isSubmitDisabled,
-    handleOpenCreate, handleOpenEdit, handleOpenDelete, handleSubmitCreate, handleSubmitEdit, handleSubmitDelete, handleRefresh} = useAdminActions(INITIAL, formFields, modalRef, 'product')
+    handleOpenCreate, handleOpenEdit, handleOpenDelete, handleSubmitCreate, handleSubmitEdit, handleSubmitDelete, handleRefresh,
+    handleSelectedFile} = useAdminActions(INITIAL, formFields, modalRef, 'product')
   // data
   const {lsProducts, lsCategories} = useSelector(state => ({
     lsProducts: state.admin.lsObjsManagerment,
@@ -29,6 +32,7 @@ export default function AdminProduct(props) {
     {Header: 'Category', accessor: "category_name"},
     {Header: 'Action'},
   ], [])
+
 
   return (
     <section className="container-fluid">
@@ -58,28 +62,21 @@ export default function AdminProduct(props) {
             !isDeleting &&
             <form className="form" onSubmit={isEditing ? handleSubmitEdit : handleSubmitCreate}>
               <div className="row">
-                <div className="col-sm-4">
+                <div className="col-sm-6">
                   <div className="form-group">
                     <label htmlFor="firstname">Name</label>
-                    <input className="form-control" id="name" type="text" name="name" placeholder="Enter name" maxLength="32"
+                    <input className="form-control" id="name" type="text" name="name" placeholder="Enter name" maxLength="150"
                     onChange={handleChange} value={userInputs.name}/>
                   </div>
                 </div>
-                <div className="col-sm-4">
+                <div className="col-sm-6">
                   <div className="form-group">
                     <label htmlFor="phone">Price</label>
                     <input className="form-control" id="price" type="number" pattern="[0-9]*" name="price" placeholder="Enter price" maxLength="12"
                     onChange={handleChange} value={userInputs.price}/>
                   </div>
                 </div>
-                <div className="col-sm-4">
-                  <div className="form-group">
-                    <label htmlFor="phone">Origin</label>
-                    <input className="form-control" id="origin" type="text" name="origin" placeholder="Enter price" maxLength="32"
-                    onChange={handleChange} value={userInputs.origin}/>
-                  </div>
-                </div>
-                <div className="col-sm-4">
+                <div className="col-sm-6">
                   <div className="form-group">
                     <label htmlFor="category">Category</label>
                     <select className="form-control col-sm-3" id="category" name="category_id" onChange={handleChange} value={userInputs.category_id}>
@@ -92,6 +89,25 @@ export default function AdminProduct(props) {
                     </select>
                   </div>
                 </div>
+                <div className="col-sm-6">
+                  <div className="form-group">
+                    <label htmlFor="phone">Origin</label>
+                    <input className="form-control" id="origin" type="text" name="origin" placeholder="Enter origin" maxLength="50"
+                    onChange={handleChange} value={userInputs.origin}/>
+                  </div>
+                </div>
+                <div className="clearfix"></div>
+                <div className="col-sm-6 mb-4">
+                  <div className="upload-product-container">
+                    <label htmlFor="productImg">Product Image</label>
+                    <div className="upload-action">
+                      <img src={CommonService.generateImageSrc(true, 'products', null, userInputs.input_image)}/>
+                      <input id="productImg" type="file" onChange={handleSelectedFile} ref={fileInput}/>
+                      <button type="button" className="btn btn-neutral btn-round" onClick={() => fileInput.current.click()}>Choose Image</button>
+                    </div>
+                    <h6>Filename: {(fileInput.current && fileInput.current.files[0]) ? fileInput.current.files[0].name : 'No file chosen'}</h6>
+                  </div>
+                </div>
                 <div className="col-sm-12">
                   <div className="form-group">
                     <label htmlFor="description">Description</label>
@@ -100,7 +116,7 @@ export default function AdminProduct(props) {
                   </div>
                 </div>
               </div>
-              <hr className="divider-w mt-20"/>
+              <hr className="divider-w mt-10"/>
               <div className="row mt-20">
                 <div className="col-sm-3 col-sm-offset-3">
                   <button className="btn btn-b btn-round btn-fw" type="submit" disabled={isSubmitDisabled}>Submit</button>

@@ -12,3 +12,18 @@
     display: inline;
   }
 }
+.upload-product-container{
+  display: flex;
+  flex-direction: column;
+  .upload-action{
+    display: flex;
+    align-items: flex-end;
+  }
+  input{
+    display: none;
+  }
+  img{
+    width: 50px;
+    margin-right: 15px;
+  }
+}
