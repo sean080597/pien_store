@@ -11,7 +11,8 @@ import ProductDetail from '../pages/client/shop/ProductDetails'
 import Cart from '../pages/client/Cart'
 import Profile from '../pages/client/Profile'
 import CheckOut from '../pages/client/CheckOut'
-import OurGallery from '../pages/client/OurGallery'
+import GalleryImages from '../pages/client/GalleryImages'
+import GalleryVideos from '../pages/client/GalleryVideos'
 import YourOrders from '../pages/client/your-orders/YourOrders'
 import OrderDetails from '../pages/client/your-orders/OrderDetails'
 import NotFound from '../pages/NotFound'
@@ -39,7 +40,8 @@ const routes = () => (
       <Route path='/ourStory' component={OurStory} exact/>
       <Route path='/shop' component={Shop} exact/>
       <Route path='/cart' component={Cart} exact/>
-      <Route path='/gallery' component={OurGallery} exact/>
+      <Route path='/gallery-images' component={GalleryImages} exact/>
+      <Route path='/gallery-videos' component={GalleryVideos} exact/>
       <Route path='/productDetail/:prod_id' component={ProductDetail} exact/>
       <Route
         path='/customer'

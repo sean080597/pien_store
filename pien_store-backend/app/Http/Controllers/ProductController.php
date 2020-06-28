@@ -47,7 +47,6 @@ class ProductController extends Controller
             'id' => 'string|unique:products',
             'name' => 'required|string',
             'price' => 'required|string|min:4|max:12',
-            'description' => 'string',
             'origin' => 'string',
             'category_id' => 'required|string|max:10|exists:categories,id',
         ]);
@@ -96,7 +95,7 @@ class ProductController extends Controller
             'id' => 'string|unique:products',
             'name' => 'string',
             'price' => 'string|min:4|max:12',
-            'description' => 'string',
+            'description' => 'nullable|string',
             'origin' => 'string',
             'category_id' => 'required|string|max:10|exists:categories,id',
         ]);
@@ -110,7 +109,7 @@ class ProductController extends Controller
             // delete old image
             $input_image = $request->input_image;
             if($this->isSetNotEmpty($input_image)){
-                if($this->isSetNotEmpty($findData->image)) unlink($this->file_directory . $findData->image->src);
+                if($this->isSetNotEmpty($findData->image) && file_exists($this->file_directory.$findData->image->src)) unlink($this->file_directory.$findData->image->src);
                 // create new image
                 $file_name = '';
                 $isSaved = $this->saveImage($input_image, $this->file_directory);
@@ -128,7 +127,7 @@ class ProductController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => Config::get('constants.MSG.SUCCESS.PRODUCT_UPDATED'),
-                'data' => $findData
+                'data' => $this->product::find($id)
             ], 200);
         }
     }
