@@ -1,0 +1,59 @@
+{
+    "private": true,
+    "scripts": {
+        "dev": "npm run development",
+        "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "watch": "npm run development -- --watch",
+        "watch-poll": "npm run watch -- --watch-poll",
+        "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "prod": "npm run production",
+        "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+    },
+    "devDependencies": {
+        "@babel/plugin-proposal-class-properties": "^7.10.4",
+        "@babel/preset-react": "^7.0.0",
+        "cross-env": "^5.1",
+        "laravel-mix": "^4.0.7"
+    },
+    "dependencies": {
+        "apexcharts": "^3.19.2",
+        "axios": "^0.19.2",
+        "bootstrap": "^3.4.1",
+        "bounds.js": "^1.0.4",
+        "countup.js": "^2.0.5",
+        "glider-js": "^1.7.2",
+        "i": "^0.3.6",
+        "izitoast": "^1.4.0",
+        "jquery": "^3.4.1",
+        "js-cookie": "^2.2.1",
+        "lodash": "^4.17.15",
+        "moment": "^2.24.0",
+        "node-sass": "^4.13.1",
+        "npm": "^6.14.3",
+        "popper.js": "^1.16.1",
+        "react": "^16.13.0",
+        "react-apexcharts": "^1.3.7",
+        "react-dom": "^16.13.0",
+        "react-facebook-login": "^4.1.1",
+        "react-flex-slider": "^6.3.1",
+        "react-google-login": "^5.1.2",
+        "react-images": "^1.1.2",
+        "react-loader-spinner": "^3.1.14",
+        "react-magnific-popup": "^1.0.1",
+        "react-photo-gallery": "^8.0.0",
+        "react-promise-tracker": "^2.1.0",
+        "react-redux": "^7.2.0",
+        "react-router-dom": "^5.1.2",
+        "react-scripts": "3.4.0",
+        "react-table": "^7.1.0",
+        "react-text-rotator": "^0.1.1",
+        "redux": "^4.0.5",
+        "redux-thunk": "^2.3.0",
+        "resolve-url-loader": "^2.3.1",
+        "sass": "^1.26.9",
+        "sass-loader": "^7.3.1"
+    },
+    "scarfSettings": {
+        "enabled": false
+    }
+}

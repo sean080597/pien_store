@@ -1,0 +1,26 @@
+.login-admin{
+    &--section{
+        @extend .module-small;
+        background-image: url('/assets/images/common/login_bg2.jpg');
+        height: 100vh;
+        &::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            background: linear-gradient(red, yellow);
+            opacity: 0.3;
+        }
+    }
+    &--title{
+        color: white;
+    }
+    &--form{
+        border: 1px solid white;
+        border-radius: 4px;
+        padding: 0 30px;
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+}
