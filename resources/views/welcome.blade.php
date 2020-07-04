@@ -10,7 +10,6 @@
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <link rel="apple-touch-icon" href="{{ asset('logo192.png') }}" />
-        <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}" />
         <link rel="icon" href="{{ asset('favicon.ico') }}" />
         <link rel="manifest" href="{{ asset('manifest.json') }}" />
     </head>
@@ -18,7 +17,6 @@
         <noscript>You need to enable JavaScript to run this app.</noscript>
         <div id="root"></div>
         <div id='modal-root'></div>
-        {{-- <h1>blabvnlayh</h1> --}}
         <script type="text/javascript" src="js/index.js" defer></script>
     </body>
 </html>

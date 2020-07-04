@@ -9,8 +9,9 @@ import { useAdminActions } from '../../hooks/HookManager'
 
 export default function SideBarCollapse(props) {
   const dispatch = useDispatch()
-  const {userName} = useSelector(state => ({
-    userName: state.auth.user.fullname
+  const {userName, userRole} = useSelector(state => ({
+    userName: state.auth.user.fullname,
+    userRole: state.auth.user.role
   }))
   const {applyLogoutUser} = useAdminActions()
   return (
@@ -25,12 +26,20 @@ export default function SideBarCollapse(props) {
         <li className="active">
           <Link to='/admin-su'><span className="fa fa-home mr-3"></span> Home</Link>
         </li>
-        <li>
-          <Link to='/admin-su/user-managerment'><span className="fa fa-users mr-3 notif"><small className="flex-display align-items-center jus-center">5</small></span> Users</Link>
-        </li>
-        <li>
-          <Link to='/admin-su/customer-managerment'><span className="fa fa-users mr-3"></span> Customers</Link>
-        </li>
+        {
+          userRole === 'adm' &&
+          <>
+            <li>
+              <Link to='/admin-su/user-managerment'><span className="fa fa-users mr-3 notif"><small className="flex-display align-items-center jus-center">5</small></span> Users</Link>
+            </li>
+            <li>
+              <Link to='/admin-su/customer-managerment'><span className="fa fa-users mr-3"></span> Customers</Link>
+            </li>
+            <li>
+              <Link to='/admin-su/category-managerment'><span className="fa fa-th-large mr-3"></span> Categories</Link>
+            </li>
+          </>
+        }
         <li>
           <Link to='/admin-su/product-managerment'><span className="fa fa-archive mr-3"></span> Products</Link>
         </li>

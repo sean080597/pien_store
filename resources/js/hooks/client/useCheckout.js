@@ -24,8 +24,12 @@ export default function useCheckout(initial, modalRef) {
 
     //handle
     const handleChange = (evt) => {
-        const {name, value} = evt.target;
-        setUserInputs({...userInputs, [name]: value})
+        const {name, value, validity, type, maxLength} = evt.target
+        const isValidInputVal = (type === 'number' && validity.valid) || type !== 'number'
+        const isValidInputLength = (maxLength > 0 && value.length <= maxLength) || maxLength === -1 || maxLength === undefined
+        if(isValidInputVal && isValidInputLength){
+            setUserInputs({...userInputs, [name]: value})
+        }
     }
 
     const handleClearState = () => {

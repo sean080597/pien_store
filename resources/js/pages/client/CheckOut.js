@@ -192,10 +192,10 @@ export default function ConfirmInfo (props) {
                             { userInputs.isShowAddNewAddress &&
                             <>
                                 <td>
-                                    <div className="row form-group-input flex-display direction-row">
-                                        <input className="form-control mr-0" id="firstname" type="text" name="firstname" placeholder="Firstname"
+                                    <div className="flex-display direction-row">
+                                        <input className="form-control flex-1 mr-10" id="firstname" type="text" name="firstname" placeholder="Firstname"
                                             onChange={handleChange} value={userInputs.firstname}/>
-                                        <input className="form-control" id="lastname" type="text" name="lastname" placeholder="Lastname"
+                                        <input className="form-control flex-1" id="lastname" type="text" name="lastname" placeholder="Lastname"
                                             onChange={handleChange} value={userInputs.lastname}/>
                                     </div>
                                 </td>
@@ -204,7 +204,7 @@ export default function ConfirmInfo (props) {
                                         onChange={handleChange} value={userInputs.address}/>
                                 </td>
                                 <td>
-                                    <input className="form-control" id="phone" type="text" pattern="[0-9]*" name="phone" placeholder="Phone" maxLength="10"
+                                    <input className="form-control" id="phone" type="number" pattern="[0-9]*" name="phone" placeholder="Enter phone" maxLength="10"
                                         onChange={handleChange} value={userInputs.phone}/>
                                 </td>
                                 <td>

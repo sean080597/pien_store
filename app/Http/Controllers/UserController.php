@@ -183,6 +183,7 @@ class UserController extends Controller
         ->join('user_infos AS ui', 'ui.user_infoable_id', '=', 'users.id')
         ->join('address_infos AS addr', 'addr.addressable_id', '=', 'users.id')
         ->join('roles AS r', 'r.id', '=', 'users.role_id')
+        ->where('users.id', '<>', auth()->user()->user_infoable->id)
         ->when($request->search, function($query) use ($request){
             $search = $request->search;
             return $query->where('addr.firstname', 'LIKE', "%$search%")
