@@ -1203,28 +1203,6 @@ a, .btn {
   flex: 1;
 }
 
-.form-group-input{
-  input, button, select{
-    flex: 1;
-    margin: 0 10px;
-    &:first-child{
-      margin-left: 0;
-    }
-    &:last-child{
-      margin-right: 0;
-    }
-  }
-  [class|="col"]{
-    padding: 0 10px;
-    &:first-child{
-      padding: 0 10px 0 0;
-    }
-    &:last-child{
-      padding: 0 0 0 10px;
-    }
-  }
-}
-
 /*--------------------------------------------------------------
 	Typography
 --------------------------------------------------------------*/

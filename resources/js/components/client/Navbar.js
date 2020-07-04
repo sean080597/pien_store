@@ -31,7 +31,6 @@ export default function Navbar(props) {
         position: 'topCenter',
         timeout: 5000
       })
-      await applyGoogleLogout()
     } else {
       await applyGoogleLogin(res)
     }

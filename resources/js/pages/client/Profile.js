@@ -58,32 +58,42 @@ export default function Profile(props) {
                 <h4 className="font-alt mb-0">User Information</h4>
                 <hr className="divider-w mt-10 mb-20"/>
                 <form className="form" onSubmit={handleSubmitInfo}>
-                  <div className="form-group">
-                    <div className="row form-group-input flex-display">
+                  <div className="form-group row">
+                    <div className="col-sm-12 col-md-6">
                         <input className="form-control" id="firstname" type="text" name="firstname" placeholder="Enter first name"
                         onChange={handleChange} value={userInputs.firstname}/>
+                    </div>
+                    <div className="col-sm-12 col-md-6">
                         <input className="form-control" id="lastname" type="text" name="lastname" placeholder="Enter last name"
                         onChange={handleChange} value={userInputs.lastname}/>
                     </div>
                   </div>
-                  <div className="form-group">
-                    <div className="row form-group-input flex-display">
+                  <div className="form-group row">
+                    <div className="col-sm-12 col-md-6">
                         <select className="form-control" name="gender" onChange={handleChange} value={userInputs.gender}>
                             <option value='M' defaultValue>Male</option>
                             <option value='F' >Female</option>
                         </select>
+                    </div>
+                    <div className="col-sm-12 col-md-6">
                         <input className="form-control" id="phone" type="text" pattern="[0-9]*" name="phone" placeholder="Enter phone" maxLength="10"
                         onChange={handleChange} value={userInputs.phone}/>
                     </div>
                   </div>
-                  <div className="form-group flex-display">
-                    <input className="form-control" id="address" type="text" name="address" placeholder="Enter address"
-                    onChange={handleChange} value={userInputs.address}/>
+                  <div className="form-group row">
+                    <div className="col-sm-12">
+                        <input className="form-control" id="address" type="text" name="address" placeholder="Enter address"
+                        onChange={handleChange} value={userInputs.address}/>
+                    </div>
                   </div>
                   <hr className="divider-w mt-10 mb-20"/>
-                  <div className="form-group row form-group-input flex-display">
-                    <button className="btn btn-b btn-round m" type="submit" disabled={isSubmitDisabled}>Submit</button>
-                    <button className="btn btn-b btn-round m" type="button" onClick={closeModal}>Close</button>
+                  <div className="form-group row">
+                    <div className="col-sm-6 col-md-3 col-md-offset-3">
+                      <button className="btn btn-b btn-round m" type="submit" disabled={isSubmitDisabled}>Submit</button>
+                    </div>
+                    <div className="col-sm-6 col-md-3">
+                      <button className="btn btn-b btn-round m" type="button" onClick={closeModal}>Close</button>
+                    </div>
                   </div>
                 </form>
             </Modal>

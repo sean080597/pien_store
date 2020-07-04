@@ -71,6 +71,7 @@ Route::group(['prefix' => 'admin-category'], function () {
     Route::post('createData', 'CategoryController@createData');
     Route::put('editData/{id}', 'CategoryController@editData');
     Route::delete('deleteData/{id}', 'CategoryController@deleteData');
+    Route::post('searchData', 'CategoryController@searchData');
 });
 
 Route::group(['prefix' => 'admin-product'], function () {

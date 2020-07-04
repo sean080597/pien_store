@@ -11,7 +11,7 @@ const PrivateRoute = ({component: Component, ...rest}) => {
 
     const checkValidLogin = () => {
         if(rest.loginType === 'managerment'){
-            return (userRole === 'adm' && token) ? true : false
+            return ((userRole === 'adm' || userRole === 'mgr') && token) ? true : false
         }else{
             return userRole && token ? true : false
         }

@@ -40,7 +40,7 @@ class CategoryController extends Controller
         // validate
         $validator = Validator::make($request->all(),
         [
-            'id' => 'string|unique:categories',
+            'cateId' => 'string|unique:categories,id',
             'name' => 'required|string'
         ]);
 
@@ -49,7 +49,9 @@ class CategoryController extends Controller
         }
 
         // create new data
-        $createdCategory = $this->category::create($request->except('input_image'));
+        $newData['id'] = $request->cateId;
+        $newData['name'] = $request->name;
+        $createdCategory = $this->category::create($newData);
         if($createdCategory){
             //handle image
             $input_image = $request->input_image;

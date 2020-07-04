@@ -230,6 +230,9 @@ export default function useAdminActions(initial = null, formFields = null, modal
             case 'product':
                 isInvalid = !(inputVals.name && inputVals.price && inputVals.origin)
                 break;
+            case 'category':
+                isInvalid = !(inputVals.cateId && inputVals.name)
+                break;
             default:
                 break;
         }
