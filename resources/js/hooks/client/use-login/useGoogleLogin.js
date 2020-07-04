@@ -26,7 +26,8 @@ export default function useGoogleLogin(){
         const sendData = {
             'googleId': resGoogle.googleId,
             'email': resGoogle.profileObj.email,
-            'expiresIn':  resGoogle.tokenObj.expires_in
+            'expiresIn':  resGoogle.tokenObj.expires_in,
+            'input_image': resGoogle.profileObj.imageUrl
         }
         ConnectionService.axiosPostByUrl(apiQuery, sendData)
         .then(async resJWT => {

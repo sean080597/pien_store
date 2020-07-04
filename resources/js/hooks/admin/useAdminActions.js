@@ -42,6 +42,7 @@ export default function useAdminActions(initial = null, formFields = null, modal
         Object.keys(userInputs).map(key => userInputs[key] = '')
         applySetDefaultUserInputs(curType)
         applyModalProperties(`Create ${curType}`, false, false)
+        checkIsSubmitDisabled(userInputs, curType)
         modalRef.current.openModal()
     }
     const handleOpenEdit = (inputInfo) => {
@@ -52,7 +53,6 @@ export default function useAdminActions(initial = null, formFields = null, modal
                 editData['origin_image'] = inputInfo.image.src
                 editData[key] = inputInfo.image.src
             }else{
-                editData['origin_image'] = ''
                 editData[key] = inputInfo[key]
             }
 
@@ -226,6 +226,9 @@ export default function useAdminActions(initial = null, formFields = null, modal
                 const firstCondition = !(inputVals.firstname && inputVals.lastname && inputVals.address && inputVals.phone && inputVals.email)
                 const secondCondition = !isEditing && !inputVals.password
                 isInvalid = firstCondition || secondCondition
+                break;
+            case 'customer':
+                isInvalid = !(inputVals.firstname && inputVals.lastname && inputVals.address && inputVals.phone)
                 break;
             case 'product':
                 isInvalid = !(inputVals.name && inputVals.price && inputVals.origin)

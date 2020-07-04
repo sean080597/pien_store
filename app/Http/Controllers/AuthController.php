@@ -142,6 +142,7 @@ class AuthController extends Controller
             if($registerComplete){
                 $registerComplete->user_infoable()->create(['email' => $request->email]);
                 $registerComplete->addressInfo()->create();
+                $registerComplete->image()->create(['src' => $request->input_image]);
                 //create jwt token
                 $token = auth('api')->setTTL($expire_minutes)->fromUser($registerComplete->user_infoable);
             }

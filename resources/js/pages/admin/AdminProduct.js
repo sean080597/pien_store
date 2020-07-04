@@ -97,7 +97,7 @@ export default function AdminProduct(props) {
                   </div>
                 </div>
                 <div className="clearfix"></div>
-                <div className="col-sm-6 mb-4">
+                <div className="col-sm-6">
                   <div className="upload-product-container">
                     <label htmlFor="productImg">Product Image</label>
                     <div className="upload-action">
@@ -105,7 +105,7 @@ export default function AdminProduct(props) {
                       <input id="productImg" type="file" onChange={handleSelectedFile} ref={fileInput}/>
                       <button type="button" className="btn btn-neutral btn-round" onClick={() => fileInput.current.click()}>Choose Image</button>
                     </div>
-                    <h6>Filename: {(fileInput.current && fileInput.current.files[0]) ? fileInput.current.files[0].name : 'No file chosen'}</h6>
+                    <h6>Filename: {(fileInput.current && fileInput.current.files[0]) ? fileInput.current.files[0].name : 'No file chosen'} - Max size: 2Mb - Dimensions: 665x750</h6>
                   </div>
                 </div>
                 <div className="col-sm-12">
