@@ -90,6 +90,12 @@ Route::group(['prefix' => 'admin-role'], function () {
     Route::get('getAllData', 'RoleController@getAllData');
 });
 
+Route::group(['prefix' => 'admin-customer'], function () {
+    // Route::put('editData/{id}', 'CustomerController@editData');
+    // Route::delete('deleteData/{id}', 'CustomerController@deleteData');
+    Route::post('searchData', 'CustomerController@searchData');
+});
+
 Route::get('test', function () {
     var_dump(new DateTime);
 });

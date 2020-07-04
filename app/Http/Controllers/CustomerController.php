@@ -107,4 +107,28 @@ class CustomerController extends Controller
             ], 200);
         }
     }
+
+    public function searchData(Request $request){
+        $sql = Customer::query()->with('image:src,imageable_id')
+        ->select('customers.id', 'customers.login_type AS loginType', 'ui.gender', 'ui.birthday', 'ui.email', 'addr.firstname', 'addr.midname', 'addr.lastname', 'addr.phone', 'addr.address')
+        ->join('user_infos AS ui', 'ui.user_infoable_id', '=', 'customers.id')
+        ->join('address_infos AS addr', 'addr.addressable_id', '=', 'customers.id')
+        ->where('addr.isMainAddress', 1)
+        ->when($request->search, function($query) use ($request){
+            $search = $request->search;
+            return $query->where('addr.firstname', 'LIKE', "%$search%")
+            ->orWhere('addr.midname', 'LIKE', "%$search%")
+            ->orWhere('addr.lastname', 'LIKE', "%$search%")
+            ->orWhere('addr.phone', 'LIKE', "%$search%")
+            ->orWhere('addr.address', 'LIKE', "%$search%")
+            ->orWhere('ui.email', 'LIKE', "%$search%");
+        })
+        ->orderBy('addr.lastname', 'ASC');
+        if($request->pageSize){
+            $result = $sql->paginate($request->pageSize);
+        }else{
+            $result = $sql->get();
+        }
+        return response()->json(['success' => true, 'data' => $result], 200);
+    }
 }

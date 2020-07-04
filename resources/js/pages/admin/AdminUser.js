@@ -76,8 +76,8 @@ export default function AdminUser(props) {
                   <div className="form-group">
                     <label htmlFor="gender">Gender</label>
                     <select className="form-control" id="gender" name="gender" onChange={handleChange} value={userInputs.gender}>
-                        <option value='M'>Male</option>
-                        <option value='F'>Female</option>
+                      <option value='M'>Male</option>
+                      <option value='F'>Female</option>
                     </select>
                   </div>
                 </div>
