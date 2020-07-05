@@ -50,7 +50,7 @@ export default function AdminCategory(props) {
         </div>
       </div>
       <Modal ref={modalRef} modalWidth="50%">
-      <div className="p-4 pb-5">
+        <div className="p-4 pb-5">
           <h4 className="font-alt mb-0">{modalTitle}</h4>
           <hr className="divider-w mt-10 mb-20"/>
           {

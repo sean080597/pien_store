@@ -2,13 +2,13 @@ import CommonConstants from '../config/CommonConstants'
 import ConnectionService from '../services/ConnectionService.service'
 import CommonService from '../services/CommonService.service'
 import iziToast from 'izitoast'
-import {useDispatch} from 'react-redux'
 
 const apiUrl = CommonConstants.API_URL
 const regexEmail = new RegExp("^[a-zA-Z0-9_.+\-]+@[a-zA-Z0-9\-]+(\.[a-zA-Z0-9]{2,4})$")
 const lsPagesManagerment = [
   'category', 'order', 'product', 'user', 'customer'
 ]
+const lsOrderStatus = ['CANCELED', 'DELIVERING', 'DELIVERED', 'RECEIVED', 'PENDING', 'PROCESSING']
 
 const validateUserInputs = (values) => {
   let errors = {}
@@ -86,6 +86,7 @@ const showMessage = (isSuccess, type, action, isPassedMsg, msg = null) => {
 // export
 const AdminService = {
   lsPagesManagerment: lsPagesManagerment,
+  lsOrderStatus: lsOrderStatus,
   validateUserInputs: validateUserInputs,
   applyGetLsObjsManagerment: applyGetLsObjsManagerment,
   applyGetAllRoles: applyGetAllRoles,

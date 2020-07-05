@@ -120,7 +120,7 @@ export default function useAdminActions(initial = null, formFields = null, modal
             AdminService.showMessage(res.success, 'user', 'Edited', false, null)
             if(res.success){
                 let newLsData = lsObjsManagerment.map(item => {
-                    if(item.id === res.data.id){
+                    if(res.data && item.id === res.data.id){
                         formFields.forEach(key => {
                             if(key === 'input_image' && res.data.image){
                                 if(item.image) item.image.src = res.data.image.src
@@ -138,6 +138,9 @@ export default function useAdminActions(initial = null, formFields = null, modal
                                 item[key] = res.data[key]
                             }
                         })
+                    }
+                    if(curType === 'order'){
+                        item.status = userInputs.status
                     }
                     return item
                 })

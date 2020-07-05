@@ -35,6 +35,7 @@ return [
             'CATEGORY_UPDATED' => 'Category updated successfully',
             'LOGOUT' => 'Successfully logged out',
             'ORDER_CONFIRMED' => 'Order is saved',
+            'ORDER_UPDATED' => 'Order is updated',
             'PRODUCT_CREATED' => 'Product created successfully',
             'PRODUCT_DELETED' => 'Product deleted successfully',
             'PRODUCT_UPDATED' => 'Product updated successfully',
