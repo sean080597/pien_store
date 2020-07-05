@@ -79,29 +79,14 @@ class OrderController extends Controller
         if (!$findData) {
             return response()->json(['success' => false, 'message' => Config::get('constants.MSG.ERROR.INVALID_ID')], 500);
         }
-        // validate data
-        $validator = Validator::make($request->all(),
-        [
-            'cus_id' => 'string|exists:customers,id',
-            'shipment_id' => 'exists:address_infos,id'
-        ]);
-
-        if($validator->fails()){
-            return response()->json(['success'=>false, 'message'=>$validator->messages()->toArray()], 400);
-        }
         // update data
-        for ($i = 0; $i < count($request->cart_items); $i++) {
-            $order_info = $request->cart_items[$i];
-            $order_info['status'] = Config::get('constants.ORDER_STATUS.RECEIVED');
-            $order_info['order_id'] = $created_order->id;
-            $order_details[] = $order_info;
+        $updatedData = $findData->update($request->all());
+        if($updatedData){
+            return response()->json([
+                'success' => true,
+                'message' => Config::get('constants.MSG.SUCCESS.ORDER_UPDATED'),
+            ], 200);
         }
-        //update many order details
-        $created_order->orderDetails()->createMany($order_details);
-        return response()->json([
-            'success' => true,
-            'message' => Config::get('constants.MSG.SUCCESS.ORDER_CONFIRMED'),
-        ], 200);
     }
 
     public function deleteData($id){
