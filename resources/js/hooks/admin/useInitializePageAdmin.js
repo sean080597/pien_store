@@ -48,10 +48,10 @@ export default function useInitializePageAdmin(curType) {
         if(curPath.indexOf(curType) !== -1){
             getLsObjsManagerment()
         }
-        if(curPath.indexOf('user') !== -1){
+        if(curType && curType.includes('user')){
             getGetAllRoles()
         }
-        if(curPath.indexOf('product') !== -1){
+        if(curType && curType.includes('product')){
             getGetAllCategories()
         }
         return () => {

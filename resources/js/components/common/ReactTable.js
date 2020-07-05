@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTable } from 'react-table'
 
-export default function ReactTable({ columns, data, tblClassName, hasAction = false, handleEdit, handleDel }) {
+export default function ReactTable({ columns, data, tblClassName, hasView = false, hasEdit = false, hasDelete = false, handleView, handleEdit, handleDel, redirectDest = null }) {
   const {getTableProps, getTableBodyProps, headerGroups, rows, prepareRow} = useTable({columns, data})
   return (
     <table {...getTableProps()} className={tblClassName}>
@@ -20,16 +20,28 @@ export default function ReactTable({ columns, data, tblClassName, hasAction = fa
           return (
             <tr {...row.getRowProps()}>
               {row.cells.map(cell => {
-                if(hasAction && cell.column.Header === 'Action')
+                if(cell.column.Header === 'Action')
                   return(
                     <td {...cell.getCellProps()}>
                       <div className="flex-display-noWrap btn-action-admin">
-                        <button className="btn-b btn btn-round" onClick={() => handleEdit(row.original)}>
-                          <i className="fa fa-edit"></i>
-                        </button>
-                        <button className="btn-danger btn btn-round" onClick={() => handleDel(row.original.id)}>
-                          <i className="fa fa-times"></i>
-                        </button>
+                        {
+                          hasView &&
+                          <button className="btn-b btn btn-round" onClick={() => handleView(redirectDest, row.original.id)}>
+                            <i className="fa fa-eye"></i>
+                          </button>
+                        }
+                        {
+                          hasEdit &&
+                          <button className="btn-b btn btn-round" onClick={() => handleEdit(row.original)}>
+                            <i className="fa fa-edit"></i>
+                          </button>
+                        }
+                        {
+                          hasDelete &&
+                          <button className="btn-danger btn btn-round" onClick={() => handleDel(row.original.id)}>
+                            <i className="fa fa-times"></i>
+                          </button>
+                        }
                       </div>
                     </td>
                   )

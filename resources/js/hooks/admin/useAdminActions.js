@@ -4,11 +4,13 @@ import CommonService from '../../services/CommonService.service'
 import CommonConstants from '../../config/CommonConstants'
 import ConnectionService from '../../services/ConnectionService.service';
 import AdminService from '../../services/AdminService.service';
+import { useHistory } from 'react-router-dom'
 
 const apiUrl = CommonConstants.API_URL;
 
 export default function useAdminActions(initial = null, formFields = null, modalRef = null, curType = null) {
     const dispatch = useDispatch()
+    const history = useHistory()
     const [userInputs, setUserInputs] = useState(initial)
     const [errors, setErrors] = useState({})
     const [modalTitle, setModalTitle] = useState(false)
@@ -66,6 +68,17 @@ export default function useAdminActions(initial = null, formFields = null, modal
         setItemId(inputUserId)
         applyModalProperties(`Delete ${curType}`, false, true)
         modalRef.current.openModal()
+    }
+    const handleOpenAnotherView = (type, inputId) => {
+        let path = ''
+        switch (type) {
+            case 'order-details':
+                path = 'order-details-managerment/' + inputId
+                break;
+            default:
+                break;
+        }
+        history.push(path)
     }
     // handle submit
     const handleSubmitCreate = async (evt) => {
@@ -249,5 +262,5 @@ export default function useAdminActions(initial = null, formFields = null, modal
 
     return {userInputs, errors, modalTitle, isEditing, isDeleting, isSubmitDisabled, handleChange, handleBlur, handlePaginate,
         handleOpenCreate, handleOpenEdit, handleOpenDelete, handleSubmitCreate, handleSubmitEdit, handleSubmitDelete, handleRefresh,
-        handleSelectedFile, applyLogoutUser}
+        handleSelectedFile, applyLogoutUser, handleOpenAnotherView}
 }

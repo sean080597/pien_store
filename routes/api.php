@@ -84,6 +84,7 @@ Route::group(['prefix' => 'admin-product'], function () {
 Route::group(['prefix' => 'admin-order'], function () {
     Route::put('editData/{id}', 'OrderController@editData');
     Route::delete('deleteData/{id}', 'OrderController@deleteData');
+    Route::post('searchData', 'OrderController@searchDataAdmin');
 });
 
 Route::group(['prefix' => 'admin-role'], function () {
