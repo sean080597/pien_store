@@ -45,7 +45,7 @@ export default function AdminProduct(props) {
         <div className="col-sm-12 table-responsive">
           {
             lsProducts.length > 0 &&
-            <ReactTable columns={columns} data={lsProducts} hasAction={true}
+            <ReactTable columns={columns} data={lsProducts} hasEdit={true} hasDelete={true}
               tblClassName="table table-striped table-bordered table-bordered"
               handleEdit={handleOpenEdit} handleDel={handleOpenDelete}
             ></ReactTable>

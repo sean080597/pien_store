@@ -41,7 +41,7 @@ export default function AdminCategory(props) {
         <div className="col-sm-12 table-responsive">
           {
             lsCategories.length > 0 &&
-            <ReactTable columns={columns} data={lsCategories} hasAction={true}
+            <ReactTable columns={columns} data={lsCategories} hasEdit={true} hasDelete={true}
               tblClassName="table table-striped table-bordered table-bordered"
               handleEdit={handleOpenEdit} handleDel={handleOpenDelete}
             ></ReactTable>

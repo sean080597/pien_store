@@ -41,7 +41,7 @@ export default function AdminCustomer(props) {
         <div className="col-sm-12 table-responsive">
           {
             lsUsers.length > 0 &&
-            <ReactTable columns={columns} data={lsUsers} hasAction={true}
+            <ReactTable columns={columns} data={lsUsers} hasEdit={true} hasDelete={true}
               tblClassName="table table-striped table-bordered table-bordered"
               handleEdit={handleOpenEdit} handleDel={handleOpenDelete}
             ></ReactTable>

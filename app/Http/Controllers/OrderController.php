@@ -21,7 +21,7 @@ class OrderController extends Controller
 
     public function __construct()
     {
-        $this->middleware('jwt.auth');
+        $this->middleware('jwt.auth', ['only' => ['createData', 'editData', 'deleteData', 'searchDataAdmin']]);
         $this->order = new Order;
         $this->order_detail = new OrderDetail;
         $this->customer = new Customer;
@@ -132,6 +132,35 @@ class OrderController extends Controller
             ->orWhere('status', 'LIKE', "%$search%");
         })
         ->latest();
+        if($request->pageSize){
+            $result = $sql->paginate($request->pageSize);
+        }else{
+            $result = $sql->get();
+        }
+        return response()->json(['success' => true, 'data' => $result], 200);
+    }
+
+    public function searchDataAdmin(Request $request)
+    {
+        $sql = Order::query()->select('orders.id', 'orders.status', 'addr.firstname', 'addr.lastname', 'addr.phone', 'addr.address')
+        ->join('address_infos AS addr', 'addr.id', '=', 'orders.shipment_id')->orderBy('orders.created_at', 'desc');
+
+        // $lsOrders
+        // ->join('order_details AS o', 'o.order_id', '=', 'orders.id')
+        // ->join('products AS p', 'p.id', '=', 'o.prod_id')
+        // ->when($request->search, function($query) use ($request){
+        //     $search = $request->search;
+        //     return $query->where('id', 'LIKE', "%$search%")
+        //     ->orWhere('', 'LIKE', "%$search%")
+        //     ->orWhere('status', 'LIKE', "%$search%");
+        // })
+        // $sql = Order::query()->with('addressInfo', 'products')
+        // ->when($request->search, function($query) use ($request){
+        //     $search = $request->search;
+        //     return $query->where('id', 'LIKE', "%$search%")
+        //     ->orWhere('status', 'LIKE', "%$search%");
+        // })
+        // ->latest();
         if($request->pageSize){
             $result = $sql->paginate($request->pageSize);
         }else{

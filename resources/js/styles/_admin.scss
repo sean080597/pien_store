@@ -27,3 +27,22 @@
     margin-right: 15px;
   }
 }
+.adm{
+  &-order-info{
+    display: flex;
+    flex-wrap: wrap;
+    &__details{
+      display: flex;
+    }
+    &__img{
+      flex: 1;
+      width: 100%;
+    }
+    &__desc{
+      flex: 5;
+    }
+    &__action{
+      flex: 2;
+    }
+  }
+}

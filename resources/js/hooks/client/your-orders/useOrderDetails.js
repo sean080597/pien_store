@@ -22,7 +22,6 @@ export default function useOrderDetails(order_id) {
 
     useEffect(()=>{
         applyGetOrderDetails()
-
         return () => {}
     }, [])
 
