@@ -9,9 +9,7 @@ import { useGoogleLogin } from '../HookManager'
 
 export default function useTurnOnOffLoader() {
     const dispatch = useDispatch()
-    const {applyGoogleLogout} = useGoogleLogin({})
-    const {userRole, curPath, cartCount} = useSelector(state => ({
-        userRole: state.auth.user.role,
+    const {curPath, cartCount} = useSelector(state => ({
         curPath: state.common.currentPath,
         cartCount: state.shop.cartCount
     }))
@@ -30,7 +28,6 @@ export default function useTurnOnOffLoader() {
     useEffect(() => {
         dispatch({type: 'SET_CURRENT_PATH', payload: window.location.pathname})
         dispatch({type: 'SET_FALSE_IS_FIRST_LOADED'})
-        if(!userRole) applyGoogleLogout()
         CommonService.goToPosition()
         return () => {
             if(localStorage.getItem(CommonConstants.LOCALSTORAGE_NAME) && cartCount === 0)

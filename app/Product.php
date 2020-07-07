@@ -13,14 +13,14 @@ class Product extends Model
 
     protected $keyType = 'string';
 
-    protected $with = ['image'];
+    protected $with = ['images'];
 
     protected $guarded = [];
 
     public static function boot() {
       parent::boot();
       static::deleting(function($cate) {
-          $cate->image()->delete();
+          $cate->images()->delete();
       });
   }
 
@@ -28,8 +28,8 @@ class Product extends Model
         return $this->belongsTo('App\Category');
     }
 
-    public function image(){
-      return $this->morphOne(Image::class, 'imageable');
+    public function images(){
+      return $this->morphMany(Image::class, 'imageable');
     }
 
     public function orderDetails(){

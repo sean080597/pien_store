@@ -18,8 +18,10 @@ export default function ProductDetails(props) {
             <section className="module">
                 <div className="container">
                     <div className="row">
-                        <div className="col-sm-6 mb-sm-40">
+                        <div className="col-sm-3 mb-sm-40">
                             <img src={CommonService.generateImageSrc('products', productInfo)} alt={productInfo.name} />
+                            <hr className="divider-w my-10"/>
+                            
                         </div>
                         <div className="col-sm-6">
                             <div className="row">
@@ -104,8 +106,7 @@ export default function ProductDetails(props) {
                             {
                                 relatedProducts.map(prod =>
                                     <div key={prod.id} onClick={() => handleReplaceProduct(prod.id)}>
-                                        <img alt={prod.name}
-                                        src={CommonService.generateImageSrc('products', prod)} />
+                                        <img alt={prod.name} src={CommonService.generateImageSrc('products', prod)} />
                                         <div className="glide__title">
                                             <h4 className="shop-item-title font-alt ml-10 mr-10">{prod.name}</h4>
                                             <p className="ml-10 mr-10 mb-10">{CommonService.formatMoney(prod.price, 0) + ' VNĐ'}</p>
