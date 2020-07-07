@@ -30,7 +30,7 @@ class ProductController extends Controller
     }
 
     public function getSingleData($id){
-        $findData = $this->product->with('image:src,imageable_id')->find($id);
+        $findData = $this->product->with('images:src,imageable_id')->find($id);
         if (!$findData) {
             return response()->json(['success' => false, 'message' => Config::get('constants.MSG.ERROR.NOT_FOUND')], 500);
         }
@@ -213,7 +213,7 @@ class ProductController extends Controller
     public function getRelatedProduct($id)
     {
         $findData = $this->product->find($id);
-        $query = Product::query()->with('image:src,imageable_id');
+        $query = Product::query()->with('images:src,imageable_id');
         $lsRelatedProduct = $query->where('category_id', $findData->category_id)->where('id', '<>', $id)->inRandomOrder()->limit($this->default_page_size)->get();
         return response()->json([
             'success' => true,

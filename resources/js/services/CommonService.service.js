@@ -119,6 +119,10 @@ const CommonService = {
             if(imgObj.image.src.includes('http') || imgObj.image.src.includes('base64')) return imgObj.image.src
             resDefImg = imgObj.image.src
         }
+        if(imgObj && imgObj.images && imgObj.images.length > 0){
+            if(imgObj.images[0].src.includes('http') || imgObj.images[0].src.includes('base64')) return imgObj.images[0].src
+            resDefImg = imgObj.images[0].src
+        }
         return resDirPath + "/" + resDefImg
     }
 };

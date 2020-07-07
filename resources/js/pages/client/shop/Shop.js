@@ -63,7 +63,7 @@ export default function Shop(props) {
                     <div className="row flex-display">
                         {
                             products.map((prod, index) =>
-                                <div className="col-sm-6 col-md-3 col-lg-3" key={index}>
+                                <div className="col-sm-4 col-md-2" key={index}>
                                     <div className="shop-item">
                                         <div className="shop-item-image">
                                             <LazyLoadingImage src={CommonService.generateImageSrc('products', prod)} alt={prod.name} />
