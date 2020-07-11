@@ -3,7 +3,7 @@ import CommonConstants from '../../../config/CommonConstants'
 import CommonService from '../../../services/CommonService.service'
 import { useSelector } from 'react-redux';
 import { useTurnOnOffLoader, useProductDetails, useShopCart } from '../../../hooks/HookManager'
-import {ProductDetailsGliderImages} from '../../../components/ComponentsManager'
+import {ProductDetailsGliderImages, LazyLoadingImage} from '../../../components/ComponentsManager'
 
 export default function ProductDetails(props) {
     useTurnOnOffLoader()
@@ -18,15 +18,19 @@ export default function ProductDetails(props) {
             <section className="module">
                 <div className="container">
                     <div className="row">
-                        <div className="col-sm-3 mb-sm-40">
-                            <img src={CommonService.generateImageSrc('products', productInfo)} alt={productInfo.name} />
-                            <hr className="divider-w my-10"/>
-                            
+                        <div className="col-sm-1 product-details--left">
+                            {/* <LazyLoadingImage src={CommonService.generateImageSrc('products', productInfo)} alt={productInfo.name} />
+                            <LazyLoadingImage src={CommonService.generateImageSrc('products', productInfo)} alt={productInfo.name} />
+                            <LazyLoadingImage src={CommonService.generateImageSrc('products', productInfo)} alt={productInfo.name} />
+                            <LazyLoadingImage src={CommonService.generateImageSrc('products', productInfo)} alt={productInfo.name} /> */}
                         </div>
-                        <div className="col-sm-6">
+                        <div className="col-sm-6 mb-sm-40 product-details--center">
+                            <LazyLoadingImage src={CommonService.generateImageSrc('products', productInfo)} alt={productInfo.name} />
+                        </div>
+                        <div className="col-sm-5 product-details--info">
                             <div className="row">
                                 <div className="col-sm-12">
-                                    <h1 className="product-title font-alt">{productInfo.name}</h1>
+                                    <h3 className="product-title font-alt">{productInfo.name}</h3>
                                 </div>
                             </div>
                             {/* <div className="row mb-20">
@@ -101,12 +105,12 @@ export default function ProductDetails(props) {
                         </div>
                     </div>
                     <div className="row">
-                        { relatedProducts.length > 0 &&
+                        {/* { relatedProducts.length > 0 &&
                         <ProductDetailsGliderImages>
                             {
                                 relatedProducts.map(prod =>
                                     <div key={prod.id} onClick={() => handleReplaceProduct(prod.id)}>
-                                        <img alt={prod.name} src={CommonService.generateImageSrc('products', prod)} />
+                                        <LazyLoadingImage alt={prod.name} src={CommonService.generateImageSrc('products', prod)} />
                                         <div className="glide__title">
                                             <h4 className="shop-item-title font-alt ml-10 mr-10">{prod.name}</h4>
                                             <p className="ml-10 mr-10 mb-10">{CommonService.formatMoney(prod.price, 0) + ' VNĐ'}</p>
@@ -114,7 +118,7 @@ export default function ProductDetails(props) {
                                     </div>
                                 )
                             }
-                        </ProductDetailsGliderImages> }
+                        </ProductDetailsGliderImages> } */}
                     </div>
                 </div>
             </section>
