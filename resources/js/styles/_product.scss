@@ -67,9 +67,19 @@
 }
 /* product details */
 .product-details{
+	&--center{
+		border-left: #eee 1px solid;
+	}
 	&--left{
 		img{
-			padding: 10px;
+			padding: 3px;
+			margin: 5px 0;
+			&:first-child{
+				margin-top: 0;
+			}
+			&:last-child{
+				margin-bottom: 0;
+			}
 			&:hover{
 				border: #eee 1px solid;
 			}

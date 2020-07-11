@@ -3,7 +3,6 @@ import Footer from './client/Footer'
 import Navbar from './client/Navbar'
 import NewProduct from './client/NewProduct'
 import GliderImages from './client/GliderImages'
-import ProductDetailsGliderImages from './client/ProductDetailsGliderImages'
 import SingleOrder from './client/SingleOrder'
 import SinglePhoto from './client/gallery/SinglePhoto'
 import lsPhotos from './client/gallery/lsPhotos'
@@ -27,7 +26,6 @@ export {
     NewProduct,
     PagePagination,
     GliderImages,
-    ProductDetailsGliderImages,
     SingleOrder,
     ProgressBarAnimation,
     ProgressBarSteps,

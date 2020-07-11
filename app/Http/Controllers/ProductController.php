@@ -26,7 +26,7 @@ class ProductController extends Controller
         // $this->base_url = $urlGenerator->to('/');
         // $this->file_directory = url('/').'/assets/product_images/';
         $this->file_directory = public_path('/assets/images/products/');
-        $this->default_page_size = 16;
+        $this->default_page_size = 18;
     }
 
     public function getSingleData($id){

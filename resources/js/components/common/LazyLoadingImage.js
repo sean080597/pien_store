@@ -4,8 +4,8 @@ import Bound from 'bounds.js'
 
 const placeholder = CommonConstants.IMAGES_DIR + '/placeholder.png'
 
-export default function LazyLoadingImage(props) {
-  const [userInputs, setUserInputs] = useState({ isLoaded: false, imgSrc: props.src || placeholder })
+export default function LazyLoadingImage({src, alt, imgName, handleClick}) {
+  const imgSrc = src || placeholder
   const refImage = useRef(null)
   const boundary = Bound({
     margins: { bottom: 100 }
@@ -13,18 +13,13 @@ export default function LazyLoadingImage(props) {
 
   //handle
   const handleLazyLoading = () => {
-    console.log('call handleLazyLoading ==> ', userInputs.isLoaded)
-    if (!userInputs.isLoaded) {
-      boundary.watch(refImage.current, () => whenImageEnters(refImage.current))
-    }
+    boundary.watch(refImage.current, () => whenImageEnters(refImage.current))
   }
 
   const whenImageEnters = (lazyImage) => {
-    console.log('call WhenImageEnters ==> ', userInputs, ' - props ==> ', props)
-    lazyImage.src = userInputs.imgSrc
+    lazyImage.src = imgSrc
     lazyImage.classList.add('reveal')
     boundary.unWatch(lazyImage)
-    setUserInputs({ ...userInputs, isLoaded: true })
   }
 
   const whenImageLeaves = (lazyImage) => {
@@ -33,11 +28,10 @@ export default function LazyLoadingImage(props) {
 
   useEffect(() => {
     handleLazyLoading()
-    console.log('call useEffect lazyLoadingImg')
     return () => {}
-  }, [])
+  }, [imgSrc])
 
   return (
-    <img alt={props.alt} ref={refImage}/>
+    <img alt={alt} ref={refImage} onClick={() => handleClick(imgName)}/>
   );
 };

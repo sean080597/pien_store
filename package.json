@@ -21,7 +21,6 @@
         "bootstrap": "^3.4.1",
         "bounds.js": "^1.0.4",
         "countup.js": "^2.0.5",
-        "glider-js": "^1.7.2",
         "i": "^0.3.6",
         "izitoast": "^1.4.0",
         "jquery": "^3.4.1",
@@ -45,13 +44,15 @@
         "react-redux": "^7.2.0",
         "react-router-dom": "^5.1.2",
         "react-scripts": "3.4.0",
+        "react-slick": "^0.26.1",
         "react-table": "^7.1.0",
         "react-text-rotator": "^0.1.1",
         "redux": "^4.0.5",
         "redux-thunk": "^2.3.0",
         "resolve-url-loader": "^2.3.1",
         "sass": "^1.26.9",
-        "sass-loader": "^7.3.1"
+        "sass-loader": "^7.3.1",
+        "slick-carousel": "^1.8.1"
     },
     "scarfSettings": {
         "enabled": false

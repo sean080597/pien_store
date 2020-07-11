@@ -6,6 +6,7 @@ import PageLoadService from '../services/PageLoadService.service';
 import { LoadingIndicator } from '../components/ComponentsManager'
 //plugins
 import '../plugins/iziToast'
+import '../plugins/reactSlick'
 
 export default class MainLayout extends Component {
   //methods
