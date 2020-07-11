@@ -1,51 +1,74 @@
 import React, { useEffect } from 'react'
-import CommonConstants from '../../config/CommonConstants'
 import CommonService from '../../services/CommonService.service'
-import glider from 'glider-js';
-import 'glider-js/glider.min.css';
+import Slider from 'react-slick'
+
+function SampleNextArrow(props) {
+  const { className, style, onClick } = props;
+  return (
+    // <div
+    //   className={className}
+    //   style={{ ...style, display: "block", background: "red" }}
+    //   onClick={onClick}
+    // />
+    <div className={className} style={{...style}} onClick={onClick}>
+      <i className="fa fa-chevron-right" aria-hidden="true"></i>
+    </div>
+  )
+}
+
+function SamplePrevArrow(props) {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={className}
+      style={{ ...style, display: "block", background: "green" }}
+      onClick={onClick}
+    />
+  )
+}
 
 export default function GliderImages(props) {
-    //methods
-    const handleGlider = () => {
-        new glider(document.querySelector('.glider'), {
-            slidesToShow: 6,
-            slidesToScroll: 6,
-            draggable: false,
-            dots: '#dots',
-            arrows: {
-                prev: '.glider-prev',
-                next: '.glider-next'
-            }
-        })
-    }
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 5,
+    slidesToScroll: 5,
+    nextArrow: <SampleNextArrow />,
+    prevArrow: <SamplePrevArrow />
+  }
 
-    const handleCliclkOtherProduct = () => {
-        console.log('clicked')
-    }
+  const data = props.data
 
-    useEffect(() => {
-        window.addEventListener('load', handleGlider())
-        return () => {
-            window.removeEventListener('load', handleGlider())
-        }
-    }, [props])
-    return (
-        <div className="glider-contain">
-            <div className="glider">
-            {
-                props.relatedProducts.map(prod =>
-                    <div key={prod.id} onClick={() => handleCliclkOtherProduct}>
-                        <img alt={prod.name}
-                        src={CommonService.generateImageSrc('products', prod.image)} />
-                        <h4 className="shop-item-title font-alt">{prod.name}</h4>{CommonService.formatMoney(prod.price, 0) + ' VNĐ'}
-                    </div>
-                )
-            }
-            </div>
-
-            <button role="button" aria-label="Previous" className="glider-prev hidden-xs"><i className="fa fa-chevron-left" aria-hidden="true"></i></button>
-            <button role="button" aria-label="Next" className="glider-next hidden-xs"><i className="fa fa-chevron-right" aria-hidden="true"></i></button>
-            <div role="tablist" id="dots" className="visible-xs"></div>
-        </div>
-    )
+  return (
+    <Slider {...settings}>
+      <div>
+        <h3>1</h3>
+      </div>
+      <div>
+        <h3>2</h3>
+      </div>
+      <div>
+        <h3>3</h3>
+      </div>
+      <div>
+        <h3>4</h3>
+      </div>
+      <div>
+        <h3>5</h3>
+      </div>
+      <div>
+        <h3>6</h3>
+      </div>
+      <div>
+        <h3>7</h3>
+      </div>
+      <div>
+        <h3>8</h3>
+      </div>
+      <div>
+        <h3>9</h3>
+      </div>
+    </Slider>
+  )
 }

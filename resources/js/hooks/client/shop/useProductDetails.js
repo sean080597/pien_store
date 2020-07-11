@@ -32,9 +32,10 @@ export default function useProductDetails(prod_id, initial){
     const applyGetProductDetails = () => {
         const apiQuery = `${apiUrl}/product/getSingleData/${prod_id}`
         ConnectionService.axiosGetByUrl(apiQuery)
-        .then(async res => {
-            await setProductInfo(res.data)
-            await applyGetRelatedProducts()
+        .then(res => {
+            setProductInfo(res.data)
+            handleChosenLeftImg(res.data.images && res.data.images.length > 0 ? res.data.images[0].src : '')
+            applyGetRelatedProducts()
             CommonService.turnOffLoader()
         })
     }
@@ -48,11 +49,15 @@ export default function useProductDetails(prod_id, initial){
         })
     }
 
+    const handleChosenLeftImg = (imgSrc) => {
+        setUserInputs({...userInputs, prodImgSrc: imgSrc})
+    }
+
     useEffect(()=>{
         applyGetProductDetails()
 
         return () => {}
     }, [])
 
-    return {productInfo, userInputs, handleChange, handleChangeQuantity, handleReplaceProduct};
+    return {productInfo, userInputs, handleChange, handleChangeQuantity, handleReplaceProduct, handleChosenLeftImg}
 }

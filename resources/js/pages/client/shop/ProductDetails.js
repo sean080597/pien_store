@@ -3,12 +3,12 @@ import CommonConstants from '../../../config/CommonConstants'
 import CommonService from '../../../services/CommonService.service'
 import { useSelector } from 'react-redux';
 import { useTurnOnOffLoader, useProductDetails, useShopCart } from '../../../hooks/HookManager'
-import {ProductDetailsGliderImages, LazyLoadingImage} from '../../../components/ComponentsManager'
+import {GliderImages, LazyLoadingImage} from '../../../components/ComponentsManager'
 
 export default function ProductDetails(props) {
     useTurnOnOffLoader()
-    const INITIAL = {quantity: 1}
-    const {productInfo, userInputs, handleChangeQuantity, handleReplaceProduct} = useProductDetails(props.match.params.prod_id, INITIAL)
+    const INITIAL = {quantity: 1, prodImgSrc: ''}
+    const {productInfo, userInputs, handleChangeQuantity, handleReplaceProduct, handleChosenLeftImg} = useProductDetails(props.match.params.prod_id, INITIAL)
     const {handleAddToCart} = useShopCart({}, 'PRODUCT_DETAILS_COMPONENT')
     const {relatedProducts} = useSelector(state => ({
         relatedProducts: state.shop.relatedProducts
@@ -19,13 +19,16 @@ export default function ProductDetails(props) {
                 <div className="container">
                     <div className="row">
                         <div className="col-sm-1 product-details--left">
-                            {/* <LazyLoadingImage src={CommonService.generateImageSrc('products', productInfo)} alt={productInfo.name} />
-                            <LazyLoadingImage src={CommonService.generateImageSrc('products', productInfo)} alt={productInfo.name} />
-                            <LazyLoadingImage src={CommonService.generateImageSrc('products', productInfo)} alt={productInfo.name} />
-                            <LazyLoadingImage src={CommonService.generateImageSrc('products', productInfo)} alt={productInfo.name} /> */}
+                            {
+                                productInfo.images && productInfo.images.length > 0 &&
+                                productInfo.images.map((item, i) =>
+                                    <LazyLoadingImage src={CommonService.generateImageSrc('products', null, item.src)} alt={productInfo.name} key={i}
+                                    imgName={item.src} handleClick={handleChosenLeftImg}/>
+                                )
+                            }
                         </div>
                         <div className="col-sm-6 mb-sm-40 product-details--center">
-                            <LazyLoadingImage src={CommonService.generateImageSrc('products', productInfo)} alt={productInfo.name} />
+                            <LazyLoadingImage src={CommonService.generateImageSrc('products', null, userInputs.prodImgSrc)} alt={productInfo.name} />
                         </div>
                         <div className="col-sm-5 product-details--info">
                             <div className="row">
@@ -39,7 +42,7 @@ export default function ProductDetails(props) {
                             </div> */}
                             <div className="row mb-20">
                                 <div className="col-sm-12">
-                                    <div className="price font-alt"><span className="amount">{CommonService.formatMoney(productInfo.price, 0) + ' VNĐ'}</span></div>
+                                    <h3 className="price font-alt">{CommonService.formatMoney(productInfo.price, 0) + ' VNĐ'}</h3>
                                 </div>
                             </div>
                             <div className="row mb-20">
@@ -106,19 +109,8 @@ export default function ProductDetails(props) {
                     </div>
                     <div className="row">
                         {/* { relatedProducts.length > 0 &&
-                        <ProductDetailsGliderImages>
-                            {
-                                relatedProducts.map(prod =>
-                                    <div key={prod.id} onClick={() => handleReplaceProduct(prod.id)}>
-                                        <LazyLoadingImage alt={prod.name} src={CommonService.generateImageSrc('products', prod)} />
-                                        <div className="glide__title">
-                                            <h4 className="shop-item-title font-alt ml-10 mr-10">{prod.name}</h4>
-                                            <p className="ml-10 mr-10 mb-10">{CommonService.formatMoney(prod.price, 0) + ' VNĐ'}</p>
-                                        </div>
-                                    </div>
-                                )
-                            }
-                        </ProductDetailsGliderImages> } */}
+                        <GliderImages>} */}
+                        <GliderImages/>
                     </div>
                 </div>
             </section>
