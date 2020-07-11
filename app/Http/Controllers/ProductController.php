@@ -152,7 +152,7 @@ class ProductController extends Controller
 
     public function filterData(){
       $page_size = request('page_size') ? request('page_size') : $this->default_page_size;
-      $query = Product::query()->with('image:src,imageable_id');
+      $query = Product::query()->with('images:src,imageable_id');
 
       //check if exists cate_id
       $paginated_sort_query = $query->when(request('cate_id'), function ($q) {
@@ -174,7 +174,7 @@ class ProductController extends Controller
 
     public function searchData(Request $request)
     {
-        $sql = Product::query()->with('image:src,imageable_id')
+        $sql = Product::query()->with('images:src,imageable_id')
         ->when($request->search, function($query) use ($request){
             $search = $request->search;
             return $query->where('name', 'LIKE', "%$search%")
@@ -191,7 +191,7 @@ class ProductController extends Controller
 
     public function searchDataAdmin(Request $request)
     {
-        $sql = Product::query()->with('image:src,imageable_id')
+        $sql = Product::query()->with('images:src,imageable_id')
         ->select('products.id', 'products.name', 'products.slug', 'products.price', 'products.description', 'products.origin',
         'products.category_id', 'c.name AS category_name')
         ->join('categories AS c', 'c.id', '=', 'products.category_id')

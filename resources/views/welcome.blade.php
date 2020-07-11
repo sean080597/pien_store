@@ -17,6 +17,7 @@
         <noscript>You need to enable JavaScript to run this app.</noscript>
         <div id="root"></div>
         <div id='modal-root'></div>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" defer></script>
         <script type="text/javascript" src="js/index.js" defer></script>
     </body>
 </html>

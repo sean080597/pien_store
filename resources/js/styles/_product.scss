@@ -65,3 +65,14 @@
 		}
 	}
 }
+/* product details */
+.product-details{
+	&--left{
+		img{
+			padding: 10px;
+			&:hover{
+				border: #eee 1px solid;
+			}
+		}
+	}
+}
