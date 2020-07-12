@@ -3,7 +3,7 @@ import CommonConstants from '../../../config/CommonConstants'
 import CommonService from '../../../services/CommonService.service'
 import { useSelector } from 'react-redux';
 import { useTurnOnOffLoader, useProductDetails, useShopCart } from '../../../hooks/HookManager'
-import {GliderImages, LazyLoadingImage} from '../../../components/ComponentsManager'
+import {AliceSlider, LazyLoadingImage} from '../../../components/ComponentsManager'
 
 export default function ProductDetails(props) {
     useTurnOnOffLoader()
@@ -107,11 +107,7 @@ export default function ProductDetails(props) {
                             <div className="module-subtitle font-serif">The languages only differ in their grammar, their pronunciation and their most common words.</div>
                         </div>
                     </div>
-                    <div className="row">
-                        {/* { relatedProducts.length > 0 &&
-                        <GliderImages>} */}
-                        <GliderImages/>
-                    </div>
+                    { relatedProducts.length > 0 && <AliceSlider data={relatedProducts} />}
                 </div>
             </section>
         </div>

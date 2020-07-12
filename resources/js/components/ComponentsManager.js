@@ -2,10 +2,10 @@
 import Footer from './client/Footer'
 import Navbar from './client/Navbar'
 import NewProduct from './client/NewProduct'
-import GliderImages from './client/GliderImages'
 import SingleOrder from './client/SingleOrder'
 import SinglePhoto from './client/gallery/SinglePhoto'
 import lsPhotos from './client/gallery/lsPhotos'
+import AliceSlider from './client/slider/AliceSlider'
 // admin
 import SideBarCollapse from './admin/SideBarCollapse'
 // common
@@ -25,7 +25,7 @@ export {
     Navbar,
     NewProduct,
     PagePagination,
-    GliderImages,
+    AliceSlider,
     SingleOrder,
     ProgressBarAnimation,
     ProgressBarSteps,
