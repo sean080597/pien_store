@@ -38,6 +38,9 @@ body {
   -webkit-font-smoothing: antialiased;
   text-align: unset;
   @extend .custom-scrollbar;
+  *,*:focus,*:hover{
+    outline:none;
+  }
 }
 
 /* Chrome, Safari, Edge, Opera */
@@ -402,4 +405,29 @@ img {
 --------------------------------------------------------------*/
 .reveal{
   opacity: 1 !important;
+}
+
+/*--------------------------------------------------------------
+  react slick carousel
+--------------------------------------------------------------*/
+.slider{
+  &-container{
+    position: relative;
+    .arrow-btn {
+      color: whitesmoke;
+      font-size: 36px;
+      border: none;
+      z-index: 1;
+      &:focus{
+        background-color: transparent;
+      }
+    }
+  }
+  &-arrow {
+    position: absolute;
+    display: flex;
+    justify-content: space-between;
+    height: 100%;
+    width: 100%;
+  }
 }

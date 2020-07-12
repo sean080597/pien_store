@@ -66,5 +66,9 @@
     },
     "DEFAULT_GENDER": "M",
     "DEFAULT_ROLE": "adm",
-    "DEFAULT_CATEID": "CATE_01"
+    "DEFAULT_CATEID": "CATE_01",
+    "SLIDER": {
+        "SPEED": 2000,
+        "AUTOPLAY_SPEED": 4000
+    }
 }
