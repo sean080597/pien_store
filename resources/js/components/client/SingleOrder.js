@@ -1,9 +1,10 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
-import CommonService from '../../services/CommonService.service'
 import {LazyLoadingImage} from '../ComponentsManager'
+import {useCommonService} from '../../hooks/HookManager'
 
 export default function YourOrders (props) {
+    const CommonService = useCommonService()
     return (
         <>
         {props.orderInfo.address_info && props.orderInfo.products &&

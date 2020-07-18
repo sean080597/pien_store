@@ -1,13 +1,14 @@
 import {useEffect, useState} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import CommonConstants from '../../../config/CommonConstants'
-import CommonService from '../../../services/CommonService.service'
-import ConnectionService from '../../../services/ConnectionService.service'
+import {useConnectionService, useCommonService} from '../../HookManager'
 import iziToast from 'izitoast'
 
 const apiUrl = CommonConstants.API_URL;
 
 export default function useUserProfile(initial, modalRef) {
+    const CommonService = useCommonService()
+    const ConnectionService = useConnectionService()
     const dispatch = useDispatch()
     const {userProfile} = useSelector(state => ({
         userProfile: state.auth.profile
@@ -29,12 +30,13 @@ export default function useUserProfile(initial, modalRef) {
     //apply
     const applyGetUserProfile = async () => {
         const apiQuery = `${apiUrl}/user/me`
-        ConnectionService.axiosPostByUrlWithToken(apiQuery)
-        .then(async res => {
-            await applySetUserInfo(res)
-            await dispatch({type: 'SET_USER_PROFILE', payload: res})
-            CommonService.turnOffLoader()
+        CommonService.turnOnLoader()
+        await ConnectionService.axiosPostByUrlWithToken(apiQuery)
+        .then(res => {
+            applySetUserInfo(res)
+            dispatch({type: 'SET_USER_PROFILE', payload: res})
         })
+        CommonService.turnOffLoader()
     }
     //set userInputs
     const applySetUserInfo = (user) => {
@@ -54,20 +56,21 @@ export default function useUserProfile(initial, modalRef) {
         userProfile.address = userInputs.address
     }
 
-    const applyUpdateUserProfile = () => {
+    const applyUpdateUserProfile = async () => {
         const apiQuery = `${apiUrl}/customer/updateCustomerInfo`
-        ConnectionService.axiosPostByUrlWithToken(apiQuery, userInputs)
-        .then(async res => {
+        CommonService.turnOnLoader()
+        await ConnectionService.axiosPostByUrlWithToken(apiQuery, userInputs)
+        .then(res => {
             if(res.success){
-                await applySetUserInfoReduxState(userProfile)
-                await dispatch({type: 'SET_USER_PROFILE', payload: userProfile})
+                applySetUserInfoReduxState(userProfile)
+                dispatch({type: 'SET_USER_PROFILE', payload: userProfile})
                 modalRef.current.closeModal()
-                CommonService.turnOffLoader()
                 iziToast.success({
                     title: CommonConstants.NOTIFY.PRODUCT_DETAILS.UPDATED_CUSTOMER_INFO,
                 });
             }
         })
+        CommonService.turnOffLoader()
     }
 
     useEffect(() => {

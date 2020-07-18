@@ -1,13 +1,13 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import CommonService from '../../services/CommonService.service'
 import CommonConstants from '../../config/CommonConstants'
-import { useGoogleLogin } from '../HookManager'
+import { useGoogleLogin, useCommonService } from '../HookManager'
 // import Cookie from 'js-cookie'
 // import axios from 'axios'
 // import {usePromiseTracker} from 'react-promise-tracker'
 
 export default function useTurnOnOffLoader() {
+    const CommonService = useCommonService()
     const dispatch = useDispatch()
     const {curPath, cartCount} = useSelector(state => ({
         curPath: state.common.currentPath,

@@ -1,11 +1,11 @@
 import React, {useRef, useMemo } from 'react'
 import { useSelector } from 'react-redux'
-import { useInitializePageAdmin, useAdminActions } from '../../hooks/HookManager'
+import { useInitializePageAdmin, useAdminActions, useCommonService } from '../../hooks/HookManager'
 import { ReactTable, Modal, PagePagination } from '../../components/ComponentsManager'
 import _ from 'lodash'
-import CommonService from '../../services/CommonService.service'
 
 export default function AdminCategory(props) {
+  const CommonService = useCommonService()
   // modal ref
   const modalRef = useRef()
   const openModal = () => { modalRef.current.openModal() }

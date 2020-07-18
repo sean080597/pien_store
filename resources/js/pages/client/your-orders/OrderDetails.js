@@ -1,11 +1,10 @@
 import React from 'react'
 import _ from 'lodash'
-import { useTurnOnOffLoader, useOrderDetails } from '../../../hooks/HookManager'
-import {ProgressBarSteps} from '../../../components/ComponentsManager'
-import CommonService from '../../../services/CommonService.service'
-import {LazyLoadingImage} from '../../../components/ComponentsManager'
+import { useTurnOnOffLoader, useOrderDetails, useCommonService } from '../../../hooks/HookManager'
+import {ProgressBarSteps, LazyLoadingImage} from '../../../components/ComponentsManager'
 
 export default function OrderDetails(props) {
+    const CommonService = useCommonService()
     useTurnOnOffLoader()
     const lsSteps = ['received', 'processing', 'delivering', 'delivered']
     const {orderDetailsInfo} = useOrderDetails(props.match.params.order_id)

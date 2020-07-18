@@ -1,13 +1,13 @@
 import React from 'react'
 import CommonConstants from '../../config/CommonConstants'
-import CommonService from '../../services/CommonService.service'
 import {LazyLoadingImage} from '../ComponentsManager'
 import {Link} from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import Cookie from 'js-cookie'
-import { useAdminActions } from '../../hooks/HookManager'
+import { useAdminActions, useCommonService } from '../../hooks/HookManager'
 
 export default function SideBarCollapse(props) {
+  const CommonService = useCommonService()
   const dispatch = useDispatch()
   const {userName, userRole} = useSelector(state => ({
     userName: state.auth.user.fullname,

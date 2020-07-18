@@ -1,9 +1,10 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import PageLoadService from '../../services/PageLoadService.service'
-import CommonService from '../../services/CommonService.service'
+import {useCommonService, usePageLoadService} from '../../hooks/HookManager'
 
 export default function useNotFoundPage() {
+    const CommonService = useCommonService()
+    const PageLoadService = usePageLoadService()
     const dispatch = useDispatch()
     const {curPath} = useSelector(state => ({
         curPath: state.common.currentPath

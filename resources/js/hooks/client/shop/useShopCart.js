@@ -1,10 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import CommonService from '../../../services/CommonService.service'
-import ConnectionService from '../../../services/ConnectionService.service'
 import {useEffect, useState, useRef} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {useHistory} from 'react-router-dom'
 import CommonConstants from '../../../config/CommonConstants'
+import {useConnectionService, useCommonService} from '../../HookManager'
 import iziToast from 'izitoast'
 import _ from 'lodash'
 
@@ -13,8 +12,10 @@ const routeCanGetCategoriesAll = ['/', '/shop']
 const routeCanGetProductsAll = ['/shop']
 
 export default function useShopCart(initial, componentName){
-    const history = useHistory()
+    const CommonService = useCommonService()
+    const ConnectionService = useConnectionService()
     const dispatch = useDispatch()
+    const history = useHistory()
     const {isLoggedIn, currentPath, cartItems, allCategories, allProducts} = useSelector(state => ({
         isLoggedIn: state.auth.loggedIn,
         currentPath: state.common.currentPath,
@@ -80,26 +81,28 @@ export default function useShopCart(initial, componentName){
     }
 
     //apply
-    const applyCategoriesAll = () => {
+    const applyCategoriesAll = async () => {
         const apiQuery = `${apiUrl}/category/searchData`
-        ConnectionService.axiosPostByUrl(apiQuery)
-        .then(async res => {
-            await dispatch({type: 'SET_CATEGORIES', payload: res.data})
-            CommonService.turnOffLoader()
+        CommonService.turnOnLoader()
+        await ConnectionService.axiosPostByUrl(apiQuery)
+        .then(res => {
+            dispatch({type: 'SET_CATEGORIES', payload: res.data})
         })
+        CommonService.turnOffLoader()
     }
 
-    const applyProductsFilter = (pageIndex) => {
+    const applyProductsFilter = async (pageIndex) => {
         const apiQuery = `${apiUrl}/product/getAll/filterData${pageIndex ? '?page=' + pageIndex : ''}`
-        ConnectionService.axiosPostByUrl(apiQuery, sendPaginateFilters.current)
-        .then(async res => {
+        CommonService.turnOnLoader()
+        await ConnectionService.axiosPostByUrl(apiQuery, sendPaginateFilters.current)
+        .then(res => {
             let products = res.data.data
             // delete products list to take all pagination info
             delete res.data.data
-            await dispatch({type: 'SET_PRODUCTS', payload: products})
-            await dispatch({type: 'SET_PAGINATION', payload: res.data})
-            CommonService.turnOffLoader()
+            dispatch({type: 'SET_PRODUCTS', payload: products})
+            dispatch({type: 'SET_PAGINATION', payload: res.data})
         })
+        CommonService.turnOffLoader()
     }
     //use for button AddToCart on Image and change quantity of input quantity
     const applyAddToCart = (product, quantity = 1) => {

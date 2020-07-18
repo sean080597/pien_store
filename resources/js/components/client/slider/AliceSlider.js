@@ -1,9 +1,10 @@
 import React, {useRef} from 'react'
 import AliceCarousel from 'react-alice-carousel'
 import 'react-alice-carousel/lib/alice-carousel.css'
-import CommonService from '../../../services/CommonService.service'
+import {useCommonService} from '../../../hooks/HookManager'
 
 export default function AliceSlider(props) {
+  const CommonService = useCommonService()
   const data = props.data
   const length = data.length > 5 ? 5 : data.length
   const sliderRef = useRef(null)

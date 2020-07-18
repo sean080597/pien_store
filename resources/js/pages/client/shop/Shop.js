@@ -1,12 +1,12 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 import CommonConstants from '../../../config/CommonConstants'
-import CommonService from '../../../services/CommonService.service'
-import {PagePagination, LazyLoadingImage} from '../../../components/ComponentsManager'
 import { useSelector } from 'react-redux';
-import { useTurnOnOffLoader, useShopCart } from '../../../hooks/HookManager'
+import {PagePagination, LazyLoadingImage} from '../../../components/ComponentsManager'
+import { useTurnOnOffLoader, useShopCart, useCommonService } from '../../../hooks/HookManager'
 
 export default function Shop(props) {
+    const CommonService = useCommonService()
     useTurnOnOffLoader()
     const INITIAL = {sort_price: "", cate_id: props.location.state ? props.location.state.cate_id : ''}
     const {filterInputs, handleChange, handleSubmitFilter, handleAddToCart, handlePaginate} = useShopCart(INITIAL, 'SHOP_COMPONENT')

@@ -1,10 +1,10 @@
 import React from 'react'
-import {useTurnOnOffLoader, useOurStory} from '../../hooks/HookManager'
+import {useTurnOnOffLoader, useOurStory, useCommonService} from '../../hooks/HookManager'
 import CommonConstants from '../../config/CommonConstants'
-import CommonService from '../../services/CommonService.service'
 import {LazyLoadingImage} from '../../components/ComponentsManager'
 
 export default function OurStory(props) {
+    const CommonService = useCommonService()
     useTurnOnOffLoader()
     const {lsStories} = useOurStory()
     return (

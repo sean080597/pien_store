@@ -1,12 +1,11 @@
 import React, { useRef } from 'react'
 import {useSelector} from 'react-redux'
 import CommonConstants from '../../config/CommonConstants'
-import CommonService from '../../services/CommonService.service'
-import {useTurnOnOffLoader, useCheckout, useShopCart} from '../../hooks/HookManager'
-import {Modal} from '../../components/ComponentsManager'
-import {LazyLoadingImage} from '../../components/ComponentsManager'
+import {useTurnOnOffLoader, useCheckout, useShopCart, useCommonService} from '../../hooks/HookManager'
+import {Modal, LazyLoadingImage} from '../../components/ComponentsManager'
 
 export default function ConfirmInfo (props) {
+    const CommonService = useCommonService()
     useTurnOnOffLoader()
     useShopCart({}, 'CHECKOUT_COMPONENT')
     //modal ref

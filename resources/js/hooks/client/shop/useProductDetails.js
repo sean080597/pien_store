@@ -1,12 +1,13 @@
 import {useEffect, useState} from 'react'
 import {useDispatch} from 'react-redux'
 import CommonConstants from '../../../config/CommonConstants'
-import CommonService from '../../../services/CommonService.service'
-import ConnectionService from '../../../services/ConnectionService.service'
+import {useConnectionService, useCommonService} from '../../HookManager'
 
 const apiUrl = CommonConstants.API_URL;
 
 export default function useProductDetails(prod_id, initial){
+    const CommonService = useCommonService()
+    const ConnectionService = useConnectionService()
     const dispatch = useDispatch()
     const [userInputs, setUserInputs] = useState(initial)
     const [productInfo, setProductInfo] = useState({})
@@ -29,24 +30,26 @@ export default function useProductDetails(prod_id, initial){
     }
 
     //apply
-    const applyGetProductDetails = () => {
+    const applyGetProductDetails = async () => {
         const apiQuery = `${apiUrl}/product/getSingleData/${prod_id}`
-        ConnectionService.axiosGetByUrl(apiQuery)
+        CommonService.turnOnLoader()
+        await ConnectionService.axiosGetByUrl(apiQuery)
         .then(res => {
             setProductInfo(res.data)
             handleChosenLeftImg(res.data.images && res.data.images.length > 0 ? res.data.images[0].src : '')
             applyGetRelatedProducts()
-            CommonService.turnOffLoader()
         })
+        CommonService.turnOffLoader()
     }
 
-    const applyGetRelatedProducts = () => {
+    const applyGetRelatedProducts = async () => {
         const apiQuery = `${apiUrl}/product/getRelatedProduct/${prod_id}`
-        ConnectionService.axiosGetByUrl(apiQuery)
-        .then(async res => {
-            await dispatch({type: 'SET_RELATED_PRODUCTS', payload: res.data})
-            CommonService.turnOffLoader()
+        CommonService.turnOnLoader()
+        await ConnectionService.axiosGetByUrl(apiQuery)
+        .then(res => {
+            dispatch({type: 'SET_RELATED_PRODUCTS', payload: res.data})
         })
+        CommonService.turnOffLoader()
     }
 
     const handleChosenLeftImg = (imgSrc) => {

@@ -1,14 +1,16 @@
 import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import CommonService from '../../services/CommonService.service'
+import {useConnectionService, useAdminService, useCommonService} from '../HookManager'
 import CommonConstants from '../../config/CommonConstants'
-import ConnectionService from '../../services/ConnectionService.service';
-import AdminService from '../../services/AdminService.service';
 import { useHistory } from 'react-router-dom'
+import Cookie from 'js-cookie'
 
 const apiUrl = CommonConstants.API_URL;
 
 export default function useAdminActions(initial = null, formFields = null, modalRef = null, curType = null) {
+    const ConnectionService = useConnectionService()
+    const CommonService = useCommonService()
+    const AdminService = useAdminService()
     const dispatch = useDispatch()
     const history = useHistory()
     const [userInputs, setUserInputs] = useState(initial)
@@ -88,7 +90,8 @@ export default function useAdminActions(initial = null, formFields = null, modal
         formFields.forEach(key => {
             sendData[key] = userInputs[key]
         })
-        ConnectionService.axiosPostByUrlWithToken(apiQuery, sendData)
+        CommonService.turnOnLoader()
+        await ConnectionService.axiosPostByUrlWithToken(apiQuery, sendData)
         .then(res => {
             if(!res.success && res.message.email) setErrors({...errors, email: res.message.email[0]})
             else setErrors({...errors, email: ''})
@@ -96,12 +99,11 @@ export default function useAdminActions(initial = null, formFields = null, modal
             if(res.success){
                 modalRef.current.closeModal()
             }
-            CommonService.turnOffLoader()
         })
         .catch(res => {
             AdminService.showMessage(res.success, 'user', 'Created', false, null)
-            CommonService.turnOffLoader()
         })
+        CommonService.turnOffLoader()
     }
     const handleSubmitEdit = async (evt) => {
         evt.preventDefault()
@@ -114,7 +116,8 @@ export default function useAdminActions(initial = null, formFields = null, modal
                 sendData[key] = userInputs[key]
             }
         })
-        ConnectionService.axiosPutByUrlWithToken(apiQuery, sendData)
+        CommonService.turnOnLoader()
+        await ConnectionService.axiosPutByUrlWithToken(apiQuery, sendData)
         .then(res => {
             setErrors({...errors, email: (!res.success && res.message.email) ? res.message.email[0] : ''})
             AdminService.showMessage(res.success, 'user', 'Edited', false, null)
@@ -147,17 +150,17 @@ export default function useAdminActions(initial = null, formFields = null, modal
                 dispatch({type: 'SET_LIST_OBJECTS_MANAGERMENT', payload: newLsData})
                 modalRef.current.closeModal()
             }
-            CommonService.turnOffLoader()
         })
         .catch(res => {
             AdminService.showMessage(res.success, 'user', 'Edited', false, null)
-            CommonService.turnOffLoader()
         })
+        CommonService.turnOffLoader()
     }
     const handleSubmitDelete = async (evt) => {
         evt.preventDefault()
         const apiQuery = `${apiUrl}/admin-${curType}/deleteData/${itemId}`
-        ConnectionService.axiosDeleteByUrlWithToken(apiQuery)
+        CommonService.turnOnLoader()
+        await ConnectionService.axiosDeleteByUrlWithToken(apiQuery)
         .then(res => {
             if(res.success){
                 let newLsData = lsObjsManagerment.filter(item => item.id !== itemId)
@@ -165,12 +168,11 @@ export default function useAdminActions(initial = null, formFields = null, modal
                 modalRef.current.closeModal()
             }
             AdminService.showMessage(res.success, 'user', 'Deleted', false, null)
-            CommonService.turnOffLoader()
         })
         .catch(res => {
             AdminService.showMessage(res.success, 'user', 'Edited', false, null)
-            CommonService.turnOffLoader()
         })
+        CommonService.turnOffLoader()
     }
     const handleRefresh = () => {
         applyGetLsObjs(curType)
@@ -211,28 +213,30 @@ export default function useAdminActions(initial = null, formFields = null, modal
         }
     }
 
-    const applyGetLsObjs = (curType, pageIndex = null) => {
-        AdminService.applyGetLsObjsManagerment(curType, pageIndex)
+    const applyGetLsObjs = async (curType, pageIndex = null) => {
+        CommonService.turnOnLoader()
+        await AdminService.applyGetLsObjsManagerment(curType, pageIndex)
         .then(res => {
             dispatch({type: 'SET_LIST_OBJECTS_MANAGERMENT', payload: res.lsObjs})
             dispatch({type: 'SET_PAGINATION', payload: res.pagination})
-            CommonService.turnOffLoader()
         })
         .catch(() => AdminService.showMessage(false, curType, 'Get', false, null))
+        CommonService.turnOffLoader()
     }
 
-    const applyLogoutUser = () => {
+    const applyLogoutUser = async () => {
         const apiQuery = `${apiUrl}/user/logout`
-        ConnectionService.axiosPostByUrlWithToken(apiQuery)
+        CommonService.turnOnLoader()
+        await ConnectionService.axiosPostByUrlWithToken(apiQuery)
         .then(res => {
             if(res.success){
                 Cookie.remove('access_token')
                 dispatch({type: 'LOGOUT_USER'})
                 dispatch({type: 'SET_USER_PROFILE', payload: {}})
-                CommonService.turnOffLoader()
             }
         })
         .catch(() => AdminService.showMessage(false, 'User', 'Logout', false, null))
+        CommonService.turnOffLoader()
     }
 
     const checkIsSubmitDisabled = (inputVals, type) => {
