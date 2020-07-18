@@ -2,6 +2,9 @@
     "API_URL": "/api",
     "GOOGLE_CLIENT_ID": "554896225454-k2seqvdfg9v9s2n01eq0imkgb0vg43l4.apps.googleusercontent.com",
     "FACEBOOK_APP_ID": "875917776179798",
+    "TOKEN":{
+        "REFRESH_TIMEOUT": 250000
+    },
     "LOCALSTORAGE_NAME": "pieu_carts",
     "IMAGES_DIR": "/assets/images",
     "PROFILES_DIR": "/assets/images/profiles",
@@ -33,7 +36,8 @@
             "REQUIRED_EMAIL": "Required Email",
             "REQUIRED_PASSWORD": "Required Password",
             "REQUIRED_ORDER_ADDRESS": "Please choose an address to confirm your order",
-            "WRONG_LOGIN_INFO": "Wrong username or password"
+            "WRONG_LOGIN_INFO": "Wrong username or password",
+            "OCCURED_ERROR": "There was an error"
         }
     },
     "NOTIFY": {

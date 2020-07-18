@@ -19,7 +19,7 @@ export default function useGoogleLogin(){
         // setCookie('token', res.accessToken, { path: '/', httpOnly: true, sameSite: 'lax', expires: expiryDate})
         Cookie.set('google_token', resGoogle.accessToken, { sameSite: 'strict', expires: expiryDate})
         //set cookie jwt token
-        Cookie.set('access_token', resJWT.token, { sameSite: 'strict', expires: expiryDate})
+        Cookie.set('access_token', resJWT.access_token, { sameSite: 'strict', expires: expiryDate})
     }
 
     const applyGoogleLogin = async (resGoogle) => {
@@ -27,7 +27,7 @@ export default function useGoogleLogin(){
         const sendData = {
             'googleId': resGoogle.googleId,
             'email': resGoogle.profileObj.email,
-            'expiresIn':  resGoogle.tokenObj.expires_in,
+            'expires_in':  resGoogle.tokenObj.expires_in,
             'input_image': resGoogle.profileObj.imageUrl
         }
         CommonService.turnOnLoader()
@@ -54,7 +54,7 @@ export default function useGoogleLogin(){
                 dispatch({type: 'SET_CART_ITEMS', payload: []})
                 dispatch({type: 'SET_CART_COUNT', payload: 0})
                 dispatch({type: 'SET_CART_TOTAL', payload: 0})
-                dispatch({type: 'SET_USER_PROFILE', payload: {}})
+                dispatch({type: 'SET_AUTH_USER_PROFILE', payload: {}})
                 //remove localStorage
                 localStorage.removeItem(CommonConstants.LOCALSTORAGE_NAME)
                 Cookie.remove('google_token')

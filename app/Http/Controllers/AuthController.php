@@ -93,9 +93,9 @@ class AuthController extends Controller
         $profileObj['fullname'] = $findData->getFullNameAttribute();
         return response()->json([
             'profileObj' => $profileObj,
-            'token' => $token,
+            'access_token' => $token,
+            'expires_in' => auth('api')->factory()->getTTL() * 60, // time to expiration
             'type' => 'bearer', // you can ommit this
-            'expires' => auth('api')->factory()->getTTL() * 60, // time to expiration
         ], 200);
     }
 
@@ -106,13 +106,7 @@ class AuthController extends Controller
         $profileObj = array_merge($userData->toArray(), $findData->toArray());
         $profileObj['role'] = auth()->user()->user_infoable->role->id;
         $profileObj['fullname'] = $findData->getFullNameAttribute();
-        return response()->json([
-            'profileObj' => $profileObj,
-            'token' => null,
-            'type' => 'bearer', // you can ommit this
-            'expires' => auth('api')->factory()->getTTL() * 60, // time to expiration
-            'expired_at' => \JWTAuth::parseToken()->getClaim('exp')
-        ], 200);
+        return $profileObj;
     }
 
     public function me()
@@ -151,7 +145,7 @@ class AuthController extends Controller
     public function authGoogleLogin(Request $request)
     {
         $token = '';
-        $expire_minutes = round(($request->expiresIn)/60, 0, PHP_ROUND_HALF_DOWN);
+        $expire_minutes = round(($request->expires_in)/60, 0, PHP_ROUND_HALF_DOWN);
         // $expire_minutes = 2;
         //check if exists
         $findData = $this->userInfo->where('email', $request->email)->first();
@@ -175,9 +169,9 @@ class AuthController extends Controller
 
         return response()->json([
             'role' => 'cus',
-            'token' => $token,
+            'access_token' => $token,
+            'expires_in' => $request->expires_in, // time to expiration (sec)
             'type' => 'bearer', // you can ommit this
-            'expires' => $request->expiresIn, // time to expiration (sec)
         ], 200);
     }
 }

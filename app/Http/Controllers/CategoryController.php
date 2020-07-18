@@ -79,24 +79,28 @@ class CategoryController extends Controller
         if(\strcmp($user_role, 'adm') !== 0 && \strcmp($user_role, 'mgr') !== 0){
             return response()->json(['success'=>false, 'message'=>Config::get('constants.MSG.ERROR.FORBIDDEN')], 403);
         }
+
+        // validate data
+        $validator = Validator::make($request->all(),
+        [
+            'cateId' => 'string|unique:categories,id',
+            'name' => 'required|string'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['success' => false, 'message' => $validator->messages()->toArray()], 500);
+        }
+
         // find data
         $findData = $this->category::find($id);
         if (!$findData) {
             return response()->json(['success' => false, 'message' => Config::get('constants.MSG.ERROR.INVALID_ID')], 500);
         }
-        // validate data
-        $validator = Validator::make($request->all(),
-        [
-            'id' => 'string|unique:categories',
-            'name' => 'string'
-        ]);
-
-        if($validator->fails()){
-            return response()->json(['success'=>false, 'message'=>$validator->messages()->toArray()], 400);
-        }
 
         // save record
-        $updatedData = $findData->update($request->except('input_image'));
+        $newData['id'] = $request->cateId;
+        $newData['name'] = $request->name;
+        $updatedData = $findData->update($newData);
         if ($updatedData) {
             // delete old image
             $input_image = $request->input_image;

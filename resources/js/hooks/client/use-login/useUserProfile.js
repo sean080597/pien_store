@@ -34,7 +34,7 @@ export default function useUserProfile(initial, modalRef) {
         await ConnectionService.axiosPostByUrlWithToken(apiQuery)
         .then(res => {
             applySetUserInfo(res)
-            dispatch({type: 'SET_USER_PROFILE', payload: res})
+            dispatch({type: 'SET_AUTH_USER_PROFILE', payload: res})
         })
         CommonService.turnOffLoader()
     }
@@ -63,7 +63,7 @@ export default function useUserProfile(initial, modalRef) {
         .then(res => {
             if(res.success){
                 applySetUserInfoReduxState(userProfile)
-                dispatch({type: 'SET_USER_PROFILE', payload: userProfile})
+                dispatch({type: 'SET_AUTH_USER_PROFILE', payload: userProfile})
                 modalRef.current.closeModal()
                 iziToast.success({
                     title: CommonConstants.NOTIFY.PRODUCT_DETAILS.UPDATED_CUSTOMER_INFO,

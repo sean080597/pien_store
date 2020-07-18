@@ -62,6 +62,7 @@ export default function useAdminActions(initial = null, formFields = null, modal
 
         })
         if(curType === 'user') editData['password'] = ''
+        if(curType === 'category') editData['cateId'] = inputInfo.id
         setUserInputs(editData)
         applyModalProperties(`Edit ${curType}`, true, false)
         modalRef.current.openModal()
@@ -110,7 +111,7 @@ export default function useAdminActions(initial = null, formFields = null, modal
         const apiQuery = `${apiUrl}/admin-${curType}/editData/${itemId}`
         let sendData = {}
         formFields.forEach(key => {
-            if(key === 'input_image' && !userInputs[key].includes('base64') && !userInputs[key].includes('http')){
+            if(key === 'input_image' && userInputs[key] && !userInputs[key].includes('base64') && !userInputs[key].includes('http')){
                 sendData[key] = ''
             }else{
                 sendData[key] = userInputs[key]
@@ -227,7 +228,7 @@ export default function useAdminActions(initial = null, formFields = null, modal
             if(res.success){
                 Cookie.remove('access_token')
                 dispatch({type: 'LOGOUT_USER'})
-                dispatch({type: 'SET_USER_PROFILE', payload: {}})
+                dispatch({type: 'SET_AUTH_USER_PROFILE', payload: {}})
             }
         })
         .catch(() => AdminService.showMessage(false, 'User', 'Logout', false, null))
