@@ -1,11 +1,11 @@
 import React from 'react'
 import CommonConstants from '../../../config/CommonConstants'
-import CommonService from '../../../services/CommonService.service'
 import { useSelector } from 'react-redux';
-import { useTurnOnOffLoader, useProductDetails, useShopCart } from '../../../hooks/HookManager'
+import { useTurnOnOffLoader, useProductDetails, useShopCart, useCommonService } from '../../../hooks/HookManager'
 import {AliceSlider, LazyLoadingImage} from '../../../components/ComponentsManager'
 
 export default function ProductDetails(props) {
+    const CommonService = useCommonService()
     useTurnOnOffLoader()
     const INITIAL = {quantity: 1, prodImgSrc: ''}
     const {productInfo, userInputs, handleChangeQuantity, handleReplaceProduct, handleChosenLeftImg} = useProductDetails(props.match.params.prod_id, INITIAL)

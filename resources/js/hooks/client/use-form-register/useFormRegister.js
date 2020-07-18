@@ -1,10 +1,11 @@
 import {useState, useEffect} from 'react'
 import {useHistory} from 'react-router-dom'
-import CommonService from '../../../services/CommonService.service'
+import {useCommonService} from '../../HookManager'
 import CommonConstants from '../../config/CommonConstants'
 import axios from 'axios'
 
 export default function useFormLogin(initital, validate) {
+    const CommonService = useCommonService()
     const history = useHistory();
     const [userInputs, setUserInputs] = useState(initital)
     const [errors, setErrors] = useState({})

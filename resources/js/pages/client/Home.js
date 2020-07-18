@@ -1,12 +1,12 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 import CommonConstants from '../../config/CommonConstants'
-import CommonService from '../../services/CommonService.service'
-import {useShopCart, useTurnOnOffLoader} from '../../hooks/HookManager'
+import {useShopCart, useTurnOnOffLoader, useCommonService} from '../../hooks/HookManager'
 import {NewProduct, LazyLoadingImage} from '../../components/ComponentsManager'
 import { useSelector } from 'react-redux';
 
 export default function Home(props) {
+    const CommonService = useCommonService()
     useTurnOnOffLoader()
     useShopCart({}, 'HOME_COMPONENT')
     //state

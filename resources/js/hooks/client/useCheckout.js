@@ -1,15 +1,16 @@
 import {useEffect, useState} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import CommonConstants from '../../config/CommonConstants'
-import CommonService from '../../services/CommonService.service'
-import ConnectionService from '../../services/ConnectionService.service'
+import {useConnectionService, useCommonService} from '../HookManager'
+import {useHistory} from 'react-router-dom'
 import _ from 'lodash'
 import iziToast from 'izitoast'
-import {useHistory} from 'react-router-dom'
 
 const apiUrl = CommonConstants.API_URL;
 
 export default function useCheckout(initial, modalRef) {
+    const CommonService = useCommonService()
+    const ConnectionService = useConnectionService()
     const dispatch = useDispatch()
     const history = useHistory()
     const {cusInfo, orderAddresses, cloneOrderAddresses, selectedAddress, cartItems} = useSelector(state => ({
@@ -60,7 +61,7 @@ export default function useCheckout(initial, modalRef) {
         modalRef.current.closeModal()
     }
 
-    const handleConfirmOrder = () => {
+    const handleConfirmOrder = async () => {
         if(CommonService.isAnyPropertyOfObjectEmpty(selectedAddress, ['midname'])){
             iziToast.error({
                 theme: 'dark',
@@ -76,15 +77,14 @@ export default function useCheckout(initial, modalRef) {
                 'cart_items': items,
                 'shipment_id': selectedAddress.id
             }
-
-            ConnectionService.axiosPostByUrlWithToken(apiQuery, sendData)
-            .then(async res => {
+            CommonService.turnOnLoader()
+            await ConnectionService.axiosPostByUrlWithToken(apiQuery, sendData)
+            .then(res => {
                 if(res.success){
                     localStorage.removeItem(CommonConstants.LOCALSTORAGE_NAME)
                     dispatch({type: 'SET_CART_ITEMS', payload: []})
                     dispatch({type: 'SET_CART_COUNT', payload: 0})
                     dispatch({type: 'SET_CART_TOTAL', payload: 0})
-                    CommonService.turnOffLoader()
                     iziToast.success({
                         title: CommonConstants.NOTIFY.CHECKOUT.ORDER_SUCCESS,
                         position: 'topCenter'
@@ -92,6 +92,7 @@ export default function useCheckout(initial, modalRef) {
                     history.push("/shop");
                 }
             })
+            CommonService.turnOffLoader()
         }
     }
 
@@ -102,20 +103,21 @@ export default function useCheckout(initial, modalRef) {
         orderAddresses.map((addr) => { return addr.isEditable = false })
     }
 
-    const handleAddNewAddress = () => {
+    const handleAddNewAddress = async () => {
         const apiQuery = `${apiUrl}/customer/createShipmentDetail`
         const sendData = _.cloneDeep(userInputs)
         delete sendData['isShowAddNewAddress']
-        ConnectionService.axiosPostByUrlWithToken(apiQuery, sendData)
-        .then(async res => {
+        CommonService.turnOnLoader()
+        await ConnectionService.axiosPostByUrlWithToken(apiQuery, sendData)
+        .then(res => {
             if(res.success){
                 orderAddresses.push(res.data)
-                await applySetStateOrderAddresses(orderAddresses)
+                applySetStateOrderAddresses(orderAddresses)
                 // empty userInputs after adding new address
                 handleClearState()
-                CommonService.turnOffLoader()
             }
         })
+        CommonService.turnOffLoader()
     }
 
     const handleDeleteShipmentDetails = (shipment_id) => {
@@ -162,39 +164,41 @@ export default function useCheckout(initial, modalRef) {
     //apply
     const applyGetOrderAddresses = async () => {
         const apiQuery = `${apiUrl}/customer/getOrderAddresses`
-        ConnectionService.axiosGetByUrlWithToken(apiQuery)
-        .then(async res => {
+        CommonService.turnOnLoader()
+        await ConnectionService.axiosGetByUrlWithToken(apiQuery)
+        .then(res => {
             if(res.success){
                 if(res.data.length > 0){
-                    await applySetStateOrderAddresses(res.data)
-                    await dispatch({type: 'SET_SELECTED_ADDRESS', payload: res.data[0]})
+                    applySetStateOrderAddresses(res.data)
+                    dispatch({type: 'SET_SELECTED_ADDRESS', payload: res.data[0]})
                 }
-                CommonService.turnOffLoader()
             }
         })
+        CommonService.turnOffLoader()
     }
 
-    const applyDeleteShipmentDetail = (shipment_id) => {
+    const applyDeleteShipmentDetail = async (shipment_id) => {
         const apiQuery = `${apiUrl}/customer/deleteShipmentDetail/${shipment_id}`
-        ConnectionService.axiosDeleteByUrlWithToken(apiQuery)
-        .then(async res => {
+        CommonService.turnOnLoader()
+        await ConnectionService.axiosDeleteByUrlWithToken(apiQuery)
+        .then(res => {
             if(res.success){
                 _.remove(orderAddresses, (item) => {
                     return item.id === shipment_id
                 })
                 if(selectedAddress.id === shipment_id){
                     orderAddresses[0].isChecked = true
-                    await dispatch({type: 'SET_SELECTED_ADDRESS', payload: orderAddresses[0]})
+                    dispatch({type: 'SET_SELECTED_ADDRESS', payload: orderAddresses[0]})
                 }
                 // set orderAddresses
-                await applySetStateOrderAddresses(orderAddresses)
-                CommonService.turnOffLoader()
+                applySetStateOrderAddresses(orderAddresses)
                 iziToast.success({
                     title: CommonConstants.NOTIFY.CHECKOUT.DELETE_SHIPMENT_SUCCESS,
                     position: 'topCenter'
                 })
             }
         })
+        CommonService.turnOffLoader()
     }
 
     const applySetStateOrderAddresses = (data) => {
@@ -212,20 +216,21 @@ export default function useCheckout(initial, modalRef) {
         })
     }
 
-    const applyEditShipmentDetails = (shipmentDetails) => {
+    const applyEditShipmentDetails = async (shipmentDetails) => {
         const apiQuery = `${apiUrl}/customer/editShipmentDetail`
-        ConnectionService.axiosPutByUrlWithToken(apiQuery, shipmentDetails)
-        .then(async res => {
+        CommonService.turnOnLoader()
+        await ConnectionService.axiosPutByUrlWithToken(apiQuery, shipmentDetails)
+        .then(res => {
             if(res.success){
                 orderAddresses.map((item) => { return item.isEditable = false })
-                await applySetStateOrderAddresses(orderAddresses)
-                CommonService.turnOffLoader()
+                applySetStateOrderAddresses(orderAddresses)
                 iziToast.success({
                     title: CommonConstants.NOTIFY.CHECKOUT.EDITED_SHIPMENT_SUCCESS,
                     position: 'topCenter'
                 })
             }
         })
+        CommonService.turnOffLoader()
     }
 
     useEffect(() => {

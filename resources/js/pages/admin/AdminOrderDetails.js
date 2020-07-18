@@ -1,10 +1,10 @@
 import React from 'react'
 import _ from 'lodash'
-import { useOrderDetails } from '../../hooks/HookManager'
-import CommonService from '../../services/CommonService.service'
+import { useOrderDetails, useCommonService } from '../../hooks/HookManager'
 import { LazyLoadingImage } from '../../components/ComponentsManager'
 
 export default function AdminOrderDetails(props) {
+  const CommonService = useCommonService()
   const orderID = props.match.params.order_id
   const { orderDetailsInfo } = useOrderDetails(orderID)
   // shipping info

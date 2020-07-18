@@ -99,6 +99,22 @@ class AuthController extends Controller
         ], 200);
     }
 
+    public function getLoggedIn()
+    {
+        $userData = auth()->user();
+        $findData = $this->user->find($userData->user_infoable->id)->addressInfo()->where('isMainAddress', 1)->first();
+        $profileObj = array_merge($userData->toArray(), $findData->toArray());
+        $profileObj['role'] = auth()->user()->user_infoable->role->id;
+        $profileObj['fullname'] = $findData->getFullNameAttribute();
+        return response()->json([
+            'profileObj' => $profileObj,
+            'token' => null,
+            'type' => 'bearer', // you can ommit this
+            'expires' => auth('api')->factory()->getTTL() * 60, // time to expiration
+            'expired_at' => \JWTAuth::parseToken()->getClaim('exp')
+        ], 200);
+    }
+
     public function me()
     {
         // return \JWTAuth::parseToken()->getClaim('exp');
@@ -121,6 +137,15 @@ class AuthController extends Controller
     public function refresh()
     {
         return $this->respondWithToken(auth()->refresh());
+    }
+
+    protected function respondWithToken($token)
+    {
+        return response()->json([
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => auth()->factory()->getTTL() * 60
+        ]);
     }
 
     public function authGoogleLogin(Request $request)

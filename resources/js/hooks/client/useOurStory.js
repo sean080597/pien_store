@@ -1,25 +1,27 @@
 import { useState, useEffect } from 'react'
-import ConnectionService from '../../services/ConnectionService.service'
 import CommonConstants from '../../config/CommonConstants'
-import CommonService from '../../services/CommonService.service';
+import {useConnectionService, useCommonService} from '../HookManager'
 
 const apiUrl = CommonConstants.API_URL;
 
 export default function useOurStory() {
+  const CommonService = useCommonService()
+  const ConnectionService = useConnectionService()
   const [lsStories, setLsStories] = useState([])
 
   //handle
   
   // apply
-  const applyGetOurStories = () => {
+  const applyGetOurStories = async () => {
     const apiQuery = `${apiUrl}/our-stories/getData`
-    ConnectionService.axiosGetByUrl(apiQuery)
+    CommonService.turnOnLoader()
+    await ConnectionService.axiosGetByUrl(apiQuery)
     .then(res => {
       if(res.success){
         setLsStories(res.data)
-        CommonService.turnOffLoader()
       }
     })
+    CommonService.turnOffLoader()
   }
 
   useEffect(() => {

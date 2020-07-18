@@ -3,14 +3,15 @@ import {useEffect} from 'react'
 import {useDispatch} from 'react-redux'
 import Cookie from 'js-cookie'
 import moment from "moment";
-import PageLoadService from '../../../services/PageLoadService.service'
 import CommonConstants from '../../../config/CommonConstants'
-import ConnectionService from '../../../services/ConnectionService.service'
-import CommonService from '../../../services/CommonService.service';
+import {useConnectionService, useCommonService, usePageLoadService} from '../../HookManager'
 
 const apiUrl = CommonConstants.API_URL;
 
 export default function useGoogleLogin(){
+    const CommonService = useCommonService()
+    const ConnectionService = useConnectionService()
+    const PageLoadService = usePageLoadService()
     const dispatch = useDispatch()
     const setCookieToken = (resGoogle, resJWT) => {
         let expiryIn = resGoogle.tokenObj.expires_in
@@ -21,7 +22,7 @@ export default function useGoogleLogin(){
         Cookie.set('access_token', resJWT.token, { sameSite: 'strict', expires: expiryDate})
     }
 
-    const applyGoogleLogin = (resGoogle) => {
+    const applyGoogleLogin = async (resGoogle) => {
         const apiQuery = `${apiUrl}/user/authGoogleLogin`
         const sendData = {
             'googleId': resGoogle.googleId,
@@ -29,21 +30,23 @@ export default function useGoogleLogin(){
             'expiresIn':  resGoogle.tokenObj.expires_in,
             'input_image': resGoogle.profileObj.imageUrl
         }
-        ConnectionService.axiosPostByUrl(apiQuery, sendData)
-        .then(async resJWT => {
+        CommonService.turnOnLoader()
+        await ConnectionService.axiosPostByUrl(apiQuery, sendData)
+        .then(resJWT => {
             resGoogle.profileObj.role = resJWT.role
             //dispatch
-            await dispatch({type: 'LOGIN_GOOGLE', payload: resGoogle})
-            await setCookieToken(resGoogle, resJWT)
+            dispatch({type: 'LOGIN_GOOGLE', payload: resGoogle})
+            setCookieToken(resGoogle, resJWT)
             //recall event hover dropdown
-            await PageLoadService.setNavbarHoverDropdown()
-            CommonService.turnOffLoader()
+            PageLoadService.setNavbarHoverDropdown()
         })
+        CommonService.turnOffLoader()
     }
 
     const applyGoogleLogout = async () => {
         const apiQuery = `${apiUrl}/user/logout`
-        ConnectionService.axiosPostByUrlWithToken(apiQuery)
+        CommonService.turnOnLoader()
+        await ConnectionService.axiosPostByUrlWithToken(apiQuery)
         .then(res => {
             if(res.success){
                 dispatch({type: 'LOGOUT_USER'})
@@ -56,9 +59,9 @@ export default function useGoogleLogin(){
                 localStorage.removeItem(CommonConstants.LOCALSTORAGE_NAME)
                 Cookie.remove('google_token')
                 Cookie.remove('access_token')
-                CommonService.turnOffLoader()
             }
         })
+        CommonService.turnOffLoader()
     }
 
     useEffect(() => {

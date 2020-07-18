@@ -2,11 +2,12 @@ import React, { Component } from 'react'
 import RouterClient from '../routes/routes-client'
 import RouterAdmin from '../routes/routes-admin'
 import $ from 'jquery';
-import PageLoadService from '../services/PageLoadService.service';
 import { LoadingIndicator } from '../components/ComponentsManager'
+import {usePageLoadService} from '../hooks/HookManager'
 //plugins
 import '../plugins/iziToast'
-import '../plugins/reactSlick'
+
+const PageLoadService = usePageLoadService()
 
 export default class MainLayout extends Component {
   //methods

@@ -4,13 +4,13 @@ import {GoogleLogin, GoogleLogout} from 'react-google-login'
 // import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
 import { useSelector } from 'react-redux'
 import CommonConstants from '../../config/CommonConstants'
-import CommonService from '../../services/CommonService.service'
-import { useGoogleLogin } from '../../hooks/HookManager'
+import { useGoogleLogin, useCommonService } from '../../hooks/HookManager'
 import Cookie from 'js-cookie'
 import iziToast from "izitoast";
 import _ from 'lodash'
 
 export default function Navbar(props) {
+  const CommonService = useCommonService()
   const history = useHistory()
   const {userName, userImage, token, isNotFoundPage, cartCount, currentPath, selectedAddress} = useSelector(state => ({
     userName: state.auth.user.name,

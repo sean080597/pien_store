@@ -1,18 +1,14 @@
 import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import CommonConstants from '../../config/CommonConstants'
-import CommonService from '../../services/CommonService.service'
-import ConnectionService from '../../services/ConnectionService.service'
-import AdminService from '../../services/AdminService.service'
+import {useAdminService, useCommonService} from '../HookManager'
 
 export default function useInitializePageAdmin(curType) {
+    const CommonService = useCommonService()
+    const AdminService = useAdminService()
     const dispatch = useDispatch()
     const {curPath} = useSelector(state => ({
         curPath: state.common.currentPath
     }))
-
-    // handle
-    const handleToken = () => {}
 
     const getLsObjsManagerment = () => {
         AdminService.applyGetLsObjsManagerment(curType)

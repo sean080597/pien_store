@@ -59,6 +59,7 @@ Route::group(['prefix' => 'our-stories'], function () {
 });
 // admin
 Route::group(['prefix' => 'admin-user'], function () {
+    Route::post('me', 'AuthController@getLoggedIn');
     Route::post('createData', 'UserController@createData');
     Route::put('editData/{id}', 'UserController@editData');
     Route::delete('deleteData/{id}', 'UserController@deleteData');

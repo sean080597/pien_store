@@ -21,6 +21,13 @@ import useAdminActions from './admin/useAdminActions'
 import useNotFoundPage from './common/useNotFoundPage'
 import useScreenWidth from './common/useScreenWidth'
 
+// services
+import useConnectionService from './services/useConnectionService'
+import useCommonService from './services/useCommonService'
+import usePageLoadService from './services/usePageLoadService'
+import useAdminService from './services/useAdminService'
+import useClientService from './services/useClientService'
+
 export {
     // client
     useTurnOnOffLoader,
@@ -43,5 +50,12 @@ export {
 
     // common
     useScreenWidth,
-    useNotFoundPage
+    useNotFoundPage,
+
+    // services
+    useConnectionService,
+    useCommonService,
+    usePageLoadService,
+    useAdminService,
+    useClientService
 }

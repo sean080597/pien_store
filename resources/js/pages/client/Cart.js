@@ -1,11 +1,11 @@
 import React from 'react'
 import {useSelector} from 'react-redux'
 import CommonConstants from '../../config/CommonConstants'
-import CommonService from '../../services/CommonService.service'
-import {useTurnOnOffLoader, useShopCart} from '../../hooks/HookManager'
+import {useTurnOnOffLoader, useShopCart, useCommonService} from '../../hooks/HookManager'
 import {LazyLoadingImage} from '../../components/ComponentsManager'
 
 export default function Cart (props) {
+    const CommonService = useCommonService()
     useTurnOnOffLoader()
     const {handleChangeQuantity, applyRemoveCartItem, handleGoToCheckoutPage, handleSubtractQuantity, handleAddQuantity} = useShopCart({}, 'CART_COMPONENT')
     //state

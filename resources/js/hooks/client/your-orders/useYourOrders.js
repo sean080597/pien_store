@@ -1,12 +1,13 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import CommonConstants from '../../../config/CommonConstants'
-import CommonService from '../../../services/CommonService.service'
-import ConnectionService from '../../../services/ConnectionService.service';
+import {useConnectionService, useCommonService} from '../../HookManager'
 
 const apiUrl = CommonConstants.API_URL;
 
 export default function useYourOrders() {
+    const CommonService = useCommonService()
+    const ConnectionService = useConnectionService()
     const dispatch = useDispatch()
     const defaultPageSize = 5
     const {cusInfo} = useSelector(state => ({
@@ -19,21 +20,22 @@ export default function useYourOrders() {
     }
 
     // apply
-    const applyGetYourOrders = (pageIndex = null, pagination) => {
+    const applyGetYourOrders = async (pageIndex = null, pagination) => {
         const cusId = cusInfo.googleId ? cusInfo.googleId : cusInfo.id
         const sendData = {
             pageSize: pagination
         }
         const apiQuery = `${apiUrl}/order/searchData/${cusId}${pageIndex ? '?page=' + pageIndex : ''}`
-        ConnectionService.axiosPostByUrlWithToken(apiQuery, sendData)
-        .then(async res => {
+        CommonService.turnOnLoader()
+        await ConnectionService.axiosPostByUrlWithToken(apiQuery, sendData)
+        .then(res => {
             let recentOrders = res.data.data
             // delete recent orders list to take all pagination info
             delete res.data.data
-            await dispatch({type: 'SET_RECENT_ORDERS', payload: recentOrders})
-            await dispatch({type: 'SET_PAGINATION', payload: res.data})
-            CommonService.turnOffLoader()
+            dispatch({type: 'SET_RECENT_ORDERS', payload: recentOrders})
+            dispatch({type: 'SET_PAGINATION', payload: res.data})
         })
+        CommonService.turnOffLoader()
     }
 
     useEffect(() => {
