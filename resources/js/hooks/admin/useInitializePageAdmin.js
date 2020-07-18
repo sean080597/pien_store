@@ -10,32 +10,22 @@ export default function useInitializePageAdmin(curType) {
         curPath: state.common.currentPath
     }))
 
-    const getLsObjsManagerment = () => {
-        AdminService.applyGetLsObjsManagerment(curType)
-        .then(res => {
-            dispatch({type: 'SET_LIST_OBJECTS_MANAGERMENT', payload: res.lsObjs})
-            dispatch({type: 'SET_PAGINATION', payload: res.pagination})
-            CommonService.turnOffLoader()
-        })
-        .catch(() => AdminService.showMessage(false, curType, 'Get', false, null))
+    const getLsObjsManagerment = async () => {
+        CommonService.turnOnLoader()
+        await AdminService.applyGetLsObjsManagerment(curType)
+        CommonService.turnOffLoader()
     }
 
     const getGetAllRoles = async () => {
-        AdminService.applyGetAllRoles()
-        .then(async res => {
-            await dispatch({type: 'SET_LIST_ROLES', payload: res.data})
-            CommonService.turnOffLoader()
-        })
-        .catch(() => AdminService.showMessage(false, curType, 'Get', false, null))
+        CommonService.turnOnLoader()
+        await AdminService.applyGetAllRoles()
+        CommonService.turnOffLoader()
     }
 
     const getGetAllCategories = async () => {
-        AdminService.applyGetAllCategories()
-        .then(async res => {
-            await dispatch({type: 'SET_LIST_CATEGORIES', payload: res.data})
-            CommonService.turnOffLoader()
-        })
-        .catch(() => AdminService.showMessage(false, curType, 'Get', false, null))
+        CommonService.turnOnLoader()
+        await AdminService.applyGetAllCategories()
+        CommonService.turnOffLoader()
     }
 
     useEffect(() => {

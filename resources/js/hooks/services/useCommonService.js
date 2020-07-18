@@ -1,3 +1,4 @@
+import $ from 'jquery'
 import CommonConstants from '../../config/CommonConstants'
 
 const protectedRoutes = ['/customer/profile', '/customer/checkout', '/customer/yourOrders']
