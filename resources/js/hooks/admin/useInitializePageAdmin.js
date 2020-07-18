@@ -40,9 +40,8 @@ export default function useInitializePageAdmin(curType) {
         if(curType && curType.includes('product')){
             getGetAllCategories()
         }
-        return () => {
-            if(AdminService.lsPagesManagerment.indexOf(curType) === -1) CommonService.turnOffLoader()
-        }
+        if(AdminService.lsPagesManagerment.indexOf(curType) === -1) CommonService.turnOffLoader()
+        return () => {}
     }, [curPath])
     return;
 }

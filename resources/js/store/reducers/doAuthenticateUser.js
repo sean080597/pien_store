@@ -4,10 +4,12 @@ const AuthenticateReducer = (state = {}, {type, payload}) => {
             return {...state, loggedIn: true, token: payload.accessToken, user: payload.profileObj}
         case 'LOGOUT_USER':
             return {...state, loggedIn: false, token: '', user: {}}
-        case 'SET_USER_PROFILE':
-            return {...state, profile: payload}
         case 'LOGIN_ADMIN':
-            return {...state, loggedIn: true, token: payload.token, user: payload.profileObj}
+            return {...state, loggedIn: true, token: payload.access_token, user: payload.profileObj}
+        case 'SET_AUTH_USER':
+            return {...state, user: payload}
+        case 'SET_AUTH_USER_PROFILE':
+            return {...state, profile: payload}
         default:
             return state
     }

@@ -1,9 +1,10 @@
 import CommonConstants from '../../config/CommonConstants'
 import { useConnectionService, useCommonService } from '../HookManager'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import moment from 'moment'
 import Cookie from 'js-cookie'
+import iziToast from 'izitoast'
 
 const apiUrl = CommonConstants.API_URL
 const regexEmail = new RegExp("^[a-zA-Z0-9_.+\-]+@[a-zA-Z0-9\-]+(\.[a-zA-Z0-9]{2,4})$")
@@ -17,13 +18,32 @@ export default function useAdminService() {
   const ConnectionService = useConnectionService()
   const dispatch = useDispatch()
   const history = useHistory()
+  const {token, curPath} = useSelector(state => ({
+    token: state.auth.token,
+    curPath: state.common.currentPath
+  }))
 
   function setCookieToken(resJWT) {
-    const expiryIn = resJWT.expires
+    const expiryIn = resJWT.expires_in
     const expiryDate = moment(new Date()).add(expiryIn, 's').toDate()
     // setCookie('token', res.accessToken, { path: '/', httpOnly: true, sameSite: 'lax', expires: expiryDate})
     //set cookie jwt token
-    Cookie.set('access_token', resJWT.token, { sameSite: 'strict', expires: expiryDate })
+    Cookie.set('access_token', resJWT.access_token, { sameSite: 'strict', expires: expiryDate })
+  }
+
+  async function refreshToken() {
+    const apiQuery = `${apiUrl}/user/refresh`
+    CommonService.turnOnLoader()
+    await ConnectionService.axiosPostByUrlWithToken(apiQuery)
+    .then(resJWT => {
+      if(resJWT.access_token){
+        setCookieToken(resJWT)
+      }
+    })
+    .catch(() =>{
+      showMessage(false, null, 'Post', true, CommonConstants.MSG.ERROR.OCCURED_ERROR)
+    })
+    CommonService.turnOffLoader()
   }
 
   async function login(sendData) {
@@ -37,12 +57,30 @@ export default function useAdminService() {
       setCookieToken(resJWT)
       history.push('/admin-su')
       result = { 'isSuccess': true }
+      // set interval refresh token
+      setInterval(() => {
+        if(token) refreshToken()
+        else CommonService.goToHome(curPath)
+      }, CommonConstants.TOKEN.REFRESH_TIMEOUT);
     })
     .catch(e => {
       result = { 'isSuccess': false, 'message': CommonConstants.MSG.ERROR.WRONG_LOGIN_INFO }
     })
     CommonService.turnOffLoader()
     return result
+  }
+
+  async function getLoggedInUser() {
+    const apiQuery = `${apiUrl}/admin-user/me`
+    CommonService.turnOnLoader()
+    await ConnectionService.axiosPostByUrlWithToken(apiQuery)
+    .then(res => {
+      dispatch({ type: 'SET_AUTH_USER', payload: res })
+    })
+    .catch(() => {
+      showMessage(false, null, 'Post', true, CommonConstants.MSG.ERROR.OCCURED_ERROR)
+    })
+    CommonService.turnOffLoader()
   }
 
   function showMessage(isSuccess, type, action, isPassedMsg, msg = null) {
@@ -129,6 +167,7 @@ export default function useAdminService() {
 
   return {
     regexEmail, lsPagesManagerment, lsOrderStatus,
-    login, showMessage, validateUserInputs, applyGetLsObjsManagerment, applyGetAllRoles, applyGetAllCategories, applyGetMeAdmin
+    login, getLoggedInUser, applyGetMeAdmin, validateUserInputs,
+    applyGetLsObjsManagerment, applyGetAllRoles, applyGetAllCategories, showMessage
   }
 }
