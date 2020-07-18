@@ -87,12 +87,12 @@ export default function useAdminService() {
     return errors;
   }
 
-  function applyGetLsObjsManagerment(type, pageIndex = null) {
-    if (lsPagesManagerment.indexOf(type) !== -1) {
-      const apiQuery = `${apiUrl}/admin-${type}/searchData${pageIndex ? '?page=' + pageIndex : ''}`
+  function applyGetLsObjsManagerment(curType, pageIndex = null) {
+    if (lsPagesManagerment.indexOf(curType) !== -1) {
+      const apiQuery = `${apiUrl}/admin-${curType}/searchData${pageIndex ? '?page=' + pageIndex : ''}`
       return ConnectionService.axiosPostByUrlWithToken(apiQuery, { pageSize: 15 })
         .then(res => {
-          if (type === 'user') {
+          if (curType === 'user') {
             res.data.data.map(item => {
               item.genderName = item.gender === 'M' ? 'Male' : 'Female'
             })
@@ -101,20 +101,25 @@ export default function useAdminService() {
           result.lsObjs = res.data.data
           delete res.data.data
           result.pagination = res.data
-          return result
+          dispatch({type: 'SET_LIST_OBJECTS_MANAGERMENT', payload: result.lsObjs})
+          dispatch({type: 'SET_PAGINATION', payload: result.pagination})
         })
-        .catch(res => res)
+        .catch(res => showMessage(false, curType, 'Get', false, null))
     }
   }
 
   function applyGetAllRoles() {
     const apiQuery = `${apiUrl}/admin-role/getAllData`
-    return ConnectionService.axiosGetByUrlWithToken(apiQuery).then(res => res).catch(res => res)
+    return ConnectionService.axiosGetByUrlWithToken(apiQuery)
+    .then(res => dispatch({type: 'SET_LIST_ROLES', payload: res.data}))
+    .catch(res => showMessage(false, null, 'Get', false, null))
   }
 
   function applyGetAllCategories() {
     const apiQuery = `${apiUrl}/category/searchData`
-    return ConnectionService.axiosPostByUrl(apiQuery).then(res => res).catch(res => res)
+    return ConnectionService.axiosPostByUrl(apiQuery)
+    .then(res => dispatch({type: 'SET_LIST_CATEGORIES', payload: res.data}))
+    .catch(res => showMessage(false, null, 'Get', false, null))
   }
 
   function applyGetMeAdmin() {

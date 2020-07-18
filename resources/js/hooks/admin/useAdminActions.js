@@ -216,11 +216,6 @@ export default function useAdminActions(initial = null, formFields = null, modal
     const applyGetLsObjs = async (curType, pageIndex = null) => {
         CommonService.turnOnLoader()
         await AdminService.applyGetLsObjsManagerment(curType, pageIndex)
-        .then(res => {
-            dispatch({type: 'SET_LIST_OBJECTS_MANAGERMENT', payload: res.lsObjs})
-            dispatch({type: 'SET_PAGINATION', payload: res.pagination})
-        })
-        .catch(() => AdminService.showMessage(false, curType, 'Get', false, null))
         CommonService.turnOffLoader()
     }
 
