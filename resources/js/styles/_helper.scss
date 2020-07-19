@@ -118,6 +118,14 @@ a, .btn {
   z-index: 1;
 }
 
+.modulenone,
+.module-small {
+  position: relative;
+  padding: 40px 0;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  background-size: cover;
+}
 .module,
 .module-small {
   position: relative;
@@ -129,7 +137,7 @@ a, .btn {
 
 /* Module header */
 .module-small {
-  padding: 70px 0;
+  padding: 20px 0;
 }
 
 .module-extra-small {
@@ -993,6 +1001,15 @@ a, .btn {
   padding: 8px 37px;
 }
 
+.bttn {
+  border-radius: 0;
+  font-family: "Roboto Condensed", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 11px;
+  padding: 8px 20px;
+}
+
 .btn.active.focus,
 .btn.active:focus,
 .btn.focus,
@@ -1060,13 +1077,20 @@ a, .btn {
 }
 
 .btn.btn-b {
-  background: #111111;
-  color: #fff;
+  background-color: rgb(199, 194, 194);
+  display: inline-block;
+    vertical-align: middle;
+    transform: translateZ(0);
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+    backface-visibility: hidden;
+    -moz-osx-font-smoothing: grayscale;
+    transition-duration: 0.3s;
+    transition-property: transform;
 }
 
 .btn.btn-b:hover,
 .btn.btn-b:focus {
-  background: rgba(17, 17, 17, 0.8);
+  transform: scale(1.1);
 }
 
 .btn-border-d {
@@ -1093,7 +1117,6 @@ a, .btn {
 
 /* Buttons size */
 .btn.btn-lg {
-  padding: 12px 40px;
   font-size: 13px;
 }
 
@@ -1254,6 +1277,12 @@ blockquote {
   font-family: "Roboto Condensed", sans-serif;
   text-transform: uppercase;
   letter-spacing: 2px;
+}
+
+.font-space {
+  font-family: "Roboto Condensed", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 6px;
 }
 
 .font-serif {
@@ -2009,4 +2038,12 @@ General Styles - Owlcarousel
 .border-around{
   border-color: #ddd;
   border-radius: 2px;
+}
+
+@media (min-width: 992px){
+.product-content-desc
+   {
+    position: sticky;
+    top: 50px;
+    }
 }

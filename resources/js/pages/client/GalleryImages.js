@@ -26,7 +26,7 @@ export default function OurGallery(props) {
       <section className="pb-0 pt-50">
         <div className="container-fluid">
           {lsPhotos.length > 0 &&
-            <Gallery photos={lsPhotos} direction={"column"} columns={5} margin={8}
+            <Gallery photos={lsPhotos} direction={"column"} margin={8}
               onClick={openLightbox}
               renderImage={props => <SinglePhoto {...props} />}
             />

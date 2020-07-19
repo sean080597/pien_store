@@ -89,12 +89,12 @@ export default function Navbar(props) {
                   </ul>
                 </li>
                 <li><Link to='/shop'>Shop</Link></li>
-                <li><Link to='/cart'>Cart<span className="badge">{cartCount}</span></Link></li>
+                <li><Link to='/cart'>Cart<i className="fa fa-shopping-bag" height='27' width='20'></i><span className="badge">{cartCount}</span></Link></li>
                 {!token && <li>
                   <GoogleLogin
                     clientId={CommonConstants.GOOGLE_CLIENT_ID}
                     render={renderProps => (
-                      <button className="btn btn-danger btn-round" onClick={renderProps.onClick} disabled={renderProps.disabled}><i className="fa fa-google"></i> Login</button>
+                      <button className="btn btn-default btn-danger" onClick={renderProps.onClick} disabled={renderProps.disabled}><i className="fa fa-google"></i> Login</button>
                     )}
                     buttonText="Login"
                     onSuccess={responseGoogle}

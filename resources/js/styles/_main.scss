@@ -348,6 +348,14 @@ img {
 	story page css
 --------------------------------------------------------------*/
 .story-container {
+  @media  (max-width: 768px) {
+    &.main-story{
+      margin-top: 15px;
+    }
+  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   p{
     font-size: 15px;
     text-align: justify;

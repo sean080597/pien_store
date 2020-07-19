@@ -31,7 +31,7 @@ export default function Shop(props) {
             <section className="module-small" id="section-filter">
                 <div className="container">
                     <form className="row" onSubmit={handleSubmitFilter}>
-                        <div className="col-sm-4 mb-sm-20">
+                        <div className="col-sm-4 ">
                             <select className="form-control" name="sort_price" onChange={handleChange} value={filterInputs.sort_price}>
                                 <option value="" defaultValue>Default Sorting</option>
                                 {
@@ -41,7 +41,7 @@ export default function Shop(props) {
                                 }
                             </select>
                         </div>
-                        <div className="col-sm-3 mb-sm-20">
+                        <div className="col-sm-4 ">
                             <select className="form-control" name="cate_id" onChange={handleChange} value={filterInputs.cate_id}>
                                 <option value="" defaultValue>All</option>
                                 {
@@ -51,7 +51,7 @@ export default function Shop(props) {
                                 }
                             </select>
                         </div>
-                        <div className="col-sm-3">
+                        <div className="col-sm-4">
                             <button className="btn btn-block btn-round btn-g" type="submit">Apply</button>
                         </div>
                     </form>
@@ -67,7 +67,7 @@ export default function Shop(props) {
                                     <div className="shop-item">
                                         <div className="shop-item-image">
                                             <LazyLoadingImage src={CommonService.generateImageSrc('products', prod)} alt={prod.name} />
-                                            <div className="shop-item-detail"><button className="btn btn-round btn-b" onClick={() => handleAddToCart(prod)}><span className="icon-basket">Add To Cart</span></button></div>
+                                            <div className="shop-item-detail"><button className="bttn btn-round btn-b" onClick={() => handleAddToCart(prod)}><span className="icon-basket">Add To Cart</span></button></div>
                                         </div>
                                         <h4 className="shop-item-title font-alt"><Link to={'/productDetail/' + prod.id}>{prod.name}</Link></h4>{CommonService.formatMoney(prod.price, 0) + ' VNĐ'}
                                     </div>
