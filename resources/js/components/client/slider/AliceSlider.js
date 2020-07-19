@@ -30,8 +30,8 @@ export default function AliceSlider(props) {
         <div key={index}>
           <img alt={prod.name} src={CommonService.generateImageSrc('products', prod)} />
           <div className="glide__title">
-            <h4 className="shop-item-title font-alt ml-10 mr-10">{prod.name}</h4>
-            <p className="ml-10 mr-10 mb-10">{CommonService.formatMoney(prod.price, 0) + ' VNĐ'}</p>
+            <h4 className="shop-item-title font-alt ml-10 mr-10 text-center">{prod.name}</h4>
+            <p className="ml-10 mr-10 mb-10 text-center">{CommonService.formatMoney(prod.price, 0) + ' VNĐ'}</p>
           </div>
         </div>
       )

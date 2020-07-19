@@ -69,6 +69,10 @@
 .product-details{
 	&--center{
 		border-left: #eee 1px solid;
+		img 
+		{ 
+			margin-bottom: 10px;
+		}
 	}
 	&--left{
 		img{

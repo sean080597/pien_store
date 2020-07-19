@@ -1,11 +1,11 @@
 import React from 'react'
 import CommonConstants from '../../../config/CommonConstants'
+import CommonService from '../../../services/CommonService.service'
 import { useSelector } from 'react-redux';
-import { useTurnOnOffLoader, useProductDetails, useShopCart, useCommonService } from '../../../hooks/HookManager'
+import { useTurnOnOffLoader, useProductDetails, useShopCart } from '../../../hooks/HookManager'
 import {AliceSlider, LazyLoadingImage} from '../../../components/ComponentsManager'
 
 export default function ProductDetails(props) {
-    const CommonService = useCommonService()
     useTurnOnOffLoader()
     const INITIAL = {quantity: 1, prodImgSrc: ''}
     const {productInfo, userInputs, handleChangeQuantity, handleReplaceProduct, handleChosenLeftImg} = useProductDetails(props.match.params.prod_id, INITIAL)
@@ -18,14 +18,20 @@ export default function ProductDetails(props) {
             <section className="modulenone">
                 <div className="container">
                     <div className="row"> 
-                        <div className="col-sm-7 mb-sm-40 product-details--center">
+                        
+                        <div className="col-sm-1 product-details--left product-content-desc">
                             {
-                            productInfo.images && productInfo.images.length > 0 &&
+                                productInfo.images && productInfo.images.length > 0 &&
                                 productInfo.images.map((item, i) =>
-                                <LazyLoadingImage src={CommonService.generateImageSrc('products', null, userInputs.prodImgSrc)} alt={productInfo.name} key={i}
+                                    <LazyLoadingImage src={CommonService.generateImageSrc('products', null, item.src)} alt={productInfo.name} key={i}
                                     imgName={item.src} handleClick={handleChosenLeftImg}/>
                                 )
                             }
+                        </div>
+                        <div className="col-sm-6 mb-sm-40 product-details--center">
+                            <LazyLoadingImage src={CommonService.generateImageSrc('products', null, userInputs.prodImgSrc)} alt={productInfo.name} />
+                            <LazyLoadingImage src={CommonService.generateImageSrc('products', null, userInputs.prodImgSrc)} alt={productInfo.name} />
+                            <LazyLoadingImage src={CommonService.generateImageSrc('products', null, userInputs.prodImgSrc)} alt={productInfo.name} />
                         </div>
                         <div className="col-sm-5 product-details--info product-content-desc">
                             <div className="row">
