@@ -52,8 +52,13 @@
 
 /* Shop item hover */
 
-.shop-item:hover .shop-item-image:after {
-	background: rgba(255, 255, 255, .7);
+.shop-item:hover {
+	.shop-item-detail {
+		button{
+			background: rgba(255, 255, 255, .7);
+		}
+	}
+	
 }
 
 .shop-item:hover .shop-item-detail {

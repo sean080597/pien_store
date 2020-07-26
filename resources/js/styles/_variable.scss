@@ -7,8 +7,35 @@ $login_top_section_url: 'assets/images/login_bg.jpg';
 $font_roboto: Roboto Condensed;
 $font_sanserif: sans-serif;
 
+// mixin
+@mixin colorLighter($col) {
+    color: lighten($col, 30%);
+}
+
 // main color
-$primary: #2f89fc;
+$primary: #6ba292;
+$primary-lighter: lighten($primary, 40%);
+$primary-darken: darken($primary, 30%);
+//sub color
+$secondary: rgb(42, 157, 143);
+$secondary-lighter: lighten($secondary, 60%);
+$secondary-darker: darken($secondary, 30%);
+//text color
+$text-primary:rgb(6, 12, 14);
+$text-primary-lighter: lighten($text-primary, 20%);
+$text-primary-darken: darken($text-primary, 90%);
+//button color
+$button-primary:#efe5dc;
+$button-primary-lighter: lighten($button-primary, 10%);
+$button-primary-darken: darken($button-primary, 0.5%);
+//border color
+$border-primary: #101916;
+$boder-primary-lighter: lighter($border-primary,30%);
+$border-primary-darken: darken($border-primary, 30%);
+//footer color
+$footer: #6ba292;
+$footer-lighter:lighten($footer, 40%);
+$footer-darken:darken($footer, 30%);
 
 // color
 $black: #000;
@@ -17,7 +44,7 @@ $grey:  #777;
 $grey-light: #dfe3e4;
 $green: #009900;
 $white: #fff;
-$white_10: rgba(255, 255, 255, 0.1);
+$white_10: rgba(0, 15, 20, .3);
 $white_70: rgba(255, 255, 255, 0.7);
 
 $nav_bg_color: rgba(10, 10, 10, 0.9);
