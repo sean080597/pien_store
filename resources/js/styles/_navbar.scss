@@ -1,5 +1,5 @@
 .navbar-custom {
-	background-color: $nav_bg_color;
+	background-color: $primary-darken;
 	border: 0;
 	border-radius: 0;
 	z-index: 1000;
@@ -9,36 +9,36 @@
 	font-size: 11px;
 	transition: background, padding 0.4s ease-in-out 0s;
 	.dropdown-menu {
-		background: $nav_bg_color;
+		background: $primary-darken;
 		border-radius: 0;
 		border: 0;
 		padding: 0;
 		box-shadow: none;
-		.dropdown-menu {
-			border-left: 1px solid $nav_border_color;
-			left: 100%;
-			right: auto;
-			top: 0;
-			margin-top: 0;
-		}
-		> li > a {
-			border-bottom: 1px solid $nav_border_color !important;
-			padding: 11px 15px;
-			letter-spacing: 2px;
-			color: $nav_text_color;
-			&:focus {
-				background: none;
-				color: $white;
+		> li{
+			> a {
+				border-bottom: 1px solid $white;
+				padding: 11px 15px;
+				letter-spacing: 2px;
+				color: $nav_text_color;
+				&:focus {
+					background: none;
+					color: $white;
+				}
+				&:hover {
+					background: none;
+					color: $white;
+					background: $white_10;
+				}
 			}
-			&:hover {
-				background: none;
-				color: $white;
-				background: $white_10 !important;
+			&:last-child{
+				a{
+					border: none;
+				}
 			}
 		}
 		&.left-side .dropdown-menu {
 			border: 0;
-			border-right: 1px solid $nav_border_color;
+			border-right: 1px solid $white;
 			right: 100%;
 			left: auto;
 		}

@@ -214,7 +214,7 @@ a, .btn {
 }
 
 .bg-dark {
-  background: #111;
+  background:$footer-darken;
 }
 
 .bg-dark-30:before {
@@ -992,23 +992,24 @@ a, .btn {
 /*--------------------------------------------------------------
 	Buttons
 --------------------------------------------------------------*/
-.btn {
+
+%btn-shared {
   border-radius: 0;
   font-family: "Roboto Condensed", sans-serif;
   text-transform: uppercase;
   letter-spacing: 2px;
   font-size: 11px;
-  padding: 8px 37px;
 }
 
-.bttn {
-  border-radius: 0;
-  font-family: "Roboto Condensed", sans-serif;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  font-size: 11px;
-  padding: 8px 20px;
+.btn {
+  @extend %btn-shared;
+  padding: 8px 37px;
+  &-small-pad{
+    @extend %btn-shared;
+    padding: 8px 20px;
+  }
 }
+
 
 .btn.active.focus,
 .btn.active:focus,
@@ -1043,13 +1044,13 @@ a, .btn {
 }
 
 .btn.btn-g {
-  background: #e5e5e5;
+  background: $button-primary-darken;
   color: #111;
 }
 
 .btn.btn-g:hover,
 .btn.btn-g:focus {
-  background: #d8d8d8;
+  background: $button-primary-lighter;
   color: #111;
 }
 
@@ -1067,17 +1068,17 @@ a, .btn {
 }
 
 .btn.btn-d {
-  background: rgba(17, 17, 17, 0.8);
-  color: #fff;
+  background: $button-primary-darken;
+  color: $text-primary-darken;
 }
 
 .btn.btn-d:hover,
 .btn.btn-d:focus {
-  background: #111111;
+  background: $button-primary-lighter;
 }
 
 .btn.btn-b {
-  background-color: rgb(199, 194, 194);
+  background-color: $button-primary-darken;
   display: inline-block;
     vertical-align: middle;
     transform: translateZ(0);
@@ -1648,115 +1649,8 @@ General Styles - Owlcarousel
 /*--------------------------------------------------------------
 	Navbar
 --------------------------------------------------------------*/
-.navbar-custom {
-  background-color: rgba(10, 10, 10, 0.9);
-  border: 0;
-  border-radius: 0;
-  z-index: 1000;
-  font-family: "Roboto Condensed", sans-serif;
-  text-transform: uppercase;
-  letter-spacing: 3px;
-  font-size: 11px;
-  transition: background, padding 0.4s ease-in-out 0s;
-}
 
-.navbar a {
-  transition: color 0.125s ease-in-out 0s;
-}
 
-.navbar-custom .dropdown-menu {
-  background: rgba(26, 26, 26, 0.9);
-  border-radius: 0;
-  border: 0;
-  padding: 0;
-  box-shadow: none;
-}
-
-.navbar-custom .navbar-brand {
-  letter-spacing: 4px;
-  font-weight: 400;
-  font-size: 22px;
-  color: #fff;
-}
-
-.navbar-custom .nav li > a {
-  position: relative;
-  color: rgba(255, 255, 255, 0.7);
-  &.navbar-aimage{
-    padding: 10px;
-    &:after{
-      content: '';
-    }
-  }
-  .navbar-img{
-    height: 30px;
-    width: 30px;
-    margin-right: 5px;
-  }
-}
-
-.navbar-custom .dropdown-menu > li > a {
-  border-bottom: 1px solid rgba(73, 71, 71, 0.15) !important;
-  padding: 11px 15px;
-  letter-spacing: 2px;
-  color: #999;
-}
-
-.navbar-custom .dropdown-menu .dropdown-menu {
-  border-left: 1px solid rgba(73, 71, 71, 0.15);
-  left: 100%;
-  right: auto;
-  top: 0;
-  margin-top: 0;
-}
-
-.navbar-custom .dropdown-menu.left-side .dropdown-menu {
-  border: 0;
-  border-right: 1px solid rgba(73, 71, 71, 0.15);
-  right: 100%;
-  left: auto;
-}
-
-.navbar-custom .nav > li > a:focus,
-.navbar-custom .nav > li > a:hover,
-.navbar-custom .nav .open > a,
-.navbar-custom .nav .open > a:focus,
-.navbar-custom .nav .open > a:hover,
-.navbar-custom .dropdown-menu > li > a:focus,
-.navbar-custom .dropdown-menu > li > a:hover,
-.navbar-custom .dropdown-menu > li > button:focus,
-.navbar-custom .dropdown-menu > li > button:hover {
-  background: none;
-  color: #fff;
-}
-
-.navbar-custom .dropdown-menu > li > a:hover,
-.navbar-custom .dropdown-menu > li > button:hover {
-  background: rgba(255, 255, 255, 0.1) !important;
-}
-
-.navbar-custom .dropdown-toggle:after {
-  position: absolute;
-  display: block;
-  right: 0;
-  top: 50%;
-  margin-top: -6px;
-  font: normal normal normal 14px/1 FontAwesome;
-  font-size: 9px;
-  content: "\f107";
-  text-rendering: auto;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-.navbar-custom .navbar-toggle .icon-bar {
-  background: #fff;
-}
-
-.dropdown-menu {
-  min-width: 180px;
-  font-size: 11px;
-}
 
 /*--------------------------------------------------------------
 	Footer
@@ -1798,7 +1692,7 @@ General Styles - Owlcarousel
     border: none;
     position: relative;
     color: rgba(255, 255, 255, 0.7);
-    border-bottom: 1px solid rgba(73, 71, 71, 0.15) !important;
+    border-bottom: 1px solid rgba(72, 71, 71, 0.15) !important;
     padding: 11px 15px;
     letter-spacing: 2px;
     text-transform: uppercase;

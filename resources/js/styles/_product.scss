@@ -17,7 +17,7 @@
 
 .product-title {
 	margin: 0 0 20px;
-	color: #111;
+	color: $text-primary-darken;
 }
 
 .product-item__quantity{
@@ -52,7 +52,7 @@
 	margin: 0 15px;
 	.glider-slide{
 		margin: 0 10px;
-		border: #eee 1px solid;
+		border: #efe 1px solid;
 		border-radius: 4px;
 		display: flex;
 		flex-direction: column;
