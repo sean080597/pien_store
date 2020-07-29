@@ -17,6 +17,7 @@ class CreateImagesTable extends Migration
             // $table->string('id', 20);
             $table->bigIncrements('id');
             $table->string('src');
+            $table->tinyInteger('order')->default(0);
             $table->string('imageable_id', 50);
             $table->string('imageable_type', 30);
             // $table->primary('id');

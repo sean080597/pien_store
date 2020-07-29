@@ -27,18 +27,17 @@
         {"key": "low", "value": "Low Price"},
         {"key": "high", "value": "High Price"}
     ],
-    "MSG": {
-        "ERROR":{
-            "AT_LEAST_6_CHARACTERS": "Password must be at least 6 characters",
-            "AT_LEAST_6_CHARACTERS_SHORT": "At least 6 characters",
-            "INVALID_EMAIL": "Invalid Email",
-            "INVALID_PASSWORD": "Invalid Password",
-            "REQUIRED_EMAIL": "Required Email",
-            "REQUIRED_PASSWORD": "Required Password",
-            "REQUIRED_ORDER_ADDRESS": "Please choose an address to confirm your order",
-            "WRONG_LOGIN_INFO": "Wrong username or password",
-            "OCCURED_ERROR": "There was an error"
-        }
+    "ERRORS":{
+        "AT_LEAST_6_CHARACTERS": "Password must be at least 6 characters",
+        "AT_LEAST_6_CHARACTERS_SHORT": "At least 6 characters",
+        "INVALID_EMAIL": "Invalid Email",
+        "INVALID_PASSWORD": "Invalid Password",
+        "REQUIRED_EMAIL": "Required Email",
+        "REQUIRED_PASSWORD": "Required Password",
+        "REQUIRED_ORDER_ADDRESS": "Please choose an address to confirm your order",
+        "WRONG_LOGIN_INFO": "Wrong username or password",
+        "OCCURED_ERROR": "There was an error",
+        "MANDATORY": "Mandatory field"
     },
     "NOTIFY": {
         "SHOP": {
@@ -71,6 +70,7 @@
     "DEFAULT_GENDER": "M",
     "DEFAULT_ROLE": "adm",
     "DEFAULT_CATEID": "CATE_01",
+    "DEFAULT_ADMIN_PAGESIZE": 15,
     "SLIDER": {
         "SPEED": 2000,
         "AUTOPLAY_SPEED": 4000

@@ -59,17 +59,30 @@ class ProductController extends Controller
         $createdProduct = $this->product::create($request->except('input_image'));
         if($createdProduct){
             //handle image
-            $input_image = $request->input_image;
+            $lsInputImages = $request->input_image;
             $file_name = '';
-            if ($this->isSetNotEmpty($input_image)) {
-                $isSaved = $this->saveImage($input_image, $this->file_directory);
-                if(strcmp($isSaved->getData()->success, true) === 0){
-                    $file_name = $isSaved->getData()->file_name;
-                }else{
-                    return response()->json(['success' => false, 'message' => $isSaved->getData()->error_msg], 500);
+            if (\count($lsInputImages) > 0) {
+                $main_image = array_filter($lsInputImages, function ($val) {
+                    return $val['order'] === 0;
+                })[0];
+                $other_images = array_filter($lsInputImages, function ($val) {
+                    return $val['order'] !== 0;
+                });
+                // check if valid image url
+                if($main_image['src']){
+                    if(filter_var($main_image['src'], FILTER_VALIDATE_URL)){
+                        $file_name = $main_image['src'];
+                    }else{
+                        $isSaved = $this->saveImage($main_image['src'], $this->file_directory);
+                        if(strcmp($isSaved->getData()->success, true) === 0){
+                            $file_name = $isSaved->getData()->file_name;
+                        }else{
+                            return response()->json(['success' => false, 'message' => $isSaved->getData()->error_msg], 500);
+                        }
+                    }
                 }
             }
-            if ($this->isSetNotEmpty($file_name)) $createdProduct->image()->create(['src' => $file_name]);
+            if ($this->isSetNotEmpty($file_name)) $createdProduct->images()->create(['src' => $file_name]);
             // result
             return response()->json([
                 'success'=>true,
@@ -108,7 +121,7 @@ class ProductController extends Controller
         if ($updatedData) {
             // delete old image
             $input_image = $request->input_image;
-            if($this->isSetNotEmpty($input_image)){
+            if(\count($input_image) > 0){
                 if($this->isSetNotEmpty($findData->image) && file_exists($this->file_directory.$findData->image->src)) unlink($this->file_directory.$findData->image->src);
                 // create new image
                 $file_name = '';
@@ -120,7 +133,7 @@ class ProductController extends Controller
                 }
                 // update new image record
                 if($this->isSetNotEmpty($file_name)){
-                    $this->isSetNotEmpty($findData->image) ? $findData->image()->update(['src' => $file_name]) : $findData->image()->create(['src' => $file_name]);
+                    $this->isSetNotEmpty($findData->image) ? $findData->images()->update(['src' => $file_name]) : $findData->images()->create(['src' => $file_name]);
                 }
             }
             // update data
@@ -191,15 +204,15 @@ class ProductController extends Controller
 
     public function searchDataAdmin(Request $request)
     {
-        $sql = Product::query()->with('images:src,imageable_id')
+        $sql = Product::query()->with('images:src,order,imageable_id')
         ->select('products.id', 'products.name', 'products.slug', 'products.price', 'products.description', 'products.origin',
         'products.category_id', 'c.name AS category_name')
         ->join('categories AS c', 'c.id', '=', 'products.category_id')
         ->when($request->search, function($query) use ($request){
             $search = $request->search;
-            return $query->where('name', 'LIKE', "%$search%")
+            return $query->where('products.name', 'LIKE', "%$search%")
             ->orWhere('origin', 'LIKE', "%$search%")
-            ->orWhere('catename', 'LIKE', "%$search%");
+            ->orWhere('c.name', 'LIKE', "%$search%");
         })
         ->orderBy('name', 'ASC');
         if($request->pageSize){

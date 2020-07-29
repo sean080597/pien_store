@@ -22,7 +22,7 @@ export default function useFormLogin(initital, validate) {
                 })
                 .catch(e => {
                     // setErrors(e.response.data)
-                    setErrors({'wrongInfo': CommonConstants.MSG.ERROR.WRONG_LOGIN_INFO})
+                    setErrors({'wrongInfo': CommonConstants.ERRORS.WRONG_LOGIN_INFO})
                     CommonService.turnOffLoader()
                 })
             }

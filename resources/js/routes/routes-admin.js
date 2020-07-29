@@ -13,6 +13,7 @@ import AdminUser from '../pages/admin/AdminUser'
 import AdminConfig from '../pages/admin/AdminConfig'
 import AdminCustomer from '../pages/admin/AdminCustomer'
 import AdminProduct from '../pages/admin/AdminProduct'
+import AdminProductDetails from '../pages/admin/AdminProductDetails'
 import AdminCategory from '../pages/admin/AdminCategory'
 
 const routes = () => (
@@ -36,6 +37,7 @@ const routes = () => (
                 <PrivateRoute path={`${url}/config-managerment`} component={AdminConfig} exact loginType='managerment' />
                 <PrivateRoute path={`${url}/customer-managerment`} component={AdminCustomer} exact loginType='managerment' />
                 <PrivateRoute path={`${url}/product-managerment`} component={AdminProduct} exact loginType='managerment' />
+                <PrivateRoute path={`${url}/product-details-managerment/:action/:prod_id?`} component={AdminProductDetails} exact loginType='managerment' />
                 <PrivateRoute path={`${url}/category-managerment`} component={AdminCategory} exact loginType='managerment' />
               </div>
             </div>
