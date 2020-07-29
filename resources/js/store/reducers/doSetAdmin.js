@@ -6,6 +6,8 @@ const doSetAdmin = (state = {}, {type, payload}) => {
             return {...state, lsRoles: payload}
         case 'SET_LIST_CATEGORIES':
             return {...state, lsCategories: payload}
+        case 'SET_DATA_MODEL':
+            return {...state, dataModel: payload}
         default:
             return state
     }

@@ -106,7 +106,7 @@ export default function ConfirmInfo (props) {
                                     <h5 className="m-0"><strong>Total:</strong></h5>
                                     <h5 className="product-title font-alt ml-10">{CommonService.formatMoney(cartTotal, 0) + ' VNĐ'}</h5>
                                 </div>
-                                { CommonService.isObjectEmpty(selectedAddress) && <span>{CommonConstants.MSG.ERROR.REQUIRED_ORDER_ADDRESS}</span> }
+                                { CommonService.isObjectEmpty(selectedAddress) && <span>{CommonConstants.ERRORS.REQUIRED_ORDER_ADDRESS}</span> }
                                 <button type="button" className="btn btn-b btn-md btn-round btn-block small-text mt-10" onClick={() => handleConfirmOrder()}
                                     disabled={CommonService.isObjectEmpty(selectedAddress)} >Confirm</button>
                             </div>

@@ -37,7 +37,8 @@ const initialStates = {
     admin: {
         lsObjsManagerment: [],
         lsRoles: [],
-        lsCategories: []
+        lsCategories: [],
+        dataModel: {}
     }
 }
 

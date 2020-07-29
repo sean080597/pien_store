@@ -1,7 +1,8 @@
 import React from 'react'
 import { useTable } from 'react-table'
 
-export default function ReactTable({ columns, data, tblClassName, hasView = false, hasEdit = false, hasDelete = false, handleView, handleEdit, handleDel, redirectDest = null }) {
+export default function ReactTable({ columns, data, tblClassName, hasView = false, handleAnotherView,
+  hasEditInAnotherView = false, hasEdit = false, handleEdit, hasDelete = false, handleDel }) {
   const {getTableProps, getTableBodyProps, headerGroups, rows, prepareRow} = useTable({columns, data})
   return (
     <table {...getTableProps()} className={tblClassName}>
@@ -26,13 +27,19 @@ export default function ReactTable({ columns, data, tblClassName, hasView = fals
                       <div className="flex-display-noWrap btn-action-admin">
                         {
                           hasView &&
-                          <button className="btn-b btn btn-round" onClick={() => handleView(redirectDest, row.original.id)}>
+                          <button className="btn-b btn btn-round" onClick={() => handleAnotherView('view', row.original.id)}>
                             <i className="fa fa-eye"></i>
                           </button>
                         }
                         {
                           hasEdit &&
                           <button className="btn-b btn btn-round" onClick={() => handleEdit(row.original)}>
+                            <i className="fa fa-edit"></i>
+                          </button>
+                        }
+                        {
+                          hasEditInAnotherView &&
+                          <button className="btn-b btn btn-round" onClick={() => handleAnotherView('edit', row.original.id)}>
                             <i className="fa fa-edit"></i>
                           </button>
                         }

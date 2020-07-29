@@ -46,12 +46,12 @@ class AppServiceProvider extends ServiceProvider
         ImageGallery::observe(ImageGalleryObserver::class);
         OurStory::observe(OurStoryObserver::class);
         // Log queries
-        if (true) {
-            \DB::listen(function ($query) {
-                \Log::info(
-                    $query->sql, $query->bindings, $query->time
-                );
-            });
-        }
+        // if (true) {
+        //     \DB::listen(function ($query) {
+        //         \Log::info(
+        //             $query->sql, $query->bindings, $query->time
+        //         );
+        //     });
+        // }
     }
 }

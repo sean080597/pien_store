@@ -6,8 +6,10 @@ export default function useInitializePageAdmin(curType) {
     const CommonService = useCommonService()
     const AdminService = useAdminService()
     const dispatch = useDispatch()
-    const {curPath} = useSelector(state => ({
-        curPath: state.common.currentPath
+    const {curPath, lsCategories, lsRoles} = useSelector(state => ({
+        curPath: state.common.currentPath,
+        lsCategories: state.admin.lsCategories,
+        lsRoles: state.admin.lsRoles
     }))
 
     const getLsObjsManagerment = async () => {
@@ -34,10 +36,10 @@ export default function useInitializePageAdmin(curType) {
         if(curPath.indexOf(curType) !== -1){
             getLsObjsManagerment()
         }
-        if(curType && curType.includes('user')){
+        if(curType && curType.includes('user') && lsRoles.length < 0){
             getGetAllRoles()
         }
-        if(curType && curType.includes('product')){
+        if(curType && curType.includes('product') && lsCategories.length < 1){
             getGetAllCategories()
         }
         if(AdminService.lsPagesManagerment.indexOf(curType) === -1) CommonService.turnOffLoader()

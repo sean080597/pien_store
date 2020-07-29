@@ -22,11 +22,12 @@ import useNotFoundPage from './common/useNotFoundPage'
 import useScreenWidth from './common/useScreenWidth'
 
 // services
-import useConnectionService from './services/useConnectionService'
-import useCommonService from './services/useCommonService'
-import usePageLoadService from './services/usePageLoadService'
-import useAdminService from './services/useAdminService'
-import useClientService from './services/useClientService'
+import useConnectionService from './services/common/useConnectionService'
+import useCommonService from './services/common/useCommonService'
+import usePageLoadService from './services/common/usePageLoadService'
+import useAdminService from './services/admin/useAdminService'
+import useAdminProductService from './services/admin/useAdminProductService'
+import useClientService from './services/client/useClientService'
 
 export {
     // client
@@ -57,5 +58,6 @@ export {
     useCommonService,
     usePageLoadService,
     useAdminService,
+    useAdminProductService,
     useClientService
 }

@@ -245,7 +245,12 @@
 /* Search */
 
 .search-box {
-  position: relative;
+  &-container{
+    margin-bottom: 2rem;
+    .hasEvent{
+      cursor: pointer;
+    }
+  }
 }
 
 /* Tags */

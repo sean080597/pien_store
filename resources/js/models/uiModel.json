@@ -1,0 +1,130 @@
+{
+  "product": {
+    "name": {
+      "value": "",
+      "meta": {
+        "mandatory": true,
+        "error": ""
+      }
+    },
+    "price": {
+      "value": "",
+      "meta": {
+        "mandatory": true,
+        "error": ""
+      }
+    },
+    "description": {
+      "value": "",
+      "meta": {
+        "mandatory": false,
+        "error": ""
+      }
+    },
+    "origin": {
+      "value": "",
+      "meta": {
+        "mandatory": true,
+        "error": ""
+      }
+    },
+    "category_id": {
+      "value": "",
+      "meta": {
+        "mandatory": true,
+        "error": ""
+      }
+    },
+    "input_image": {
+      "arrayDefault": {
+        "src": "",
+        "order": 0
+      },
+      "value": [],
+      "meta": {
+        "mandatory": false,
+        "error": ""
+      }
+    },
+    "origin_image": {
+      "value": "",
+      "meta": {
+        "mandatory": false,
+        "error": ""
+      }
+    },
+    "imageType": {
+      "value": "",
+      "meta": {
+        "mandatory": false,
+        "error": ""
+      }
+    }
+  },
+  "product-details": {
+    "name": {
+      "value": "",
+      "meta": {
+        "mandatory": true,
+        "error": ""
+      }
+    },
+    "price": {
+      "value": "",
+      "meta": {
+        "mandatory": true,
+        "error": ""
+      }
+    },
+    "description": {
+      "value": "",
+      "meta": {
+        "mandatory": false,
+        "error": ""
+      }
+    },
+    "origin": {
+      "value": "",
+      "meta": {
+        "mandatory": true,
+        "error": ""
+      }
+    },
+    "category_id": {
+      "value": "",
+      "meta": {
+        "mandatory": true,
+        "error": ""
+      }
+    },
+    "input_image": {
+      "arrayDefault": {
+        "src": "",
+        "order": 0
+      },
+      "value": [],
+      "meta": {
+        "mandatory": false,
+        "error": ""
+      }
+    },
+    "origin_image": {
+      "value": "",
+      "meta": {
+        "mandatory": false,
+        "error": ""
+      }
+    },
+    "imageType": {
+      "value": "",
+      "meta": {
+        "mandatory": false,
+        "error": ""
+      }
+    }
+  },
+  "user": {},
+  "customer": {},
+  "category": {},
+  "order": {}
+}
