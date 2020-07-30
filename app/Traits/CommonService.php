@@ -2,8 +2,7 @@
  namespace App\Traits;
  use Config;
  use Image;
- trait CommonService
- {
+ trait CommonService{
     public static function quickRandomStringNumber($length = 16){
         $pool = '0123456789';
         return substr(str_shuffle(str_repeat($pool, $length)), 0, $length);
@@ -14,7 +13,8 @@
         //generate image file name
         $generate_name = uniqid() . '_' . time() . date('Ymd');
         //get mime type
-        $mimeType = Image::make($input_image)->mime();
+        $img = Image::make($input_image);
+        $mimeType = $img->mime();
         if (in_array($mimeType, $list_file_types)) {
             foreach ($list_file_types as $type) {
                 if (strcmp($type, $mimeType) === 0) {
@@ -23,10 +23,11 @@
                 }
             }
             //save image
-            Image::make($input_image)->save($file_directory.$file_name);
+            $result = $img->save($file_directory.$file_name);
             return response()->json([
                 'success' => true,
-                'file_name' => $file_name
+                'file_name' => $file_name,
+                'result' => $result
             ]);
         }
         return response()->json([

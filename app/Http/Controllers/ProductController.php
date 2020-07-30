@@ -60,29 +60,23 @@ class ProductController extends Controller
         if($createdProduct){
             //handle image
             $lsInputImages = $request->input_image;
-            $file_name = '';
             if (\count($lsInputImages) > 0) {
-                $main_image = array_filter($lsInputImages, function ($val) {
-                    return $val['order'] === 0;
-                })[0];
-                $other_images = array_filter($lsInputImages, function ($val) {
-                    return $val['order'] !== 0;
-                });
-                // check if valid image url
-                if($main_image['src']){
-                    if(filter_var($main_image['src'], FILTER_VALIDATE_URL)){
-                        $file_name = $main_image['src'];
+                foreach ($lsInputImages as $key => $value) {
+                    $file_name = '';
+                    // check if valid image url
+                    if(filter_var($value['src'], FILTER_VALIDATE_URL)){
+                        $file_name = $value['src'];
                     }else{
-                        $isSaved = $this->saveImage($main_image['src'], $this->file_directory);
+                        $isSaved = $this->saveImage($value['src'], $this->file_directory);
                         if(strcmp($isSaved->getData()->success, true) === 0){
                             $file_name = $isSaved->getData()->file_name;
                         }else{
                             return response()->json(['success' => false, 'message' => $isSaved->getData()->error_msg], 500);
                         }
                     }
+                    if ($this->isSetNotEmpty($file_name)) $createdProduct->images()->create(['src' => $file_name]);
                 }
             }
-            if ($this->isSetNotEmpty($file_name)) $createdProduct->images()->create(['src' => $file_name]);
             // result
             return response()->json([
                 'success'=>true,

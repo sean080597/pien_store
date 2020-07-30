@@ -10,6 +10,7 @@ use App\Customer;
 use App\Order;
 use App\ImageGallery;
 use App\OurStory;
+use App\Image;
 
 use App\Observers\UserObserver;
 use App\Observers\ProductObserver;
@@ -18,6 +19,7 @@ use App\Observers\CustomerObserver;
 use App\Observers\OrderObserver;
 use App\Observers\ImageGalleryObserver;
 use App\Observers\OurStoryObserver;
+use App\Observers\ImageObserver;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -45,6 +47,7 @@ class AppServiceProvider extends ServiceProvider
         Order::observe(OrderObserver::class);
         ImageGallery::observe(ImageGalleryObserver::class);
         OurStory::observe(OurStoryObserver::class);
+        Image::observe(ImageObserver::class);
         // Log queries
         // if (true) {
         //     \DB::listen(function ($query) {

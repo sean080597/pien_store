@@ -4,8 +4,9 @@ import { useAdminService, useCommonService } from '../../HookManager'
 import { useHistory } from 'react-router-dom'
 import CommonConstants from '../../../config/CommonConstants'
 import uiModel from '../../../models/uiModel'
+import _ from 'lodash'
 
-export default function useAdminProductService(modalRef = null, curType, curAction = null, fileInputRef = null) {
+export default function useAdminProductService(modalRef = null, curType, curAction = null) {
   // services
   const CommonService = useCommonService()
   const AdminService = useAdminService()
@@ -138,7 +139,7 @@ export default function useAdminProductService(modalRef = null, curType, curActi
   }
   const handleSelectedFileMainImg = (evt) => {
     const files = evt.target.files
-    let tmpData = userInputs['input_image']
+    let tmpData = _.cloneDeep(userInputs['input_image'])
     if(CommonService.hasValueNotNull(files[0])){
       const reader = new FileReader()
       reader.readAsDataURL(files[0])
@@ -151,19 +152,26 @@ export default function useAdminProductService(modalRef = null, curType, curActi
       setUserInputs({...userInputs, input_image: tmpData})
     }
   }
-  const handleSelectedFileOtherImgs = (evt) => {
-    const files = evt.target.files
-    let tmpData = userInputs['input_image']
-    if(CommonService.hasValueNotNull(files[0])){
-      const reader = new FileReader()
-      reader.readAsDataURL(files[0])
-      reader.onload = (evt) => {
-        tmpData.value[0].src = `${evt.target.result}`
-        setUserInputs({...userInputs, input_image: tmpData})
+  const handleSelectedFileOtherImgs = (evt, isURL = false) => {
+    let tmpData = _.cloneDeep(userInputs['input_image'].arrayDefault)
+    tmpData.order = otherImages.length
+    if(isURL && CommonService.checkRegexURL(evt)){
+      tmpData.src = evt
+      setOtherImages(oldArr => [...oldArr, tmpData])
+    }
+    if(!isURL && evt.target.type === 'file'){
+      const files = evt.target.files
+      if(CommonService.hasValueNotNull(files[0])){
+        const reader = new FileReader()
+        reader.readAsDataURL(files[0])
+        reader.onload = (evt) => {
+          tmpData.src = `${evt.target.result}`
+          setOtherImages(oldArr => [...oldArr, tmpData])
+        }
+      }else{
+        tmpData.src = userInputs.origin_image.value
+        setOtherImages(oldArr => [...oldArr, tmpData])
       }
-    }else{
-      tmpData.value[0].src = userInputs.origin_image.value
-      setUserInputs({...userInputs, input_image: tmpData})
     }
   }
 

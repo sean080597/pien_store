@@ -243,13 +243,16 @@
 }
 
 /* Search */
+.search-box-container {
+  margin-bottom: 2rem;
+}
 
-.search-box {
-  &-container{
-    margin-bottom: 2rem;
-    .hasEvent{
-      cursor: pointer;
-    }
+.input-group-addon{
+  &.hasEvent{
+    cursor: pointer;
+  }
+  &.disabled{
+    cursor: no-drop;
   }
 }
 
