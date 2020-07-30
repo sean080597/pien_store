@@ -1,15 +1,18 @@
-import React, { useRef } from 'react'
+import React, { useState, useRef } from 'react'
 import { useSelector } from 'react-redux'
 import { useCommonService, useAdminProductService } from '../../hooks/HookManager'
+import InputField from '../../components/common/InputField'
 
 export default function AdminProductDetails(props) {
   const CommonService = useCommonService()
   const curType = 'product-details'
   // variables
-  const fileInputRef = useRef()
+  const mainFileInputRef = useRef()
+  const othersFileInputRef = useRef()
   const curAction = props.match.params.action
   const { userInputs, errors, handleChange, handleBlur, isEditing, isSubmitDisabled, mainImage, otherImages,
-    handleSubmitCreate, handleSubmitEdit, handleSelectedFileMainImg, handleSelectedFileOtherImgs} = useAdminProductService(null, curType, curAction, fileInputRef)
+    handleSubmitCreate, handleSubmitEdit, handleSelectedFileMainImg, handleSelectedFileOtherImgs} = useAdminProductService(null, curType, curAction)
+  const [inpOtherImgSrc, setInpOtherImgSrc] = useState({other_image: ''})
   const { lsCategories } = useSelector(state => ({
     lsCategories: state.admin.lsCategories
   }))
@@ -73,10 +76,10 @@ export default function AdminProductDetails(props) {
                 <div className={"upload-product-box" + (userInputs.imageType.value === 'imageFile' ? '' : ' disabled')}>
                   <div className="upload-action">
                     <img src={CommonService.generateImageSrc('products', null, mainImage.src)} />
-                    <input id="productImg" type="file" onChange={handleSelectedFileMainImg} ref={fileInputRef} />
-                    <button type="button" className="btn btn-neutral btn-round" onClick={() => fileInputRef.current.click()} disabled={userInputs.imageType.value !== 'imageFile'}>Choose Image</button>
+                    <input id="productMainImg" type="file" onChange={handleSelectedFileMainImg} ref={mainFileInputRef} />
+                    <button type="button" className="btn btn-neutral btn-round" onClick={() => mainFileInputRef.current.click()} disabled={userInputs.imageType.value !== 'imageFile'}>Choose Image</button>
                   </div>
-                    <h6>Filename: {(fileInputRef.current && fileInputRef.current.files[0]) ? fileInputRef.current.files[0].name : 'No file chosen'}</h6>
+                    <h6>Filename: {(mainFileInputRef.current && mainFileInputRef.current.files[0]) ? mainFileInputRef.current.files[0].name : 'No file chosen'}</h6>
                   <h6 className="mt-0">Max size: 2Mb</h6>
                   <h6 className="my-0">Dimensions: 665x750</h6>
                 </div>
@@ -95,11 +98,30 @@ export default function AdminProductDetails(props) {
                 </div>
               </div>
               {/* Other Images */}
-              <div className="col-sm-12 mt-4">
+              <div className="col-sm-12 mt-4 upload-product-container">
                 <label htmlFor="imageType"> Other Images</label>
-                <div className="upload-product-box">
-                  
+                <div className="row upload-product-add-other-images">
+                  <div className="col-sm-6 mb-3">
+                    <h6 className="mr-3">Filename: {(othersFileInputRef.current && othersFileInputRef.current.files[0]) ? othersFileInputRef.current.files[0].name : 'No file chosen'}</h6>
+                    <input id="productOtherImgs" type="file" onChange={handleSelectedFileOtherImgs} ref={othersFileInputRef} />
+                    <button type="button" className="btn btn-neutral btn-round btn-fw" onClick={() => othersFileInputRef.current.click()}>
+                      <i className="fa fa-plus-circle"></i> Add Image
+                    </button>
+                  </div>
+                  <div className="clearfix"></div>
+                  <div className="col-sm-6 mb-3">
+                    <InputField className="form-control" id="other_image" type="text" name="other_image" placeholder="Enter image url" maxLength="255"
+                      stateValue={inpOtherImgSrc} setStateValue={setInpOtherImgSrc} appendDisabled={!CommonService.checkRegexURL(inpOtherImgSrc.other_image)}
+                      appendText="Add" appendClick={() => handleSelectedFileOtherImgs(inpOtherImgSrc.other_image, true)}/>
+                  </div>
                 </div>
+                {otherImages.length > 0 &&
+                  <div className="upload-product-box other-images">
+                    {otherImages.map((item, index) =>
+                      <img src={item.src} alt="Other image" key={index}/>
+                    )}
+                  </div>
+                }
               </div>
               {/* Description */}
               <div className="col-sm-12 mt-4">

@@ -15,7 +15,7 @@ export default function AdminProduct(props) {
   const fileInput = useRef()
   // hooks
   useInitializePageAdmin(curType)
-  const {handlePaginate, modalTitle, isDeleting, handleOpenDelete, handleSubmitDelete, handleRefresh, handleOpenProductDetails, handleSearch} = useAdminProductService(modalRef, curType)
+  const {handlePaginate, modalTitle, isDeleting, handleOpenDelete, handleSubmitDelete, handleRefresh, handleOpenProductDetails, handleSearch} = useAdminProductService(modalRef, curType, null)
   // data
   const {lsProducts, lsCategories} = useSelector(state => ({
     lsProducts: state.admin.lsObjsManagerment,

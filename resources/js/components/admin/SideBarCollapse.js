@@ -24,36 +24,36 @@ export default function SideBarCollapse(props) {
       </div>
       <ul className="components">
         <li className="active">
-          <Link to='/admin-su'><span className="fa fa-home mr-3"></span> Home</Link>
+          <Link to='/admin-su'><span className="fa fa-home fa-fw mr-3"></span> Home</Link>
         </li>
         {
           userRole === 'adm' &&
           <>
             <li>
-              <Link to='/admin-su/user-managerment'><span className="fa fa-users mr-3 notif"><small className="flex-display align-items-center jus-center">5</small></span> Users</Link>
+              <Link to='/admin-su/user-managerment'><span className="fa fa-users fa-fw mr-3 notif"><small className="flex-display align-items-center jus-center">5</small></span> Users</Link>
             </li>
             <li>
-              <Link to='/admin-su/customer-managerment'><span className="fa fa-users mr-3"></span> Customers</Link>
+              <Link to='/admin-su/customer-managerment'><span className="fa fa-users fa-fw mr-3"></span> Customers</Link>
             </li>
             <li>
-              <Link to='/admin-su/category-managerment'><span className="fa fa-th-large mr-3"></span> Categories</Link>
+              <Link to='/admin-su/category-managerment'><span className="fa fa-th-large fa-fw mr-3"></span> Categories</Link>
             </li>
           </>
         }
         <li>
-          <Link to='/admin-su/product-managerment'><span className="fa fa-archive mr-3"></span> Products</Link>
+          <Link to='/admin-su/product-managerment'><span className="fa fa-archive fa-fw mr-3"></span> Products</Link>
         </li>
         <li>
-          <Link to='/admin-su/order-managerment'><span className="fa fa-clipboard mr-3"></span> Orders</Link>
+          <Link to='/admin-su/order-managerment'><span className="fa fa-clipboard fa-fw mr-3"></span> Orders</Link>
         </li>
         <li>
-          <Link to='/admin-su/gallery-managerment'><span className="fa fa-file-image-o mr-3"></span> Gallery</Link>
+          <Link to='/admin-su/gallery-managerment'><span className="fa fa-file-image-o fa-fw mr-3"></span> Gallery</Link>
         </li>
         <li>
-          <Link to='/admin-su/config-managerment'><span className="fa fa-cogs mr-3"></span> Configuration</Link>
+          <Link to='/admin-su/config-managerment'><span className="fa fa-cogs fa-fw mr-3"></span> Configuration</Link>
         </li>
         <li>
-          <a href="/admin-su/login" onClick={applyLogoutUser}><span className="fa fa-sign-out mr-3"></span> Logout</a>
+          <a href="/admin-su/login" onClick={applyLogoutUser}><span className="fa fa-sign-out fa-fw mr-3"></span> Logout</a>
         </li>
       </ul>
     </nav>
