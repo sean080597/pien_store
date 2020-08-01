@@ -1,7 +1,8 @@
 import React, { useState, useRef } from 'react'
 import { useSelector } from 'react-redux'
 import { useCommonService, useAdminProductService } from '../../hooks/HookManager'
-import InputField from '../../components/common/InputField'
+import { InputField } from '../../components/ComponentsManager'
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 
 export default function AdminProductDetails(props) {
   const CommonService = useCommonService()
@@ -11,7 +12,8 @@ export default function AdminProductDetails(props) {
   const othersFileInputRef = useRef()
   const curAction = props.match.params.action
   const { userInputs, errors, handleChange, handleBlur, isEditing, isSubmitDisabled, mainImage, otherImages,
-    handleSubmitCreate, handleSubmitEdit, handleSelectedFileMainImg, handleSelectedFileOtherImgs} = useAdminProductService(null, curType, curAction)
+    handleSubmitCreate, handleSubmitEdit, handleSelectedFileMainImg, handleSelectedFileOtherImgs,
+    handleDragEnd} = useAdminProductService(null, curType, curAction)
   const [inpOtherImgSrc, setInpOtherImgSrc] = useState({other_image: ''})
   const { lsCategories } = useSelector(state => ({
     lsCategories: state.admin.lsCategories
@@ -116,11 +118,24 @@ export default function AdminProductDetails(props) {
                   </div>
                 </div>
                 {otherImages.length > 0 &&
-                  <div className="upload-product-box other-images">
-                    {otherImages.map((item, index) =>
-                      <img src={item.src} alt="Other image" key={index}/>
-                    )}
-                  </div>
+                  <DragDropContext onDragEnd={handleDragEnd}>
+                    <Droppable droppableId="dp1" direction="horizontal">
+                      {(provided, snapshot) => (
+                        <div className="upload-product-box other-images" ref={provided.innerRef} {...provided.droppableProps}>
+                          {otherImages.map((item, idx) =>
+                            <Draggable draggableId={'order' + item.order} index={idx} key={item.order}>
+                              {(provided, snapshot) => (
+                                <div className="single-image" ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                                  <img src={item.src} alt="Other image"/>
+                                </div>
+                              )}
+                            </Draggable>
+                          )}
+                          {provided.placeholder}
+                        </div>
+                      )}
+                    </Droppable>
+                  </DragDropContext>
                 }
               </div>
               {/* Description */}

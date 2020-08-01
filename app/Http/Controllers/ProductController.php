@@ -64,6 +64,7 @@ class ProductController extends Controller
                 foreach ($lsInputImages as $key => $value) {
                     $file_name = '';
                     // check if valid image url
+                    if(!$this->isSetNotEmpty($value['src'])) continue;
                     if(filter_var($value['src'], FILTER_VALIDATE_URL)){
                         $file_name = $value['src'];
                     }else{
@@ -74,7 +75,7 @@ class ProductController extends Controller
                             return response()->json(['success' => false, 'message' => $isSaved->getData()->error_msg], 500);
                         }
                     }
-                    if ($this->isSetNotEmpty($file_name)) $createdProduct->images()->create(['src' => $file_name]);
+                    if ($this->isSetNotEmpty($file_name)) $createdProduct->images()->create(['src' => $file_name, 'order' => $value['order']]);
                 }
             }
             // result

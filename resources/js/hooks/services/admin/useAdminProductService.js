@@ -62,7 +62,6 @@ export default function useAdminProductService(modalRef = null, curType, curActi
     modalRef.current.openModal()
   }
   const handleOpenProductDetails = (action, inputId = null) => {
-    // applySetDetaultUserInputs()
     let path = 'product-details-managerment/'
     if (action === 'create') {
       path += action
@@ -153,11 +152,13 @@ export default function useAdminProductService(modalRef = null, curType, curActi
     }
   }
   const handleSelectedFileOtherImgs = (evt, isURL = false) => {
-    let tmpData = _.cloneDeep(userInputs['input_image'].arrayDefault)
-    tmpData.order = otherImages.length
+    let tmpData = _.cloneDeep(userInputs['input_image'])
+    let dataDefault = _.cloneDeep(userInputs['input_image'].arrayDefault)
+    dataDefault.order = tmpData.value.length
     if(isURL && CommonService.checkRegexURL(evt)){
-      tmpData.src = evt
-      setOtherImages(oldArr => [...oldArr, tmpData])
+      dataDefault.src = evt
+      tmpData.value.push(dataDefault)
+      setUserInputs({...userInputs, input_image: tmpData})
     }
     if(!isURL && evt.target.type === 'file'){
       const files = evt.target.files
@@ -165,14 +166,22 @@ export default function useAdminProductService(modalRef = null, curType, curActi
         const reader = new FileReader()
         reader.readAsDataURL(files[0])
         reader.onload = (evt) => {
-          tmpData.src = `${evt.target.result}`
-          setOtherImages(oldArr => [...oldArr, tmpData])
+          dataDefault.src = `${evt.target.result}`
+          tmpData.value.push(dataDefault)
+          setUserInputs({...userInputs, input_image: tmpData})
         }
-      }else{
-        tmpData.src = userInputs.origin_image.value
-        setOtherImages(oldArr => [...oldArr, tmpData])
       }
     }
+  }
+  const handleDragEnd = (result) => {
+    const {destination, source, reason} = result
+    if(!destination || reason === 'CANCEL') return
+    if(destination.droppableId === source.droppableId && destination.index === source.index) return
+    let tmpData = _.cloneDeep(userInputs['input_image'])
+    const droppedImg = tmpData.value[source.index + 1]
+    tmpData.value.splice(source.index + 1, 1)
+    tmpData.value.splice(destination.index + 1, 0, droppedImg)
+    setUserInputs({...userInputs, input_image: tmpData})
   }
 
   // apply
@@ -196,9 +205,15 @@ export default function useAdminProductService(modalRef = null, curType, curActi
       if (key === 'input_image') {
         editData[key].value.length = 0
         if (inputInfo.images.length > 0) {
+          // main image
           const mainImg = inputInfo.images.filter(t => t.order === 0)[0]
-          editData['origin_image'].value = mainImg.src
-          editData[key].value.push(mainImg)
+          editData['origin_image'].value = mainImg? mainImg.src : ''
+          editData[key].value.push(mainImg ? mainImg : editData[key].arrayDefault)
+          // other images
+          const otherImgs = inputInfo.images.filter(t => t.order !== 0)
+          if(otherImgs.length > 0){
+            editData[key].value = editData[key].value.concat(otherImgs)
+          }
         }else{
           editData[key].value.push(_.cloneDeep(editData[key].arrayDefault))
         }
@@ -221,8 +236,12 @@ export default function useAdminProductService(modalRef = null, curType, curActi
     setUserInputs(editData)
   }
   const applyGetValidateData = (inputVals, isGetSendData = false) => {
+    const cloneData = _.cloneDeep(inputVals)
     let tmpData = {}
-    formFields.forEach(key => {tmpData[key] = isGetSendData ? inputVals[key].value : inputVals[key]})
+    formFields.forEach(key => {tmpData[key] = isGetSendData ? cloneData[key].value : cloneData[key]})
+    if(isGetSendData){
+      tmpData['input_image'].map((item, index) => {item.order = index})
+    }
     return tmpData
   }
   // useEffect
@@ -251,5 +270,5 @@ export default function useAdminProductService(modalRef = null, curType, curActi
 
   return { userInputs, errors, modalTitle, isEditing, isDeleting, isSubmitDisabled, handleChange, handleBlur, handlePaginate, handleRefresh, handleSearch,
     handleOpenCreate, handleOpenEdit, handleOpenDelete, handleSubmitCreate, handleSubmitEdit, handleSubmitDelete, handleOpenProductDetails, handleSelectedFileMainImg,
-    handleSelectedFileOtherImgs, mainImage, otherImages}
+    handleSelectedFileOtherImgs, mainImage, otherImages, handleDragEnd}
 }
