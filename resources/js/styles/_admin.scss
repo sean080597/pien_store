@@ -37,10 +37,12 @@
       .upload-action{
         display: flex;
         align-items: flex-end;
+        img{
+          margin-right: 15px;
+        }
       }
       img{
         width: 50px;
-        margin-right: 15px;
       }
       &.disabled{
         cursor: no-drop;
@@ -51,6 +53,12 @@
         align-items: center;
         span{
           cursor: pointer;
+        }
+      }
+      .single-image{
+        margin-right: 15px;
+        &:focus{
+          border: #eaeaea 1px solid;
         }
       }
     }
