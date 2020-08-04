@@ -99,20 +99,6 @@ export default function useAdminProductService(modalRef = null, curType, curActi
       await AdminService.applyEditData(curType, sendData, itemId)
       .then(res => {
         if (res.success) {
-          let newLsData = lsObjsManagerment.map(item => {
-            if (res.data && item.id === res.data.id) {
-              formFields.forEach(key => {
-                if (key === 'input_image' && res.data.image) {
-                  if (item.image) item.image.src = res.data.image.src
-                  else item.image = res.data.image
-                }else {
-                  item[key] = res.data[key]
-                }
-              })
-            }
-            return item
-          })
-          dispatch({ type: 'SET_LIST_OBJECTS_MANAGERMENT', payload: newLsData })
           modalRef && modalRef.current.closeModal()
           history.push(managementPath)
         }
@@ -126,7 +112,7 @@ export default function useAdminProductService(modalRef = null, curType, curActi
     await AdminService.applyDeleteData(curType, itemId)
     .then(res => {
       if (res.success) {
-        let newLsData = lsObjsManagerment.filter(item => item.id !== itemId)
+        const newLsData = lsObjsManagerment.filter(item => item.id !== itemId)
         dispatch({ type: 'SET_LIST_OBJECTS_MANAGERMENT', payload: newLsData })
         modalRef && modalRef.current.closeModal()
       }
