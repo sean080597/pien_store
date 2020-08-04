@@ -26,8 +26,7 @@
             $result = $img->save($file_directory.$file_name);
             return response()->json([
                 'success' => true,
-                'file_name' => $file_name,
-                'result' => $result
+                'file_name' => $file_name
             ]);
         }
         return response()->json([

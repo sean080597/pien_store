@@ -126,7 +126,7 @@ export default function AdminProductDetails(props) {
                             <Draggable draggableId={'order' + item.order} index={idx} key={item.order}>
                               {(provided, snapshot) => (
                                 <div className="single-image" ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                  <img src={item.src} alt="Other image"/>
+                                  <img src={CommonService.generateImageSrc('products', null, item.src)} alt="Other image"/>
                                 </div>
                               )}
                             </Draggable>

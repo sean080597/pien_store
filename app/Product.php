@@ -20,12 +20,12 @@ class Product extends Model
     public static function boot() {
       parent::boot();
       static::deleting(function($cate) {
-          $cate->images()->delete();
+        $cate->images()->delete();
       });
   }
 
     public function category(){
-        return $this->belongsTo('App\Category');
+      return $this->belongsTo('App\Category');
     }
 
     public function images(){

@@ -47,6 +47,7 @@ class ProductController extends Controller
             'id' => 'string|unique:products',
             'name' => 'required|string',
             'price' => 'required|string|min:4|max:12',
+            'description' => 'nullable|string',
             'origin' => 'string',
             'category_id' => 'required|string|max:10|exists:categories,id',
         ]);
@@ -114,21 +115,31 @@ class ProductController extends Controller
         // save record
         $updatedData = $findData->update($request->except('input_image'));
         if ($updatedData) {
-            // delete old image
-            $input_image = $request->input_image;
-            if(\count($input_image) > 0){
-                if($this->isSetNotEmpty($findData->image) && file_exists($this->file_directory.$findData->image->src)) unlink($this->file_directory.$findData->image->src);
-                // create new image
-                $file_name = '';
-                $isSaved = $this->saveImage($input_image, $this->file_directory);
-                if(strcmp($isSaved->getData()->success, true) === 0){
-                    $file_name = $isSaved->getData()->file_name;
-                }else{
-                    return response()->json(['success' => false, 'message' => $isSaved->getData()->error_msg], 500);
+            $lsInputImages = $request->input_image;
+            if (\count($lsInputImages) > 0) {
+                // delete old images
+                $lsProdImages = $findData->images();
+                foreach ($lsProdImages as $key => $value) {
+                    if($this->isSetNotEmpty($value->src) && file_exists($this->file_directory.$value->src)) unlink($this->file_directory.$value->src);
                 }
-                // update new image record
-                if($this->isSetNotEmpty($file_name)){
-                    $this->isSetNotEmpty($findData->image) ? $findData->images()->update(['src' => $file_name]) : $findData->images()->create(['src' => $file_name]);
+                $findData->images()->delete();
+                // save images
+                foreach ($lsInputImages as $key => $value) {
+                    $file_name = '';
+                    // check if valid image url
+                    if(!$this->isSetNotEmpty($value['src'])) continue;
+                    if(filter_var($value['src'], FILTER_VALIDATE_URL)){
+                        $file_name = $value['src'];
+                    }else{
+                        $isSaved = $this->saveImage($value['src'], $this->file_directory);
+                        if(strcmp($isSaved->getData()->success, true) === 0){
+                            $file_name = $isSaved->getData()->file_name;
+                        }else{
+                            return response()->json(['success' => false, 'message' => $isSaved->getData()->error_msg], 500);
+                        }
+                    }
+                    // update new image record
+                    if ($this->isSetNotEmpty($file_name)) $findData->images()->create(['src' => $file_name, 'order' => $value['order']]);
                 }
             }
             // update data
@@ -151,8 +162,10 @@ class ProductController extends Controller
             return response()->json(['success' => false, 'message' => Config::get('constants.MSG.ERROR.INVALID_ID'),], 500);
         }
         // delete data
-        $getFile = $findData->image;
-        if($this->isSetNotEmpty($getFile)) unlink($this->file_directory . $getFile->src);
+        $lsProdImages = $findData->images();
+        foreach ($lsProdImages as $key => $value) {
+            if($this->isSetNotEmpty($value->src) && file_exists($this->file_directory.$value->src)) unlink($this->file_directory.$value->src);
+        }
         if ($findData->delete()) {
             return response()->json(['success' => true, 'message' => Config::get('constants.MSG.SUCCESS.PRODUCT_DELETED')], 200);
         }
